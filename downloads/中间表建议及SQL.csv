@@ -1,0 +1,2730 @@
+﻿project_id,project_name,id,layer,table,title,mode,priority,grain,sources,partition,incremental,sql_validation,prerequisites,sql
+1,波克棋牌,P1_DWD_login,DWD,dwd_p1_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：id×user_id×login_time。业务事件唯一性待验证。,"[""bkqp_ods.login_logs""]",login_time（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `user_name`,
+  `ip`,
+  `login_time`,
+  `successed`,
+  `type`,
+  `mac`,
+  `money`,
+  `integral`,
+  `login_type`,
+  `login_name`,
+  `register_ip`,
+  `register_date`,
+  `login_port`
+FROM `bkqp_ods`.`login_logs`
+WHERE `login_time` >= '${start_date}'
+  AND `login_time` < '${end_date}';"
+1,波克棋牌,P1_DWD_payment,DWD,dwd_p1_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""bkqp_ods.view_pay_order_h""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `po_id`,
+  `order_date`,
+  `success_date`,
+  `order_num`,
+  `platform_order_num`,
+  `third_order_num`,
+  `infull_type`,
+  `order_amount`,
+  `platform_type`,
+  `order_status`,
+  `user_id`,
+  `user_name`,
+  `user_ip`,
+  `user_source`,
+  `tpc_id`,
+  `infull_card_num`,
+  `ai_id`,
+  `notify_url`,
+  `return_url`,
+  `money_type`,
+  `real_amount`,
+  `agent_id`,
+  `company_id`
+FROM `bkqp_ods`.`view_pay_order_h`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+1,波克棋牌,P1_DWD_game,DWD,dwd_p1_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：fgl_id×user_id×log_date。业务事件唯一性待验证。,"[""bkqp_ods.fish_game_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fgl_id`,
+  `user_id`,
+  `user_name`,
+  `nick_name`,
+  `agent_id`,
+  `room_type_id`,
+  `log_type`,
+  `gold_begin`,
+  `gold_end`,
+  `num_shot`,
+  `gold_shot_cost`,
+  `gold_shot_normal_cost`,
+  `num_catch_fish`,
+  `gold_catch_fish`,
+  `box_catch_fish`,
+  `diamond_begin`,
+  `diamond_append`,
+  `diamond_by_fish`,
+  `diamond_used`,
+  `diamond_end`,
+  `gold_pool_begin`,
+  `gold_pool_append`,
+  `gold_pool_used`,
+  `gold_pool_award`,
+  `box_pool_award`,
+  `diamond_pool_award`,
+  `phone_pool_award`,
+  `gold_pool_end`,
+  `gold_unlock_weapon`,
+  `diamond_unlock_weapon`,
+  `gold_relief`,
+  `gold_rate_append`,
+  `gold_rate_normal`,
+  `gold_rate_day_control`,
+  `gold_force_lib_begin`,
+  `gold_force_lib_append`,
+  `gold_force_lib_used`,
+  `gold_force_lib_normal`,
+  `gold_force_lib_end`,
+  `gold_diamond_lib_begin`,
+  `gold_diamond_lib_append`,
+  `diamond_from_lib`,
+  `gold_diamond_lib_end`,
+  `gold_miss_lib_begin`,
+  `gold_miss_lib_append`,
+  `gold_miss_lib_used`,
+  `gold_miss_lib_end`,
+  `gold_task_lib_begin`,
+  `gold_task_lib_append`,
+  `gold_task_lib_used`,
+  `gold_task_lib_end`,
+  `gold_contri_begin`,
+  `gold_contri_used`,
+  `gold_contri_end`,
+  `box_contri_begin`,
+  `box_contri_used`,
+  `box_contri_end`,
+  `gold_target_now_begin`,
+  `gold_target_now_used`,
+  `gold_target_now_end`,
+  `gold_target_target`,
+  `gold_charge`,
+  `diamond_charge`,
+  `gold_pirate_award`,
+  `box_pirate_award`,
+  `diamond_pirate_award`,
+  `gold_eatfish_kill`,
+  `box_eatfish_kill`,
+  `gold_eatfish_win`,
+  `gold_eatfish_lose`,
+  `num_bomb_get`,
+  `num_lock_get`,
+  `num_stop_get`,
+  `num_light_get`,
+  `num_crazy_get`,
+  `num_bomb_used`,
+  `num_lock_used`,
+  `num_stop_used`,
+  `num_light_used`,
+  `num_crazy_used`,
+  `diamond_bomb_used`,
+  `diamond_lock_used`,
+  `diamond_stop_used`,
+  `diamond_light_used`,
+  `diamond_crazy_used`,
+  `gold_bomb_award`,
+  `gold_bomb_real_award`,
+  `gold_max`,
+  `log_date`,
+  `game_time`,
+  `server_id`,
+  `gold_pool_extra_used`,
+  `gold_pool_to_force`,
+  `coin_begin`,
+  `coin_get`,
+  `drop_prop_id`,
+  `yb_begin`,
+  `yb_end`,
+  `money_begin`,
+  `money_end`
+FROM `bkqp_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+1,波克棋牌,P1_DWD_asset,DWD,dwd_p1_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：pl_id×log_time。业务事件唯一性待验证。,"[""bkqp_ods.package_log""]",log_time（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `pl_id`,
+  `user_id`,
+  `user_name`,
+  `type_id`,
+  `begin_num`,
+  `end_num`,
+  `award_type`,
+  `log_time`,
+  `agent_id`,
+  `related_num`,
+  `ai_id`
+FROM `bkqp_ods`.`package_log`
+WHERE `log_time` >= '${start_date}'
+  AND `log_time` < '${end_date}';"
+1,波克棋牌,P1_DWD_operation,DWD,dwd_p1_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：qll_id×log_date。业务事件唯一性待验证。,"[""bkqp_ods.activity_gift_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `qll_id`,
+  `user_id`,
+  `user_name`,
+  `game_id`,
+  `gift_id`,
+  `gift_cost`,
+  `gift_buy_way`,
+  `get_bkd_num`,
+  `get_hdb_num`,
+  `get_public_prop_info`,
+  `get_game_prop_info`,
+  `log_date`,
+  `channel_id`
+FROM `bkqp_ods`.`activity_gift_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+1,波克棋牌,P1_DWS_login,DWS,dws_p1_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bkqp_ods.login_logs""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_time`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bkqp_ods`.`login_logs`
+WHERE `login_time` >= '${start_date}' AND `login_time` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_time`), `user_id`;"
+1,波克棋牌,P1_DWS_payment,DWS,dws_p1_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bkqp_ods.view_pay_order_h""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bkqp_ods`.`view_pay_order_h`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+3,仙魔2D,P3_DWD_operation,DWD,dwd_p3_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：user_id×log_date×fal_id。业务事件唯一性待验证。,"[""bkby_ods.fish_activity_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fal_id`,
+  `user_id`,
+  `nick_name`,
+  `award_type`,
+  `award_num`,
+  `before_money`,
+  `before_diamond`,
+  `before_coin`,
+  `coin_used`,
+  `log_date`,
+  `before_award_num`,
+  `agent_id`
+FROM `bkby_ods`.`fish_activity_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+3,仙魔2D,P3_DWD_login,DWD,dwd_p3_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：user_id×login_date×all_id。业务事件唯一性待验证。,"[""bkby_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `all_id`,
+  `user_name`,
+  `nick_name`,
+  `mac`,
+  `net_info`,
+  `login_ip`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `version_num`,
+  `agent_id`,
+  `phone_name`,
+  `game_id`,
+  `login_date`,
+  `money`,
+  `diamond`,
+  `login_port`,
+  `res_version`,
+  `REG_AGENT_ID`,
+  `MACV1`,
+  `boke_id`,
+  `city`,
+  `region`,
+  `country`,
+  `isp`,
+  `android_id`,
+  `oaid`,
+  `idfv`,
+  `idfa`,
+  `c_session_id`,
+  `miss_open`,
+  `finger_print_id`
+FROM `bkby_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+3,仙魔2D,P3_DWS_login,DWS,dws_p3_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bkby_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bkby_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+3,仙魔2D,P3_DWS_operation,DWS,dws_p3_operation_user_1d,运营行为记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bkby_ods.fish_activity_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bkby_ods`.`fish_activity_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+4,捕鱼游戏王,P4_DWD_game,DWD,dwd_p4_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×user_id×agent_id×room_type_id×log_type×log_date。业务事件唯一性待验证。,"[""byqph5_ods.fish_game_log""]",LOG_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `ID`,
+  `FGL_ID`,
+  `USER_ID`,
+  `USER_NAME`,
+  `NICK_NAME`,
+  `AGENT_ID`,
+  `ROOM_TYPE_ID`,
+  `LOG_TYPE`,
+  `GOLD_BEGIN`,
+  `GOLD_END`,
+  `NUM_SHOT`,
+  `GOLD_SHOT_COST`,
+  `GOLD_SHOT_NORMAL_COST`,
+  `NUM_CATCH_FISH`,
+  `GOLD_CATCH_FISH`,
+  `BOX_CATCH_FISH`,
+  `DIAMOND_BEGIN`,
+  `DIAMOND_APPEND`,
+  `DIAMOND_USED`,
+  `DIAMOND_END`,
+  `DIAMOND_BY_FISH`,
+  `GOLD_POOL_BEGIN`,
+  `GOLD_POOL_APPEND`,
+  `GOLD_POOL_USED`,
+  `GOLD_POOL_EXTRA_USED`,
+  `GOLD_POOL_TO_FORCE`,
+  `GOLD_POOL_AWARD`,
+  `DIAMOND_POOL_AWARD`,
+  `BOX_POOL_AWARD`,
+  `PHONE_POOL_AWARD`,
+  `GOLD_POOL_END`,
+  `GOLD_UNLOCK_WEAPON`,
+  `DIAMOND_UNLOCK_WEAPON`,
+  `GOLD_RELIEF`,
+  `GOLD_RATE_APPEND`,
+  `GOLD_RATE_NORMAL`,
+  `GOLD_RATE_DAY_CONTROL`,
+  `GOLD_FORCE_LIB_BEGIN`,
+  `GOLD_FORCE_LIB_APPEND`,
+  `GOLD_FORCE_LIB_USED`,
+  `GOLD_FORCE_LIB_NORMAL`,
+  `GOLD_FORCE_LIB_END`,
+  `GOLD_DIAMOND_LIB_BEGIN`,
+  `GOLD_DIAMOND_LIB_APPEND`,
+  `DIAMOND_FROM_LIB`,
+  `GOLD_DIAMOND_LIB_END`,
+  `GOLD_MISS_LIB_BEGIN`,
+  `GOLD_MISS_LIB_APPEND`,
+  `GOLD_MISS_LIB_USED`,
+  `GOLD_MISS_LIB_END`,
+  `GOLD_TASK_LIB_BEGIN`,
+  `GOLD_TASK_LIB_APPEND`,
+  `GOLD_TASK_LIB_USED`,
+  `GOLD_TASK_LIB_END`,
+  `GOLD_CONTRI_BEGIN`,
+  `GOLD_CONTRI_USED`,
+  `GOLD_CONTRI_END`,
+  `BOX_CONTRI_BEGIN`,
+  `BOX_CONTRI_USED`,
+  `BOX_CONTRI_END`,
+  `GOLD_TARGET_NOW_BEGIN`,
+  `GOLD_TARGET_NOW_USED`,
+  `GOLD_TARGET_NOW_END`,
+  `GOLD_TARGET_TARGET`,
+  `GOLD_CHARGE`,
+  `DIAMOND_CHARGE`,
+  `GOLD_PIRATE_AWARD`,
+  `BOX_PIRATE_AWARD`,
+  `DIAMOND_PIRATE_AWARD`,
+  `BOX_EATFISH_KILL`,
+  `GOLD_EATFISH_KILL`,
+  `GOLD_EATFISH_WIN`,
+  `GOLD_EATFISH_LOSE`,
+  `NUM_BOMB_GET`,
+  `NUM_LOCK_GET`,
+  `NUM_STOP_GET`,
+  `NUM_LIGHT_GET`,
+  `NUM_BOMB_USED`,
+  `NUM_LOCK_USED`,
+  `NUM_STOP_USED`,
+  `NUM_LIGHT_USED`,
+  `NUM_DOUBLE_CRAZY_USED`,
+  `NUM_THREE_CRAZY_USED`,
+  `NUM_DOUBLE_SHOT_USED`,
+  `NUM_THREE_SHOT_USED`,
+  `DIAMOND_BOMB_USED`,
+  `DIAMOND_LOCK_USED`,
+  `DIAMOND_STOP_USED`,
+  `DIAMOND_LIGHT_USED`,
+  `DIAMOND_DOUBLE_CRAZY_USED`,
+  `DIAMOND_THREE_CRAZY_USED`,
+  `DIAMOND_DOUBLE_SHOT_USED`,
+  `DIAMOND_THREE_SHOT_USED`,
+  `GOLD_BOMB_AWARD`,
+  `GOLD_BOMB_REAL_AWARD`,
+  `GOLD_MAX`,
+  `GAME_TIME`,
+  `SERVER_ID`,
+  `COIN_BEGIN`,
+  `COIN_GET`,
+  `LOG_DATE`,
+  `DIAMOND_MATCH_SIGN_USED`,
+  `DIAMOND_SHOUT_USED`,
+  `MAGIC_SHOW_GOLD`,
+  `GOLD_FOX_TARGET_NOW_BEGIN`,
+  `GOLD_FOX_TARGET_NOW_USED`,
+  `GOLD_FOX_TARGET_NOW_END`,
+  `GOLD_FOX_TARGET_TARGET`,
+  `GOLD_LION_LIB_REMAIN_BEGIN`,
+  `GOLD_LION_LIB_REMAIN_USED`,
+  `GOLD_LION_LIB_REMAIN_END`,
+  `current_level`
+FROM `byqph5_ods`.`fish_game_log`
+WHERE `LOG_DATE` >= '${start_date}'
+  AND `LOG_DATE` < '${end_date}';"
+4,捕鱼游戏王,P4_DWD_payment,DWD,dwd_p4_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：id×order_no×user_id。业务事件唯一性待验证。,"[""byqph5_ods.pook_infull""]",INFULL_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `ORDER_NO`,
+  `INFULL_TYPE`,
+  `INFULL_PLATFORM`,
+  `INFULL_AMOUNT`,
+  `INFULL_STATE`,
+  `INFULL_DATE`,
+  `SUCCESS_DATE`,
+  `THIRD_ORDER_NO`,
+  `USER_ID`,
+  `USER_NAME`,
+  `INFULL_NAME`,
+  `NOTIFY_CHECK`,
+  `OPEN_TYPE`,
+  `OPEN_COUNT`,
+  `PRESENT_TYPE`,
+  `PRESENT_COUNT`,
+  `CLIENT_IP`,
+  `MAC`,
+  `IMSI`,
+  `ITEM_ID`,
+  `ITEM_INFO`,
+  `ITEM_AMT`,
+  `PUBACCT_PAYAMT_COINS`,
+  `AGENT_ID`,
+  `IF_TRANSFER`,
+  `is_black`,
+  `ios_purchase_date`,
+  `game_id`,
+  `center_order_no`
+FROM `byqph5_ods`.`pook_infull`
+WHERE `INFULL_DATE` >= '${start_date}'
+  AND `INFULL_DATE` < '${end_date}';"
+4,捕鱼游戏王,P4_DWD_login,DWD,dwd_p4_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：all_id×user_id×login_date×agent_id×mac。业务事件唯一性待验证。,"[""byqph5_ods.app_login_log""]",LOGIN_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `ALL_ID`,
+  `USER_ID`,
+  `AGENT_ID`,
+  `MAC`,
+  `LOGIN_IP`,
+  `LOGIN_TYPE`,
+  `GAME_ID`,
+  `MONEY`,
+  `SECOND_MONEY`,
+  `LOTTERY_NUM`,
+  `LOGIN_DATE`,
+  `GOLDEN_GUN_SEAT`,
+  `SILVER_GUN_SEAT`,
+  `WHITE_GOLD_GUN_SEAT`,
+  `VERSION`,
+  `NET_INFO`,
+  `OS_NAME`,
+  `OS_VERSION`,
+  `SCREEN_INFO`,
+  `PHONE_NAME`,
+  `PORT`,
+  `PLAT_ID`,
+  `vip_level`
+FROM `byqph5_ods`.`app_login_log`
+WHERE `LOGIN_DATE` >= '${start_date}'
+  AND `LOGIN_DATE` < '${end_date}';"
+4,捕鱼游戏王,P4_DWD_asset,DWD,dwd_p4_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：fpl_id×user_id×agent_id×log_date。业务事件唯一性待验证。,"[""byqph5_ods.fish_prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fpl_id`,
+  `user_id`,
+  `game_id`,
+  `prop_id`,
+  `after_prop_num`,
+  `add_prop_num`,
+  `type`,
+  `log_date`,
+  `after_money`,
+  `after_diamond`,
+  `agent_id`,
+  `f_type`
+FROM `byqph5_ods`.`fish_prop_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+4,捕鱼游戏王,P4_DWD_operation,DWD,dwd_p4_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id。业务事件唯一性待验证。,"[""byqph5_ods.sign_info_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `log_date`,
+  `agent_id`,
+  `user_id`,
+  `sign_type`,
+  `sign_day`
+FROM `byqph5_ods`.`sign_info_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+4,捕鱼游戏王,P4_DWS_asset,DWS,dws_p4_asset_user_1d,道具变动记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqph5_ods.fish_prop_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `byqph5_ods`.`fish_prop_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+4,捕鱼游戏王,P4_DWS_operation,DWS,dws_p4_operation_user_1d,运营行为记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqph5_ods.sign_info_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `byqph5_ods`.`sign_info_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+5,HiggsDomino-印尼,P5_DWD_login,DWD,dwd_p5_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：login_date×user_id。业务事件唯一性待验证。,"[""domino_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `agent_id`,
+  `mac`,
+  `login_ip`,
+  `login_type`,
+  `game_id`,
+  `money`,
+  `lottery_num`,
+  `login_date`,
+  `VERSION`,
+  `nick_name`,
+  `login_location`,
+  `account_type`,
+  `country_id`,
+  `system_version`,
+  `now_exp`,
+  `if_first_login`,
+  `ACCOUNT_SHUA_02`,
+  `login_status`,
+  `sub_login_type`,
+  `unusual_device_flag`,
+  `device_id`,
+  `unusual_type`,
+  `app_key_hash`,
+  `isp`,
+  `asn`
+FROM `domino_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+5,HiggsDomino-印尼,P5_DWD_asset,DWD,dwd_p5_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：user_id×log_date×id。业务事件唯一性待验证。,"[""domino_ods.prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `game_id`,
+  `server_id`,
+  `prop_id`,
+  `before_prop_num`,
+  `prop_num`,
+  `agent_id`,
+  `data_type`,
+  `log_date`
+FROM `domino_ods`.`prop_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+5,HiggsDomino-印尼,P5_DWD_audit,DWD,dwd_p5_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id×server_dt。业务事件唯一性待验证。,"[""domino_ods.client_event_log""]",client_dt（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `client_dt`,
+  `server_dt`,
+  `seq_id`,
+  `device_id`,
+  `mac`,
+  `user_id`,
+  `session_id`,
+  `app_version`,
+  `device_model`,
+  `ram`,
+  `os_version`,
+  `network_type`,
+  `agent_id`,
+  `platform`,
+  `ab_exp_id`,
+  `ab_group_id`,
+  `biz_id`,
+  `event_name`,
+  `event_value`
+FROM `domino_ods`.`client_event_log`
+WHERE `client_dt` >= '${start_date}'
+  AND `client_dt` < '${end_date}';"
+5,HiggsDomino-印尼,P5_DWD_game,DWD,dwd_p5_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：user_id×game_num×log_time。业务事件唯一性待验证。,"[""domino_ods.comm_game_log""]",log_time（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `friend_game_num`,
+  `game_num`,
+  `user_id`,
+  `agent_id`,
+  `game_id`,
+  `server_id`,
+  `begin_money`,
+  `result_money`,
+  `log_time`,
+  `game_time`,
+  `if_disconet`,
+  `control_type`,
+  `game_type`,
+  `num_1`,
+  `num_2`,
+  `num_3`,
+  `num_4`,
+  `num_5`,
+  `num_6`,
+  `num_7`,
+  `num_8`,
+  `num_9`,
+  `num_10`,
+  `all_name`,
+  `all_point`,
+  `temp_a`,
+  `temp_b`,
+  `temp_c`,
+  `temp_d`,
+  `temp_e`,
+  `now_exp`,
+  `num_15`,
+  `num_14`,
+  `num_13`,
+  `num_12`,
+  `num_11`,
+  `tuo_guan_num`
+FROM `domino_ods`.`comm_game_log`
+WHERE `log_time` >= '${start_date}'
+  AND `log_time` < '${end_date}';"
+5,HiggsDomino-印尼,P5_DWD_payment,DWD,dwd_p5_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""domino_ods.infull_order_real""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `order_no`,
+  `infull_type`,
+  `infull_platform`,
+  `infull_amount`,
+  `infull_state`,
+  `infull_date`,
+  `success_date`,
+  `third_order_no`,
+  `user_id`,
+  `user_name`,
+  `notify_check`,
+  `client_ip`,
+  `mac`,
+  `game_id`,
+  `item_id`,
+  `item_amt`,
+  `coupon_fee`,
+  `agent_id`,
+  `money`,
+  `last_room_name`,
+  `buy_num`,
+  `account_id`,
+  `order_type`,
+  `client_version`,
+  `price`,
+  `extra_num`,
+  `cost_key`,
+  `error_msg`,
+  `other_third_order_no`,
+  `play_server_id`,
+  `play_game_id`,
+  `buy_type`,
+  `country_id`,
+  `local_price`,
+  `version`,
+  `if_black`,
+  `purchase_date`,
+  `if_un_completed`,
+  `app_id`,
+  `project_platform`,
+  `card_no`,
+  `buff`
+FROM `domino_ods`.`infull_order_real`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+5,HiggsDomino-印尼,P5_DWD_operation,DWD,dwd_p5_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id×log_date×user_id。业务事件唯一性待验证。,"[""domino_ods.activity_user_daily_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `activity_id`,
+  `activity_number`,
+  `game_id`,
+  `server_id`,
+  `user_lv`,
+  `act_goal_num`,
+  `normal_award_money`,
+  `big_award_money`,
+  `normal_award_lottery`,
+  `big_award_lottery`,
+  `game_progress`,
+  `num_1`,
+  `num_2`,
+  `num_3`,
+  `num_4`,
+  `num_5`,
+  `num_6`,
+  `num_7`,
+  `num_8`,
+  `num_9`,
+  `num_10`,
+  `buff1`,
+  `buff2`,
+  `buff3`,
+  `buff4`,
+  `buff5`,
+  `log_date`,
+  `log_type`
+FROM `domino_ods`.`activity_user_daily_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+5,HiggsDomino-印尼,P5_DWS_login,DWS,dws_p5_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""domino_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `domino_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+5,HiggsDomino-印尼,P5_DWS_payment,DWS,dws_p5_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""domino_ods.infull_order_real""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `domino_ods`.`infull_order_real`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+6,大世界,P6_DWD_operation,DWD,dwd_p6_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""bydsj_ods.by3d_task_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `agent_id`,
+  `log_date`,
+  `server_id`,
+  `room_type_id`,
+  `task_id`,
+  `task_type`,
+  `sub_type`,
+  `prop_id0`,
+  `prop_num0`,
+  `prop_id1`,
+  `prop_num1`,
+  `prop_id2`,
+  `prop_num2`,
+  `prop_id3`,
+  `prop_num3`,
+  `prop_id4`,
+  `prop_num4`,
+  `now_lev`,
+  `before_num`,
+  `after_num`
+FROM `bydsj_ods`.`by3d_task_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+6,大世界,P6_DWD_login,DWD,dwd_p6_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""bydsj_ods.app_login_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `user_name`,
+  `nick_name`,
+  `mac`,
+  `net_info`,
+  `login_ip`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `version_num`,
+  `agent_id`,
+  `phone_name`,
+  `game_id`,
+  `money`,
+  `diamond`,
+  `login_port`,
+  `res_version`,
+  `reg_agent_id`,
+  `log_date`,
+  `reg_time`,
+  `language`,
+  `region`,
+  `city`,
+  `country`,
+  `province`,
+  `isp`,
+  `boke_id`
+FROM `bydsj_ods`.`app_login_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+6,大世界,P6_DWD_game,DWD,dwd_p6_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""bydsj_ods.fish_game_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fgl_id`,
+  `user_id`,
+  `user_name`,
+  `nick_name`,
+  `agent_id`,
+  `room_type_id`,
+  `log_type`,
+  `gold_begin`,
+  `gold_end`,
+  `num_shot`,
+  `gold_shot_cost`,
+  `gold_shot_normal_cost`,
+  `num_catch_fish`,
+  `gold_catch_fish`,
+  `box_catch_fish`,
+  `diamond_begin`,
+  `diamond_append`,
+  `diamond_by_fish`,
+  `diamond_used`,
+  `diamond_end`,
+  `gold_pool_begin`,
+  `gold_pool_append`,
+  `gold_pool_used`,
+  `gold_pool_award`,
+  `box_pool_award`,
+  `diamond_pool_award`,
+  `phone_pool_award`,
+  `gold_pool_end`,
+  `gold_unlock_weapon`,
+  `diamond_unlock_weapon`,
+  `gold_relief`,
+  `gold_rate_append`,
+  `gold_rate_normal`,
+  `gold_rate_day_control`,
+  `gold_force_lib_begin`,
+  `gold_force_lib_append`,
+  `gold_force_lib_used`,
+  `gold_force_lib_normal`,
+  `gold_force_lib_end`,
+  `gold_diamond_lib_begin`,
+  `gold_diamond_lib_append`,
+  `diamond_from_lib`,
+  `gold_diamond_lib_end`,
+  `gold_miss_lib_begin`,
+  `gold_miss_lib_append`,
+  `gold_miss_lib_used`,
+  `gold_miss_lib_end`,
+  `gold_task_lib_begin`,
+  `gold_task_lib_append`,
+  `gold_task_lib_used`,
+  `gold_task_lib_end`,
+  `gold_contri_begin`,
+  `gold_contri_used`,
+  `gold_contri_end`,
+  `box_contri_begin`,
+  `box_contri_used`,
+  `box_contri_end`,
+  `gold_target_now_begin`,
+  `gold_target_now_used`,
+  `gold_target_now_end`,
+  `gold_target_target`,
+  `gold_charge`,
+  `diamond_charge`,
+  `gold_pirate_award`,
+  `box_pirate_award`,
+  `diamond_pirate_award`,
+  `gold_eatfish_kill`,
+  `box_eatfish_kill`,
+  `gold_eatfish_win`,
+  `gold_eatfish_lose`,
+  `num_bomb_get`,
+  `num_lock_get`,
+  `num_stop_get`,
+  `num_light_get`,
+  `num_crazy_get`,
+  `num_bomb_used`,
+  `num_lock_used`,
+  `num_stop_used`,
+  `num_light_used`,
+  `num_crazy_used`,
+  `diamond_bomb_used`,
+  `diamond_lock_used`,
+  `diamond_stop_used`,
+  `diamond_light_used`,
+  `diamond_crazy_used`,
+  `gold_bomb_award`,
+  `gold_bomb_real_award`,
+  `gold_max`,
+  `log_date`,
+  `game_time`,
+  `server_id`,
+  `gold_pool_extra_used`,
+  `gold_pool_to_force`,
+  `coin_begin`,
+  `coin_get`,
+  `drop_prop_id`,
+  `magic_money`,
+  `fox_target_now_begin`,
+  `fox_target_now_used`,
+  `fox_target_now_end`,
+  `fox_target`,
+  `log_type_sub`,
+  `lion_begin`,
+  `lion_used`,
+  `lion_added`,
+  `lion_box_award`,
+  `lion_end`,
+  `tiger_begin`,
+  `tiger_used`,
+  `tiger_added`,
+  `tiger_end`
+FROM `bydsj_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+6,大世界,P6_DWS_login,DWS,dws_p6_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bydsj_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bydsj_ods`.`app_login_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+6,大世界,P6_DWS_game,DWS,dws_p6_game_user_1d,游戏行为记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bydsj_ods.fish_game_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bydsj_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+8,Dummy-泰国,P8_DWD_payment,DWD,dwd_p8_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：order_no×infull_date。业务事件唯一性待验证。,"[""dummy_ods.infull_order""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `order_no`,
+  `infull_type`,
+  `infull_platform`,
+  `infull_amount`,
+  `infull_state`,
+  `infull_date`,
+  `success_date`,
+  `third_order_no`,
+  `user_id`,
+  `user_name`,
+  `notify_check`,
+  `client_ip`,
+  `mac`,
+  `game_id`,
+  `item_id`,
+  `item_amt`,
+  `coupon_fee`,
+  `agent_id`,
+  `money`,
+  `last_room_name`,
+  `buy_num`,
+  `account_id`,
+  `order_type`,
+  `client_version`,
+  `price`,
+  `extra_num`,
+  `cost_key`,
+  `error_msg`,
+  `other_third_order_no`,
+  `play_server_id`,
+  `play_game_id`,
+  `device_id`,
+  `buyer_country`,
+  `buyer_currencycode`,
+  `buyer_postcode`,
+  `buyer_infullamount`
+FROM `dummy_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+8,Dummy-泰国,P8_DWD_game,DWD,dwd_p8_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""dummy_ods.user_slot_game_log_realtime""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `agent_id`,
+  `game_id`,
+  `server_id`,
+  `game_type`,
+  `control_type`,
+  `bet_money`,
+  `win_money`,
+  `begin_money`,
+  `end_money`,
+  `begin_credit`,
+  `end_credit`,
+  `match_ui_info`,
+  `match_result`,
+  `buff0`,
+  `buff1`,
+  `buff2`,
+  `buff3`,
+  `buff4`,
+  `buff5`,
+  `now_exp`,
+  `buff6`,
+  `buff7`,
+  `buff8`,
+  `buff9`,
+  `buff10`,
+  `log_date`,
+  `json_log`
+FROM `dummy_ods`.`user_slot_game_log_realtime`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+8,Dummy-泰国,P8_DWD_login,DWD,dwd_p8_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""dummy_ods.app_login_log_view""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `sid`,
+  `id`,
+  `user_id`,
+  `agent_id`,
+  `mac`,
+  `login_ip`,
+  `login_type`,
+  `game_id`,
+  `money`,
+  `lottery_num`,
+  `login_date`,
+  `version`,
+  `nick_name`,
+  `login_location`,
+  `login_os`,
+  `login_eqp`,
+  `login_mac_type`,
+  `account_type`,
+  `device_id`
+FROM `dummy_ods`.`app_login_log_view`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+8,Dummy-泰国,P8_DWD_asset,DWD,dwd_p8_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""dummy_ods.prop_log_view""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `game_num`,
+  `user_id`,
+  `game_id`,
+  `server_id`,
+  `prop_id`,
+  `before_prop_num`,
+  `prop_num`,
+  `agent_id`,
+  `data_type`,
+  `log_date`,
+  `detail_des`,
+  `ju_id`
+FROM `dummy_ods`.`prop_log_view`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+8,Dummy-泰国,P8_DWD_audit,DWD,dwd_p8_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""dummy_ods.behavior_log_view""]",first_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `flag_id`,
+  `state`,
+  `first_date`,
+  `last_date`,
+  `data_type`,
+  `tmp_a`,
+  `tmp_b`,
+  `tmp_c`,
+  `tmp_d`,
+  `game_id`,
+  `client_version`,
+  `agent_id`
+FROM `dummy_ods`.`behavior_log_view`
+WHERE `first_date` >= '${start_date}'
+  AND `first_date` < '${end_date}';"
+8,Dummy-泰国,P8_DWS_login,DWS,dws_p8_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""dummy_ods.app_login_log_view""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `dummy_ods`.`app_login_log_view`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+8,Dummy-泰国,P8_DWS_payment,DWS,dws_p8_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""dummy_ods.infull_order""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `dummy_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+12,猎鱼达人手游,P12_DWD_login,DWD,dwd_p12_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：pk_id×all_id×user_id×login_date。业务事件唯一性待验证。,"[""byhls_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `pk_id`,
+  `all_id`,
+  `user_id`,
+  `login_date`,
+  `agent_id`,
+  `mac`,
+  `login_ip`,
+  `login_type`,
+  `game_id`,
+  `money`,
+  `second_money`,
+  `lottery_num`,
+  `golden_gun_seat`,
+  `silver_gun_seat`,
+  `white_gold_gun_seat`,
+  `version`,
+  `net_info`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `phone_name`,
+  `bank_money`,
+  `bank_silver_gun_seat`,
+  `bank_golden_gun_seat`,
+  `bank_white_gold_gun_seat`,
+  `port`,
+  `fingerprint`
+FROM `byhls_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+12,猎鱼达人手游,P12_DWD_payment,DWD,dwd_p12_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：user_id×infull_date×order_no。业务事件唯一性待验证。,"[""byhls_ods.view_infull_order""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `infull_date`,
+  `order_no`,
+  `infull_type`,
+  `infull_platform`,
+  `infull_amount`,
+  `infull_state`,
+  `success_date`,
+  `center_order_no`,
+  `user_name`,
+  `notify_check`,
+  `client_ip`,
+  `cpparam`,
+  `client_version`,
+  `product_name`,
+  `agent_id`,
+  `client_mac`,
+  `client_imsi`,
+  `mark_info`,
+  `user_data`,
+  `company_type`,
+  `refund_date`
+FROM `byhls_ods`.`view_infull_order`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+12,猎鱼达人手游,P12_DWD_game,DWD,dwd_p12_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×user_id×log_date。业务事件唯一性待验证。,"[""byhls_ods.game_money_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `log_date`,
+  `log_type`,
+  `agent_id`,
+  `room_id`,
+  `server_id`,
+  `shot_num`,
+  `shot_level`,
+  `fish_num`,
+  `money_begin`,
+  `money_add`,
+  `money_use`,
+  `money_end`,
+  `money_rate`,
+  `force_lib_add`,
+  `force_lib_use`,
+  `force_lib_end`,
+  `contri_lib_change`,
+  `contri_lib_end`,
+  `target_lib_begin`,
+  `target_lib_end`,
+  `target_lib_target`,
+  `fox_lib_begin`,
+  `fox_lib_end`,
+  `fox_lib_target`,
+  `prop_lib_add`,
+  `prop_lib_use`,
+  `prop_lib_end`,
+  `table_id`,
+  `pig_gold`,
+  `game_second`,
+  `bet_num`,
+  `fire_lib_add`,
+  `fire_lib_sync`,
+  `shot_power`,
+  `fox_lib_effect`,
+  `neutral_eval_win`,
+  `neutral_eval_lose`,
+  `neutral_ctrl_win`,
+  `neutral_ctrl_lose`
+FROM `byhls_ods`.`game_money_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+12,猎鱼达人手游,P12_DWD_asset,DWD,dwd_p12_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""byhls_ods.game_prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `log_date`,
+  `log_type`,
+  `user_id`,
+  `agent_id`,
+  `room_id`,
+  `server_id`,
+  `table_id`,
+  `prop_id`,
+  `prop_add`,
+  `prop_num`,
+  `day_drop_num`,
+  `his_drop_num`,
+  `drop_fish_id`
+FROM `byhls_ods`.`game_prop_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+12,猎鱼达人手游,P12_DWS_login,DWS,dws_p12_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byhls_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `byhls_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+12,猎鱼达人手游,P12_DWS_payment,DWS,dws_p12_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byhls_ods.view_infull_order""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `byhls_ods`.`view_infull_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+31,猎鱼达人3D,P31_DWD_game,DWD,dwd_p31_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：fgl_id×user_id×log_date。业务事件唯一性待验证。,"[""lydr3d_ods.fish_game_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fgl_id`,
+  `user_id`,
+  `log_date`,
+  `user_name`,
+  `nick_name`,
+  `agent_id`,
+  `room_type_id`,
+  `log_type`,
+  `gold_begin`,
+  `gold_end`,
+  `num_shot`,
+  `gold_shot_cost`,
+  `gold_shot_normal_cost`,
+  `num_catch_fish`,
+  `gold_catch_fish`,
+  `box_catch_fish`,
+  `diamond_begin`,
+  `diamond_append`,
+  `diamond_used`,
+  `diamond_end`,
+  `diamond_by_fish`,
+  `gold_pool_begin`,
+  `gold_pool_append`,
+  `gold_pool_used`,
+  `gold_pool_extra_used`,
+  `gold_pool_to_force`,
+  `gold_pool_award`,
+  `diamond_pool_award`,
+  `box_pool_award`,
+  `phone_pool_award`,
+  `gold_pool_end`,
+  `gold_unlock_weapon`,
+  `diamond_unlock_weapon`,
+  `gold_relief`,
+  `gold_rate_append`,
+  `gold_rate_normal`,
+  `gold_rate_day_control`,
+  `gold_force_lib_begin`,
+  `gold_force_lib_append`,
+  `gold_force_lib_used`,
+  `gold_force_lib_normal`,
+  `gold_force_lib_end`,
+  `gold_diamond_lib_begin`,
+  `gold_diamond_lib_append`,
+  `diamond_from_lib`,
+  `gold_diamond_lib_end`,
+  `gold_miss_lib_begin`,
+  `gold_miss_lib_append`,
+  `gold_miss_lib_used`,
+  `gold_miss_lib_end`,
+  `gold_task_lib_begin`,
+  `gold_task_lib_append`,
+  `gold_task_lib_used`,
+  `gold_task_lib_end`,
+  `gold_contri_begin`,
+  `gold_contri_used`,
+  `gold_contri_end`,
+  `box_contri_begin`,
+  `box_contri_used`,
+  `box_contri_end`,
+  `gold_target_now_begin`,
+  `gold_target_now_used`,
+  `gold_target_now_end`,
+  `gold_target_target`,
+  `gold_charge`,
+  `diamond_charge`,
+  `gold_bomb_award`,
+  `gold_bomb_real_award`,
+  `gold_max`,
+  `game_time`,
+  `server_id`,
+  `coin_begin`,
+  `coin_get`,
+  `diamond_match_sign_used`,
+  `diamond_shout_used`,
+  `magic_show_gold`,
+  `gold_fox_target_now_begin`,
+  `gold_fox_target_now_used`,
+  `gold_fox_target_now_end`,
+  `gold_fox_target_target`,
+  `gold_lion_lib_remain_begin`,
+  `gold_lion_lib_remain_used`,
+  `gold_lion_lib_remain_end`,
+  `server_jp_begin`,
+  `server_jp_add`,
+  `server_jp_end`,
+  `gold_force_lib_taken`,
+  `bet_factor`,
+  `bet_up_factor`
+FROM `lydr3d_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+31,猎鱼达人3D,P31_DWD_login,DWD,dwd_p31_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：all_id×user_id×login_date。业务事件唯一性待验证。,"[""lydr3d_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `all_id`,
+  `user_id`,
+  `login_date`,
+  `agent_id`,
+  `mac`,
+  `login_ip`,
+  `login_type`,
+  `game_id`,
+  `money`,
+  `second_money`,
+  `lottery_num`,
+  `golden_gun_seat`,
+  `silver_gun_seat`,
+  `white_gold_gun_seat`,
+  `version`,
+  `net_info`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `phone_name`,
+  `port`,
+  `plat_id`
+FROM `lydr3d_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+31,猎鱼达人3D,P31_DWD_payment,DWD,dwd_p31_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：pk_id。业务事件唯一性待验证。,"[""lydr3d_ods.txstar_pook_infull""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `pk_id`,
+  `order_no`,
+  `third_order_no`,
+  `user_id`,
+  `infull_type`,
+  `infull_platform`,
+  `infull_amount`,
+  `infull_state`,
+  `infull_date`,
+  `success_date`,
+  `user_name`,
+  `infull_name`,
+  `notify_check`,
+  `open_type`,
+  `open_count`,
+  `present_type`,
+  `present_count`,
+  `client_ip`,
+  `mac`,
+  `imsi`,
+  `item_id`,
+  `item_info`,
+  `item_amt`,
+  `pubacct_payamt_coins`,
+  `agent_id`,
+  `if_transfer`,
+  `return_agent_id`
+FROM `lydr3d_ods`.`txstar_pook_infull`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+31,猎鱼达人3D,P31_DWD_operation,DWD,dwd_p31_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""lydr3d_ods.activity_common_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `log_date`,
+  `user_id`,
+  `act_id`,
+  `act_period`,
+  `num_data_0`,
+  `num_data_1`,
+  `num_data_2`,
+  `num_data_3`,
+  `num_data_4`,
+  `num_data_5`,
+  `num_data_6`,
+  `num_data_7`,
+  `num_data_8`,
+  `num_data_9`,
+  `num_data_10`,
+  `num_data_11`,
+  `num_data_12`,
+  `num_data_13`,
+  `num_data_14`,
+  `num_data_15`,
+  `date_data_0`,
+  `date_data_1`,
+  `date_data_2`,
+  `date_data_3`,
+  `str_data_0`,
+  `str_data_1`
+FROM `lydr3d_ods`.`activity_common_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+31,猎鱼达人3D,P31_DWD_audit,DWD,dwd_p31_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""lydr3d_ods.pc_fish_behavior_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `log_date`,
+  `user_id`,
+  `operation_type`,
+  `sub_type`,
+  `data0`,
+  `data1`,
+  `data2`
+FROM `lydr3d_ods`.`pc_fish_behavior_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+31,猎鱼达人3D,P31_DWD_asset,DWD,dwd_p31_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：ipl_id×user_id×pay_time。业务事件唯一性待验证。,"[""lydr3d_ods.income_prop_log""]",pay_time（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `ipl_id`,
+  `user_id`,
+  `pay_time`,
+  `user_name`,
+  `agent_name`,
+  `prop_type`,
+  `game_name`,
+  `prop_name`,
+  `buy_amount`,
+  `money_type`,
+  `pay_money`,
+  `effective_time`,
+  `effective_day`,
+  `present_info`,
+  `client_ip`,
+  `platform`,
+  `related_num`,
+  `company_id`,
+  `qq_open_id`,
+  `cur_gold`,
+  `cur_diamond`,
+  `cur_level`,
+  `game_time`,
+  `cur_bet`,
+  `now_target`,
+  `target`,
+  `yb_con`,
+  `cur_fish_score`,
+  `all_fish_scorte`,
+  `add_money`,
+  `fox_target`,
+  `fox_now_target`,
+  `old_fox_target`,
+  `old_fox_now_target`
+FROM `lydr3d_ods`.`income_prop_log`
+WHERE `pay_time` >= '${start_date}'
+  AND `pay_time` < '${end_date}';"
+31,猎鱼达人3D,P31_DWS_login,DWS,dws_p31_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""lydr3d_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `lydr3d_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+31,猎鱼达人3D,P31_DWS_payment,DWS,dws_p31_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""lydr3d_ods.txstar_pook_infull""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `lydr3d_ods`.`txstar_pook_infull`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+43,爆炒江湖,P43_DWD_login,DWD,dwd_p43_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：event_time×mid。业务事件唯一性待验证。,"[""bcjh_ods.bcjh_login_blog""]",event_time（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `event_time`,
+  `mid`,
+  `game_id`,
+  `channel_id`,
+  `platform`,
+  `device_id`,
+  `ip`,
+  `city`,
+  `province`,
+  `version`,
+  `account_type`,
+  `forbid_type`,
+  `forbid_reason`,
+  `id_card`,
+  `phone_number`,
+  `curr_stage`,
+  `curr_yb`,
+  `curr_gold`,
+  `curr_chefcom_level`,
+  `log_time`
+FROM `bcjh_ods`.`bcjh_login_blog`
+WHERE `event_time` >= '${start_date}'
+  AND `event_time` < '${end_date}';"
+46,DW,P46_DWD_login,DWD,dwd_p46_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：all_id×login_date。业务事件唯一性待验证。,"[""haoshen_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `all_id`,
+  `login_date`,
+  `user_id`,
+  `user_name`,
+  `nick_name`,
+  `mac`,
+  `net_info`,
+  `login_ip`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `version_num`,
+  `agent_id`,
+  `phone_name`,
+  `login_type`,
+  `login_money`,
+  `login_exp`,
+  `latitude`,
+  `longitude`,
+  `location`,
+  `login_vip`,
+  `enter_flag`,
+  `last_login_date`,
+  `leave_day`,
+  `mac_leave_day`,
+  `login_ip_parse`,
+  `login_code`
+FROM `haoshen_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+46,DW,P46_DWD_game,DWD,dwd_p46_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：fgl_id×log_date。业务事件唯一性待验证。,"[""haoshen_ods.fish_game_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fgl_id`,
+  `log_date`,
+  `user_id`,
+  `user_name`,
+  `nick_name`,
+  `agent_id`,
+  `room_type_id`,
+  `log_type`,
+  `gold_begin`,
+  `gold_end`,
+  `num_shot`,
+  `gold_shot_cost`,
+  `gold_shot_normal_cost`,
+  `num_catch_fish`,
+  `gold_catch_fish`,
+  `box_catch_fish`,
+  `diamond_begin`,
+  `diamond_append`,
+  `diamond_by_fish`,
+  `diamond_used`,
+  `diamond_end`,
+  `gold_pool_begin`,
+  `gold_pool_append`,
+  `gold_pool_used`,
+  `gold_pool_award`,
+  `box_pool_award`,
+  `diamond_pool_award`,
+  `phone_pool_award`,
+  `gold_pool_end`,
+  `gold_unlock_weapon`,
+  `diamond_unlock_weapon`,
+  `gold_relief`,
+  `gold_rate_append`,
+  `gold_rate_normal`,
+  `gold_rate_day_control`,
+  `gold_force_lib_begin`,
+  `gold_force_lib_append`,
+  `gold_force_lib_used`,
+  `gold_force_lib_normal`,
+  `gold_force_lib_end`,
+  `gold_diamond_lib_begin`,
+  `gold_diamond_lib_append`,
+  `diamond_from_lib`,
+  `gold_diamond_lib_end`,
+  `gold_miss_lib_begin`,
+  `gold_miss_lib_append`,
+  `gold_miss_lib_used`,
+  `gold_miss_lib_end`,
+  `gold_task_lib_begin`,
+  `gold_task_lib_append`,
+  `gold_task_lib_used`,
+  `gold_task_lib_end`,
+  `gold_contri_begin`,
+  `gold_contri_used`,
+  `gold_contri_end`,
+  `box_contri_begin`,
+  `box_contri_used`,
+  `box_contri_end`,
+  `gold_target_now_begin`,
+  `gold_target_now_used`,
+  `gold_target_now_end`,
+  `gold_target_target`,
+  `gold_charge`,
+  `diamond_charge`,
+  `gold_pirate_award`,
+  `box_pirate_award`,
+  `diamond_pirate_award`,
+  `gold_eatfish_kill`,
+  `box_eatfish_kill`,
+  `gold_eatfish_win`,
+  `gold_eatfish_lose`,
+  `num_bomb_get`,
+  `num_lock_get`,
+  `num_stop_get`,
+  `num_light_get`,
+  `num_crazy_get`,
+  `num_bomb_used`,
+  `num_lock_used`,
+  `num_stop_used`,
+  `num_light_used`,
+  `num_crazy_used`,
+  `diamond_bomb_used`,
+  `diamond_lock_used`,
+  `diamond_stop_used`,
+  `diamond_light_used`,
+  `diamond_crazy_used`,
+  `gold_bomb_award`,
+  `gold_bomb_real_award`,
+  `gold_max`,
+  `game_time`,
+  `server_id`,
+  `gold_pool_extra_used`,
+  `gold_pool_to_force`,
+  `coin_begin`,
+  `coin_get`,
+  `drop_prop_id`,
+  `weapon_id`,
+  `weapon_last_time`,
+  `dead_fishes`,
+  `begin_bet`,
+  `end_bet`,
+  `gold_new_win`,
+  `gold_new_protact`,
+  `gold_lose_protact`,
+  `gold_win_normal`,
+  `target_extra_fish_valuie`,
+  `real_extra_fish_valuie`,
+  `send_force_shot_num`,
+  `send_force_shot_bet`,
+  `player_level`,
+  `day_balance`,
+  `day7_balance`,
+  `total_balance`,
+  `begin_bmoney`,
+  `end_bmoney`,
+  `force_cmoney`,
+  `balance_cmoney`,
+  `balance_omoney`,
+  `day_balanceb`,
+  `balance_offset_money`,
+  `force_add_money1`,
+  `force_add_money2`,
+  `jp_deduct_money`,
+  `table_id`,
+  `sit_id`,
+  `game_id`
+FROM `haoshen_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+46,DW,P46_DWS_login,DWS,dws_p46_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""haoshen_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `haoshen_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+46,DW,P46_DWS_game,DWS,dws_p46_game_user_1d,游戏行为记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""haoshen_ods.fish_game_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `haoshen_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+86,地方棋牌,DWD01,DWD,friend_dwd.dwd_friend_login_event_di,标准登录事件,建议新建,P1,一条源登录记录；候选唯一键src_id×login_time，业务去重规则待核对,"[""friend_ods.app_login_log""]",login_date（日分区，建议新增字段）,按登录时间增量；按源键幂等补写，设置迟到重跑窗口,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS src_id, user_id, 'friend' AS account_domain,
+       login_date AS login_time, DATE(login_date) AS login_date,
+       pid, agent_id, login_type AS platform_code_raw,
+       CASE login_type WHEN 0 THEN 'pc' WHEN 1 THEN 'android'
+                       WHEN 2 THEN 'ios' ELSE 'unknown' END AS platform_std,
+       mac
+FROM friend_ods.app_login_log
+WHERE login_date >= '${start_date}' AND login_date < '${end_date}';"
+86,地方棋牌,DWD03,DWD,friend_dwd.dwd_friend_pay_success_di,支付成功订单明细,建议新建,P1,一个成功支付订单order_no；是否存在分次支付/补单版本须核验,"[""friend_ods.pook_infull""]",success_date（日分区）,优先按CDC或更新时间捕获状态变化；源无可靠更新时间时设计补扫与订单对账，不假定仅扫下单日足够,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT order_no, user_id, 'friend' AS account_domain,
+       infull_date AS order_time, success_date AS success_time,
+       DATE(success_date) AS success_date,
+       CAST(infull_amount AS DECIMAL(38,2)) AS amount_fen,
+       CAST(infull_amount AS DECIMAL(38,2))/100.00 AS amount_yuan,
+       infull_platform AS pay_platform_raw, pid, agent_id, item_id,
+       infull_state AS order_state
+FROM friend_ods.pook_infull
+WHERE success_date >= '${start_date}' AND success_date < '${end_date}'
+  AND infull_state=1;"
+86,地方棋牌,DWD02,DWD,friend_dwd.dwd_friend_user_profile_df,账号属性日快照,建议新建,P1,snapshot_date×user_id×account_domain；PID维度是否进入键须核验,"[""friend_ods.user_info"", ""friend_ods.user_remark""]",snapshot_date（日分区）,从建设日起留存每日快照；注册信息和历史删除账号覆盖另行对账,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+-- snapshot_date 必须是调度实际采集日；禁止用今天状态伪造过去快照。
+SELECT CAST('${snapshot_date}' AS DATE) AS snapshot_date,
+       u.user_id, 'friend' AS account_domain, u.reg_date AS reg_time,
+       u.pid, u.agent_id, u.vip_type AS account_type_raw,
+       r.reg_type AS registration_type_raw, r.pid AS registration_pid_raw,
+       CAST(NULL AS SIGNED) AS is_deleted_if_available
+FROM friend_ods.user_info u
+LEFT JOIN friend_ods.user_remark r ON u.user_id=r.user_id;"
+86,地方棋牌,DWD04,DWD,friend_dwd.dwd_friend_game_player_round_di,玩家对局与时长明细,建议新建,P1,源记录id×event_time；标准玩家小局键尚待验收，当前is_canonical=0,"[""friend_ods.comm_game_log""]",event_date（日分区）,只采一条日志源并保留原键；小局键与单位验收后才开放标准局次/时长聚合,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""核实 game_num / friend_game_num 的事件唯一性、重连重报规则，验收后才生成 round_id 并置 is_canonical=1。"", ""核实时长单位和异常范围后才生成 duration_sec、置 unit_confirmed=1；其他两张源表仅作键和覆盖对照，不直接拼接。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+-- 此为待验收的标准化输入，不可直接把每行当作一局或一名独立玩家参与。
+SELECT id AS src_id, log_time AS event_time, DATE(log_time) AS event_date,
+       friend_game_num, game_num, user_id, 'friend' AS account_domain,
+       game_id, pid, game_type AS game_type_raw,
+       CAST(NULL AS CHAR) AS round_id,
+       game_time AS duration_raw, 'unknown' AS duration_unit_raw,
+       CAST(NULL AS DECIMAL(38,6)) AS duration_sec,
+       0 AS unit_confirmed, 0 AS is_canonical,
+       CAST(NULL AS CHAR) AS unit_mapping_version,
+       'friend_ods.comm_game_log' AS source_table
+FROM friend_ods.comm_game_log
+WHERE log_time >= '${start_date}' AND log_time < '${end_date}'
+  AND game_type=1;"
+86,地方棋牌,DWD06,DWD,friend_dwd.dwd_friend_room_card_flow_di,房卡标准流水,建议新建,P1,一条来源流水id×log_date×source_table；业务去重键及冲正关联待确认,"[""friend_ods.package_log"", ""friend_ods.prop_info""]",event_date（日分区）,增量采集原流水并幂等回补；字典映射版本化，迟到和冲正单独处理,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""查清 change_log_type_config 中 function_type=1 的类型字典及历史变化，确认系统发放、游戏消耗、内部转移、退回、冲正的映射。"", ""验收数量单位、正负号、prop_num 与余额差的关系；验收前不产出标准 delta_qty。当前 prop_info 字典未证明历史房卡覆盖完整。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+WITH card_props AS (
+  SELECT prop_id, prop_type
+  FROM friend_ods.prop_info
+  WHERE prop_type=1
+), raw_flow AS (
+  SELECT id, user_id, type, amount, prop_id, begin_num, end_num, prop_num,
+         log_date, order_no, if_agent, card_from_user_id, card_from_type, pid
+  FROM friend_ods.package_log
+  WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
+)
+SELECT f.id AS flow_id, f.log_date AS event_time, DATE(f.log_date) AS event_date,
+       f.user_id, 'friend' AS account_domain, f.if_agent AS account_type_raw,
+       f.pid, f.prop_id, f.begin_num AS before_qty_raw,
+       f.end_num AS after_qty_raw, f.prop_num AS prop_qty_raw,
+       f.end_num-f.begin_num AS balance_delta_raw, f.amount AS amount_raw,
+       f.type AS operation_type_raw, f.card_from_type AS card_from_type_raw,
+       f.card_from_user_id AS counterparty_user_id, f.order_no,
+       'unknown' AS qty_unit, 'unknown' AS operation_category,
+       CAST(NULL AS DECIMAL(38,6)) AS delta_qty,
+       CAST(NULL AS SIGNED) AS is_internal_transfer,
+       CAST(NULL AS CHAR) AS correction_ref,
+       CAST(NULL AS CHAR) AS mapping_version, 0 AS mapping_confirmed
+FROM raw_flow f JOIN card_props p ON f.prop_id=p.prop_id;"
+86,地方棋牌,DWD05,DWD,friend_dwd.dwd_friend_room_lifecycle_di,房间与牌局生命周期,建议新建,P2,源记录src_id×room_code×game_id×record_time；friend_game_num为候选业务键,"[""friend_ods.create_room_log""]",record_date（日分区），同时保留created_date,按record_time增量并按源键幂等；保留created_time，不将当前房间属性回填历史,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS src_id, friend_game_num, room_code, game_id,
+       main_userid AS owner_user_id, pid,
+       room_create_time AS created_time, DATE(room_create_time) AS created_date,
+       begin_time AS start_time, log_time AS record_time,
+       DATE(log_time) AS record_date, end_type AS end_type_raw,
+       play_num AS played_rounds, league_id
+FROM friend_ods.create_room_log
+WHERE log_time >= '${start_date}' AND log_time < '${end_date}';"
+86,地方棋牌,DWD07,DWD,friend_dwd.dwd_friend_sign_operation_di,签到与补签事件,建议新建,P2,一条签到操作id×log_date,"[""friend_ods.user_sign_log""]",operation_date（日分区）,源键幂等增量；补签分别保留操作日和归属日,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS src_id, user_id, 'friend' AS account_domain,
+       log_date AS operation_time, DATE(log_date) AS operation_date,
+       sign_date, type AS operation_type, award AS award_raw, period
+FROM friend_ods.user_sign_log
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+86,地方棋牌,DWD08,DWD,friend_dwd.dwd_friend_feedback_di,玩家反馈与处理状态,建议新建,P2,一条反馈id×log_date，处理状态版本另行保留,"[""friend_ods.user_suggest""]",feedback_date（日分区）,反馈新增与处理更新分开采集；无法识别首次回复时不造首次响应时间,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""当前SQL按反馈创建日提取源当前状态；要跟踪旧反馈的回复或状态变化，需接CDC或设计可靠的历史补扫任务，不能仅扫当天新增。"", ""状态枚举和answer_time语义未确认前，不生成解决率、首次响应时长；现有SQL也不表示已保存处理变更历史。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS feedback_id, user_id, 'friend' AS account_domain,
+       log_date AS feedback_time, DATE(log_date) AS feedback_date,
+       pid, scene_id, game_id, state AS state_raw,
+       answer_time AS answer_time_raw, 0 AS reply_time_semantics_confirmed
+FROM friend_ods.user_suggest
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+86,地方棋牌,DWD09,DWD,friend_dwd.dwd_friend_device_first_open_df,设备应用首次激活,建议新建,P2,pid×mac设备应用对,"[""friend_ods.cell_mac_info""]",first_open_date（日分区）,按设备应用键更新最早可靠激活记录，设备标识重置规则另行确认,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT pid, mac AS device_id_raw, 'source_mac' AS device_id_type,
+       first_open_date AS first_open_time, DATE(first_open_date) AS first_open_date,
+       os_id AS os_id_raw,
+       CASE WHEN os_id IN (0,1) THEN 'ios'
+            WHEN os_id=2 THEN 'android' ELSE 'unknown' END AS platform_std,
+       agent_id AS agent_id_raw
+FROM friend_ods.cell_mac_info
+WHERE first_open_date >= '${start_date}' AND first_open_date < '${end_date}';"
+86,地方棋牌,DWS05,DWS,friend_dws.dws_friend_login_pay_user_1d,账号日登录付费汇总（保留支付全集）,建议新建,P1,stat_date×account_domain×account_key；空账号支付按日保留对账桶，不计账号数,"[""friend_dwd.dwd_friend_login_event_di"", ""friend_dwd.dwd_friend_pay_success_di""]",stat_date（日分区）,从登录与成功支付DWD分别聚合账号日，合并账号全集；迟到、补单、状态修正重算受影响分区,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+WITH logged AS (
+  SELECT login_date AS stat_date, account_domain, user_id,
+         CONCAT('uid:',CAST(user_id AS CHAR)) AS account_key,
+         COUNT(*) AS login_record_cnt
+  FROM friend_dwd.dwd_friend_login_event_di
+  WHERE login_date >= CAST('${start_date}' AS DATE)
+    AND login_date < CAST('${end_date}' AS DATE) AND user_id IS NOT NULL
+  GROUP BY login_date, account_domain, user_id
+), paid AS (
+  SELECT success_date AS stat_date, account_domain, user_id,
+         CASE WHEN user_id IS NULL THEN 'null_uid_reconciliation'
+              ELSE CONCAT('uid:',CAST(user_id AS CHAR)) END AS account_key,
+         COUNT(*) AS success_order_cnt, SUM(amount_fen) AS success_amount_fen
+  FROM friend_dwd.dwd_friend_pay_success_di
+  WHERE success_date >= CAST('${start_date}' AS DATE)
+    AND success_date < CAST('${end_date}' AS DATE)
+  GROUP BY success_date, account_domain, user_id
+), account_set AS (
+  SELECT stat_date, account_domain, user_id, account_key FROM logged
+  UNION
+  SELECT stat_date, account_domain, user_id, account_key FROM paid
+)
+SELECT a.stat_date, a.account_domain, a.account_key, a.user_id,
+       CASE WHEN a.user_id IS NULL THEN 0 ELSE 1 END AS is_identified_account,
+       CASE WHEN l.user_id IS NULL THEN 0 ELSE 1 END AS login_flag,
+       COALESCE(l.login_record_cnt,0) AS login_record_cnt,
+       CASE WHEN a.user_id IS NOT NULL AND p.success_order_cnt>0 THEN 1 ELSE 0 END AS pay_flag,
+       COALESCE(p.success_order_cnt,0) AS success_order_cnt,
+       CASE WHEN p.success_order_cnt IS NULL THEN 0 ELSE p.success_amount_fen END AS success_amount_fen,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before
+FROM account_set a LEFT JOIN logged l
+  ON a.stat_date=l.stat_date AND a.account_domain=l.account_domain AND a.account_key=l.account_key
+LEFT JOIN paid p
+  ON a.stat_date=p.stat_date AND a.account_domain=p.account_domain AND a.account_key=p.account_key;"
+86,地方棋牌,DWS03,DWS,friend_dws.dws_friend_login_retention_1d,登录分群留存汇总,建议新建,P1,cohort_date×account_domain×retention_days（1/3/7）,"[""friend_dws.user_app_login_daily_d""]",cohort_date（日分区）,每日重算仍处于1/3/7日观察窗的分群，加迟到窗口；以任务验收水位确认成熟,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+WITH login_days AS (
+  SELECT DATE(dt) AS stat_date, user_id
+  FROM friend_dws.user_app_login_daily_d
+  WHERE dt >= '${start_date}'
+    AND dt < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+    AND user_type=1 AND user_id IS NOT NULL
+  GROUP BY DATE(dt), user_id
+), cohort AS (
+  SELECT stat_date, user_id FROM login_days
+  WHERE stat_date >= CAST('${start_date}' AS DATE)
+    AND stat_date < CAST('${end_date}' AS DATE)
+)
+SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
+       1 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 2 DAY) <= CAST('${data_complete_before}' AS DATETIME)
+            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 2 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
+       CURRENT_TIMESTAMP AS computed_at
+FROM cohort c LEFT JOIN login_days r
+  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 1 DAY)
+GROUP BY c.stat_date
+UNION ALL
+SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
+       3 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 4 DAY) <= CAST('${data_complete_before}' AS DATETIME)
+            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 4 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
+       CURRENT_TIMESTAMP AS computed_at
+FROM cohort c LEFT JOIN login_days r
+  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 3 DAY)
+GROUP BY c.stat_date
+UNION ALL
+SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
+       7 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 8 DAY) <= CAST('${data_complete_before}' AS DATETIME)
+            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 8 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
+       CURRENT_TIMESTAMP AS computed_at
+FROM cohort c LEFT JOIN login_days r
+  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 7 DAY)
+GROUP BY c.stat_date;"
+86,地方棋牌,DWS01,DWS,friend_dws.user_app_login_daily_d,现有账号登录日汇总,复用现有,P1,dt×user_type×user_id,"[""friend_ods.app_login_log""]",现有dt分区，查询直接过滤dt,复用现有产出，先核验覆盖；保留迟到重算与完整性水位,',','
+86,地方棋牌,DWS02,DWS,friend_dws.user_comm_game_daily_d,现有玩家玩法参与日汇总,复用现有,P1,dt×user_type×user_id×game_id,"[""friend_ods.comm_game_log""]",现有dt分区，查询直接过滤dt,复用现有参与次数；新增口径前核对生产SQL和迟到补数,',','
+91,灵画师-国内版,P91_DWD_game,DWD,dwd_p91_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""lhs_ods.game_info_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `dbid`,
+  `log_date`,
+  `user_id`,
+  `server_id`,
+  `player_id`,
+  `log_type`,
+  `log_value`,
+  `log_param`,
+  `log_info`
+FROM `lhs_ods`.`game_info_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+91,灵画师-国内版,P91_DWD_payment,DWD,dwd_p91_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：dbid×log_date。业务事件唯一性待验证。,"[""lhs_ods.recharge_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `dbid`,
+  `log_date`,
+  `order_num`,
+  `center_order_num`,
+  `user_id`,
+  `server_id`,
+  `player_id`,
+  `status`,
+  `client_ip`,
+  `mac`,
+  `agent_id`,
+  `channel_id`,
+  `product_id`,
+  `product_name`,
+  `pay_amount`,
+  `money_type`,
+  `pay_type`,
+  `third_order_num`
+FROM `lhs_ods`.`recharge_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+91,灵画师-国内版,P91_DWD_login,DWD,dwd_p91_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：dbid×log_date。业务事件唯一性待验证。,"[""lhs_ods.app_login_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `dbid`,
+  `log_date`,
+  `user_id`,
+  `agent_id`,
+  `version_num`,
+  `login_ip`,
+  `mac`,
+  `os_name`,
+  `lang`,
+  `area`
+FROM `lhs_ods`.`app_login_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+91,灵画师-国内版,P91_DWS_login,DWS,dws_p91_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""lhs_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `lhs_ods`.`app_login_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+91,灵画师-国内版,P91_DWS_payment,DWS,dws_p91_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""lhs_ods.recharge_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `lhs_ods`.`recharge_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+100,DominoCafe,P100_DWD_game,DWD,dwd_p100_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""ludocafe_ods.zeusslot_game_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `log_date`,
+  `unique_id`,
+  `game_num`,
+  `agent_id`,
+  `now_exp`,
+  `game_id`,
+  `server_id`,
+  `game_type`,
+  `control_type`,
+  `bet_money`,
+  `win_money`,
+  `begin_money`,
+  `end_money`,
+  `begin_credit`,
+  `end_credit`,
+  `match_ui_info`,
+  `match_result`,
+  `buff0`,
+  `buff1`,
+  `buff2`,
+  `buff3`,
+  `buff4`,
+  `buff5`,
+  `buff6`,
+  `buff7`,
+  `buff8`,
+  `buff9`,
+  `buff10`,
+  `random_seed`,
+  `round_id`,
+  `bet_id`,
+  `request_id`,
+  `decision_id`,
+  `sequence_position`,
+  `recommended_multiple`,
+  `override_reason`,
+  `session_id`,
+  `machine_segment_id`,
+  `event_ts_ms`
+FROM `ludocafe_ods`.`zeusslot_game_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+100,DominoCafe,P100_DWD_payment,DWD,dwd_p100_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""ludocafe_ods.pook_infull""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `order_no`,
+  `user_id`,
+  `id`,
+  `third_order_no`,
+  `platform_order_no`,
+  `infull_type`,
+  `platform_id`,
+  `agent_id`,
+  `infull_amount`,
+  `infull_state`,
+  `infull_date`,
+  `success_date`,
+  `user_name`,
+  `infull_name`,
+  `client_ip`,
+  `item_id`,
+  `item_info`,
+  `item_amt`,
+  `local_amt`,
+  `local_type`,
+  `package_item_id`,
+  `sub_infull_type`,
+  `package_type`,
+  `project_id`,
+  `partner_pre_pay_id`,
+  `usdt_amt`,
+  `usdt_rate`,
+  `total_in_amt`
+FROM `ludocafe_ods`.`pook_infull`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+100,DominoCafe,P100_DWD_audit,DWD,dwd_p100_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：unique_id×log_date。业务事件唯一性待验证。,"[""ludocafe_ods.spin_recommendation_request_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `unique_id`,
+  `log_date`,
+  `request_id`,
+  `user_id`,
+  `game_id`,
+  `bet_amount`,
+  `trigger_reason`,
+  `request_send_ts_ms`,
+  `session_id`,
+  `machine_segment_id`,
+  `sequence_position_before`,
+  `request_payload_json`
+FROM `ludocafe_ods`.`spin_recommendation_request_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+100,DominoCafe,P100_DWD_login,DWD,dwd_p100_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""ludocafe_ods.app_login_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `id`,
+  `log_date`,
+  `platform_id`,
+  `agent_id`,
+  `mac`,
+  `login_ip`,
+  `login_type`,
+  `money`,
+  `os_name`,
+  `net_info`,
+  `high_version`,
+  `low_version`,
+  `gaid`,
+  `vip_exp`,
+  `device_unique_id`,
+  `unique_id`
+FROM `ludocafe_ods`.`app_login_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+100,DominoCafe,P100_DWD_operation,DWD,dwd_p100_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：unique_id×log_date。业务事件唯一性待验证。,"[""ludocafe_ods.user_activity_common_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `unique_id`,
+  `log_date`,
+  `user_id`,
+  `activity_id`,
+  `period`,
+  `extra_param`
+FROM `ludocafe_ods`.`user_activity_common_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+100,DominoCafe,P100_DWS_login,DWS,dws_p100_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""ludocafe_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `ludocafe_ods`.`app_login_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+100,DominoCafe,P100_DWS_payment,DWS,dws_p100_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""ludocafe_ods.pook_infull""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `ludocafe_ods`.`pook_infull`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+103,捕鱼达人千炮版3D,P103_DWD_login,DWD,dwd_p103_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：all_id×user_id×login_date。业务事件唯一性待验证。,"[""byqp_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `all_id`,
+  `user_id`,
+  `login_date`,
+  `agent_id`,
+  `mac`,
+  `login_ip`,
+  `login_type`,
+  `game_id`,
+  `money`,
+  `second_money`,
+  `lottery_num`,
+  `golden_gun_seat`,
+  `silver_gun_seat`,
+  `white_gold_gun_seat`,
+  `version`,
+  `net_info`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `phone_name`,
+  `bank_money`,
+  `bank_silver_gun_seat`,
+  `bank_golden_gun_seat`,
+  `bank_white_gold_gun_seat`,
+  `port`
+FROM `byqp_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+103,捕鱼达人千炮版3D,P103_DWD_game,DWD,dwd_p103_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×user_id×log_date。业务事件唯一性待验证。,"[""byqp_ods.game_money_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `log_date`,
+  `agent_id`,
+  `room_id`,
+  `server_id`,
+  `log_type`,
+  `shot_num`,
+  `fish_num`,
+  `money_begin`,
+  `money_add`,
+  `money_use`,
+  `money_end`,
+  `force_lib_begin`,
+  `force_lib_add`,
+  `force_lib_use`,
+  `force_lib_end`,
+  `contri_lib_begin`,
+  `contri_lib_end`,
+  `boxcontri_lib_begin`,
+  `boxcontri_lib_end`,
+  `target_lib_begin`,
+  `target_lib_end`,
+  `target_lib_target`,
+  `fox_lib_begin`,
+  `fox_lib_end`,
+  `fox_lib_target`,
+  `lion_lib_begin`,
+  `lion_lib_end`,
+  `lion_lib_add`,
+  `lion_lib_use`,
+  `target_bak_lib_begin`,
+  `target_bak_lib_end`,
+  `money_rate`,
+  `boss_lib_add`,
+  `boss_lib_use`,
+  `boss_lib_end`,
+  `fish_add_money`,
+  `prop_eq_money`,
+  `shot_dec_money`
+FROM `byqp_ods`.`game_money_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+103,捕鱼达人千炮版3D,P103_DWD_payment,DWD,dwd_p103_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：order_no。业务事件唯一性待验证。,"[""byqp_ods.view_infull_order""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `order_no`,
+  `infull_type`,
+  `infull_platform`,
+  `infull_amount`,
+  `infull_state`,
+  `infull_date`,
+  `success_date`,
+  `center_order_no`,
+  `user_id`,
+  `user_name`,
+  `notify_check`,
+  `client_ip`,
+  `cpparam`,
+  `client_version`,
+  `product_name`,
+  `agent_id`,
+  `client_mac`,
+  `client_imsi`,
+  `mark_info`,
+  `user_data`,
+  `refund_date`,
+  `infull_count`
+FROM `byqp_ods`.`view_infull_order`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+103,捕鱼达人千炮版3D,P103_DWD_audit,DWD,dwd_p103_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""byqp_ods.fish_behavior_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `log_date`,
+  `server_id`,
+  `room_id`,
+  `fish_id`,
+  `create_source`,
+  `track_id`,
+  `exit_type`,
+  `exist_seconds`,
+  `shot_num`,
+  `fish_life`,
+  `kill_value`,
+  `kill_bet`,
+  `kill_user_id`,
+  `freeze_seconds`,
+  `create_bullet`,
+  `kill_user_max_bet`,
+  `kill_user_money`,
+  `shot_money`,
+  `real_eat_shot_level`,
+  `ctrl_eat_shot_level`,
+  `generate_id`,
+  `table_id`,
+  `create_time`
+FROM `byqp_ods`.`fish_behavior_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+103,捕鱼达人千炮版3D,P103_DWS_login,DWS,dws_p103_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqp_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `byqp_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+103,捕鱼达人千炮版3D,P103_DWS_payment,DWS,dws_p103_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqp_ods.view_infull_order""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `byqp_ods`.`view_infull_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+137,新仙魔3D,P137_DWD_login,DWD,dwd_p137_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""xianmo_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `all_id`,
+  `user_name`,
+  `nick_name`,
+  `mac`,
+  `net_info`,
+  `login_ip`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `version_num`,
+  `agent_id`,
+  `phone_name`,
+  `game_id`,
+  `login_date`,
+  `money`,
+  `diamond`,
+  `login_port`,
+  `res_version`,
+  `REG_AGENT_ID`,
+  `MACV1`,
+  `boke_id`,
+  `city`,
+  `region`,
+  `country`,
+  `isp`,
+  `android_id`,
+  `oaid`,
+  `idfv`,
+  `idfa`,
+  `c_session_id`,
+  `miss_open`,
+  `finger_print_id`
+FROM `xianmo_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+137,新仙魔3D,P137_DWD_operation,DWD,dwd_p137_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""xianmo_ods.fish_activity_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fal_id`,
+  `user_id`,
+  `nick_name`,
+  `award_type`,
+  `award_num`,
+  `before_money`,
+  `before_diamond`,
+  `before_coin`,
+  `coin_used`,
+  `log_date`,
+  `before_award_num`,
+  `agent_id`
+FROM `xianmo_ods`.`fish_activity_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+137,新仙魔3D,P137_DWD_asset,DWD,dwd_p137_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""xianmo_ods.fish_prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `fpl_id`,
+  `user_id`,
+  `prop_id`,
+  `after_prop_num`,
+  `add_prop_num`,
+  `type`,
+  `log_date`,
+  `after_money`,
+  `after_diamond`,
+  `agent_id`,
+  `server_id`,
+  `room_type_id`,
+  `remark`,
+  `after_bank_prop`
+FROM `xianmo_ods`.`fish_prop_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+137,新仙魔3D,P137_DWS_login,DWS,dws_p137_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""xianmo_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `xianmo_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+137,新仙魔3D,P137_DWS_asset,DWS,dws_p137_asset_user_1d,道具变动记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""xianmo_ods.fish_prop_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `xianmo_ods`.`fish_prop_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+146,MJ,P146_DWD_login,DWD,dwd_p146_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：id×login_date。业务事件唯一性待验证。,"[""hsmj_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `login_date`,
+  `user_id`,
+  `user_name`,
+  `nick_name`,
+  `mac`,
+  `net_info`,
+  `login_ip`,
+  `os_name`,
+  `os_version`,
+  `screen_info`,
+  `version_num`,
+  `agent_id`,
+  `phone_name`,
+  `login_type`,
+  `login_money`,
+  `login_exp`,
+  `latitude`,
+  `longitude`,
+  `location`,
+  `login_vip`,
+  `enter_flag`,
+  `total_login_days`,
+  `total_broken_days`,
+  `leave_day`
+FROM `hsmj_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+146,MJ,P146_DWD_audit,DWD,dwd_p146_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""hsmj_ods.lobby_event_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `log_date`,
+  `user_id`,
+  `agent_id`,
+  `version`,
+  `event_pos`,
+  `event_type`,
+  `event_detail`,
+  `now_level`,
+  `now_money`,
+  `now_vip`,
+  `his_gem`,
+  `curr_gem`,
+  `server_id`,
+  `day_balance`,
+  `total_balance`,
+  `day_play_money`,
+  `total_play_money`,
+  `day_infull`,
+  `total_infull`,
+  `total_online_time`,
+  `total_play_count`,
+  `game_id`,
+  `silver_ticket`,
+  `gold_ticket`,
+  `mac_id`
+FROM `hsmj_ods`.`lobby_event_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+146,MJ,P146_DWS_login,DWS,dws_p146_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""hsmj_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `hsmj_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+159,跃动小子,P159_DWD_payment,DWD,dwd_p159_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：dbid×order_num×log_date。业务事件唯一性待验证。,"[""ydxz_ods.recharge_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `dbid`,
+  `order_num`,
+  `center_order_num`,
+  `user_id`,
+  `server_id`,
+  `role_id`,
+  `status`,
+  `client_ip`,
+  `mac`,
+  `agent_id`,
+  `channel_id`,
+  `product_id`,
+  `product_name`,
+  `pay_amount`,
+  `money_type`,
+  `log_date`,
+  `pay_type`
+FROM `ydxz_ods`.`recharge_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+159,跃动小子,P159_DWD_login,DWD,dwd_p159_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：dbid×login_date。业务事件唯一性待验证。,"[""ydxz_ods.app_login_log""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `dbid`,
+  `user_id`,
+  `agent_id`,
+  `version_num`,
+  `login_ip`,
+  `login_date`,
+  `mac`,
+  `os_name`,
+  `lang`,
+  `area`,
+  `device_name`,
+  `host_info`
+FROM `ydxz_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+159,跃动小子,P159_DWS_login,DWS,dws_p159_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""ydxz_ods.app_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `ydxz_ods`.`app_login_log`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+159,跃动小子,P159_DWS_payment,DWS,dws_p159_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""ydxz_ods.recharge_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `ydxz_ods`.`recharge_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+174,BossDomino,P174_DWD_game,DWD,dwd_p174_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""boss_domino_ods.user_slot_game_log_realtime""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `agent_id`,
+  `game_id`,
+  `server_id`,
+  `game_type`,
+  `control_type`,
+  `bet_money`,
+  `win_money`,
+  `begin_money`,
+  `end_money`,
+  `begin_credit`,
+  `end_credit`,
+  `match_ui_info`,
+  `match_result`,
+  `buff0`,
+  `buff1`,
+  `buff2`,
+  `buff3`,
+  `buff4`,
+  `buff5`,
+  `now_exp`,
+  `buff6`,
+  `buff7`,
+  `buff8`,
+  `buff9`,
+  `buff10`,
+  `log_date`,
+  `json_log`
+FROM `boss_domino_ods`.`user_slot_game_log_realtime`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+174,BossDomino,P174_DWD_payment,DWD,dwd_p174_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：order_no×infull_date。业务事件唯一性待验证。,"[""boss_domino_ods.infull_order""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `order_no`,
+  `infull_type`,
+  `infull_platform`,
+  `infull_amount`,
+  `infull_state`,
+  `infull_date`,
+  `success_date`,
+  `third_order_no`,
+  `user_id`,
+  `user_name`,
+  `notify_check`,
+  `client_ip`,
+  `mac`,
+  `game_id`,
+  `item_id`,
+  `item_amt`,
+  `coupon_fee`,
+  `agent_id`,
+  `money`,
+  `last_room_name`,
+  `buy_num`,
+  `account_id`,
+  `order_type`,
+  `client_version`,
+  `price`,
+  `extra_num`,
+  `cost_key`,
+  `error_msg`,
+  `other_third_order_no`,
+  `play_server_id`,
+  `play_game_id`,
+  `country`,
+  `local_price`,
+  `device_id`,
+  `region_code`,
+  `buyer_country`,
+  `buyer_currencycode`,
+  `buyer_postcode`,
+  `buyer_infullamount`
+FROM `boss_domino_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+174,BossDomino,P174_DWD_login,DWD,boss_domino_dwd.dwd_login_record,登录记录标准明细,复用现有,P1,保留源行粒度；采集键：auto_id×login_date。业务事件唯一性待验证。,"[""boss_domino_dwd.dwd_login_record""]",login_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `auto_id`,
+  `user_id`,
+  `login_date`,
+  `max_version`
+FROM `boss_domino_dwd`.`dwd_login_record`
+WHERE `login_date` >= '${start_date}'
+  AND `login_date` < '${end_date}';"
+174,BossDomino,P174_DWD_asset,DWD,dwd_p174_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""boss_domino_ods.prop_log_view""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `game_num`,
+  `user_id`,
+  `game_id`,
+  `server_id`,
+  `prop_id`,
+  `before_prop_num`,
+  `prop_num`,
+  `agent_id`,
+  `data_type`,
+  `log_date`,
+  `detail_des`,
+  `ju_id`
+FROM `boss_domino_ods`.`prop_log_view`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+174,BossDomino,P174_DWD_audit,DWD,dwd_p174_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：未采集到。业务事件唯一性待验证。,"[""boss_domino_ods.behavior_log_view""]",first_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `flag_id`,
+  `state`,
+  `first_date`,
+  `last_date`,
+  `data_type`,
+  `tmp_a`,
+  `tmp_b`,
+  `tmp_c`,
+  `tmp_d`,
+  `game_id`,
+  `client_version`,
+  `agent_id`,
+  `client_ip`
+FROM `boss_domino_ods`.`behavior_log_view`
+WHERE `first_date` >= '${start_date}'
+  AND `first_date` < '${end_date}';"
+174,BossDomino,P174_DWS_login,DWS,dws_p174_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""boss_domino_dwd.dwd_login_record""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `boss_domino_dwd`.`dwd_login_record`
+WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`login_date`), `user_id`;"
+174,BossDomino,P174_DWS_payment,DWS,dws_p174_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""boss_domino_ods.infull_order""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `boss_domino_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+177,MergeRestyle,P177_DWD_asset,DWD,dwd_p177_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：user_id×log_date。业务事件唯一性待验证。,"[""merge_ods.prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `user_id`,
+  `log_date`,
+  `add_prop_num`,
+  `after_prop_num`,
+  `server_id`,
+  `agent_id`,
+  `log_type`,
+  `prop_id`,
+  `bts`,
+  `ets`
+FROM `merge_ods`.`prop_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+177,MergeRestyle,P177_DWD_audit,DWD,dwd_p177_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：log_id×log_date。业务事件唯一性待验证。,"[""merge_ods.client_event_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `log_id`,
+  `log_date`,
+  `user_id`,
+  `platform`,
+  `res_version`,
+  `media_source`,
+  `agent_id`,
+  `country_code`,
+  `event_id`,
+  `event_data`
+FROM `merge_ods`.`client_event_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+177,MergeRestyle,P177_DWS_asset,DWS,dws_p177_asset_user_1d,道具变动记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""merge_ods.prop_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `merge_ods`.`prop_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
+267,BigBossSlot,P267_DWD_audit,DWD,dwd_p267_audit_event_di,源审计行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id×server_time。业务事件唯一性待验证。,"[""bbs_ods.behavior_log""]",event_time（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `server_time`,
+  `event_time`,
+  `device_id`,
+  `user_id`,
+  `ip`,
+  `country_code`,
+  `sys_language`,
+  `app_version`,
+  `platform`,
+  `os_version`,
+  `agent_id`,
+  `device_model`,
+  `device_resolution`,
+  `device_ram`,
+  `device_disk`,
+  `fps`,
+  `app_runtime`,
+  `game_id`,
+  `level`,
+  `coins`,
+  `event_name`,
+  `temp_a`,
+  `temp_b`,
+  `temp_c`,
+  `temp_d`,
+  `temp_e`,
+  `vip_level`,
+  `maximum_paid`,
+  `lifetime_spend`,
+  `event_index`,
+  `res_version`,
+  `session_id`,
+  `ab_test_tag`
+FROM `bbs_ods`.`behavior_log`
+WHERE `event_time` >= '${start_date}'
+  AND `event_time` < '${end_date}';"
+267,BigBossSlot,P267_DWD_game,DWD,dwd_p267_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：log_id×log_date×user_id。业务事件唯一性待验证。,"[""bbs_ods.user_slot_game_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `log_id`,
+  `log_date`,
+  `user_id`,
+  `agent_id`,
+  `game_id`,
+  `server_id`,
+  `game_type`,
+  `control_type`,
+  `bet_money`,
+  `win_money`,
+  `begin_money`,
+  `end_money`,
+  `match_ui_info`,
+  `match_result`,
+  `now_level`,
+  `vip_level`,
+  `level_exp`,
+  `vip_point`,
+  `level_ratio`,
+  `vip_ratio`,
+  `special_ratio`,
+  `big_award_type`,
+  `sum_win_mutiple`,
+  `buff0`,
+  `buff1`,
+  `buff2`,
+  `buff3`,
+  `buff4`,
+  `buff5`,
+  `buff6`,
+  `buff7`,
+  `buff8`,
+  `buff9`,
+  `buff10`,
+  `buff11`,
+  `buff12`,
+  `buff13`,
+  `buff14`,
+  `buff15`,
+  `buff16`,
+  `buff17`,
+  `buff18`,
+  `buff19`,
+  `buff20`,
+  `level_up_award_money`,
+  `level_up_award_vip_point`,
+  `bet_index`,
+  `display_bet`,
+  `parent_game_id`,
+  `spin_times`,
+  `machine_luck_value`,
+  `dollar_base_coin`,
+  `store_coin_multi`,
+  `level_coin_multi`,
+  `avg_bet`,
+  `design_rtp_id`,
+  `real_rtp_id`,
+  `delta_rtp_used_list`,
+  `spe_game_kind`,
+  `seed_id`,
+  `seed_interval_id`,
+  `seed_version`,
+  `machine_theme_type`,
+  `machine_art_style`,
+  `jackpot_list`,
+  `jackpot_win_list`,
+  `buff_prop_use_list`,
+  `seed_play_game`,
+  `all_spin_times`,
+  `sum_round_win`,
+  `wish_list`
+FROM `bbs_ods`.`user_slot_game_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+267,BigBossSlot,P267_DWD_asset,DWD,dwd_p267_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：log_id×log_date。业务事件唯一性待验证。,"[""bbs_ods.user_prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `log_id`,
+  `log_date`,
+  `log_type`,
+  `user_id`,
+  `prop_id`,
+  `prop_num`,
+  `begin_prop_num`,
+  `end_prop_num`,
+  `agent_id`,
+  `game_id`,
+  `server_id`,
+  `now_level`,
+  `vip_level`,
+  `is_levelup`,
+  `extra_info`,
+  `order_id`,
+  `parent_game_id`
+FROM `bbs_ods`.`user_prop_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+267,BigBossSlot,P267_DWD_payment,DWD,dwd_p267_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：order_no。业务事件唯一性待验证。,"[""bbs_ods.infull_order""]",success_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `order_no`,
+  `order_state`,
+  `user_id`,
+  `now_level`,
+  `vip_level`,
+  `center_order_no`,
+  `third_order_no`,
+  `infull_type`,
+  `amount`,
+  `purchase_id`,
+  `sku`,
+  `add_prop`,
+  `error_msg`,
+  `order_date`,
+  `success_date`,
+  `game_id`,
+  `user_coupon_id`,
+  `flag`,
+  `if_sandbox`,
+  `agent_id`
+FROM `bbs_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}'
+  AND `success_date` < '${end_date}';"
+267,BigBossSlot,P267_DWD_login,DWD,dwd_p267_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：id×user_id×log_date。业务事件唯一性待验证。,"[""bbs_ods.user_login_log""]",reg_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `log_date`,
+  `money`,
+  `diamond`,
+  `agent_id`,
+  `platform`,
+  `mac`,
+  `device_id`,
+  `ip`,
+  `login_type`,
+  `version_num`,
+  `system_version`,
+  `country`,
+  `device_os`,
+  `device_model`,
+  `is_new_user`,
+  `reg_days`,
+  `total_infull_amt`,
+  `gender_type`,
+  `vip_point`,
+  `reg_date`
+FROM `bbs_ods`.`user_login_log`
+WHERE `reg_date` >= '${start_date}'
+  AND `reg_date` < '${end_date}';"
+267,BigBossSlot,P267_DWD_operation,DWD,dwd_p267_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id。业务事件唯一性待验证。,"[""bbs_ods.user_task_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `user_id`,
+  `task_id`,
+  `config_id`,
+  `function_type`,
+  `task_type`,
+  `progress`,
+  `task_target`,
+  `stage`,
+  `state`,
+  `log_date`,
+  `game_id`,
+  `task_position`
+FROM `bbs_ods`.`user_task_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+267,BigBossSlot,P267_DWS_login,DWS,dws_p267_login_user_1d,登录记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bbs_ods.user_login_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`reg_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bbs_ods`.`user_login_log`
+WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`reg_date`), `user_id`;"
+267,BigBossSlot,P267_DWS_payment,DWS,dws_p267_payment_user_1d,支付订单记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""bbs_ods.infull_order""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `bbs_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`success_date`), `user_id`;"
+279,线上比赛,P279_DWD_game,DWD,dwd_p279_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×log_date。业务事件唯一性待验证。,"[""xsbs_ods.tms_game_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+  `id`,
+  `log_date`,
+  `user_id`,
+  `product_id`,
+  `player_type`,
+  `agent_id`,
+  `game_id`,
+  `tour_info`,
+  `agent_info`,
+  `game_info`,
+  `stage`,
+  `bout_id`,
+  `deck_id`,
+  `base_point`,
+  `begin_point`,
+  `end_point`,
+  `rank_num`,
+  `carry_val`,
+  `change_type`,
+  `change_propid`,
+  `change_num`,
+  `now_exp`,
+  `disconnect_num`,
+  `tuoguan_num`,
+  `game_time`,
+  `control_type`,
+  `all_name`,
+  `all_point`,
+  `num_1`,
+  `num_2`,
+  `num_3`,
+  `num_4`,
+  `num_5`,
+  `num_6`,
+  `num_7`,
+  `num_8`,
+  `num_9`,
+  `num_10`,
+  `temp_a`,
+  `temp_b`,
+  `temp_c`,
+  `temp_d`,
+  `temp_e`,
+  `game_num`,
+  `trace_id`,
+  `source_type`
+FROM `xsbs_ods`.`tms_game_log`
+WHERE `log_date` >= '${start_date}'
+  AND `log_date` < '${end_date}';"
+279,线上比赛,P279_DWS_game,DWS,dws_p279_game_user_1d,游戏行为记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""xsbs_ods.tms_game_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+       COUNT(*) AS source_record_cnt
+FROM `xsbs_ods`.`tms_game_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+  AND `user_id` IS NOT NULL
+GROUP BY DATE(`log_date`), `user_id`;"
