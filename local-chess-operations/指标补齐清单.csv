@@ -1,0 +1,605 @@
+﻿section,name,kind,source,path,value_field,aggregation,grain,unit,comparison,status,risk,sql
+注册,好友房｜当日新增设备（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日新增设备'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日新增设备'
+GROUP BY dt, pid, agent_id;"
+注册,好友房｜当日新增设备且登录（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日新增设备且登录'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日新增设备且登录'
+GROUP BY dt, pid, agent_id;"
+注册,好友房｜当日注册帐号（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日注册帐号'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日注册帐号'
+GROUP BY dt, pid, agent_id;"
+注册,好友房｜当日注册并游戏人数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日注册并游戏人数'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日注册并游戏人数'
+GROUP BY dt, pid, agent_id;"
+注册,好友房｜总注册用户数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['总注册用户数'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '总注册用户数'
+GROUP BY dt, pid, agent_id;"
+注册,好友房｜新设备注册账号数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['新设备注册账号数'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '新设备注册账号数'
+GROUP BY dt, pid, agent_id;"
+注册,好友房｜设备转换率（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['设备转换率'],index_num,SUM,统计日 × 包pid × 渠道agent_id,比例（0–1）,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '设备转换率'
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日活跃设备（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日活跃设备'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日活跃设备'
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日活跃账号（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日活跃账号'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日活跃账号'
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日登录用户数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日登录用户数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日登录用户数'
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日高峰在线（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日高峰在线'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日高峰在线'
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜月活跃用户（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['月活跃用户'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '月活跃用户'
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日代理处购买活跃账号（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日活跃账号', '当日代理处购买活跃账号', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日活跃账号'
+  AND index_name2 = '当日代理处购买活跃账号'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日免费活跃账号（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日活跃账号', '当日免费活跃账号', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日活跃账号'
+  AND index_name2 = '当日免费活跃账号'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日去新活跃（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日活跃账号', '当日去新活跃', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日活跃账号'
+  AND index_name2 = '当日去新活跃'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日官网充值活跃账号（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日活跃账号', '当日官网充值活跃账号', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日活跃账号'
+  AND index_name2 = '当日官网充值活跃账号'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜当日活跃代理（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日活跃账号', '当日活跃代理', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日活跃账号'
+  AND index_name2 = '当日活跃代理'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜IOS登录用户数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日登录用户数', 'IOS登录用户数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日登录用户数'
+  AND index_name2 = 'IOS登录用户数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+活跃,好友房｜安卓登录用户数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日登录用户数', '安卓登录用户数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日登录用户数'
+  AND index_name2 = '安卓登录用户数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜游戏七日留存（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['游戏七日留存'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '游戏七日留存'
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜游戏三十日留存（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['游戏三十日留存'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '游戏三十日留存'
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜游戏三日留存（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['游戏三日留存'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '游戏三日留存'
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜游戏次日留存（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['游戏次日留存'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '游戏次日留存'
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜设备次日留存（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['设备次日留存'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '设备次日留存'
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜账号次日留存（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['账号次日留存'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '账号次日留存'
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜设备七日留存（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['设备次日留存', '设备七日留存', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '设备次日留存'
+  AND index_name2 = '设备七日留存'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜设备三十日留存（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['设备次日留存', '设备三十日留存', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '设备次日留存'
+  AND index_name2 = '设备三十日留存'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜设备三日留存（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['设备次日留存', '设备三日留存', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '设备次日留存'
+  AND index_name2 = '设备三日留存'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜账号七日留存（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['账号次日留存', '账号七日留存', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '账号次日留存'
+  AND index_name2 = '账号七日留存'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜账号三十日留存（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['账号次日留存', '账号三十日留存', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '账号次日留存'
+  AND index_name2 = '账号三十日留存'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+留存,好友房｜账号三日留存（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['账号次日留存', '账号三日留存', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,比例（0–1）,现有登录日分群回访指标与本报表留存的分群定义不同，不能直接替代。,待补录／对账,按日期、包、渠道保存的预计算比例；跨日期、包、渠道均不可直接求和或平均。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '账号次日留存'
+  AND index_name2 = '账号三日留存'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜代理充值金额(元)（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['代理充值金额(元)'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,元,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '代理充值金额(元)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜充值人数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['充值人数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '充值人数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜当日充值金额(元)（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['当日充值金额(元)', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,元,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日充值金额(元)'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜玩家充值人数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['玩家充值人数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值人数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜玩家充值金额(元)（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['玩家充值金额(元)'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,元,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜一代充值金额（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['代理充值金额(元)', '一代充值金额', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '代理充值金额(元)'
+  AND index_name2 = '一代充值金额'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜代理购卡人数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['代理充值金额(元)', '代理购卡人数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '代理充值金额(元)'
+  AND index_name2 = '代理购卡人数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios付费arpu(房卡)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios付费arpu(房卡)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios付费arpu(房卡)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios付费arpu(钻石)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios付费arpu(钻石)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios付费arpu(钻石)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios充值人数(房卡)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios充值人数(房卡)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios充值人数(房卡)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios充值人数(钻石)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios充值人数(钻石)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios充值人数(钻石)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios充值人数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios充值人数']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios充值人数'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios充值金额(房卡)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios充值金额(房卡)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios充值金额(房卡)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios充值金额(钻石)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios充值金额(钻石)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios充值金额(钻石)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios充值金额(非卡非钻)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios', 'ios充值金额(非卡非钻)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+  AND index_name3 = 'ios充值金额(非卡非钻)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜ios玩家充值金额(元)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', 'ios']",index_num3,MAX,统计日 × 包pid × 渠道agent_id,元,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num3) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = 'ios'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜公众号充值人数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '公众号', '公众号充值人数']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '公众号'
+  AND index_name3 = '公众号充值人数'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜公众号充值金额(房卡)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '公众号', '公众号充值金额(房卡)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '公众号'
+  AND index_name3 = '公众号充值金额(房卡)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜公众号充值金额(金币)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '公众号', '公众号充值金额(金币)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '公众号'
+  AND index_name3 = '公众号充值金额(金币)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜公众号充值金额(钻石)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '公众号', '公众号充值金额(钻石)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '公众号'
+  AND index_name3 = '公众号充值金额(钻石)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜公众号玩家充值金额(元)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '公众号']",index_num3,MAX,统计日 × 包pid × 渠道agent_id,元,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num3) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '公众号'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓付费arpu(房卡)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓付费arpu(房卡)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓付费arpu(房卡)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓付费arpu(钻石)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓付费arpu(钻石)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓付费arpu(钻石)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓充值人数(房卡)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓充值人数(房卡)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓充值人数(房卡)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓充值人数(钻石)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓充值人数(钻石)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓充值人数(钻石)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓充值人数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓充值人数']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓充值人数'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓充值金额(房卡)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓充值金额(房卡)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓充值金额(房卡)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓充值金额(钻石)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓充值金额(钻石)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓充值金额(钻石)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓充值金额(非卡非钻)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓', '安卓充值金额(非卡非钻)']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+  AND index_name3 = '安卓充值金额(非卡非钻)'
+GROUP BY dt, pid, agent_id;"
+充值,好友房｜安卓玩家充值金额(元)（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['玩家充值金额(元)', '安卓']",index_num3,MAX,统计日 × 包pid × 渠道agent_id,元,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num3) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '玩家充值金额(元)'
+  AND index_name2 = '安卓'
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜7日活跃玩家房卡总量（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['7日活跃玩家房卡总量', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '7日活跃玩家房卡总量'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜当日发放房卡数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日发放房卡数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜当日房卡单价(元)（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['当日房卡单价(元)', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,元,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日房卡单价(元)'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜当日消耗房卡数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日消耗房卡数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗房卡数'
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜总发放房卡数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['总发放房卡数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '总发放房卡数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜总房卡单价(元)（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['总房卡单价(元)', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,元,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '总房卡单价(元)'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜总消耗房卡数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['总消耗房卡数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '总消耗房卡数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜房卡剩余总量（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['房卡剩余总量', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '房卡剩余总量'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜代理福利红包（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '代理福利红包', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '代理福利红包'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜充值额外赠送房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '充值额外赠送房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '充值额外赠送房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜其他来源发放房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '其他', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '其他'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜分享赠送房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '分享赠送房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '分享赠送房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜后台开分房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '后台开分房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '后台开分房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜当日充值房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '当日充值房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '当日充值房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜注册赠送房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '注册赠送房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '注册赠送房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜签到赠送房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '签到赠送房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '签到赠送房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜返利免费房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放房卡数', '返利免费房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放房卡数'
+  AND index_name2 = '返利免费房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜亲友圈消耗房卡数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗房卡数', '亲友圈消耗房卡数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗房卡数'
+  AND index_name2 = '亲友圈消耗房卡数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜代理赠送房卡消耗数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗房卡数', '代理赠送房卡消耗数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗房卡数'
+  AND index_name2 = '代理赠送房卡消耗数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜充值房卡消耗数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗房卡数', '充值房卡消耗数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗房卡数'
+  AND index_name2 = '充值房卡消耗数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+房卡,好友房｜免费房卡消耗数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗房卡数', '免费房卡消耗数', None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗房卡数'
+  AND index_name2 = '免费房卡消耗数'
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+代理,好友房｜当日代理售卡数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['当日代理售卡数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日代理售卡数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+代理,好友房｜当日审核通过代理数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['当日审核通过代理数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日审核通过代理数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+代理,好友房｜总代理数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['总代理数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '总代理数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+代理,好友房｜总售卡数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['总售卡数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '总售卡数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+代理,好友房｜总激活代理数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['总激活代理数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,累计值、库存或月活快照按指定日取值，跨日期不可相加。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '总激活代理数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+代理,好友房｜新增代理数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['新增代理数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '新增代理数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+代理,好友房｜激活代理数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,"['激活代理数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '激活代理数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+开房,好友房｜平均开房次数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['平均开房次数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '平均开房次数'
+GROUP BY dt, pid, agent_id;"
+开房,好友房｜当日开房人数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日开房人数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日开房人数'
+GROUP BY dt, pid, agent_id;"
+开房,好友房｜当日开房无效次数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日开房无效次数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日开房无效次数'
+GROUP BY dt, pid, agent_id;"
+开房,好友房｜当日开房有效次数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日开房有效次数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日开房有效次数'
+GROUP BY dt, pid, agent_id;"
+开房,好友房｜当日开房次数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日开房次数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日开房次数'
+GROUP BY dt, pid, agent_id;"
+开房,好友房｜当日消耗房卡开房参与人数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日消耗房卡开房参与人数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗房卡开房参与人数'
+GROUP BY dt, pid, agent_id;"
+开房,好友房｜当日消耗房卡开房次数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日消耗房卡开房次数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗房卡开房次数'
+GROUP BY dt, pid, agent_id;"
+游戏,好友房｜人均时长(分钟)（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['人均时长(分钟)'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,分钟,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '人均时长(分钟)'
+GROUP BY dt, pid, agent_id;"
+游戏,好友房｜单局游戏时长(秒)（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['单局游戏时长(秒)'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,秒,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '单局游戏时长(秒)'
+GROUP BY dt, pid, agent_id;"
+游戏,好友房｜平均局数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['平均局数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,人均、单局、单价、ARPU等已计算结果，跨日期应重算分子分母，不能直接加总。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '平均局数'
+GROUP BY dt, pid, agent_id;"
+游戏,好友房｜当日游戏人数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日游戏人数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日游戏人数'
+GROUP BY dt, pid, agent_id;"
+游戏,好友房｜当日游戏局数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日游戏局数'],index_num2,MAX,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, MAX(index_num2) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日游戏局数'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜当日发放钻石数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日发放钻石数'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放钻石数'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜当日消耗钻石数（运营总表）,主项,friend_ads.ads_total_target_rpt_di,['当日消耗钻石数'],index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜充值赠送发放钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放钻石数', '充值赠送']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,存在登录、注册、充值、对局等相近明细指标，需按去重、时间和范围对账后判断能否复用。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放钻石数'
+  AND index_name2 = '充值赠送'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜房卡兑换发放钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放钻石数', '房卡兑换']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放钻石数'
+  AND index_name2 = '房卡兑换'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜未命名来源发放钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日发放钻石数', None, None]",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日发放钻石数'
+  AND index_name2 IS NULL
+  AND index_name3 IS NULL
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜兑换互动表情消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '兑换互动表情']",index_num,SUM,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '兑换互动表情'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜兑换入场特效消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '兑换入场特效']",index_num,SUM,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '兑换入场特效'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜兑换头像框消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '兑换头像框']",index_num,SUM,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '兑换头像框'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜兑换对话框消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '兑换对话框']",index_num,SUM,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '兑换对话框'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜兑换点击效果消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '兑换点击效果']",index_num,SUM,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '兑换点击效果'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜兑换祈福道具消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '兑换祈福道具']",index_num,SUM,统计日 × 包pid × 渠道agent_id；支持玩法/道具维度明细,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。 可按玩法/道具名称展开；维度值不另算一项指标。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '兑换祈福道具'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜其他消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '其他消耗']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '其他消耗'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜求签消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '求签消耗']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '求签消耗'
+GROUP BY dt, pid, agent_id;"
+钻石,好友房｜补签消耗钻石数（运营总表）,细分,friend_ads.ads_total_target_rpt_di,"['当日消耗钻石数', '补签消耗']",index_num,SUM,统计日 × 包pid × 渠道agent_id,沿用报表单位,当前28项地方棋牌可用指标中未发现同一报表来源的直接登记项。,待补录／对账,保留日粒度。人数、设备数跨日期或跨渠道可能重复，不作为跨期去重人数。 pid=-1为全部包，agent_id=-1为全部渠道，汇总与明细不可混加。上游ETL的排除条件、分母及迟到修正规则未在报表SQL中给出。,"SELECT dt, pid, agent_id, SUM(index_num) AS metric_value
+FROM friend_ads.ads_total_target_rpt_di
+WHERE index_name1 = '当日消耗钻石数'
+  AND index_name2 = '补签消耗'
+GROUP BY dt, pid, agent_id;"
