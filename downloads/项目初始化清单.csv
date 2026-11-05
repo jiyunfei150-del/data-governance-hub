@@ -1,5 +1,5 @@
 ﻿id,name,priority,initialization,usage_count,table_count,noncold,cold,unknown,first_count,first_with_schema,first_schema_missing,available_metrics,review_metrics,model_dwd,model_dws,verified_registered_tables
-86,地方棋牌,已录入复核,已完成初始化草案，待业务审阅,148,357,88,60,209,36,36,0,23,35,9,2,36
+86,地方棋牌,已录入复核,已完成初始化草案，待业务审阅,148,357,88,60,209,36,36,0,28,35,9,2,36
 4,捕鱼游戏王,已录入复核,已完成初始化草案，待业务审阅,330,1273,125,205,943,45,45,0,61,10,5,2,82
 5,HiggsDomino-印尼,P1 核对首批,已完成初始化草案，待业务审阅,972,4640,382,590,3668,176,173,3,271,6,6,2,0
 103,捕鱼达人千炮版3D,P1 核对首批,已完成初始化草案，待业务审阅,317,1155,315,2,838,153,109,44,0,6,4,2,0
