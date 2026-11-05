@@ -13237,8 +13237,8 @@ ame_id 源端唯一）",ODS,高活跃,239,157,True,True,首批候选,公共域,�
 86,friend_ods.third_bind_info,第三方账号绑定,ODS,低活跃,2,0,True,False,非首批：7天=0或30天≤4,玩家域,账号绑定,未逐表核验,调用记录明确关联,False,friend_ods,10,4
 86,friend_ods.user_game_result_info_day,玩家当日及累计战绩状态,ODS,低活跃,2,2,True,False,非首批：7天=0或30天≤4,玩家域,玩家状态快照,未逐表核验,调用记录明确关联,False,friend_ods,17,17
 86,friend_ods.user_target_info_d,每日覆盖玩家画像,ODS,低活跃,2,1,True,False,非首批：7天=0或30天≤4,玩家域,玩家标签分层,未逐表核验,调用记录明确关联,False,friend_ods,10,0
-86,friend_ads.ads_bless_prop_rpt_di,祈福道具表,ADS,低活跃,1,1,True,False,非首批：7天=0或30天≤4,',',未逐表核验,调用记录明确关联,False,friend_ads,9,0
-86,friend_ads.ads_divinate_rpt_di,求签统计报表,ADS,低活跃,1,1,True,False,非首批：7天=0或30天≤4,',',未逐表核验,调用记录明确关联,False,friend_ads,23,0
+86,friend_ads.ads_bless_prop_rpt_di,祈福道具表,ADS,低活跃,1,1,True,False,非首批：7天=0或30天≤4,公共域,数据分析汇总,未逐表核验,调用记录明确关联,False,friend_ads,9,0
+86,friend_ads.ads_divinate_rpt_di,求签统计报表,ADS,低活跃,1,1,True,False,非首批：7天=0或30天≤4,公共域,数据分析汇总,未逐表核验,调用记录明确关联,False,friend_ads,23,0
 86,friend_ads.ads_gps_fenbu_report_di,玩家地理分布汇总,ADS,低活跃,1,0,True,False,非首批：7天=0或30天≤4,公共域,数据分析汇总,未逐表核验,调用记录明确关联,False,friend_ads,5,4
 86,friend_ads.ads_recall_invite_act_d,召回邀请活动日报,ADS,低活跃,1,1,True,False,非首批：7天=0或30天≤4,公共域,数据分析汇总,未逐表核验,调用记录明确关联,False,friend_ads,38,0
 86,friend_ods.act_task_log,活动任务生成完成日志,ODS,低活跃,1,0,True,False,非首批：7天=0或30天≤4,运营域,任务完成,未逐表核验,调用记录明确关联,False,friend_ods,8,0
