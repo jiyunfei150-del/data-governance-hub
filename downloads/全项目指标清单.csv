@@ -5527,6 +5527,250 @@ WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
 GROUP BY log_date;
 -- 示例：start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
 -- data_complete_before=2026-11-04 00:00:00表示此前数据已由调度验收完整；示例不证明真实完整性。","[""DWD06""]"
+86,地方棋牌,GC01,金币房｜登录账号数（日志覆盖）,gold_login_user_cnt,原子,gold_ods.app_login_log,玩家域,登录,已录入平台,按登录日统计登录日志中正数账号去重数；无登录成功状态，保留日志覆盖口径。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(login_date) AS dt, COUNT(DISTINCT user_id) AS metric_value
+FROM gold_ods.app_login_log
+WHERE login_date IS NOT NULL AND user_id > 0
+GROUP BY DATE(login_date);",[]
+86,地方棋牌,GC02,金币房｜登录日志记录条数,gold_login_record_cnt,原子,gold_ods.app_login_log,玩家域,登录,已录入平台,按登录日期统计采集记录数；不是去重玩家或独立登录会话数。,条,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(login_date) AS dt, COUNT(*) AS metric_value
+FROM gold_ods.app_login_log
+WHERE login_date IS NOT NULL
+GROUP BY DATE(login_date);",[]
+86,地方棋牌,GC03,金币房｜新增注册账号数（现存注册表）,gold_existing_registered_user_cnt,原子,gold_ods.user_reg_info,玩家域,注册,已录入平台,按注册日期统计当前注册表保留的正数账号；账号主键粒度，不保证包含已清理的全部历史注册。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(reg_date) AS dt, COUNT(DISTINCT user_id) AS metric_value
+FROM gold_ods.user_reg_info
+WHERE reg_date IS NOT NULL AND user_id > 0
+GROUP BY DATE(reg_date);",[]
+86,地方棋牌,GC04,金币房｜成功充值订单数,gold_success_pay_order_cnt,原子,gold_ods.infull_order,付费域,充值支付,已录入平台,order_status=1，成功时间非空；非空订单号取最新成功记录去重。仅主表，不合并infull_order_ss。,单,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH ranked_paid AS (
+  SELECT order_no,user_id,success_date,add_money_num,add_diamond_num,add_ticket_num,
+    ROW_NUMBER() OVER (PARTITION BY order_no ORDER BY success_date DESC,order_id DESC) AS rn
+  FROM gold_ods.infull_order
+  WHERE order_status=1 AND success_date IS NOT NULL
+    AND order_no IS NOT NULL AND TRIM(order_no)<>'' AND user_id>0
+), paid AS (SELECT * FROM ranked_paid WHERE rn=1)
+SELECT DATE(success_date) AS dt, COUNT(DISTINCT order_no) AS metric_value
+FROM paid
+GROUP BY DATE(success_date);",[]
+86,地方棋牌,GC05,金币房｜成功充值账号数,gold_success_pay_user_cnt,原子,gold_ods.infull_order,付费域,充值支付,已录入平台,按成功支付日统计主订单表去重正数账号；订单号先去重，不等同登录账号中的付费人数。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH ranked_paid AS (
+  SELECT order_no,user_id,success_date,add_money_num,add_diamond_num,add_ticket_num,
+    ROW_NUMBER() OVER (PARTITION BY order_no ORDER BY success_date DESC,order_id DESC) AS rn
+  FROM gold_ods.infull_order
+  WHERE order_status=1 AND success_date IS NOT NULL
+    AND order_no IS NOT NULL AND TRIM(order_no)<>'' AND user_id>0
+), paid AS (SELECT * FROM ranked_paid WHERE rn=1)
+SELECT DATE(success_date) AS dt, COUNT(DISTINCT user_id) AS metric_value
+FROM paid
+GROUP BY DATE(success_date);",[]
+86,地方棋牌,GC06,金币房｜成功充值增加金币数,gold_success_pay_coin_added,原子,gold_ods.infull_order,付费域,充值支付,已录入平台,按去重成功订单累计add_money_num；字段注释给出增加资产数量，不将其等同真实货币收入。,金币,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH ranked_paid AS (
+  SELECT order_no,user_id,success_date,add_money_num,add_diamond_num,add_ticket_num,
+    ROW_NUMBER() OVER (PARTITION BY order_no ORDER BY success_date DESC,order_id DESC) AS rn
+  FROM gold_ods.infull_order
+  WHERE order_status=1 AND success_date IS NOT NULL
+    AND order_no IS NOT NULL AND TRIM(order_no)<>'' AND user_id>0
+), paid AS (SELECT * FROM ranked_paid WHERE rn=1)
+SELECT DATE(success_date) AS dt, SUM(add_money_num) AS metric_value
+FROM paid
+GROUP BY DATE(success_date);",[]
+86,地方棋牌,GC07,金币房｜成功充值增加钻石数,gold_success_pay_diamond_added,原子,gold_ods.infull_order,付费域,充值支付,已录入平台,按去重成功订单累计add_diamond_num；字段注释给出增加资产数量，不将其等同真实货币收入。,钻石,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH ranked_paid AS (
+  SELECT order_no,user_id,success_date,add_money_num,add_diamond_num,add_ticket_num,
+    ROW_NUMBER() OVER (PARTITION BY order_no ORDER BY success_date DESC,order_id DESC) AS rn
+  FROM gold_ods.infull_order
+  WHERE order_status=1 AND success_date IS NOT NULL
+    AND order_no IS NOT NULL AND TRIM(order_no)<>'' AND user_id>0
+), paid AS (SELECT * FROM ranked_paid WHERE rn=1)
+SELECT DATE(success_date) AS dt, SUM(add_diamond_num) AS metric_value
+FROM paid
+GROUP BY DATE(success_date);",[]
+86,地方棋牌,GC08,金币房｜成功充值增加点券数,gold_success_pay_ticket_added,原子,gold_ods.infull_order,付费域,充值支付,已录入平台,按去重成功订单累计add_ticket_num；字段注释给出增加资产数量，不将其等同真实货币收入。,点券,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH ranked_paid AS (
+  SELECT order_no,user_id,success_date,add_money_num,add_diamond_num,add_ticket_num,
+    ROW_NUMBER() OVER (PARTITION BY order_no ORDER BY success_date DESC,order_id DESC) AS rn
+  FROM gold_ods.infull_order
+  WHERE order_status=1 AND success_date IS NOT NULL
+    AND order_no IS NOT NULL AND TRIM(order_no)<>'' AND user_id>0
+), paid AS (SELECT * FROM ranked_paid WHERE rn=1)
+SELECT DATE(success_date) AS dt, SUM(add_ticket_num) AS metric_value
+FROM paid
+GROUP BY DATE(success_date);",[]
+86,地方棋牌,GC09,金币房｜对局账号数（gold日志覆盖）,gold_game_log_user_cnt,原子,gold_ods.comm_game_log,游戏域,游戏结算,已录入平台,按对局日志日期去重账号；覆盖gold库日志，包含game_type=0随机和1朋友局，不自动把库归属等同纯随机局。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_time) AS dt, COUNT(DISTINCT user_id) AS metric_value
+FROM gold_ods.comm_game_log
+WHERE log_time IS NOT NULL AND user_id>0
+GROUP BY DATE(log_time);",[]
+86,地方棋牌,GC10,金币房｜对局日志记录条数,gold_game_log_record_cnt,原子,gold_ods.comm_game_log,游戏域,游戏结算,已录入平台,统计采集日志记录条数；局唯一键未验证，不能当作自然牌局数或玩家参与局次。,条,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_time) AS dt, COUNT(*) AS metric_value
+FROM gold_ods.comm_game_log
+WHERE log_time IS NOT NULL
+GROUP BY DATE(log_time);",[]
+86,地方棋牌,GC11,金币房｜行为事件账号数（日志覆盖）,gold_behavior_user_cnt,原子,gold_ods.behavior_log,公共域,行为明细,暂缓登记,通用行为事件覆盖账号数，按日去重；不能替代登录活跃或玩法参与账号数。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。friend与gold的behavior_log字段结构相同，平台来源下拉仅显示短表名，暂不能可靠区分；不盲选来源。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, COUNT(DISTINCT user_id) AS metric_value
+FROM gold_ods.behavior_log
+WHERE log_date IS NOT NULL AND user_id>0
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC12,金币房｜行为事件记录条数,gold_behavior_record_cnt,原子,gold_ods.behavior_log,公共域,行为明细,暂缓登记,统计所有event_id采集记录条数；具体事件含义依事件字典，不套用temp字段。,条,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。friend与gold的behavior_log字段结构相同，平台来源下拉仅显示短表名，暂不能可靠区分；不盲选来源。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, COUNT(*) AS metric_value
+FROM gold_ods.behavior_log
+WHERE log_date IS NOT NULL
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC13,金币房｜金币变动账号数,gold_asset_1_user_cnt,原子,gold_ods.user_money_log,经济域,金币流水,已录入平台,按prop_id=1限定金币，统计资产流水的变动账号数；不推断type码值或prop_num方向。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, COUNT(DISTINCT user_id) AS metric_value
+FROM gold_ods.user_money_log
+WHERE log_date IS NOT NULL AND prop_id=1 AND user_id>0
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC14,金币房｜金币变动记录条数,gold_asset_1_record_cnt,原子,gold_ods.user_money_log,经济域,金币流水,暂缓登记,按prop_id=1限定金币，统计资产流水的变动记录条数；不推断type码值或prop_num方向。,条,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, COUNT(*) AS metric_value
+FROM gold_ods.user_money_log
+WHERE log_date IS NOT NULL AND prop_id=1 AND user_id>0
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC15,金币房｜元宝变动账号数,gold_asset_2_user_cnt,原子,gold_ods.user_money_log,经济域,道具流水,暂缓登记,按prop_id=2限定元宝，统计资产流水的变动账号数；不推断type码值或prop_num方向。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, COUNT(DISTINCT user_id) AS metric_value
+FROM gold_ods.user_money_log
+WHERE log_date IS NOT NULL AND prop_id=2 AND user_id>0
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC16,金币房｜元宝变动记录条数,gold_asset_2_record_cnt,原子,gold_ods.user_money_log,经济域,道具流水,暂缓登记,按prop_id=2限定元宝，统计资产流水的变动记录条数；不推断type码值或prop_num方向。,条,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, COUNT(*) AS metric_value
+FROM gold_ods.user_money_log
+WHERE log_date IS NOT NULL AND prop_id=2 AND user_id>0
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC17,金币房｜当日登录且成功充值账号数,gold_logged_payer_cnt,原子,gold_ods.infull_order,付费域,充值支付,已录入平台,同一自然日同时有登录日志与成功订单的正数账号数；两侧先去重后按账号及日期相交，避免一对多放大。,个,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH ranked_paid AS (
+  SELECT order_no,user_id,success_date,add_money_num,add_diamond_num,add_ticket_num,
+    ROW_NUMBER() OVER (PARTITION BY order_no ORDER BY success_date DESC,order_id DESC) AS rn
+  FROM gold_ods.infull_order
+  WHERE order_status=1 AND success_date IS NOT NULL
+    AND order_no IS NOT NULL AND TRIM(order_no)<>'' AND user_id>0
+), paid AS (SELECT * FROM ranked_paid WHERE rn=1), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), payer_day AS (SELECT DISTINCT DATE(success_date) AS dt,user_id FROM paid)
+SELECT l.dt,COUNT(DISTINCT l.user_id) AS metric_value
+FROM login_day l INNER JOIN payer_day p ON l.dt=p.dt AND l.user_id=p.user_id
+GROUP BY l.dt;",[]
+86,地方棋牌,GC18,金币房｜注册第1日回访账号数（现存注册表）,gold_reg_login_retained_d1_cnt,原子,gold_ods.user_reg_info,玩家域,注册,已录入平台,以现存注册表的注册日为分群日，统计第1天有登录日志的账号；是注册分群，不是活跃账号分群。,个,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 1 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 1 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
+86,地方棋牌,GC19,金币房｜注册第3日回访账号数（现存注册表）,gold_reg_login_retained_d3_cnt,原子,gold_ods.user_reg_info,玩家域,注册,已录入平台,以现存注册表的注册日为分群日，统计第3天有登录日志的账号；是注册分群，不是活跃账号分群。,个,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 3 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 3 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
+86,地方棋牌,GC20,金币房｜注册第7日回访账号数（现存注册表）,gold_reg_login_retained_d7_cnt,原子,gold_ods.user_reg_info,玩家域,注册,已录入平台,以现存注册表的注册日为分群日，统计第7天有登录日志的账号；是注册分群，不是活跃账号分群。,个,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 7 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 7 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
+86,地方棋牌,GC21,金币房｜注册第30日回访账号数（现存注册表）,gold_reg_login_retained_d30_cnt,原子,gold_ods.user_reg_info,玩家域,注册,已录入平台,以现存注册表的注册日为分群日，统计第30天有登录日志的账号；是注册分群，不是活跃账号分群。,个,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,金币房定义已保存，所属项目地方棋牌已回读；SQL为本次提交逻辑，尚未完成新导出复核。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 30 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 30 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
+86,地方棋牌,GC22,金币房｜金币余额增加量（流水前后差）,gold_coin_balance_increase,原子,gold_ods.user_money_log,经济域,金币流水,暂缓登记,按金币流水前后余额的算术差累计余额增加量，不采用prop_num符号推断；包含转账、补偿等全部type，不等同经济系统产出/消耗。,金币,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, SUM(CASE WHEN end_num>begin_num THEN end_num-begin_num ELSE 0 END) AS metric_value
+FROM gold_ods.user_money_log
+WHERE log_date IS NOT NULL AND prop_id=1 AND begin_num IS NOT NULL AND end_num IS NOT NULL
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC23,金币房｜金币余额减少量（流水前后差）,gold_coin_balance_decrease,原子,gold_ods.user_money_log,经济域,金币流水,暂缓登记,按金币流水前后余额的算术差累计余额减少量，不采用prop_num符号推断；包含转账、补偿等全部type，不等同经济系统产出/消耗。,金币,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, SUM(CASE WHEN end_num<begin_num THEN begin_num-end_num ELSE 0 END) AS metric_value
+FROM gold_ods.user_money_log
+WHERE log_date IS NOT NULL AND prop_id=1 AND begin_num IS NOT NULL AND end_num IS NOT NULL
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC24,金币房｜金币余额净变化量（流水前后差）,gold_coin_balance_net_change,原子,gold_ods.user_money_log,经济域,金币流水,暂缓登记,按金币流水前后余额的算术差累计余额净变化量，不采用prop_num符号推断；包含转账、补偿等全部type，不等同经济系统产出/消耗。,金币,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"SELECT DATE(log_date) AS dt, SUM(end_num-begin_num) AS metric_value
+FROM gold_ods.user_money_log
+WHERE log_date IS NOT NULL AND prop_id=1 AND begin_num IS NOT NULL AND end_num IS NOT NULL
+GROUP BY DATE(log_date);",[]
+86,地方棋牌,GC25,金币房｜登录账号成功付费率,gold_logged_pay_rate,复合,gold_ods.infull_order,付费域,充值支付,暂缓登记,同日登录且成功充值账号数 / 同日登录日志覆盖账号数；只统计登录分母内账号。,比例（0–1）,按源表时间字段取自然日，业务时区和日志完整性需对账；不预设测试/维护账号排除条件；不跨天加总去重人数。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH ranked_paid AS (
+  SELECT order_no,user_id,success_date,add_money_num,add_diamond_num,add_ticket_num,
+    ROW_NUMBER() OVER (PARTITION BY order_no ORDER BY success_date DESC,order_id DESC) AS rn
+  FROM gold_ods.infull_order
+  WHERE order_status=1 AND success_date IS NOT NULL
+    AND order_no IS NOT NULL AND TRIM(order_no)<>'' AND user_id>0
+), paid AS (SELECT * FROM ranked_paid WHERE rn=1), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), payer_day AS (SELECT DISTINCT DATE(success_date) AS dt,user_id FROM paid)
+SELECT l.dt,COUNT(DISTINCT p.user_id)*1.0/NULLIF(COUNT(DISTINCT l.user_id),0) AS metric_value
+FROM login_day l LEFT JOIN payer_day p ON l.dt=p.dt AND l.user_id=p.user_id
+GROUP BY l.dt;",[]
+86,地方棋牌,GC26,金币房｜注册第1日登录留存率（现存注册表）,gold_reg_login_retention_d1_rate,复合,gold_ods.user_reg_info,玩家域,注册,暂缓登记,注册第1日回访账号数 / 同日现存注册账号数；只输出回访日早于观测水位的成熟分群。,比例（0–1）,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id)*1.0/NULLIF(COUNT(*),0) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 1 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 1 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
+86,地方棋牌,GC27,金币房｜注册第3日登录留存率（现存注册表）,gold_reg_login_retention_d3_rate,复合,gold_ods.user_reg_info,玩家域,注册,暂缓登记,注册第3日回访账号数 / 同日现存注册账号数；只输出回访日早于观测水位的成熟分群。,比例（0–1）,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id)*1.0/NULLIF(COUNT(*),0) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 3 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 3 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
+86,地方棋牌,GC28,金币房｜注册第7日登录留存率（现存注册表）,gold_reg_login_retention_d7_rate,复合,gold_ods.user_reg_info,玩家域,注册,暂缓登记,注册第7日回访账号数 / 同日现存注册账号数；只输出回访日早于观测水位的成熟分群。,比例（0–1）,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id)*1.0/NULLIF(COUNT(*),0) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 7 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 7 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
+86,地方棋牌,GC29,金币房｜注册第30日登录留存率（现存注册表）,gold_reg_login_retention_d30_rate,复合,gold_ods.user_reg_info,玩家域,注册,暂缓登记,注册第30日回访账号数 / 同日现存注册账号数；只输出回访日早于观测水位的成熟分群。,比例（0–1）,完整性保守水位取登录日志最大日期并排除该日及以后成熟队列；观测水位不等于ETL完整性承诺。注册表仅保留当前账号，历史清理会影响分母；NULL水位不输出。,已整理SQL与来源条件，未计入已录入。平台保存接口报错，未完成录入。,已核对来源字段和显式码值，SQL静态解析；未运行生产业务数据对账,"WITH registration_cohort AS (
+ SELECT DISTINCT DATE(reg_date) AS dt,user_id FROM gold_ods.user_reg_info
+ WHERE user_id>0 AND reg_date IS NOT NULL
+), login_day AS (
+ SELECT DISTINCT DATE(login_date) AS dt,user_id FROM gold_ods.app_login_log
+ WHERE user_id>0 AND login_date IS NOT NULL
+), watermark AS (
+ SELECT DATE(MAX(login_date)) AS data_complete_before FROM gold_ods.app_login_log
+)
+SELECT c.dt, COUNT(DISTINCT r.user_id)*1.0/NULLIF(COUNT(*),0) AS metric_value
+FROM registration_cohort c CROSS JOIN watermark w
+LEFT JOIN login_day r ON c.user_id=r.user_id AND r.dt=DATE_ADD(c.dt,INTERVAL 30 DAY)
+WHERE DATE_ADD(c.dt,INTERVAL 30 DAY)<w.data_complete_before
+GROUP BY c.dt;",[]
 91,灵画师-国内版,R91_login_users,登录记录覆盖账号数,p91_login_users,原子,lhs_ods.app_login_log,玩家域,登录,候选待审,按log_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `lhs_ods`.`app_login_log` WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' GROUP BY DATE(`log_date`);","[""R91_DWD_login"", ""R91_DWS_login""]"
 91,灵画师-国内版,R91_login_return_d1,登录账号第1日回访率,p91_login_return_d1,复合,lhs_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
  SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
