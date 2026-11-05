@@ -9,7 +9,7 @@ const fieldStatus=t=>t.dropped?badge('已删除','red'):t.has_schema?badge('已�
 const activity=t=>badge(t.level,({'高活跃':'green','中活跃':'blue','低活跃':'amber','冷':'grey','活性未知':'grey'})[t.level]);
 const projectName=p=>byPid[p]?.name||p;
 const shortValidation=v=>typeof v==='object'?[v.method,v.note,v.boundary].filter(Boolean).join('；'):v||'未执行验证';
-async function fetchJson(path){if(!cache.has(path))cache.set(path,fetch(path).then(r=>{if(!r.ok)throw Error(`读取失败 ${r.status}：${path}`);return r.json();}));return cache.get(path);}
+async function fetchJson(path){if(!cache.has(path))cache.set(path,fetch(path+(path.includes('?')?'&':'?')+'v='+encodeURIComponent(MANIFEST.revision||MANIFEST.stats.date)).then(r=>{if(!r.ok)throw Error(`读取失败 ${r.status}：${path}`);return r.json();}));return cache.get(path);}
 async function projectData(pid){return fetchJson(byPid[pid].data_file);}
 async function schemaFor(table){const db=table.split('.')[0],path=`data/schemas/${db}.json`;if(!schemaCache.has(db))schemaCache.set(db,fetchJson(path));return (await schemaCache.get(db))[table];}
 function renderSidebar(){const q=$('projectSearch').value.trim().toLowerCase(),ps=PROJECTS.filter(p=>(p.name+' '+p.id+' '+p.short).toLowerCase().includes(q));$('sideCount').textContent=`${ps.filter(p=>p.id!=='unassigned').length} / ${PROJECTS.length-1} 个项目 · 另列未归属目录`;$('projectNav').innerHTML=ps.map(p=>`<button class="project-item ${state.pid===p.id?'active':''}" data-pid="${esc(p.id)}"><span class="pid">${p.id==='unassigned'?'—':esc(p.id)}</span><span class="pname">${esc(p.name)}</span><span class="dot ${p.first_with_schema?'':'unknown'}" aria-label="${p.first_with_schema?'有首批表结构':'待补充'}"></span></button>`).join('');$('allProjects').classList.toggle('active',!state.pid);}
