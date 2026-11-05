@@ -1,64 +1,139 @@
 ﻿project_id,project_name,id,name,english,type,table,domain,process,status,definition,unit,risk,comparison,validation,sql,model_ids
-1,波克棋牌,I1_login_1,登录记录条数,p1_login_records,原子,bkqp_ods.login_logs,玩家域,登录,候选待审,按login_time自然日统计bkqp_ods.login_logs中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_time`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bkqp_ods`.`login_logs`
-WHERE `login_time` >= '${start_date}'
-  AND `login_time` < '${end_date}'
-GROUP BY DATE(`login_time`);","[""P1_DWD_login"", ""P1_DWS_login""]"
-1,波克棋牌,I1_login_2,登录记录覆盖账号数,p1_login_covered_users,原子,bkqp_ods.login_logs,玩家域,登录,候选待审,按login_time自然日统计bkqp_ods.login_logs中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_time`) AS stat_date,
+1,波克棋牌,R1_login_users,登录记录覆盖账号数,p1_login_users,原子,bkqp_dwd.dwd_login_log_detail_di,玩家域,登录,候选待审,按login_time自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_time`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `bkqp_dwd`.`dwd_login_log_detail_di` WHERE `login_time` >= '${start_date}' AND `login_time` < '${end_date}' GROUP BY DATE(`login_time`);","[""R1_DWD_login"", ""R1_DWS_login""]"
+1,波克棋牌,R1_login_return_d1,登录账号第1日回访率,p1_login_return_d1,复合,bkqp_dwd.dwd_login_log_detail_di,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_time`) AS d, `user_id` AS uid
+ FROM `bkqp_dwd`.`dwd_login_log_detail_di`
+ WHERE `login_time` >= '${start_date}'
+   AND `login_time` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_time` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R1_DWD_login"", ""R1_DWS_login""]"
+1,波克棋牌,R1_login_return_d7,登录账号第7日回访率,p1_login_return_d7,复合,bkqp_dwd.dwd_login_log_detail_di,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_time`) AS d, `user_id` AS uid
+ FROM `bkqp_dwd`.`dwd_login_log_detail_di`
+ WHERE `login_time` >= '${start_date}'
+   AND `login_time` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_time` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R1_DWD_login"", ""R1_DWS_login""]"
+1,波克棋牌,R1_registration_users,注册来源覆盖账号数,p1_registration_users,原子,bkqp_ods.user_reg_log,玩家域,注册,候选待审,按reg_date统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`reg_date`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bkqp_ods`.`login_logs`
-WHERE `login_time` >= '${start_date}'
-  AND `login_time` < '${end_date}'
-GROUP BY DATE(`login_time`);","[""P1_DWD_login"", ""P1_DWS_login""]"
-1,波克棋牌,I1_payment_1,支付订单记录条数,p1_payment_records,原子,bkqp_ods.view_pay_order_h,付费域,充值支付,候选待审,按success_date自然日统计bkqp_ods.view_pay_order_h中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bkqp_ods`.`view_pay_order_h`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P1_DWD_payment"", ""P1_DWS_payment""]"
-1,波克棋牌,I1_payment_2,支付订单记录覆盖账号数,p1_payment_covered_users,原子,bkqp_ods.view_pay_order_h,付费域,充值支付,候选待审,按success_date自然日统计bkqp_ods.view_pay_order_h中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bkqp_ods`.`view_pay_order_h`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P1_DWD_payment"", ""P1_DWS_payment""]"
-1,波克棋牌,I1_game_1,游戏行为记录条数,p1_game_records,原子,bkqp_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计bkqp_ods.fish_game_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bkqp_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P1_DWD_game""]"
-1,波克棋牌,I1_game_2,游戏行为记录覆盖账号数,p1_game_covered_users,原子,bkqp_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计bkqp_ods.fish_game_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bkqp_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P1_DWD_game""]"
-3,仙魔2D,I3_operation_1,运营行为记录条数,p3_operation_records,原子,bkby_ods.fish_activity_log,运营域,活动参与,候选待审,按log_date自然日统计bkby_ods.fish_activity_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bkby_ods`.`fish_activity_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P3_DWD_operation"", ""P3_DWS_operation""]"
-3,仙魔2D,I3_operation_2,运营行为记录覆盖账号数,p3_operation_covered_users,原子,bkby_ods.fish_activity_log,运营域,活动参与,候选待审,按log_date自然日统计bkby_ods.fish_activity_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bkby_ods`.`fish_activity_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P3_DWD_operation"", ""P3_DWS_operation""]"
-3,仙魔2D,I3_login_1,登录记录条数,p3_login_records,原子,bkby_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计bkby_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bkby_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P3_DWD_login"", ""P3_DWS_login""]"
-3,仙魔2D,I3_login_2,登录记录覆盖账号数,p3_login_covered_users,原子,bkby_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计bkby_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bkby_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P3_DWD_login"", ""P3_DWS_login""]"
+FROM `bkqp_ods`.`user_reg_log`
+WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}'
+GROUP BY DATE(`reg_date`);","[""R1_DWD_register""]"
+1,波克棋牌,R1_success_pay_users,源成功状态付费账号数,p1_success_pay_users,原子,bkqp_ods.fish_open_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选infull_date。,账号,成功条件 `state` = 1，依据：1成功，0失败；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`infull_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
+FROM `bkqp_ods`.`fish_open_order`
+WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`infull_date`);","[""R1_DWD_payment"", ""R1_DWS_payment""]"
+1,波克棋牌,R1_success_pay_amount,源成功状态充值金额,p1_success_pay_amount,原子,bkqp_ods.fish_open_order,付费域,充值支付,候选待审,按日累加成功状态记录的amount原值，不擅自除以100或折算货币。,原金额单位（待确认）,金额证据：金额；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`infull_date`) AS stat_date, SUM(`amount`) AS metric_value
+FROM `bkqp_ods`.`fish_open_order`
+WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`infull_date`);","[""R1_DWD_payment"", ""R1_DWS_payment""]"
+1,波克棋牌,R1_login_pay_rate,当日登录账号付费率,p1_login_pay_rate,复合,bkqp_dwd.dwd_login_log_detail_di,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_time`) AS d, `user_id` AS uid FROM `bkqp_dwd`.`dwd_login_log_detail_di`
+ WHERE `login_time` >= '${start_date}' AND `login_time` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`infull_date`) AS d, `user_id` AS uid FROM `bkqp_ods`.`fish_open_order`
+ WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R1_DWD_login"", ""R1_DWD_payment"", ""R1_DWS_login"", ""R1_DWS_payment""]"
+1,波克棋牌,R1_game_duration,游戏记录时长合计,p1_game_duration,原子,bkqp_dwd.dwd_game_play_log_di,游戏域,游戏行为,候选待审,累加game_time，原注释：游戏时长(秒)。,秒,须核对分段重复、免费局、结算重放、并发会话和有效时长范围。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_time`) AS stat_date,
+       SUM(`game_time`) AS metric_value
+FROM `bkqp_dwd`.`dwd_game_play_log_di`
+WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}'
+GROUP BY DATE(`log_time`);","[""R1_DWD_game""]"
+1,波克棋牌,R1_duration_per_game_user,游戏记录覆盖账号人均时长,p1_duration_per_game_user,复合,bkqp_dwd.dwd_game_play_log_di,游戏域,游戏行为,候选待审,同日非空账号对应的记录时长总和÷这些游戏记录的去重账号数；不除以登录DAU。,秒/账号,单位与合计相同；人均时长不可先算各渠道均值再平均。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_time`) AS stat_date,
+       1.0*SUM(CASE WHEN `user_id` IS NOT NULL THEN `game_time` END)/NULLIF(COUNT(DISTINCT `user_id`),0) AS metric_value
+FROM `bkqp_dwd`.`dwd_game_play_log_di`
+WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}'
+GROUP BY DATE(`log_time`);","[""R1_DWD_game""]"
+1,波克棋牌,R1_asset_delta,源资产变动净值,p1_asset_delta,原子,bkqp_ods.fish_prop_log,经济域,道具流水,候选待审,按日和prop_id累计add_prop_num原值，保留符号。,源数量单位,依据：变化的数量；需确认单位、重复、冲正和转移，不能自动拆成房卡生产/消耗。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, `prop_id`, SUM(`add_prop_num`) AS metric_value
+FROM `bkqp_ods`.`fish_prop_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`), `prop_id`;","[""R1_DWD_asset""]"
+3,仙魔2D,R3_login_users,登录记录覆盖账号数,p3_login_users,原子,bkby_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `bkby_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R3_DWD_login"", ""R3_DWS_login""]"
+3,仙魔2D,R3_login_return_d1,登录账号第1日回访率,p3_login_return_d1,复合,bkby_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `bkby_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R3_DWD_login"", ""R3_DWS_login""]"
+3,仙魔2D,R3_login_return_d7,登录账号第7日回访率,p3_login_return_d7,复合,bkby_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `bkby_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R3_DWD_login"", ""R3_DWS_login""]"
+3,仙魔2D,R3_success_pay_users,源成功状态付费账号数,p3_success_pay_users,原子,bkby_ods.fish_open_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选success_date。,账号,成功条件 `state` = 1，依据：1成功，0失败；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
+FROM `bkby_ods`.`fish_open_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`success_date`);","[""R3_DWD_payment"", ""R3_DWS_payment""]"
+3,仙魔2D,R3_success_pay_amount,源成功状态充值金额,p3_success_pay_amount,原子,bkby_ods.fish_open_order,付费域,充值支付,候选待审,按日累加成功状态记录的amount原值，不擅自除以100或折算货币。,原金额单位（待确认）,金额证据：金额；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, SUM(`amount`) AS metric_value
+FROM `bkby_ods`.`fish_open_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`success_date`);","[""R3_DWD_payment"", ""R3_DWS_payment""]"
+3,仙魔2D,R3_login_pay_rate,当日登录账号付费率,p3_login_pay_rate,复合,bkby_ods.app_login_log,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `bkby_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`success_date`) AS d, `user_id` AS uid FROM `bkby_ods`.`fish_open_order`
+ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R3_DWD_login"", ""R3_DWD_payment"", ""R3_DWS_login"", ""R3_DWS_payment""]"
+3,仙魔2D,R3_asset_delta,源资产变动净值,p3_asset_delta,原子,bkby_ods.fish_money_log,经济域,道具流水,候选待审,按日累计add_money原值，保留符号。,源数量单位,依据：金币改变净值；需确认单位、重复、冲正和转移，不能自动拆成房卡生产/消耗。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, SUM(`add_money`) AS metric_value
+FROM `bkby_ods`.`fish_money_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R3_DWD_asset""]"
 4,捕鱼游戏王,M01,游戏用户人均游戏时长,game_user_avg_duration_sec,复合,byqph5_dwd.dwd_gam_play_log_hi,游戏域,捕鱼游戏,已录入平台,按统计日，将捕鱼行为表的游戏时长总秒数除以当天在该表出现的去重游戏用户数。分母沿用“游戏用户数”，不额外限定玩分大于0。,秒/人,核对各action_type时长是否重叠、异常时长与空用户记录；多日人均应重算周期去重人数，不能平均每日人均。,同项目英文编码匹配平台可用项；当前定义已保留,仅完成元数据字段、删除状态及分类字典静态核对；SQL未在业务数据上执行，未调用平台validate。,"SELECT DATE(log_date) AS stat_date,
        1.0 * SUM(game_time) / NULLIF(COUNT(DISTINCT user_id), 0) AS metric_value
 FROM byqph5_dwd.dwd_gam_play_log_hi
@@ -457,42 +532,81 @@ FROM
   COUNT(DISTINCT user_id)
 FROM
   byqph5_dwd.dwd_usr_reg_log_hi",[]
-5,HiggsDomino-印尼,I5_login_1,登录记录条数,p5_login_records,原子,domino_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计domino_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `domino_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P5_DWD_login"", ""P5_DWS_login""]"
-5,HiggsDomino-印尼,I5_login_2,登录记录覆盖账号数,p5_login_covered_users,原子,domino_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计domino_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
+5,HiggsDomino-印尼,R5_login_users,登录成功记录覆盖账号数,p5_login_users,原子,domino_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,过滤来自原注释：登录状态 0:成功 1:失败 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：全平台登录人数、全平台登录次数、活跃玩家的总邮件金币存量、当日活跃模拟器/虚拟机_Device、当日活跃模拟器_MAC(旧)、三日活跃玩家金库金币数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `domino_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `login_status` = 0 GROUP BY DATE(`login_date`);","[""R5_DWD_login"", ""R5_DWS_login""]"
+5,HiggsDomino-印尼,R5_login_return_d1,登录账号第1日回访率,p5_login_return_d1,复合,domino_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：slot360日留存率、slot90日留存率、slot30日留存率、slot14日留存率、slot7日留存率、slot3日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `domino_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL AND `login_status` = 0
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R5_DWD_login"", ""R5_DWS_login""]"
+5,HiggsDomino-印尼,R5_login_return_d7,登录账号第7日回访率,p5_login_return_d7,复合,domino_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：slot360日留存率、slot90日留存率、slot30日留存率、slot14日留存率、slot7日留存率、slot3日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `domino_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL AND `login_status` = 0
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R5_DWD_login"", ""R5_DWS_login""]"
+5,HiggsDomino-印尼,R5_registration_users,注册来源覆盖账号数,p5_registration_users,原子,domino_ods.user_reg_log,玩家域,注册,候选待审,按log_date统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：真实注册账号数、注册账号重新注册人数、当日注册且玩过10局以上游戏玩家数、当日注册且玩过游戏玩家数、当日注册且进过大厅玩家数、新增玩家付费率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `domino_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P5_DWD_login"", ""P5_DWS_login""]"
-5,HiggsDomino-印尼,I5_asset_1,道具变动记录条数,p5_asset_records,原子,domino_ods.prop_log,经济域,道具流水,候选待审,按log_date自然日统计domino_ods.prop_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `domino_ods`.`prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P5_DWD_asset""]"
-5,HiggsDomino-印尼,I5_asset_2,道具变动记录覆盖账号数,p5_asset_covered_users,原子,domino_ods.prop_log,经济域,道具流水,候选待审,按log_date自然日统计domino_ods.prop_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `domino_ods`.`prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P5_DWD_asset""]"
-5,HiggsDomino-印尼,I5_audit_1,源审计行为记录条数,p5_audit_records,原子,domino_ods.client_event_log,公共域,行为明细,候选待审,按client_dt自然日统计domino_ods.client_event_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`client_dt`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `domino_ods`.`client_event_log`
-WHERE `client_dt` >= '${start_date}'
-  AND `client_dt` < '${end_date}'
-GROUP BY DATE(`client_dt`);","[""P5_DWD_audit""]"
-5,HiggsDomino-印尼,I5_audit_2,源审计行为记录覆盖账号数,p5_audit_covered_users,原子,domino_ods.client_event_log,公共域,行为明细,候选待审,按client_dt自然日统计domino_ods.client_event_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`client_dt`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `domino_ods`.`client_event_log`
-WHERE `client_dt` >= '${start_date}'
-  AND `client_dt` < '${end_date}'
-GROUP BY DATE(`client_dt`);","[""P5_DWD_audit""]"
+FROM `domino_ods`.`user_reg_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R5_DWD_register""]"
+5,HiggsDomino-印尼,R5_success_pay_users,源成功状态付费账号数,p5_success_pay_users,原子,domino_ods.infull_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选success_date。,账号,成功条件 `infull_state` = 1，依据：充值状态(0: 请求中，1: 成功，2: 失败)；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：【印尼包】破产好运礼包付费金额(美元)、【印尼包】活动礼包付费金额(美元)、【印尼包】直升等级礼包付费金额(美元)、【印尼包】VIP付费转盘付费金额(美元)、大R礼包付费金额(美元)、【印尼包】限时折扣礼包付费金额(美元),仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
+FROM `domino_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R5_DWD_payment"", ""R5_DWS_payment""]"
+5,HiggsDomino-印尼,R5_success_pay_amount,源成功状态充值金额,p5_success_pay_amount,原子,domino_ods.infull_order,付费域,充值支付,候选待审,按日累加成功状态记录的infull_amount原值，不擅自除以100或折算货币。,分,金额证据：实际支付金额(单位:分)；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：【印尼包】破产好运礼包付费金额(美元)、【印尼包】活动礼包付费金额(美元)、【印尼包】直升等级礼包付费金额(美元)、【印尼包】VIP付费转盘付费金额(美元)、大R礼包付费金额(美元)、【印尼包】限时折扣礼包付费金额(美元),仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, SUM(`infull_amount`) AS metric_value
+FROM `domino_ods`.`infull_order`
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R5_DWD_payment"", ""R5_DWS_payment""]"
+5,HiggsDomino-印尼,R5_login_pay_rate,当日登录账号付费率,p5_login_pay_rate,复合,domino_ods.app_login_log,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：【印尼包】破产好运礼包付费金额(美元)、【印尼包】活动礼包付费金额(美元)、【印尼包】直升等级礼包付费金额(美元)、【印尼包】VIP付费转盘付费金额(美元)、大R礼包付费金额(美元)、【印尼包】限时折扣礼包付费金额(美元),仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `domino_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL AND `login_status` = 0
+), p AS (
+ SELECT DISTINCT DATE(`success_date`) AS d, `user_id` AS uid FROM `domino_ods`.`infull_order`
+ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R5_DWD_login"", ""R5_DWD_payment"", ""R5_DWS_login"", ""R5_DWS_payment""]"
+5,HiggsDomino-印尼,R5_game_duration,游戏记录时长合计,p5_game_duration,原子,domino_ods.comm_game_log,游戏域,游戏行为,候选待审,累加game_time，原注释：游戏时长。,源时长单位（待确认）,须核对分段重复、免费局、结算重放、并发会话和有效时长范围。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：当日注册且玩过10局以上游戏玩家数、当日注册且玩过游戏玩家数、游戏总金币（不含封禁用户）、游戏总金币库存、slot金币总赢分、slot金币总玩分,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_time`) AS stat_date,
+       SUM(`game_time`) AS metric_value
+FROM `domino_ods`.`comm_game_log`
+WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}'
+GROUP BY DATE(`log_time`);","[""R5_DWD_game""]"
+5,HiggsDomino-印尼,R5_duration_per_game_user,游戏记录覆盖账号人均时长,p5_duration_per_game_user,复合,domino_ods.comm_game_log,游戏域,游戏行为,候选待审,同日非空账号对应的记录时长总和÷这些游戏记录的去重账号数；不除以登录DAU。,源时长单位（待确认）/账号,单位与合计相同；人均时长不可先算各渠道均值再平均。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：当日注册且玩过10局以上游戏玩家数、当日注册且玩过游戏玩家数、游戏总金币（不含封禁用户）、游戏总金币库存、slot金币总赢分、slot金币总玩分,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_time`) AS stat_date,
+       1.0*SUM(CASE WHEN `user_id` IS NOT NULL THEN `game_time` END)/NULLIF(COUNT(DISTINCT `user_id`),0) AS metric_value
+FROM `domino_ods`.`comm_game_log`
+WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}'
+GROUP BY DATE(`log_time`);","[""R5_DWD_game""]"
+5,HiggsDomino-印尼,R5_asset_delta,源资产变动净值,p5_asset_delta,原子,domino_dwd.dwd_eco_user_money_log_di,经济域,道具流水,候选待审,按日累计change_money原值，保留符号。,源数量单位,依据：金币变动数量，正数为增加，负数为减少；需确认单位、重复、冲正和转移，不能自动拆成房卡生产/消耗。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：线上赛事消耗金币、充值总获得金币、充值金币发放率、免费金币发放率、免费金币发放、充值获得金币（不含实体点卡）,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, SUM(`change_money`) AS metric_value
+FROM `domino_dwd`.`dwd_eco_user_money_log_di`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R5_DWD_asset""]"
 5,HiggsDomino-印尼,STOCK26,真实注册账号数,real_register_users,派生,dwd_usr_reg_log_di,玩家域,注册,平台可用,统计指定 bizdate 当天的真实注册账号数。基于注册用户数原子指标，限定注册日志在 bizdate 当天，且注册账号在玩家账号主表中 mac_count = 1，并且注册 MAC 在设备主表中的 first_open_date 也在 bizdate 当天。,',注册日志 domino_dwd.dwd_usr_reg_log_di 的 log_date 在 bizdate 当天；关联 domino_ods.user_info 后 mac_count = 1；关联 domino_ods.cell_mac_info 后 first_open_date 在 bizdate 当天。,本次可见可用登记项,平台已有定义；本轮未执行取数,"select
     count(distinct t1.user_id) as real_register_users
 from domino_dwd.dwd_usr_reg_log_di t1
@@ -3268,78 +3382,123 @@ WHERE device_id IS NOT NULL AND device_id <> ''
   AND log_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)
   AND log_date < CURRENT_DATE",[]
 5,HiggsDomino-印尼,STOCK414,登录设备数,login_device_cnt,原子,login_device_log,玩家域,玩家设备,平台可用,统计时间范围内发生登录、且设备 ID 非空的去重设备标识数量。同一设备在范围内多次登录或被多个账号使用，只计一个设备标识。,',',本次可见可用登记项,平台已有定义；本轮未执行取数,SELECT COUNT(DISTINCT device_id) AS login_device_cnt FROM domino_ods.login_device_log WHERE device_id IS NOT NULL AND device_id <> '',[]
-6,大世界,I6_operation_1,运营行为记录条数,p6_operation_records,原子,bydsj_ods.by3d_task_log,运营域,活动参与,候选待审,按log_date自然日统计bydsj_ods.by3d_task_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bydsj_ods`.`by3d_task_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P6_DWD_operation""]"
-6,大世界,I6_operation_2,运营行为记录覆盖账号数,p6_operation_covered_users,原子,bydsj_ods.by3d_task_log,运营域,活动参与,候选待审,按log_date自然日统计bydsj_ods.by3d_task_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
+6,大世界,R6_login_users,登录记录覆盖账号数,p6_login_users,原子,bydsj_ods.app_login_log,玩家域,登录,候选待审,按log_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `bydsj_ods`.`app_login_log` WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' GROUP BY DATE(`log_date`);","[""R6_DWD_login"", ""R6_DWS_login""]"
+6,大世界,R6_login_return_d1,登录账号第1日回访率,p6_login_return_d1,复合,bydsj_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `bydsj_ods`.`app_login_log`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R6_DWD_login"", ""R6_DWS_login""]"
+6,大世界,R6_login_return_d7,登录账号第7日回访率,p6_login_return_d7,复合,bydsj_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `bydsj_ods`.`app_login_log`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R6_DWD_login"", ""R6_DWS_login""]"
+6,大世界,R6_success_pay_users,源成功状态付费账号数,p6_success_pay_users,原子,bydsj_ods_rt.fish_open_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选infull_date。,账号,成功条件 `state` = 1，依据：开分状态，1成功，0失败；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`infull_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
+FROM `bydsj_ods_rt`.`fish_open_order`
+WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`infull_date`);","[""R6_DWD_payment"", ""R6_DWS_payment""]"
+6,大世界,R6_success_pay_amount,源成功状态充值金额,p6_success_pay_amount,原子,bydsj_ods_rt.fish_open_order,付费域,充值支付,候选待审,按日累加成功状态记录的amount原值，不擅自除以100或折算货币。,原金额单位（待确认）,金额证据：金额；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`infull_date`) AS stat_date, SUM(`amount`) AS metric_value
+FROM `bydsj_ods_rt`.`fish_open_order`
+WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`infull_date`);","[""R6_DWD_payment"", ""R6_DWS_payment""]"
+6,大世界,R6_login_pay_rate,当日登录账号付费率,p6_login_pay_rate,复合,bydsj_ods.app_login_log,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid FROM `bydsj_ods`.`app_login_log`
+ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`infull_date`) AS d, `user_id` AS uid FROM `bydsj_ods_rt`.`fish_open_order`
+ WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R6_DWD_login"", ""R6_DWD_payment"", ""R6_DWS_login"", ""R6_DWS_payment""]"
+8,Dummy-泰国,R8_login_users,登录记录覆盖账号数,p8_login_users,原子,dummy_dwd.device_user_login,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：当日活跃模拟器数、新增设备登录老账号的账户数、新增设备登录老账号的设备数、当日活跃设备数、活跃的可赠送玩家数、三日活跃玩家总金币数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `dummy_dwd`.`device_user_login` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R8_DWD_login"", ""R8_DWS_login""]"
+8,Dummy-泰国,R8_login_return_d1,登录账号第1日回访率,p8_login_return_d1,复合,dummy_dwd.device_user_login,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：次日留存设备数、七日真实留存用户数、次日真实留存用户数、七日留存用户数、次日留存用户数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `dummy_dwd`.`device_user_login`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R8_DWD_login"", ""R8_DWS_login""]"
+8,Dummy-泰国,R8_login_return_d7,登录账号第7日回访率,p8_login_return_d7,复合,dummy_dwd.device_user_login,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：次日留存设备数、七日真实留存用户数、次日真实留存用户数、七日留存用户数、次日留存用户数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `dummy_dwd`.`device_user_login`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R8_DWD_login"", ""R8_DWS_login""]"
+8,Dummy-泰国,R8_registration_users,注册来源覆盖账号数,p8_registration_users,原子,dummy_ods.user_reg_info,玩家域,注册,候选待审,按reg_date统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：新mac注册数、真实line注册人数、真实游客注册人数、真实facebook注册人数、真实注册人数、line注册人数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`reg_date`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bydsj_ods`.`by3d_task_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P6_DWD_operation""]"
-6,大世界,I6_login_1,登录记录条数,p6_login_records,原子,bydsj_ods.app_login_log,玩家域,登录,候选待审,按log_date自然日统计bydsj_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bydsj_ods`.`app_login_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P6_DWD_login"", ""P6_DWS_login""]"
-6,大世界,I6_login_2,登录记录覆盖账号数,p6_login_covered_users,原子,bydsj_ods.app_login_log,玩家域,登录,候选待审,按log_date自然日统计bydsj_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bydsj_ods`.`app_login_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P6_DWD_login"", ""P6_DWS_login""]"
-6,大世界,I6_game_1,游戏行为记录条数,p6_game_records,原子,bydsj_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计bydsj_ods.fish_game_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bydsj_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P6_DWD_game"", ""P6_DWS_game""]"
-6,大世界,I6_game_2,游戏行为记录覆盖账号数,p6_game_covered_users,原子,bydsj_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计bydsj_ods.fish_game_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bydsj_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P6_DWD_game"", ""P6_DWS_game""]"
-8,Dummy-泰国,I8_payment_1,支付订单记录条数,p8_payment_records,原子,dummy_ods.infull_order,付费域,充值支付,候选待审,按success_date自然日统计dummy_ods.infull_order中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,同来源存在相似项，须逐项核口径：充值请求订单数、充值用户数、充值订单数,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(*) AS metric_value
+FROM `dummy_ods`.`user_reg_info`
+WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}'
+GROUP BY DATE(`reg_date`);","[""R8_DWD_register""]"
+8,Dummy-泰国,R8_success_pay_users,源成功状态付费账号数,p8_success_pay_users,原子,dummy_ods.infull_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选success_date。,账号,"成功条件 `infull_state` = 1，依据：充值状态(0: 请求中，1: 成功，2: 失败, 3:订单补单)；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。",同项目可能重叠，需核对维度、状态和时间：当日注册且首充并在2日内二次充值玩家数、当日注册并在48小时内二次充值玩家数、充值请求订单数、充值用户数、充值金额（印尼盾）、充值订单数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
 FROM `dummy_ods`.`infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P8_DWD_payment"", ""P8_DWS_payment""]"
-8,Dummy-泰国,I8_payment_2,支付订单记录覆盖账号数,p8_payment_covered_users,原子,dummy_ods.infull_order,付费域,充值支付,候选待审,按success_date自然日统计dummy_ods.infull_order中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,同来源存在相似项，须逐项核口径：维护账号操作金额(美分)、充值用户数,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R8_DWD_payment"", ""R8_DWS_payment""]"
+8,Dummy-泰国,R8_success_pay_amount,源成功状态充值金额,p8_success_pay_amount,原子,dummy_ods.infull_order,付费域,充值支付,候选待审,按日累加成功状态记录的infull_amount原值，不擅自除以100或折算货币。,分,金额证据：实际支付金额(单位:分)；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：当日注册且首充并在2日内二次充值玩家数、当日注册并在48小时内二次充值玩家数、充值请求订单数、充值用户数、充值金额（印尼盾）、充值订单数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, SUM(`infull_amount`) AS metric_value
 FROM `dummy_ods`.`infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P8_DWD_payment"", ""P8_DWS_payment""]"
-8,Dummy-泰国,I8_game_1,游戏行为记录条数,p8_game_records,原子,dummy_ods.user_slot_game_log_realtime,游戏域,游戏行为,候选待审,按log_date自然日统计dummy_ods.user_slot_game_log_realtime中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `dummy_ods`.`user_slot_game_log_realtime`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P8_DWD_game""]"
-8,Dummy-泰国,I8_game_2,游戏行为记录覆盖账号数,p8_game_covered_users,原子,dummy_ods.user_slot_game_log_realtime,游戏域,游戏行为,候选待审,按log_date自然日统计dummy_ods.user_slot_game_log_realtime中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `dummy_ods`.`user_slot_game_log_realtime`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P8_DWD_game""]"
-8,Dummy-泰国,I8_login_1,登录记录条数,p8_login_records,原子,dummy_ods.app_login_log_view,玩家域,登录,候选待审,按login_date自然日统计dummy_ods.app_login_log_view中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `dummy_ods`.`app_login_log_view`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P8_DWD_login"", ""P8_DWS_login""]"
-8,Dummy-泰国,I8_login_2,登录记录覆盖账号数,p8_login_covered_users,原子,dummy_ods.app_login_log_view,玩家域,登录,候选待审,按login_date自然日统计dummy_ods.app_login_log_view中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `dummy_ods`.`app_login_log_view`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P8_DWD_login"", ""P8_DWS_login""]"
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R8_DWD_payment"", ""R8_DWS_payment""]"
+8,Dummy-泰国,R8_login_pay_rate,当日登录账号付费率,p8_login_pay_rate,复合,dummy_dwd.device_user_login,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：当日注册且首充并在2日内二次充值玩家数、当日注册并在48小时内二次充值玩家数、充值请求订单数、充值用户数、充值金额（印尼盾）、充值订单数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `dummy_dwd`.`device_user_login`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`success_date`) AS d, `user_id` AS uid FROM `dummy_ods`.`infull_order`
+ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R8_DWD_login"", ""R8_DWD_payment"", ""R8_DWS_login"", ""R8_DWS_payment""]"
 8,Dummy-泰国,STOCK272,当日注册并只玩slot游戏人数,day_reg_slot_game_user,派生,dwd_user_info_di,玩家域,玩家基础信息,平台可用,在当日进行注册并只玩了slot游戏的总玩家数,',"where a.dt = date_sub('${run_day}',1) and a.reg_date >= date_sub('${run_day}',1) and a.reg_date < date_sub('${run_day}',0) and a.all_game_num = 0 and nvl(a.slot_game_num,0) > 0 and nvl(a.br_game_num,0) = 0  and nvl(a.total_shot,0) = 0",本次可见可用登记项,平台已有定义；本轮未执行取数,"select COUNT(distinct a.user_id) 
 from dummy_dwd.dwd_user_info_di a
 where a.dt = date_sub('${run_day}',1)
@@ -3847,42 +4006,62 @@ inner join dummy_dwd.dwd_user_info_di b
 on a.user_id = b.user_id
 and b.dt = date_sub('${run_day}',1)",[]
 8,Dummy-泰国,STOCK616,注册人数,register_user_cnt,原子,dwd_user_reg_info_di,玩家域,注册,平台可用,完成注册行为的去重用户数，不含时间限定，如果指定n日用户数，则是前n日当天的注册用户数,',',本次可见可用登记项,平台已有定义；本轮未执行取数,select count(1) from dummy_dwd.dwd_user_reg_info_di,[]
-12,猎鱼达人手游,I12_login_1,登录记录条数,p12_login_records,原子,byhls_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计byhls_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `byhls_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P12_DWD_login"", ""P12_DWS_login""]"
-12,猎鱼达人手游,I12_login_2,登录记录覆盖账号数,p12_login_covered_users,原子,byhls_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计byhls_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `byhls_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P12_DWD_login"", ""P12_DWS_login""]"
-12,猎鱼达人手游,I12_payment_1,支付订单记录条数,p12_payment_records,原子,byhls_ods.view_infull_order,付费域,充值支付,候选待审,按success_date自然日统计byhls_ods.view_infull_order中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(*) AS metric_value
+12,猎鱼达人手游,R12_login_users,登录记录覆盖账号数,p12_login_users,原子,byhls_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：登录次数、登录用户数、今日活跃用户数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `byhls_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R12_DWD_login"", ""R12_DWS_login""]"
+12,猎鱼达人手游,R12_login_return_d1,登录账号第1日回访率,p12_login_return_d1,复合,byhls_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：7日留存率、次日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `byhls_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R12_DWD_login"", ""R12_DWS_login""]"
+12,猎鱼达人手游,R12_login_return_d7,登录账号第7日回访率,p12_login_return_d7,复合,byhls_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：7日留存率、次日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `byhls_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R12_DWD_login"", ""R12_DWS_login""]"
+12,猎鱼达人手游,R12_success_pay_users,源成功状态付费账号数,p12_success_pay_users,原子,byhls_ods.view_infull_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选success_date。,账号,成功条件 `infull_state` = 1，依据：订单状态，0为请求中，1为成功，2为失败；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：大厅充值金币产出、人均充值额（ARPU）、充值转化率、渠道充值金额、点券充值金额、充值请求订单数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
 FROM `byhls_ods`.`view_infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P12_DWD_payment"", ""P12_DWS_payment""]"
-12,猎鱼达人手游,I12_payment_2,支付订单记录覆盖账号数,p12_payment_covered_users,原子,byhls_ods.view_infull_order,付费域,充值支付,候选待审,按success_date自然日统计byhls_ods.view_infull_order中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R12_DWD_payment"", ""R12_DWS_payment""]"
+12,猎鱼达人手游,R12_success_pay_amount,源成功状态充值金额,p12_success_pay_amount,原子,byhls_ods.view_infull_order,付费域,充值支付,候选待审,按日累加成功状态记录的infull_amount原值，不擅自除以100或折算货币。,元,"金额证据：充值金额, 单位元；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。",同项目可能重叠，需核对维度、状态和时间：大厅充值金币产出、人均充值额（ARPU）、充值转化率、渠道充值金额、点券充值金额、充值请求订单数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, SUM(`infull_amount`) AS metric_value
 FROM `byhls_ods`.`view_infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P12_DWD_payment"", ""P12_DWS_payment""]"
-12,猎鱼达人手游,I12_game_1,游戏行为记录条数,p12_game_records,原子,byhls_ods.game_money_log,经济域,金币流水,候选待审,按log_date自然日统计byhls_ods.game_money_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `byhls_ods`.`game_money_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P12_DWD_game""]"
-12,猎鱼达人手游,I12_game_2,游戏行为记录覆盖账号数,p12_game_covered_users,原子,byhls_ods.game_money_log,经济域,金币流水,候选待审,按log_date自然日统计byhls_ods.game_money_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `byhls_ods`.`game_money_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P12_DWD_game""]"
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R12_DWD_payment"", ""R12_DWS_payment""]"
+12,猎鱼达人手游,R12_login_pay_rate,当日登录账号付费率,p12_login_pay_rate,复合,byhls_ods.app_login_log,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：大厅充值金币产出、人均充值额（ARPU）、充值转化率、渠道充值金额、点券充值金额、充值请求订单数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `byhls_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`success_date`) AS d, `user_id` AS uid FROM `byhls_ods`.`view_infull_order`
+ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R12_DWD_login"", ""R12_DWD_payment"", ""R12_DWS_login"", ""R12_DWS_payment""]"
 12,猎鱼达人手游,STOCK539,游戏时长,game_time,原子,dwd_gam_play_log_hi,游戏域,捕鱼游戏,平台可用,玩家进行游戏的时间，单位：秒,',',本次可见可用登记项,平台已有定义；本轮未执行取数,"SELECT
   SUM(game_second)
 FROM
@@ -4294,54 +4473,81 @@ FROM
 WHERE
   log_date >= '${today}'
   AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)",[]
-23,国内投放后台,I23_advertising_1,投放数据记录条数,p23_advertising_records,原子,boke_ads_manage.bytd_advertiser_info,公共域,行为明细,候选待审,按create_date自然日统计boke_ads_manage.bytd_advertiser_info中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`create_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `boke_ads_manage`.`bytd_advertiser_info`
-WHERE `create_date` >= '${start_date}'
-  AND `create_date` < '${end_date}'
-GROUP BY DATE(`create_date`);",[]
-23,国内投放后台,I23_advertising_2,投放数据记录覆盖账号数,p23_advertising_covered_users,原子,boke_ads_manage.bytd_advertiser_info,公共域,行为明细,候选待审,按create_date自然日统计boke_ads_manage.bytd_advertiser_info中的去重advertiser_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`create_date`) AS stat_date,
-       COUNT(DISTINCT `advertiser_id`) AS metric_value
-FROM `boke_ads_manage`.`bytd_advertiser_info`
-WHERE `create_date` >= '${start_date}'
-  AND `create_date` < '${end_date}'
-GROUP BY DATE(`create_date`);",[]
-31,猎鱼达人3D,I31_game_1,游戏行为记录条数,p31_game_records,原子,lydr3d_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计lydr3d_ods.fish_game_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `lydr3d_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P31_DWD_game""]"
-31,猎鱼达人3D,I31_game_2,游戏行为记录覆盖账号数,p31_game_covered_users,原子,lydr3d_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计lydr3d_ods.fish_game_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `lydr3d_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P31_DWD_game""]"
-31,猎鱼达人3D,I31_login_1,登录记录条数,p31_login_records,原子,lydr3d_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计lydr3d_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `lydr3d_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P31_DWD_login"", ""P31_DWS_login""]"
-31,猎鱼达人3D,I31_login_2,登录记录覆盖账号数,p31_login_covered_users,原子,lydr3d_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计lydr3d_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `lydr3d_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P31_DWD_login"", ""P31_DWS_login""]"
-31,猎鱼达人3D,I31_payment_1,支付订单记录条数,p31_payment_records,原子,lydr3d_ods.txstar_pook_infull,付费域,充值支付,候选待审,按success_date自然日统计lydr3d_ods.txstar_pook_infull中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(*) AS metric_value
+31,猎鱼达人3D,R31_login_users,登录记录覆盖账号数,p31_login_users,原子,lydr3d_dwd.dwd_usr_login_log_hi,玩家域,登录,候选待审,按log_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：活跃用户数、登录次数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `lydr3d_dwd`.`dwd_usr_login_log_hi` WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' GROUP BY DATE(`log_date`);","[""R31_DWD_login"", ""R31_DWS_login""]"
+31,猎鱼达人3D,R31_login_return_d1,登录账号第1日回访率,p31_login_return_d1,复合,lydr3d_dwd.dwd_usr_login_log_hi,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：7日留存率、次日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `lydr3d_dwd`.`dwd_usr_login_log_hi`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R31_DWD_login"", ""R31_DWS_login""]"
+31,猎鱼达人3D,R31_login_return_d7,登录账号第7日回访率,p31_login_return_d7,复合,lydr3d_dwd.dwd_usr_login_log_hi,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：7日留存率、次日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `lydr3d_dwd`.`dwd_usr_login_log_hi`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R31_DWD_login"", ""R31_DWS_login""]"
+31,猎鱼达人3D,R31_success_pay_users,源成功状态付费账号数,p31_success_pay_users,原子,lydr3d_ods.txstar_pook_infull,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选success_date。,账号,成功条件 `infull_state` = 1，依据：充值状态(0: 请求中，1: 成功，2: 失败)；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：金币付费人数、用户历史累计充值金额、渠道充值金额、人均充值额、能量付费、金币付费,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
 FROM `lydr3d_ods`.`txstar_pook_infull`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P31_DWD_payment"", ""P31_DWS_payment""]"
-31,猎鱼达人3D,I31_payment_2,支付订单记录覆盖账号数,p31_payment_covered_users,原子,lydr3d_ods.txstar_pook_infull,付费域,充值支付,候选待审,按success_date自然日统计lydr3d_ods.txstar_pook_infull中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R31_DWD_payment"", ""R31_DWS_payment""]"
+31,猎鱼达人3D,R31_success_pay_amount,源成功状态充值金额,p31_success_pay_amount,原子,lydr3d_ods.txstar_pook_infull,付费域,充值支付,候选待审,按日累加成功状态记录的infull_amount原值，不擅自除以100或折算货币。,原金额单位（待确认）,金额证据：充值金额；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：金币付费人数、用户历史累计充值金额、渠道充值金额、人均充值额、能量付费、金币付费,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, SUM(`infull_amount`) AS metric_value
 FROM `lydr3d_ods`.`txstar_pook_infull`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P31_DWD_payment"", ""P31_DWS_payment""]"
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R31_DWD_payment"", ""R31_DWS_payment""]"
+31,猎鱼达人3D,R31_login_pay_rate,当日登录账号付费率,p31_login_pay_rate,复合,lydr3d_dwd.dwd_usr_login_log_hi,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：金币付费人数、用户历史累计充值金额、渠道充值金额、人均充值额、能量付费、金币付费,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid FROM `lydr3d_dwd`.`dwd_usr_login_log_hi`
+ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`success_date`) AS d, `user_id` AS uid FROM `lydr3d_ods`.`txstar_pook_infull`
+ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R31_DWD_login"", ""R31_DWD_payment"", ""R31_DWS_login"", ""R31_DWS_payment""]"
+31,猎鱼达人3D,R31_game_duration,游戏记录时长合计,p31_game_duration,原子,lydr3d_ods.fish_game_log,游戏域,游戏行为,候选待审,累加game_time，原注释：LOG期间的游戏时长（秒）。,秒,须核对分段重复、免费局、结算重放、并发会话和有效时长范围。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：游戏抽水、游戏时长、赢分用户数、游戏渗透率、赢分、玩分,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       SUM(`game_time`) AS metric_value
+FROM `lydr3d_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R31_DWD_game""]"
+31,猎鱼达人3D,R31_duration_per_game_user,游戏记录覆盖账号人均时长,p31_duration_per_game_user,复合,lydr3d_ods.fish_game_log,游戏域,游戏行为,候选待审,同日非空账号对应的记录时长总和÷这些游戏记录的去重账号数；不除以登录DAU。,秒/账号,单位与合计相同；人均时长不可先算各渠道均值再平均。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：游戏抽水、游戏时长、赢分用户数、游戏渗透率、赢分、玩分,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       1.0*SUM(CASE WHEN `user_id` IS NOT NULL THEN `game_time` END)/NULLIF(COUNT(DISTINCT `user_id`),0) AS metric_value
+FROM `lydr3d_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R31_DWD_game""]"
+31,猎鱼达人3D,R31_fish_per_shot,每发子弹捕获鱼数,p31_fish_per_shot,复合,lydr3d_ods.fish_game_log,游戏域,游戏行为,候选待审,同来源捕获鱼数合计÷发射子弹数合计。,鱼/发,这是捕获效率比值，可能一发多鱼，不解释为0–1命中率；核对免费子弹和技能统计范围。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：游戏抽水、游戏时长、赢分用户数、游戏渗透率、赢分、玩分,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       1.0*SUM(`num_catch_fish`)/NULLIF(SUM(`num_shot`),0) AS metric_value
+FROM `lydr3d_ods`.`fish_game_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R31_DWD_game""]"
+31,猎鱼达人3D,R31_asset_delta,源资产变动净值,p31_asset_delta,原子,lydr3d_dwd.dwd_trd_point_log_hi,经济域,道具流水,候选待审,按日累计add_boke_point原值，保留符号。,源数量单位,依据：本次变动点券（元）；需确认单位、重复、冲正和转移，不能自动拆成房卡生产/消耗。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：金币付费人数、金币付费、金币净回收,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, SUM(`add_boke_point`) AS metric_value
+FROM `lydr3d_dwd`.`dwd_trd_point_log_hi`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R31_DWD_asset""]"
 31,猎鱼达人3D,STOCK571,刷子用户,shuazi_cnt,原子,lydr3D_lyr_history_daily_algorithm_abnormal_users_mac,玩家域,玩家标签分层,平台可用,游戏中每日标记的异常用户名单,',',本次可见可用登记项,平台已有定义；本轮未执行取数,"SELECT COUNT(DISTINCT user_id)
     FROM lydr3d_dwd.lydr3D_lyr_history_daily_algorithm_abnormal_users_mac",[]
 31,猎鱼达人3D,STOCK573,金币付费人数,gold_charge_cnt,原子,dwd_trd_point_log_hi,付费域,点券消费,平台可用,消费点券购买金币的去重人数，除了购买能量礼包之外的都是金币， 礼包装备都和金币有绑定关系，捆绑销售,',',本次可见可用登记项,平台已有定义；本轮未执行取数,"SELECT_x000D_
@@ -4848,36 +5054,61 @@ FROM_x000D_
   COUNT(DISTINCT user_id)_x000D_
 FROM_x000D_
   lydrh5_dwd.dwd_usr_reg_log_hi",[]
-43,爆炒江湖,I43_login_1,登录记录条数,p43_login_records,原子,bcjh_ods.bcjh_login_blog,玩家域,登录,候选待审,按event_time自然日统计bcjh_ods.bcjh_login_blog中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`event_time`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bcjh_ods`.`bcjh_login_blog`
-WHERE `event_time` >= '${start_date}'
-  AND `event_time` < '${end_date}'
-GROUP BY DATE(`event_time`);","[""P43_DWD_login""]"
-46,DW,I46_login_1,登录记录条数,p46_login_records,原子,haoshen_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计haoshen_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `haoshen_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P46_DWD_login"", ""P46_DWS_login""]"
-46,DW,I46_login_2,登录记录覆盖账号数,p46_login_covered_users,原子,haoshen_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计haoshen_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `haoshen_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P46_DWD_login"", ""P46_DWS_login""]"
-46,DW,I46_game_1,游戏行为记录条数,p46_game_records,原子,haoshen_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计haoshen_ods.fish_game_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `haoshen_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P46_DWD_game"", ""P46_DWS_game""]"
-46,DW,I46_game_2,游戏行为记录覆盖账号数,p46_game_covered_users,原子,haoshen_ods.fish_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计haoshen_ods.fish_game_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `haoshen_ods`.`fish_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P46_DWD_game"", ""P46_DWS_game""]"
+43,爆炒江湖,R43_success_pay_users,源成功状态付费账号数,p43_success_pay_users,原子,bcjh_ods.pay_log,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选INFULL_DATE。,账号,"成功条件 `STATE` = 1，依据：充值状态, 1:成功, 0:失败；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。",本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`INFULL_DATE`) AS stat_date, COUNT(DISTINCT `USER_ID`) AS metric_value
+FROM `bcjh_ods`.`pay_log`
+WHERE `INFULL_DATE` >= '${start_date}' AND `INFULL_DATE` < '${end_date}' AND `STATE` = 1
+GROUP BY DATE(`INFULL_DATE`);","[""R43_DWD_payment"", ""R43_DWS_payment""]"
+43,爆炒江湖,R43_success_pay_amount,源成功状态充值金额,p43_success_pay_amount,原子,bcjh_ods.pay_log,付费域,充值支付,候选待审,按日累加成功状态记录的AMOUNT原值，不擅自除以100或折算货币。,人民币源单位,金额证据：充值金额(RMB)；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`INFULL_DATE`) AS stat_date, SUM(`AMOUNT`) AS metric_value
+FROM `bcjh_ods`.`pay_log`
+WHERE `INFULL_DATE` >= '${start_date}' AND `INFULL_DATE` < '${end_date}' AND `STATE` = 1
+GROUP BY DATE(`INFULL_DATE`);","[""R43_DWD_payment"", ""R43_DWS_payment""]"
+46,DW,R46_login_users,登录记录覆盖账号数,p46_login_users,原子,haoshen_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `haoshen_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R46_DWD_login"", ""R46_DWS_login""]"
+46,DW,R46_login_return_d1,登录账号第1日回访率,p46_login_return_d1,复合,haoshen_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `haoshen_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R46_DWD_login"", ""R46_DWS_login""]"
+46,DW,R46_login_return_d7,登录账号第7日回访率,p46_login_return_d7,复合,haoshen_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `haoshen_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R46_DWD_login"", ""R46_DWS_login""]"
+46,DW,R46_game_duration,游戏记录时长合计,p46_game_duration,原子,haoshen_dwd.dwd_slot_main_log_di,游戏域,游戏行为,候选待审,累加play_time，原注释：游戏时长（秒）。,秒,须核对分段重复、免费局、结算重放、并发会话和有效时长范围。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       SUM(`play_time`) AS metric_value
+FROM `haoshen_dwd`.`dwd_slot_main_log_di`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R46_DWD_game""]"
+46,DW,R46_duration_per_game_user,游戏记录覆盖账号人均时长,p46_duration_per_game_user,复合,haoshen_dwd.dwd_slot_main_log_di,游戏域,游戏行为,候选待审,同日非空账号对应的记录时长总和÷这些游戏记录的去重账号数；不除以登录DAU。,秒/账号,单位与合计相同；人均时长不可先算各渠道均值再平均。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       1.0*SUM(CASE WHEN `user_id` IS NOT NULL THEN `play_time` END)/NULLIF(COUNT(DISTINCT `user_id`),0) AS metric_value
+FROM `haoshen_dwd`.`dwd_slot_main_log_di`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R46_DWD_game""]"
 86,地方棋牌,LC01,登录账号数（登录日志覆盖）,friend_login_user_cnt,原子,friend_ods.app_login_log,玩家域,登录,已录入平台,按登录记录日期，对登录日志覆盖的账号去重。未额外排除测试、维护及代理账号。,人,未确认成功状态、自动重连及用户覆盖；不同渠道/平台的UV不可直接相加。,同项目英文编码匹配平台可用项；当前定义已保留,"{""valid"": true, ""method"": ""数据库引擎EXPLAIN"", ""note"": ""语法与字段校验通过"", ""sample_start"": ""2026-11-02 00:00:00"", ""sample_end"": ""2026-11-03 00:00:00"", ""boundary"": ""仅确认示例日期下语法与字段可解析；未执行SELECT取数、未核验业务金额或去重正确性。""}","SELECT DATE(login_date) AS stat_date,
        COUNT(DISTINCT user_id) AS metric_value
 FROM friend_ods.app_login_log
@@ -5265,78 +5496,85 @@ WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
 GROUP BY log_date;
 -- 示例：start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
 -- data_complete_before=2026-11-04 00:00:00表示此前数据已由调度验收完整；示例不证明真实完整性。","[""DWD06""]"
-91,灵画师-国内版,I91_game_1,游戏行为记录条数,p91_game_records,原子,lhs_ods.game_info_log,游戏域,游戏行为,候选待审,按log_date自然日统计lhs_ods.game_info_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `lhs_ods`.`game_info_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P91_DWD_game""]"
-91,灵画师-国内版,I91_game_2,游戏行为记录覆盖账号数,p91_game_covered_users,原子,lhs_ods.game_info_log,游戏域,游戏行为,候选待审,按log_date自然日统计lhs_ods.game_info_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
+91,灵画师-国内版,R91_login_users,登录记录覆盖账号数,p91_login_users,原子,lhs_ods.app_login_log,玩家域,登录,候选待审,按log_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `lhs_ods`.`app_login_log` WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' GROUP BY DATE(`log_date`);","[""R91_DWD_login"", ""R91_DWS_login""]"
+91,灵画师-国内版,R91_login_return_d1,登录账号第1日回访率,p91_login_return_d1,复合,lhs_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `lhs_ods`.`app_login_log`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R91_DWD_login"", ""R91_DWS_login""]"
+91,灵画师-国内版,R91_login_return_d7,登录账号第7日回访率,p91_login_return_d7,复合,lhs_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `lhs_ods`.`app_login_log`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R91_DWD_login"", ""R91_DWS_login""]"
+91,灵画师-国内版,R91_registration_users,注册来源覆盖账号数,p91_registration_users,原子,lhs_ods.app_reg_log,玩家域,注册,候选待审,按log_date统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `lhs_ods`.`game_info_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P91_DWD_game""]"
-91,灵画师-国内版,I91_payment_1,支付订单记录条数,p91_payment_records,原子,lhs_ods.recharge_log,付费域,充值支付,候选待审,按log_date自然日统计lhs_ods.recharge_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `lhs_ods`.`recharge_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P91_DWD_payment"", ""P91_DWS_payment""]"
-91,灵画师-国内版,I91_payment_2,支付订单记录覆盖账号数,p91_payment_covered_users,原子,lhs_ods.recharge_log,付费域,充值支付,候选待审,按log_date自然日统计lhs_ods.recharge_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `lhs_ods`.`recharge_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P91_DWD_payment"", ""P91_DWS_payment""]"
-91,灵画师-国内版,I91_login_1,登录记录条数,p91_login_records,原子,lhs_ods.app_login_log,玩家域,登录,候选待审,按log_date自然日统计lhs_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `lhs_ods`.`app_login_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P91_DWD_login"", ""P91_DWS_login""]"
-91,灵画师-国内版,I91_login_2,登录记录覆盖账号数,p91_login_covered_users,原子,lhs_ods.app_login_log,玩家域,登录,候选待审,按log_date自然日统计lhs_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `lhs_ods`.`app_login_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P91_DWD_login"", ""P91_DWS_login""]"
-100,DominoCafe,I100_game_1,游戏行为记录条数,p100_game_records,原子,ludocafe_ods.zeusslot_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计ludocafe_ods.zeusslot_game_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `ludocafe_ods`.`zeusslot_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P100_DWD_game""]"
-100,DominoCafe,I100_game_2,游戏行为记录覆盖账号数,p100_game_covered_users,原子,ludocafe_ods.zeusslot_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计ludocafe_ods.zeusslot_game_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `ludocafe_ods`.`zeusslot_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P100_DWD_game""]"
-100,DominoCafe,I100_payment_1,支付订单记录条数,p100_payment_records,原子,ludocafe_ods.pook_infull,付费域,充值支付,候选待审,按success_date自然日统计ludocafe_ods.pook_infull中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `ludocafe_ods`.`pook_infull`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P100_DWD_payment"", ""P100_DWS_payment""]"
-100,DominoCafe,I100_payment_2,支付订单记录覆盖账号数,p100_payment_covered_users,原子,ludocafe_ods.pook_infull,付费域,充值支付,候选待审,按success_date自然日统计ludocafe_ods.pook_infull中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `ludocafe_ods`.`pook_infull`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P100_DWD_payment"", ""P100_DWS_payment""]"
-100,DominoCafe,I100_audit_1,源审计行为记录条数,p100_audit_records,原子,ludocafe_ods.spin_recommendation_request_log,公共域,行为明细,候选待审,按log_date自然日统计ludocafe_ods.spin_recommendation_request_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `ludocafe_ods`.`spin_recommendation_request_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P100_DWD_audit""]"
-100,DominoCafe,I100_audit_2,源审计行为记录覆盖账号数,p100_audit_covered_users,原子,ludocafe_ods.spin_recommendation_request_log,公共域,行为明细,候选待审,按log_date自然日统计ludocafe_ods.spin_recommendation_request_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `ludocafe_ods`.`spin_recommendation_request_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P100_DWD_audit""]"
+FROM `lhs_ods`.`app_reg_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R91_DWD_register""]"
+100,DominoCafe,R100_login_users,登录记录覆盖账号数,p100_login_users,原子,ludocafe_dwd.user_login_record,玩家域,登录,候选待审,按log_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：B类DAU、拍卖行网站登录人数、日活跃用户数、活跃设备数、登录用户数、登录次数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `ludocafe_dwd`.`user_login_record` WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' GROUP BY DATE(`log_date`);","[""R100_DWD_login"", ""R100_DWS_login""]"
+100,DominoCafe,R100_login_return_d1,登录账号第1日回访率,p100_login_return_d1,复合,ludocafe_dwd.user_login_record,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：设备次日留存率、七日留存率、注册用户次日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `ludocafe_dwd`.`user_login_record`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R100_DWD_login"", ""R100_DWS_login""]"
+100,DominoCafe,R100_login_return_d7,登录账号第7日回访率,p100_login_return_d7,复合,ludocafe_dwd.user_login_record,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：设备次日留存率、七日留存率、注册用户次日留存率,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `ludocafe_dwd`.`user_login_record`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R100_DWD_login"", ""R100_DWS_login""]"
 100,DominoCafe,STOCK212,B类核心用户占比,b_core_user_ratio,复合,gold_b_user_daily,游戏域,游戏行为,平台可用,当日B类核心用户数占B类DAU的比例。=b_core_user_count/b_dau。小数形式(如0.05而非5%),',',本次可见可用登记项,平台已有定义；本轮未执行取数,"SELECT ROUND(SUM(is_b_core_user)/COUNT(DISTINCT CASE WHEN is_b_game_login=1 THEN user_id END), 4) FROM ludocafe_ads.gold_b_user_daily",[]
 100,DominoCafe,STOCK213,B类付费率,b_pay_rate,复合,gold_b_user_daily,游戏域,游戏行为,平台可用,B类活跃用户中付费用户的占比。B类活跃=登录过B类大厅或玩过B类游戏的用户并集（is_b_game_login=1）。小数形式（如0.02而非2%）。,',',本次可见可用登记项,平台已有定义；本轮未执行取数,"SELECT ROUND(COUNT(DISTINCT CASE WHEN is_b_game_login=1 AND b_pay_usd > 0 THEN user_id END) / NULLIF(COUNT(DISTINCT CASE WHEN is_b_game_login=1 THEN user_id END), 0), 4) AS b_pay_rate _x000D_
 FROM ludocafe_ads.gold_b_user_daily",[]
@@ -5835,222 +6073,350 @@ WHERE",[]
 100,DominoCafe,STOCK521,登录用户数,login_user_count,原子,dwd_app_login_log_di,玩家域,登录,平台可用,发生登录行为的去重用户数；不含时间限定；日活等周期在派生层定义,',',本次可见可用登记项,平台已有定义；本轮未执行取数,select count(distinct user_id) from ludocafe_dwd.dwd_app_login_log_di,[]
 100,DominoCafe,STOCK522,登录次数,login_count,原子,dwd_app_login_log_di,玩家域,登录,平台可用,用户登录行为发生次数（按日志条数计，不去重）；不含时间限定,',',本次可见可用登记项,平台已有定义；本轮未执行取数,select count(*) from ludocafe_dwd.dwd_app_login_log_di,[]
 100,DominoCafe,STOCK523,注册用户数,reg_user_count,原子,dwd_user_info_d,玩家域,注册,平台可用,完成注册行为的去重用户数；不含时间限定，周期由派生/查询层传入,',',本次可见可用登记项,平台已有定义；本轮未执行取数,select count(distinct user_id) from ludocafe_dwd.dwd_user_info_d,[]
-103,捕鱼达人千炮版3D,I103_login_1,登录记录条数,p103_login_records,原子,byqp_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计byqp_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `byqp_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P103_DWD_login"", ""P103_DWS_login""]"
-103,捕鱼达人千炮版3D,I103_login_2,登录记录覆盖账号数,p103_login_covered_users,原子,byqp_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计byqp_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `byqp_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P103_DWD_login"", ""P103_DWS_login""]"
-103,捕鱼达人千炮版3D,I103_game_1,游戏行为记录条数,p103_game_records,原子,byqp_ods.game_money_log,经济域,金币流水,候选待审,按log_date自然日统计byqp_ods.game_money_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `byqp_ods`.`game_money_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P103_DWD_game""]"
-103,捕鱼达人千炮版3D,I103_game_2,游戏行为记录覆盖账号数,p103_game_covered_users,原子,byqp_ods.game_money_log,经济域,金币流水,候选待审,按log_date自然日统计byqp_ods.game_money_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `byqp_ods`.`game_money_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P103_DWD_game""]"
-103,捕鱼达人千炮版3D,I103_payment_1,支付订单记录条数,p103_payment_records,原子,byqp_ods.view_infull_order,付费域,充值支付,候选待审,按success_date自然日统计byqp_ods.view_infull_order中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(*) AS metric_value
+103,捕鱼达人千炮版3D,R103_login_users,登录记录覆盖账号数,p103_login_users,原子,byqp_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `byqp_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R103_DWD_login"", ""R103_DWS_login""]"
+103,捕鱼达人千炮版3D,R103_login_return_d1,登录账号第1日回访率,p103_login_return_d1,复合,byqp_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `byqp_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R103_DWD_login"", ""R103_DWS_login""]"
+103,捕鱼达人千炮版3D,R103_login_return_d7,登录账号第7日回访率,p103_login_return_d7,复合,byqp_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `byqp_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R103_DWD_login"", ""R103_DWS_login""]"
+103,捕鱼达人千炮版3D,R103_success_pay_users,源成功状态付费账号数,p103_success_pay_users,原子,byqp_ods.view_infull_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选success_date。,账号,成功条件 `infull_state` = 1，依据：订单状态，0为请求中，1为成功，2为失败；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
 FROM `byqp_ods`.`view_infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P103_DWD_payment"", ""P103_DWS_payment""]"
-103,捕鱼达人千炮版3D,I103_payment_2,支付订单记录覆盖账号数,p103_payment_covered_users,原子,byqp_ods.view_infull_order,付费域,充值支付,候选待审,按success_date自然日统计byqp_ods.view_infull_order中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R103_DWD_payment"", ""R103_DWS_payment""]"
+103,捕鱼达人千炮版3D,R103_success_pay_amount,源成功状态充值金额,p103_success_pay_amount,原子,byqp_ods.view_infull_order,付费域,充值支付,候选待审,按日累加成功状态记录的infull_amount原值，不擅自除以100或折算货币。,元,"金额证据：充值金额, 单位元；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。",本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, SUM(`infull_amount`) AS metric_value
 FROM `byqp_ods`.`view_infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P103_DWD_payment"", ""P103_DWS_payment""]"
-137,新仙魔3D,I137_login_1,登录记录条数,p137_login_records,原子,xianmo_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计xianmo_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `xianmo_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P137_DWD_login"", ""P137_DWS_login""]"
-137,新仙魔3D,I137_login_2,登录记录覆盖账号数,p137_login_covered_users,原子,xianmo_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计xianmo_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R103_DWD_payment"", ""R103_DWS_payment""]"
+103,捕鱼达人千炮版3D,R103_login_pay_rate,当日登录账号付费率,p103_login_pay_rate,复合,byqp_ods.app_login_log,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `byqp_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`success_date`) AS d, `user_id` AS uid FROM `byqp_ods`.`view_infull_order`
+ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R103_DWD_login"", ""R103_DWD_payment"", ""R103_DWS_login"", ""R103_DWS_payment""]"
+137,新仙魔3D,R137_login_users,登录记录覆盖账号数,p137_login_users,原子,xianmo_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `xianmo_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R137_DWD_login"", ""R137_DWS_login""]"
+137,新仙魔3D,R137_login_return_d1,登录账号第1日回访率,p137_login_return_d1,复合,xianmo_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `xianmo_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R137_DWD_login"", ""R137_DWS_login""]"
+137,新仙魔3D,R137_login_return_d7,登录账号第7日回访率,p137_login_return_d7,复合,xianmo_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `xianmo_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R137_DWD_login"", ""R137_DWS_login""]"
+137,新仙魔3D,R137_success_pay_users,源成功状态付费账号数,p137_success_pay_users,原子,xianmo_ods_rt.fish_open_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选infull_date。,账号,成功条件 `state` = 1，依据：1成功，0失败；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`infull_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
+FROM `xianmo_ods_rt`.`fish_open_order`
+WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`infull_date`);","[""R137_DWD_payment"", ""R137_DWS_payment""]"
+137,新仙魔3D,R137_success_pay_amount,源成功状态充值金额,p137_success_pay_amount,原子,xianmo_ods_rt.fish_open_order,付费域,充值支付,候选待审,按日累加成功状态记录的amount原值，不擅自除以100或折算货币。,原金额单位（待确认）,金额证据：金额；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`infull_date`) AS stat_date, SUM(`amount`) AS metric_value
+FROM `xianmo_ods_rt`.`fish_open_order`
+WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`infull_date`);","[""R137_DWD_payment"", ""R137_DWS_payment""]"
+137,新仙魔3D,R137_login_pay_rate,当日登录账号付费率,p137_login_pay_rate,复合,xianmo_ods.app_login_log,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `xianmo_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`infull_date`) AS d, `user_id` AS uid FROM `xianmo_ods_rt`.`fish_open_order`
+ WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R137_DWD_login"", ""R137_DWD_payment"", ""R137_DWS_login"", ""R137_DWS_payment""]"
+146,MJ,R146_login_users,登录记录覆盖账号数,p146_login_users,原子,hsmj_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `hsmj_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R146_DWD_login"", ""R146_DWS_login""]"
+146,MJ,R146_login_return_d1,登录账号第1日回访率,p146_login_return_d1,复合,hsmj_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `hsmj_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R146_DWD_login"", ""R146_DWS_login""]"
+146,MJ,R146_login_return_d7,登录账号第7日回访率,p146_login_return_d7,复合,hsmj_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `hsmj_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R146_DWD_login"", ""R146_DWS_login""]"
+146,MJ,R146_game_duration,游戏记录时长合计,p146_game_duration,原子,hsmj_ods.slot_main_log,游戏域,游戏行为,候选待审,累加play_time，原注释：游戏时长（秒）。,秒,须核对分段重复、免费局、结算重放、并发会话和有效时长范围。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       SUM(`play_time`) AS metric_value
+FROM `hsmj_ods`.`slot_main_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R146_DWD_game""]"
+146,MJ,R146_duration_per_game_user,游戏记录覆盖账号人均时长,p146_duration_per_game_user,复合,hsmj_ods.slot_main_log,游戏域,游戏行为,候选待审,同日非空账号对应的记录时长总和÷这些游戏记录的去重账号数；不除以登录DAU。,秒/账号,单位与合计相同；人均时长不可先算各渠道均值再平均。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       1.0*SUM(CASE WHEN `user_id` IS NOT NULL THEN `play_time` END)/NULLIF(COUNT(DISTINCT `user_id`),0) AS metric_value
+FROM `hsmj_ods`.`slot_main_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R146_DWD_game""]"
+159,跃动小子,R159_login_users,登录记录覆盖账号数,p159_login_users,原子,ydxz_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `ydxz_ods`.`app_login_log` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R159_DWD_login"", ""R159_DWS_login""]"
+159,跃动小子,R159_login_return_d1,登录账号第1日回访率,p159_login_return_d1,复合,ydxz_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `ydxz_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R159_DWD_login"", ""R159_DWS_login""]"
+159,跃动小子,R159_login_return_d7,登录账号第7日回访率,p159_login_return_d7,复合,ydxz_ods.app_login_log,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `ydxz_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R159_DWD_login"", ""R159_DWS_login""]"
+159,跃动小子,R159_registration_users,注册来源覆盖账号数,p159_registration_users,原子,ydxz_ods.app_reg_log,玩家域,注册,候选待审,按reg_time统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`reg_time`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `xianmo_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P137_DWD_login"", ""P137_DWS_login""]"
-137,新仙魔3D,I137_operation_1,运营行为记录条数,p137_operation_records,原子,xianmo_ods.fish_activity_log,运营域,活动参与,候选待审,按log_date自然日统计xianmo_ods.fish_activity_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `xianmo_ods`.`fish_activity_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P137_DWD_operation""]"
-137,新仙魔3D,I137_operation_2,运营行为记录覆盖账号数,p137_operation_covered_users,原子,xianmo_ods.fish_activity_log,运营域,活动参与,候选待审,按log_date自然日统计xianmo_ods.fish_activity_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `xianmo_ods`.`fish_activity_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P137_DWD_operation""]"
-137,新仙魔3D,I137_asset_1,道具变动记录条数,p137_asset_records,原子,xianmo_ods.fish_prop_log,经济域,道具流水,候选待审,按log_date自然日统计xianmo_ods.fish_prop_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `xianmo_ods`.`fish_prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P137_DWD_asset"", ""P137_DWS_asset""]"
-137,新仙魔3D,I137_asset_2,道具变动记录覆盖账号数,p137_asset_covered_users,原子,xianmo_ods.fish_prop_log,经济域,道具流水,候选待审,按log_date自然日统计xianmo_ods.fish_prop_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `xianmo_ods`.`fish_prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P137_DWD_asset"", ""P137_DWS_asset""]"
-146,MJ,I146_login_1,登录记录条数,p146_login_records,原子,hsmj_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计hsmj_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `hsmj_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P146_DWD_login"", ""P146_DWS_login""]"
-146,MJ,I146_login_2,登录记录覆盖账号数,p146_login_covered_users,原子,hsmj_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计hsmj_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `hsmj_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P146_DWD_login"", ""P146_DWS_login""]"
-146,MJ,I146_audit_1,源审计行为记录条数,p146_audit_records,原子,hsmj_ods.lobby_event_log,公共域,行为明细,候选待审,按log_date自然日统计hsmj_ods.lobby_event_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `hsmj_ods`.`lobby_event_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P146_DWD_audit""]"
-146,MJ,I146_audit_2,源审计行为记录覆盖账号数,p146_audit_covered_users,原子,hsmj_ods.lobby_event_log,公共域,行为明细,候选待审,按log_date自然日统计hsmj_ods.lobby_event_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `hsmj_ods`.`lobby_event_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P146_DWD_audit""]"
-159,跃动小子,I159_payment_1,支付订单记录条数,p159_payment_records,原子,ydxz_ods.recharge_log,付费域,充值支付,候选待审,按log_date自然日统计ydxz_ods.recharge_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
+FROM `ydxz_ods`.`app_reg_log`
+WHERE `reg_time` >= '${start_date}' AND `reg_time` < '${end_date}'
+GROUP BY DATE(`reg_time`);","[""R159_DWD_register""]"
+159,跃动小子,R159_success_pay_users,源成功状态付费账号数,p159_success_pay_users,原子,ydxz_ods.recharge_log,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选log_date。,账号,成功条件 `status` = 1，依据：0=未支付，1=已支付；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
 FROM `ydxz_ods`.`recharge_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P159_DWD_payment"", ""P159_DWS_payment""]"
-159,跃动小子,I159_payment_2,支付订单记录覆盖账号数,p159_payment_covered_users,原子,ydxz_ods.recharge_log,付费域,充值支付,候选待审,按log_date自然日统计ydxz_ods.recharge_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `status` = 1
+GROUP BY DATE(`log_date`);","[""R159_DWD_payment"", ""R159_DWS_payment""]"
+159,跃动小子,R159_success_pay_amount,源成功状态充值金额,p159_success_pay_amount,原子,ydxz_ods.recharge_log,付费域,充值支付,候选待审,按日及币种money_type累加成功状态记录的pay_amount原值，不擅自除以100或折算货币。,原金额单位（待确认）,金额证据：充值金额；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, `money_type`, SUM(`pay_amount`) AS metric_value
 FROM `ydxz_ods`.`recharge_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P159_DWD_payment"", ""P159_DWS_payment""]"
-159,跃动小子,I159_login_1,登录记录条数,p159_login_records,原子,ydxz_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计ydxz_ods.app_login_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `ydxz_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P159_DWD_login"", ""P159_DWS_login""]"
-159,跃动小子,I159_login_2,登录记录覆盖账号数,p159_login_covered_users,原子,ydxz_ods.app_login_log,玩家域,登录,候选待审,按login_date自然日统计ydxz_ods.app_login_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `status` = 1
+GROUP BY DATE(`log_date`), `money_type`;","[""R159_DWD_payment"", ""R159_DWS_payment""]"
+159,跃动小子,R159_login_pay_rate,当日登录账号付费率,p159_login_pay_rate,复合,ydxz_ods.app_login_log,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `ydxz_ods`.`app_login_log`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid FROM `ydxz_ods`.`recharge_log`
+ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `status` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R159_DWD_login"", ""R159_DWD_payment"", ""R159_DWS_login"", ""R159_DWS_payment""]"
+174,BossDomino,R174_login_users,登录记录覆盖账号数,p174_login_users,原子,boss_domino_dwd.dwd_login_record,玩家域,登录,候选待审,按login_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`login_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `boss_domino_dwd`.`dwd_login_record` WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' GROUP BY DATE(`login_date`);","[""R174_DWD_login"", ""R174_DWS_login""]"
+174,BossDomino,R174_login_return_d1,登录账号第1日回访率,p174_login_return_d1,复合,boss_domino_dwd.dwd_login_record,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `boss_domino_dwd`.`dwd_login_record`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R174_DWD_login"", ""R174_DWS_login""]"
+174,BossDomino,R174_login_return_d7,登录账号第7日回访率,p174_login_return_d7,复合,boss_domino_dwd.dwd_login_record,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid
+ FROM `boss_domino_dwd`.`dwd_login_record`
+ WHERE `login_date` >= '${start_date}'
+   AND `login_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `login_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R174_DWD_login"", ""R174_DWS_login""]"
+174,BossDomino,R174_registration_users,注册来源覆盖账号数,p174_registration_users,原子,boss_domino_ods.user_reg_info,玩家域,注册,候选待审,按reg_date统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`reg_date`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `ydxz_ods`.`app_login_log`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P159_DWD_login"", ""P159_DWS_login""]"
-174,BossDomino,I174_game_1,游戏行为记录条数,p174_game_records,原子,boss_domino_ods.user_slot_game_log_realtime,游戏域,游戏行为,候选待审,按log_date自然日统计boss_domino_ods.user_slot_game_log_realtime中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `boss_domino_ods`.`user_slot_game_log_realtime`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P174_DWD_game""]"
-174,BossDomino,I174_game_2,游戏行为记录覆盖账号数,p174_game_covered_users,原子,boss_domino_ods.user_slot_game_log_realtime,游戏域,游戏行为,候选待审,按log_date自然日统计boss_domino_ods.user_slot_game_log_realtime中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `boss_domino_ods`.`user_slot_game_log_realtime`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P174_DWD_game""]"
-174,BossDomino,I174_payment_1,支付订单记录条数,p174_payment_records,原子,boss_domino_ods.infull_order,付费域,充值支付,候选待审,按success_date自然日统计boss_domino_ods.infull_order中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(*) AS metric_value
+FROM `boss_domino_ods`.`user_reg_info`
+WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}'
+GROUP BY DATE(`reg_date`);","[""R174_DWD_register""]"
+174,BossDomino,R174_success_pay_users,源成功状态付费账号数,p174_success_pay_users,原子,boss_domino_ods.infull_order,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选success_date。,账号,"成功条件 `infull_state` = 1，依据：充值状态(0: 请求中，1: 成功，2: 失败, 3:订单补单)；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。",本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
 FROM `boss_domino_ods`.`infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P174_DWD_payment"", ""P174_DWS_payment""]"
-174,BossDomino,I174_payment_2,支付订单记录覆盖账号数,p174_payment_covered_users,原子,boss_domino_ods.infull_order,付费域,充值支付,候选待审,按success_date自然日统计boss_domino_ods.infull_order中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`success_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R174_DWD_payment"", ""R174_DWS_payment""]"
+174,BossDomino,R174_success_pay_amount,源成功状态充值金额,p174_success_pay_amount,原子,boss_domino_ods.infull_order,付费域,充值支付,候选待审,按日累加成功状态记录的infull_amount原值，不擅自除以100或折算货币。,原金额单位（待确认）,金额证据：实际支付金额；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`success_date`) AS stat_date, SUM(`infull_amount`) AS metric_value
 FROM `boss_domino_ods`.`infull_order`
-WHERE `success_date` >= '${start_date}'
-  AND `success_date` < '${end_date}'
-GROUP BY DATE(`success_date`);","[""P174_DWD_payment"", ""P174_DWS_payment""]"
-174,BossDomino,I174_login_1,登录记录条数,p174_login_records,原子,boss_domino_dwd.dwd_login_record,玩家域,登录,候选待审,按login_date自然日统计boss_domino_dwd.dwd_login_record中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `boss_domino_dwd`.`dwd_login_record`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P174_DWD_login"", ""P174_DWS_login""]"
-174,BossDomino,I174_login_2,登录记录覆盖账号数,p174_login_covered_users,原子,boss_domino_dwd.dwd_login_record,玩家域,登录,候选待审,按login_date自然日统计boss_domino_dwd.dwd_login_record中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`login_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `boss_domino_dwd`.`dwd_login_record`
-WHERE `login_date` >= '${start_date}'
-  AND `login_date` < '${end_date}'
-GROUP BY DATE(`login_date`);","[""P174_DWD_login"", ""P174_DWS_login""]"
-177,MergeRestyle,I177_asset_1,道具变动记录条数,p177_asset_records,原子,merge_ods.prop_log,经济域,道具流水,候选待审,按log_date自然日统计merge_ods.prop_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
+WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1
+GROUP BY DATE(`success_date`);","[""R174_DWD_payment"", ""R174_DWS_payment""]"
+174,BossDomino,R174_login_pay_rate,当日登录账号付费率,p174_login_pay_rate,复合,boss_domino_dwd.dwd_login_record,付费域,充值支付,候选待审,同一天登录来源账号中，也在成功充值来源出现的账号占比；先去重到日×账号再关联。,比例0–1,相同字段名不构成同账号域的证明，跨表映射必须确认；分母为登录来源覆盖，未必覆盖所有活跃账号。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH l AS (
+ SELECT DISTINCT DATE(`login_date`) AS d, `user_id` AS uid FROM `boss_domino_dwd`.`dwd_login_record`
+ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
+), p AS (
+ SELECT DISTINCT DATE(`success_date`) AS d, `user_id` AS uid FROM `boss_domino_ods`.`infull_order`
+ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `infull_state` = 1 AND `user_id` IS NOT NULL
+)
+SELECT l.d AS stat_date, COUNT(*) AS login_users, COUNT(p.uid) AS login_pay_users,
+       1.0*COUNT(p.uid)/NULLIF(COUNT(*),0) AS metric_value
+FROM l LEFT JOIN p ON l.d=p.d AND l.uid=p.uid
+GROUP BY l.d;","[""R174_DWD_login"", ""R174_DWD_payment"", ""R174_DWS_login"", ""R174_DWS_payment""]"
+177,MergeRestyle,R177_success_pay_users,源成功状态付费账号数,p177_success_pay_users,原子,merge_ods.order_log,付费域,充值支付,候选待审,按原字段注释明确的成功状态统计去重付款账号；使用时间候选log_date。,账号,成功条件 `state` = 1，依据：开分状态，1成功 2失败 3退款；补单及退款是否计入须确认。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value
+FROM `merge_ods`.`order_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`log_date`);","[""R177_DWD_payment"", ""R177_DWS_payment""]"
+177,MergeRestyle,R177_success_pay_amount,源成功状态充值金额,p177_success_pay_amount,原子,merge_ods.order_log,付费域,充值支付,候选待审,按日及币种third_payment_currency累加成功状态记录的amount原值，不擅自除以100或折算货币。,人民币源单位,金额证据：金额(人民币)；币种范围、冲正和一单多记录需核对。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, `third_payment_currency`, SUM(`amount`) AS metric_value
+FROM `merge_ods`.`order_log`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `state` = 1
+GROUP BY DATE(`log_date`), `third_payment_currency`;","[""R177_DWD_payment"", ""R177_DWS_payment""]"
+177,MergeRestyle,R177_asset_delta,源资产变动净值,p177_asset_delta,原子,merge_ods.prop_log,经济域,道具流水,候选待审,按日和prop_id累计add_prop_num原值，保留符号。,源数量单位,依据：体力变化；需确认单位、重复、冲正和转移，不能自动拆成房卡生产/消耗。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, `prop_id`, SUM(`add_prop_num`) AS metric_value
 FROM `merge_ods`.`prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P177_DWD_asset"", ""P177_DWS_asset""]"
-177,MergeRestyle,I177_asset_2,道具变动记录覆盖账号数,p177_asset_covered_users,原子,merge_ods.prop_log,经济域,道具流水,候选待审,按log_date自然日统计merge_ods.prop_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`), `prop_id`;","[""R177_DWD_asset"", ""R177_DWS_asset""]"
+247,HiggsRubyPalace,R247_registration_users,注册来源覆盖账号数,p247_registration_users,原子,hrp_ods.user_reg_info,玩家域,注册,候选待审,按reg_date统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`reg_date`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `merge_ods`.`prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P177_DWD_asset"", ""P177_DWS_asset""]"
-177,MergeRestyle,I177_audit_1,源审计行为记录条数,p177_audit_records,原子,merge_ods.client_event_log,公共域,行为明细,候选待审,按log_date自然日统计merge_ods.client_event_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `merge_ods`.`client_event_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P177_DWD_audit""]"
-177,MergeRestyle,I177_audit_2,源审计行为记录覆盖账号数,p177_audit_covered_users,原子,merge_ods.client_event_log,公共域,行为明细,候选待审,按log_date自然日统计merge_ods.client_event_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
+FROM `hrp_ods`.`user_reg_info`
+WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}'
+GROUP BY DATE(`reg_date`);","[""R247_DWD_register""]"
+267,BigBossSlot,R267_login_users,登录记录覆盖账号数,p267_login_users,原子,bbs_dwd.dwd_usr_login_log_di,玩家域,登录,候选待审,按log_date自然日去重user_id，仅代表该登录日志的账号覆盖。,账号,未按未知登录状态假定成功；若日志含失败需补充口径。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：登录设备数、活跃设备数、登录次数、登录用户数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, COUNT(DISTINCT `user_id`) AS metric_value FROM `bbs_dwd`.`dwd_usr_login_log_di` WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' GROUP BY DATE(`log_date`);","[""R267_DWD_login"", ""R267_DWS_login""]"
+267,BigBossSlot,R267_login_return_d1,登录账号第1日回访率,p267_login_return_d1,复合,bbs_dwd.dwd_usr_login_log_di,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第1个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `bbs_dwd`.`dwd_usr_login_log_di`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 1 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 1 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 1 DAY)
+GROUP BY c.d;","[""R267_DWD_login"", ""R267_DWS_login""]"
+267,BigBossSlot,R267_login_return_d7,登录账号第7日回访率,p267_login_return_d7,复合,bbs_dwd.dwd_usr_login_log_di,玩家域,登录,候选待审,第0日出现在登录日志的去重账号中，第7个自然日再次出现的比例；是活跃账号回访，不是新注册留存。,比例0–1,data_complete_before为数据已完整的首个未覆盖日期（闭开边界），必须由验收水位提供；不使用当前系统日期伪造成熟。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"WITH active AS (
+ SELECT DISTINCT DATE(`log_date`) AS d, `user_id` AS uid
+ FROM `bbs_dwd`.`dwd_usr_login_log_di`
+ WHERE `log_date` >= '${start_date}'
+   AND `log_date` < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+   AND `log_date` < '${data_complete_before}'
+   AND `user_id` IS NOT NULL
+), cohort AS (
+ SELECT d, uid FROM active
+ WHERE d < DATE('${end_date}')
+   AND DATE_ADD(d, INTERVAL 7 DAY) < DATE('${data_complete_before}')
+)
+SELECT c.d AS stat_date, COUNT(*) AS cohort_users,
+       COUNT(r.uid) AS returned_users,
+       1.0 * COUNT(r.uid) / NULLIF(COUNT(*),0) AS metric_value
+FROM cohort c LEFT JOIN active r
+ ON c.uid=r.uid AND r.d=DATE_ADD(c.d, INTERVAL 7 DAY)
+GROUP BY c.d;","[""R267_DWD_login"", ""R267_DWS_login""]"
+267,BigBossSlot,R267_registration_users,注册来源覆盖账号数,p267_registration_users,原子,bbs_dwd.dwd_usr_reg_info_d,玩家域,注册,候选待审,按reg_date统计注册来源出现的去重账号；须核实是真正注册、专区首登还是迁移补写。,账号,若为当前主档而非事件日志，不代表历史留存完备。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：投放新增用户数、国家注册用户数、注册用户数,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`reg_date`) AS stat_date,
        COUNT(DISTINCT `user_id`) AS metric_value
-FROM `merge_ods`.`client_event_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P177_DWD_audit""]"
-267,BigBossSlot,I267_audit_1,源审计行为记录条数,p267_audit_records,原子,bbs_ods.behavior_log,公共域,行为明细,候选待审,按event_time自然日统计bbs_ods.behavior_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,同来源存在相似项，须逐项核口径：活跃设备数,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`event_time`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bbs_ods`.`behavior_log`
-WHERE `event_time` >= '${start_date}'
-  AND `event_time` < '${end_date}'
-GROUP BY DATE(`event_time`);","[""P267_DWD_audit""]"
-267,BigBossSlot,I267_audit_2,源审计行为记录覆盖账号数,p267_audit_covered_users,原子,bbs_ods.behavior_log,公共域,行为明细,候选待审,按event_time自然日统计bbs_ods.behavior_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`event_time`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bbs_ods`.`behavior_log`
-WHERE `event_time` >= '${start_date}'
-  AND `event_time` < '${end_date}'
-GROUP BY DATE(`event_time`);","[""P267_DWD_audit""]"
-267,BigBossSlot,I267_game_1,游戏行为记录条数,p267_game_records,原子,bbs_ods.user_slot_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计bbs_ods.user_slot_game_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bbs_ods`.`user_slot_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P267_DWD_game""]"
-267,BigBossSlot,I267_game_2,游戏行为记录覆盖账号数,p267_game_covered_users,原子,bbs_ods.user_slot_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计bbs_ods.user_slot_game_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bbs_ods`.`user_slot_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P267_DWD_game""]"
-267,BigBossSlot,I267_asset_1,道具变动记录条数,p267_asset_records,原子,bbs_ods.user_prop_log,经济域,道具流水,候选待审,按log_date自然日统计bbs_ods.user_prop_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `bbs_ods`.`user_prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P267_DWD_asset""]"
-267,BigBossSlot,I267_asset_2,道具变动记录覆盖账号数,p267_asset_covered_users,原子,bbs_ods.user_prop_log,经济域,道具流水,候选待审,按log_date自然日统计bbs_ods.user_prop_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
-FROM `bbs_ods`.`user_prop_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P267_DWD_asset""]"
+FROM `bbs_dwd`.`dwd_usr_reg_info_d`
+WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}'
+GROUP BY DATE(`reg_date`);","[""R267_DWD_register""]"
+267,BigBossSlot,R267_asset_delta,源资产变动净值,p267_asset_delta,原子,bbs_dwd.dwd_eco_prop_log_di,经济域,道具流水,候选待审,按日和prop_id累计prop_num原值，保留符号。,源数量单位,依据：道具变动数量；需确认单位、重复、冲正和转移，不能自动拆成房卡生产/消耗。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,同项目可能重叠，需核对维度、状态和时间：金币发放量,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date, `prop_id`, SUM(`prop_num`) AS metric_value
+FROM `bbs_dwd`.`dwd_eco_prop_log_di`
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`), `prop_id`;","[""R267_DWD_asset""]"
 267,BigBossSlot,STOCK55,破产率,broke_rate,复合,dwd_gam_slot_log_rt,游戏域,破产,平台可用,破产率 = 破产用户数（指标 152）/ SPIN用户数（指标 145）。分子继承破产用户数的当前口径：在 bbs_dwd.dwd_gam_slot_log_rt 中先按 user_id、game_id、spin_times 归并同一局，按 buff11、log_date、log_id 的既定顺序确定结算记录，以归并后的 end_money < bet_money 判定破产，并按 user_id 去重；分母继承 SPIN用户数口径：筛选 game_type = 0 后按 user_id 去重。两者使用相同的 log_date 时间范围及公共维度筛选，先分别聚合再相除；分母为 0 时返回 NULL，跨时间或维度汇总时按总分子/总分母重算。,',',本次可见可用登记项,平台已有定义；本轮未执行取数,"'-- 分子继承已发布原子指标 152，分母继承已发布原子指标 145；不固化统计日期。
 -- 公共时间及维度筛选必须分别下推到两个源表查询后再聚合；平台自动注入位置尚未验证。
 select
@@ -6783,30 +7149,21 @@ FROM
   COUNT(DISTINCT user_id)
 FROM
   bbs_dwd.dwd_usr_login_log_rt",[]
-274,applifier,I274_advertising_1,投放数据记录条数,p274_advertising_records,原子,gcuser.campaign_info,公共域,行为明细,候选待审,按c_time自然日统计gcuser.campaign_info中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`c_time`) AS stat_date,
-       COUNT(*) AS metric_value
-FROM `gcuser`.`campaign_info`
-WHERE `c_time` >= '${start_date}'
-  AND `c_time` < '${end_date}'
-GROUP BY DATE(`c_time`);",[]
-274,applifier,I274_advertising_2,投放数据记录覆盖账号数,p274_advertising_covered_users,原子,gcuser.campaign_info,公共域,行为明细,候选待审,按c_time自然日统计gcuser.campaign_info中的去重advertiser_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`c_time`) AS stat_date,
-       COUNT(DISTINCT `advertiser_id`) AS metric_value
-FROM `gcuser`.`campaign_info`
-WHERE `c_time` >= '${start_date}'
-  AND `c_time` < '${end_date}'
-GROUP BY DATE(`c_time`);",[]
-279,线上比赛,I279_game_1,游戏行为记录条数,p279_game_records,原子,xsbs_ods.tms_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计xsbs_ods.tms_game_log中的源记录条数。,条,源表行数，不代表去重业务事件数、支付成功次数或游戏局数。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(*) AS metric_value
+279,线上比赛,R279_game_duration,游戏记录时长合计,p279_game_duration,原子,xsbs_ods.tms_game_log,游戏域,游戏行为,候选待审,累加game_time，原注释：游戏时长。,源时长单位（待确认）,须核对分段重复、免费局、结算重放、并发会话和有效时长范围。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       SUM(`game_time`) AS metric_value
 FROM `xsbs_ods`.`tms_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P279_DWD_game"", ""P279_DWS_game""]"
-279,线上比赛,I279_game_2,游戏行为记录覆盖账号数,p279_game_covered_users,原子,xsbs_ods.tms_game_log,游戏域,游戏行为,候选待审,按log_date自然日统计xsbs_ods.tms_game_log中的去重user_id。,账号,仅统计源表出现的非空标识；账号域、测试账号过滤及覆盖范围待确认。 时间字段按名称排序选取，须确认事件时间、时区和分区过滤；未执行SQL。,本次可见可用指标中未找到同SQL；不等于已证明业务口径全新。,仅核对来源表、字段存在和时间类型；未引擎EXPLAIN、未执行业务取数。,"SELECT DATE(`log_date`) AS stat_date,
-       COUNT(DISTINCT `user_id`) AS metric_value
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R279_DWD_game"", ""R279_DWS_game""]"
+279,线上比赛,R279_duration_per_game_user,游戏记录覆盖账号人均时长,p279_duration_per_game_user,复合,xsbs_ods.tms_game_log,游戏域,游戏行为,候选待审,同日非空账号对应的记录时长总和÷这些游戏记录的去重账号数；不除以登录DAU。,源时长单位（待确认）/账号,单位与合计相同；人均时长不可先算各渠道均值再平均。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`log_date`) AS stat_date,
+       1.0*SUM(CASE WHEN `user_id` IS NOT NULL THEN `game_time` END)/NULLIF(COUNT(DISTINCT `user_id`),0) AS metric_value
 FROM `xsbs_ods`.`tms_game_log`
-WHERE `log_date` >= '${start_date}'
-  AND `log_date` < '${end_date}'
-GROUP BY DATE(`log_date`);","[""P279_DWD_game"", ""P279_DWS_game""]"
+WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
+GROUP BY DATE(`log_date`);","[""R279_DWD_game"", ""R279_DWS_game""]"
+338,大数据运维,R338_query_avg_ms,StarRocks查询平均耗时,p338_query_avg_ms,原子,dwops_audit.sr_sql_full_log,公共域,行为明细,候选待审,按查询提交自然日统计审计查询耗时的算术平均，不排除失败状态。,毫秒,源注释已给毫秒单位；先核对query_id及集群去重、超时和取消状态；平均值不能代替P95。 时间按源存储时区解释，业务时区须确认；账号域、迟到、重复与测试账号过滤尚未验收。,本次可用指标导出未见匹配证据；未覆盖未发布草稿，不能据此认定业务口径全新。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"SELECT DATE(`query_time`) AS stat_date,
+       AVG(`query_time_ms`) AS metric_value
+FROM `dwops_audit`.`sr_sql_full_log`
+WHERE `query_time` >= '${start_date}' AND `query_time` < '${end_date}'
+GROUP BY DATE(`query_time`);","[""R338_DWD_audit""]"
 345,捕鱼赛道,STOCK238,金币消耗,consume_money,原子,dws_eco_by_user_topic,经济域,金币流水,平台可用,',',',本次可见可用登记项,平台已有定义；本轮未执行取数,"SELECT
   SUM(money)
 FROM
