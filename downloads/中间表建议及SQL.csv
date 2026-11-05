@@ -31,7 +31,7 @@
   `risk_reasons`
 FROM `bkqp_dwd`.`dwd_login_log_detail_di`
 WHERE `login_time` >= '${start_date}' AND `login_time` < '${end_date}';"
-1,波克棋牌,R1_DWD_payment,DWD,dwd_p1_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_id。,"[""bkqp_ods.fish_open_order""]",infull_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+1,波克棋牌,R1_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_id。,"[""bkqp_ods.fish_open_order""]",infull_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_id`,
   `state`,
   `amount`,
@@ -54,7 +54,7 @@ WHERE `login_time` >= '${start_date}' AND `login_time` < '${end_date}';"
   `version_num`
 FROM `bkqp_ods`.`fish_open_order`
 WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}';"
-1,波克棋牌,R1_DWD_register,DWD,dwd_p1_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：url_id×user_id×reg_date。,"[""bkqp_ods.user_reg_log""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+1,波克棋牌,R1_DWD_register,DWD,dwd_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：url_id×user_id×reg_date。,"[""bkqp_ods.user_reg_log""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `url_id`,
   `user_id`,
   `reg_ip`,
@@ -87,7 +87,7 @@ WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}';"
   `source_table`
 FROM `bkqp_dwd`.`dwd_game_play_log_di`
 WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';"
-1,波克棋牌,R1_DWD_asset,DWD,dwd_p1_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：fpl_id×user_id×log_date。,"[""bkqp_ods.fish_prop_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+1,波克棋牌,R1_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：fpl_id×user_id×log_date。,"[""bkqp_ods.fish_prop_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `fpl_id`,
   `user_id`,
   `prop_id`,
@@ -100,7 +100,7 @@ WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';"
   `agent_id`
 FROM `bkqp_ods`.`fish_prop_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-1,波克棋牌,R1_DWD_operation,DWD,dwd_p1_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：qll_id×log_date。,"[""bkqp_ods.activity_gift_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+1,波克棋牌,R1_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：qll_id×log_date。,"[""bkqp_ods.activity_gift_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `qll_id`,
   `user_id`,
   `user_name`,
@@ -116,18 +116,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `channel_id`
 FROM `bkqp_ods`.`activity_gift_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-1,波克棋牌,R1_DWS_login,DWS,dws_p1_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkqp_dwd.dwd_login_log_detail_di""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_time`) AS stat_date, `user_id`,
+1,波克棋牌,R1_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkqp_dwd.dwd_login_log_detail_di""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_time`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `bkqp_dwd`.`dwd_login_log_detail_di`
 WHERE `login_time` >= '${start_date}' AND `login_time` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_time`), `user_id`;"
-1,波克棋牌,R1_DWS_payment,DWS,dws_p1_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkqp_ods.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`infull_date`) AS stat_date, `user_id`,
+1,波克棋牌,R1_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkqp_ods.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`infull_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `bkqp_ods`.`fish_open_order`
 WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`infull_date`), `user_id`;"
-3,仙魔2D,R3_DWD_login,DWD,dwd_p3_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×login_date×all_id。,"[""bkby_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+3,仙魔2D,R3_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×login_date×all_id。,"[""bkby_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `all_id`,
   `user_name`,
@@ -163,7 +163,7 @@ GROUP BY DATE(`infull_date`), `user_id`;"
   `finger_print_id`
 FROM `bkby_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-3,仙魔2D,R3_DWD_payment,DWD,dwd_p3_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×order_id×infull_date。,"[""bkby_ods.fish_open_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+3,仙魔2D,R3_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×order_id×infull_date。,"[""bkby_ods.fish_open_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_id`,
   `state`,
   `amount`,
@@ -196,7 +196,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `bank_pet_money`
 FROM `bkby_ods`.`fish_open_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
-3,仙魔2D,R3_DWD_asset,DWD,dwd_p3_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date×fml_id。,"[""bkby_ods.fish_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+3,仙魔2D,R3_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date×fml_id。,"[""bkby_ods.fish_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `fml_id`,
   `user_id`,
   `type`,
@@ -213,7 +213,7 @@ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
   `bank_money`
 FROM `bkby_ods`.`fish_money_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-3,仙魔2D,R3_DWD_operation,DWD,dwd_p3_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date×fal_id。,"[""bkby_ods.fish_activity_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+3,仙魔2D,R3_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date×fal_id。,"[""bkby_ods.fish_activity_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `fal_id`,
   `user_id`,
   `nick_name`,
@@ -228,18 +228,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `agent_id`
 FROM `bkby_ods`.`fish_activity_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-3,仙魔2D,R3_DWS_login,DWS,dws_p3_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkby_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+3,仙魔2D,R3_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkby_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `bkby_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-3,仙魔2D,R3_DWS_payment,DWS,dws_p3_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkby_ods.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+3,仙魔2D,R3_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bkby_ods.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `bkby_ods`.`fish_open_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-4,捕鱼游戏王,P4_DWD_game,DWD,dwd_p4_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×user_id×agent_id×room_type_id×log_type×log_date。业务事件唯一性待验证。,"[""byqph5_ods.fish_game_log""]",LOG_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+4,捕鱼游戏王,P4_DWD_game,DWD,dwd_game_event_di,游戏行为记录标准明细,建议新建,P1,保留源行粒度；采集键：id×user_id×agent_id×room_type_id×log_type×log_date。业务事件唯一性待验证。,"[""byqph5_ods.fish_game_log""]",LOG_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
   `ID`,
   `FGL_ID`,
   `USER_ID`,
@@ -355,7 +355,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
 FROM `byqph5_ods`.`fish_game_log`
 WHERE `LOG_DATE` >= '${start_date}'
   AND `LOG_DATE` < '${end_date}';"
-4,捕鱼游戏王,P4_DWD_payment,DWD,dwd_p4_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：id×order_no×user_id。业务事件唯一性待验证。,"[""byqph5_ods.pook_infull""]",INFULL_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+4,捕鱼游戏王,P4_DWD_payment,DWD,dwd_payment_event_di,支付订单记录标准明细,建议新建,P1,保留源行粒度；采集键：id×order_no×user_id。业务事件唯一性待验证。,"[""byqph5_ods.pook_infull""]",INFULL_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
   `id`,
   `ORDER_NO`,
   `INFULL_TYPE`,
@@ -389,7 +389,7 @@ WHERE `LOG_DATE` >= '${start_date}'
 FROM `byqph5_ods`.`pook_infull`
 WHERE `INFULL_DATE` >= '${start_date}'
   AND `INFULL_DATE` < '${end_date}';"
-4,捕鱼游戏王,P4_DWD_login,DWD,dwd_p4_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：all_id×user_id×login_date×agent_id×mac。业务事件唯一性待验证。,"[""byqph5_ods.app_login_log""]",LOGIN_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+4,捕鱼游戏王,P4_DWD_login,DWD,dwd_login_event_di,登录记录标准明细,建议新建,P1,保留源行粒度；采集键：all_id×user_id×login_date×agent_id×mac。业务事件唯一性待验证。,"[""byqph5_ods.app_login_log""]",LOGIN_DATE（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
   `ALL_ID`,
   `USER_ID`,
   `AGENT_ID`,
@@ -416,7 +416,7 @@ WHERE `INFULL_DATE` >= '${start_date}'
 FROM `byqph5_ods`.`app_login_log`
 WHERE `LOGIN_DATE` >= '${start_date}'
   AND `LOGIN_DATE` < '${end_date}';"
-4,捕鱼游戏王,P4_DWD_asset,DWD,dwd_p4_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：fpl_id×user_id×agent_id×log_date。业务事件唯一性待验证。,"[""byqph5_ods.fish_prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+4,捕鱼游戏王,P4_DWD_asset,DWD,dwd_asset_event_di,道具变动记录标准明细,建议新建,P1,保留源行粒度；采集键：fpl_id×user_id×agent_id×log_date。业务事件唯一性待验证。,"[""byqph5_ods.fish_prop_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
   `fpl_id`,
   `user_id`,
   `game_id`,
@@ -432,7 +432,7 @@ WHERE `LOGIN_DATE` >= '${start_date}'
 FROM `byqph5_ods`.`fish_prop_log`
 WHERE `log_date` >= '${start_date}'
   AND `log_date` < '${end_date}';"
-4,捕鱼游戏王,P4_DWD_operation,DWD,dwd_p4_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id。业务事件唯一性待验证。,"[""byqph5_ods.sign_info_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
+4,捕鱼游戏王,P4_DWD_operation,DWD,dwd_operation_event_di,运营行为记录标准明细,建议新建,P2,保留源行粒度；采集键：id。业务事件唯一性待验证。,"[""byqph5_ods.sign_info_log""]",log_date（按源字段过滤；目标日分区方案待确认）,按事件时间闭开区间抽取；幂等键和迟到窗口须验证后确定。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认事件时间语义、时区、采集键与业务唯一键"", ""确认接入权限、目标库、调度和迟到补数策略""]","SELECT
   `id`,
   `log_date`,
   `agent_id`,
@@ -442,19 +442,19 @@ WHERE `log_date` >= '${start_date}'
 FROM `byqph5_ods`.`sign_info_log`
 WHERE `log_date` >= '${start_date}'
   AND `log_date` < '${end_date}';"
-4,捕鱼游戏王,P4_DWS_asset,DWS,dws_p4_asset_user_1d,道具变动记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqph5_ods.fish_prop_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+4,捕鱼游戏王,P4_DWS_asset,DWS,dws_asset_user_1d,道具变动记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqph5_ods.fish_prop_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `byqph5_ods`.`fish_prop_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
   AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-4,捕鱼游戏王,P4_DWS_operation,DWS,dws_p4_operation_user_1d,运营行为记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqph5_ods.sign_info_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+4,捕鱼游戏王,P4_DWS_operation,DWS,dws_operation_user_1d,运营行为记录账号日汇总,建议新建,P1,统计日×源账号user_id,"[""byqph5_ods.sign_info_log""]",stat_date,按实际验收水位补写日分区；迟到记录触发重算。,字段存在与类型静态核对；未引擎EXPLAIN、未执行业务取数。,"[""确认源记录的业务粒度和事件时间"", ""确认同账号域及测试账号排除范围；核对是否已有同粒度DWS可复用""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `byqph5_ods`.`sign_info_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}'
   AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-5,HiggsDomino-印尼,R5_DWD_login,DWD,dwd_p5_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：login_date×user_id。,"[""domino_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+5,HiggsDomino-印尼,R5_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：login_date×user_id。,"[""domino_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `agent_id`,
   `mac`,
@@ -483,7 +483,7 @@ GROUP BY DATE(`log_date`), `user_id`;"
   `asn`
 FROM `domino_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-5,HiggsDomino-印尼,R5_DWD_payment,DWD,dwd_p5_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×order_no×infull_date。,"[""domino_ods.infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+5,HiggsDomino-印尼,R5_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×order_no×infull_date。,"[""domino_ods.infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `infull_type`,
   `infull_platform`,
@@ -528,7 +528,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `buff`
 FROM `domino_ods`.`infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
-5,HiggsDomino-印尼,R5_DWD_register,DWD,dwd_p5_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""domino_ods.user_reg_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+5,HiggsDomino-印尼,R5_DWD_register,DWD,dwd_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""domino_ods.user_reg_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `third_open_id`,
@@ -555,7 +555,7 @@ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
   `unusual_register_type`
 FROM `domino_ods`.`user_reg_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-5,HiggsDomino-印尼,R5_DWD_game,DWD,dwd_p5_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×game_num×log_time。,"[""domino_ods.comm_game_log""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+5,HiggsDomino-印尼,R5_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×game_num×log_time。,"[""domino_ods.comm_game_log""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `friend_game_num`,
   `game_num`,
@@ -618,7 +618,7 @@ WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';"
   `server_id`
 FROM `domino_dwd`.`dwd_eco_user_money_log_di`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-5,HiggsDomino-印尼,R5_DWD_operation,DWD,dwd_p5_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date×user_id。,"[""domino_ods.activity_user_daily_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+5,HiggsDomino-印尼,R5_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date×user_id。,"[""domino_ods.activity_user_daily_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `activity_id`,
@@ -651,18 +651,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `log_type`
 FROM `domino_ods`.`activity_user_daily_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-5,HiggsDomino-印尼,R5_DWS_login,DWS,dws_p5_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""domino_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+5,HiggsDomino-印尼,R5_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""domino_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `domino_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-5,HiggsDomino-印尼,R5_DWS_payment,DWS,dws_p5_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""domino_ods.infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+5,HiggsDomino-印尼,R5_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""domino_ods.infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `infull_state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `domino_ods`.`infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-6,大世界,R6_DWD_login,DWD,dwd_p6_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""bydsj_ods.app_login_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+6,大世界,R6_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""bydsj_ods.app_login_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `user_name`,
   `nick_name`,
@@ -692,7 +692,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
   `boke_id`
 FROM `bydsj_ods`.`app_login_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-6,大世界,R6_DWD_payment,DWD,dwd_p6_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_id×infull_date×state。,"[""bydsj_ods_rt.fish_open_order""]",infull_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+6,大世界,R6_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_id×infull_date×state。,"[""bydsj_ods_rt.fish_open_order""]",infull_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_id`,
   `state`,
   `amount`,
@@ -723,7 +723,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `client_agent_id`
 FROM `bydsj_ods_rt`.`fish_open_order`
 WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}';"
-6,大世界,R6_DWD_game,DWD,dwd_p6_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date×room_type×fish_type。,"[""bydsj_ods_rt.fish_boss_ex_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+6,大世界,R6_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date×room_type×fish_type。,"[""bydsj_ods_rt.fish_boss_ex_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `nick_name`,
   `server_id`,
@@ -751,7 +751,7 @@ WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}';"
   `fish_life`
 FROM `bydsj_ods_rt`.`fish_boss_ex_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-6,大世界,R6_DWD_asset,DWD,dwd_p6_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""bydsj_ods.fish_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+6,大世界,R6_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""bydsj_ods.fish_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `fml_id`,
   `user_id`,
   `type`,
@@ -768,7 +768,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `bank_money`
 FROM `bydsj_ods`.`fish_money_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-6,大世界,R6_DWD_operation,DWD,dwd_p6_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：task_id×user_id×log_date。,"[""bydsj_ods_rt.by3d_new_control_task_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+6,大世界,R6_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：task_id×user_id×log_date。,"[""bydsj_ods_rt.by3d_new_control_task_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `task_id`,
   `user_id`,
   `log_date`,
@@ -823,12 +823,12 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `last_win_bet`
 FROM `bydsj_ods_rt`.`by3d_new_control_task_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-6,大世界,R6_DWS_login,DWS,dws_p6_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bydsj_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+6,大世界,R6_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bydsj_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `bydsj_ods`.`app_login_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-6,大世界,R6_DWS_payment,DWS,dws_p6_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bydsj_ods_rt.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`infull_date`) AS stat_date, `user_id`,
+6,大世界,R6_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bydsj_ods_rt.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`infull_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `bydsj_ods_rt`.`fish_open_order`
@@ -840,7 +840,7 @@ GROUP BY DATE(`infull_date`), `user_id`;"
   `login_date`
 FROM `dummy_dwd`.`device_user_login`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-8,Dummy-泰国,R8_DWD_payment,DWD,dwd_p8_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no×infull_date。,"[""dummy_ods.infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+8,Dummy-泰国,R8_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no×infull_date。,"[""dummy_ods.infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `infull_type`,
   `infull_platform`,
@@ -879,7 +879,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `buyer_infullamount`
 FROM `dummy_ods`.`infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
-8,Dummy-泰国,R8_DWD_register,DWD,dwd_p8_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""dummy_ods.user_reg_info""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+8,Dummy-泰国,R8_DWD_register,DWD,dwd_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""dummy_ods.user_reg_info""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `reg_mac`,
   `reg_ip`,
@@ -913,7 +913,7 @@ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
   `reg_location`
 FROM `dummy_ods`.`user_reg_info`
 WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}';"
-8,Dummy-泰国,R8_DWD_game,DWD,dwd_p8_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""dummy_ods.user_slot_game_log_realtime""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+8,Dummy-泰国,R8_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""dummy_ods.user_slot_game_log_realtime""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `agent_id`,
@@ -945,7 +945,7 @@ WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}';"
   `json_log`
 FROM `dummy_ods`.`user_slot_game_log_realtime`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-8,Dummy-泰国,R8_DWD_asset,DWD,dwd_p8_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""dummy_ods.user_money_log_view""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+8,Dummy-泰国,R8_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""dummy_ods.user_money_log_view""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `game_num`,
   `user_id`,
@@ -971,7 +971,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `bonus_money_num`
 FROM `dummy_ods`.`user_money_log_view`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-8,Dummy-泰国,R8_DWD_operation,DWD,dwd_p8_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""dummy_ods.activity_play_log_view""]",operate_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+8,Dummy-泰国,R8_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""dummy_ods.activity_play_log_view""]",operate_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `act_id`,
   `activity_period`,
@@ -991,18 +991,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `num5`
 FROM `dummy_ods`.`activity_play_log_view`
 WHERE `operate_date` >= '${start_date}' AND `operate_date` < '${end_date}';"
-8,Dummy-泰国,R8_DWS_login,DWS,dws_p8_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""dummy_dwd.device_user_login""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+8,Dummy-泰国,R8_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""dummy_dwd.device_user_login""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `dummy_dwd`.`device_user_login`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-8,Dummy-泰国,R8_DWS_payment,DWS,dws_p8_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""dummy_ods.infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+8,Dummy-泰国,R8_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""dummy_ods.infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `infull_state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `dummy_ods`.`infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-12,猎鱼达人手游,R12_DWD_login,DWD,dwd_p12_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：pk_id×all_id×user_id×login_date。,"[""byhls_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+12,猎鱼达人手游,R12_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：pk_id×all_id×user_id×login_date。,"[""byhls_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `pk_id`,
   `all_id`,
   `user_id`,
@@ -1032,7 +1032,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
   `fingerprint`
 FROM `byhls_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-12,猎鱼达人手游,R12_DWD_payment,DWD,dwd_p12_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×infull_date×order_no。,"[""byhls_ods.view_infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+12,猎鱼达人手游,R12_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×infull_date×order_no。,"[""byhls_ods.view_infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `infull_date`,
   `order_no`,
@@ -1057,7 +1057,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `refund_date`
 FROM `byhls_ods`.`view_infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
-12,猎鱼达人手游,R12_DWD_game,DWD,dwd_p12_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""byhls_ods.fish_info_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+12,猎鱼达人手游,R12_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""byhls_ods.fish_info_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `log_date`,
   `room_id`,
@@ -1091,7 +1091,7 @@ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
   `kill_date`
 FROM `byhls_ods`.`fish_info_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-12,猎鱼达人手游,R12_DWD_asset,DWD,dwd_p12_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×user_id×log_date。,"[""byhls_ods.game_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+12,猎鱼达人手游,R12_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×user_id×log_date。,"[""byhls_ods.game_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `log_date`,
@@ -1135,12 +1135,12 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `neutral_ctrl_lose`
 FROM `byhls_ods`.`game_money_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-12,猎鱼达人手游,R12_DWS_login,DWS,dws_p12_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byhls_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+12,猎鱼达人手游,R12_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byhls_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `byhls_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-12,猎鱼达人手游,R12_DWS_payment,DWS,dws_p12_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byhls_ods.view_infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+12,猎鱼达人手游,R12_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byhls_ods.view_infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `infull_state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `byhls_ods`.`view_infull_order`
@@ -1163,7 +1163,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
   `port`
 FROM `lydr3d_dwd`.`dwd_usr_login_log_hi`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-31,猎鱼达人3D,R31_DWD_payment,DWD,dwd_p31_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：pk_id。,"[""lydr3d_ods.txstar_pook_infull""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+31,猎鱼达人3D,R31_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：pk_id。,"[""lydr3d_ods.txstar_pook_infull""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `pk_id`,
   `order_no`,
   `third_order_no`,
@@ -1193,7 +1193,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `return_agent_id`
 FROM `lydr3d_ods`.`txstar_pook_infull`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
-31,猎鱼达人3D,R31_DWD_game,DWD,dwd_p31_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：fgl_id×user_id×log_date。,"[""lydr3d_ods.fish_game_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+31,猎鱼达人3D,R31_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：fgl_id×user_id×log_date。,"[""lydr3d_ods.fish_game_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `fgl_id`,
   `user_id`,
   `log_date`,
@@ -1301,7 +1301,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `tmp_sub_boke_point`
 FROM `lydr3d_dwd`.`dwd_trd_point_log_hi`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-31,猎鱼达人3D,R31_DWD_operation,DWD,dwd_p31_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""lydr3d_ods.activity_common_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+31,猎鱼达人3D,R31_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""lydr3d_ods.activity_common_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `log_date`,
   `user_id`,
@@ -1331,18 +1331,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `str_data_1`
 FROM `lydr3d_ods`.`activity_common_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-31,猎鱼达人3D,R31_DWS_login,DWS,dws_p31_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lydr3d_dwd.dwd_usr_login_log_hi""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+31,猎鱼达人3D,R31_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lydr3d_dwd.dwd_usr_login_log_hi""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `lydr3d_dwd`.`dwd_usr_login_log_hi`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-31,猎鱼达人3D,R31_DWS_payment,DWS,dws_p31_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lydr3d_ods.txstar_pook_infull""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+31,猎鱼达人3D,R31_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lydr3d_ods.txstar_pook_infull""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `infull_state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `lydr3d_ods`.`txstar_pook_infull`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-43,爆炒江湖,R43_DWD_login,DWD,dwd_p43_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：event_time×mid。,"[""bcjh_ods.bcjh_login_blog""]",event_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+43,爆炒江湖,R43_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：event_time×mid。,"[""bcjh_ods.bcjh_login_blog""]",event_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `event_time`,
   `mid`,
   `game_id`,
@@ -1364,7 +1364,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
   `log_time`
 FROM `bcjh_ods`.`bcjh_login_blog`
 WHERE `event_time` >= '${start_date}' AND `event_time` < '${end_date}';"
-43,爆炒江湖,R43_DWD_payment,DWD,dwd_p43_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：ORDER_ID。,"[""bcjh_ods.pay_log""]",INFULL_DATE对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+43,爆炒江湖,R43_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：ORDER_ID。,"[""bcjh_ods.pay_log""]",INFULL_DATE对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `ORDER_ID`,
   `STATE`,
   `AMOUNT`,
@@ -1390,13 +1390,13 @@ WHERE `event_time` >= '${start_date}' AND `event_time` < '${end_date}';"
   `cp_param`
 FROM `bcjh_ods`.`pay_log`
 WHERE `INFULL_DATE` >= '${start_date}' AND `INFULL_DATE` < '${end_date}';"
-43,爆炒江湖,R43_DWS_payment,DWS,dws_p43_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号USER_ID,"[""bcjh_ods.pay_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`INFULL_DATE`) AS stat_date, `USER_ID`,
+43,爆炒江湖,R43_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号USER_ID,"[""bcjh_ods.pay_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`INFULL_DATE`) AS stat_date, `USER_ID`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `STATE` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `bcjh_ods`.`pay_log`
 WHERE `INFULL_DATE` >= '${start_date}' AND `INFULL_DATE` < '${end_date}' AND `USER_ID` IS NOT NULL
 GROUP BY DATE(`INFULL_DATE`), `USER_ID`;"
-46,DW,R46_DWD_login,DWD,dwd_p46_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：all_id×login_date。,"[""haoshen_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+46,DW,R46_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：all_id×login_date。,"[""haoshen_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `all_id`,
   `login_date`,
   `user_id`,
@@ -1426,7 +1426,7 @@ GROUP BY DATE(`INFULL_DATE`), `USER_ID`;"
   `login_code`
 FROM `haoshen_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-46,DW,R46_DWD_payment,DWD,dwd_p46_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no。,"[""haoshen_ods.charge_order_info""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+46,DW,R46_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no。,"[""haoshen_ods.charge_order_info""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `user_id`,
   `user_name`,
@@ -1494,12 +1494,12 @@ WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';"
   `buff3`
 FROM `haoshen_dwd`.`dwd_slot_main_log_di`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-46,DW,R46_DWS_login,DWS,dws_p46_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""haoshen_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+46,DW,R46_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""haoshen_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `haoshen_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-46,DW,R46_DWS_payment,DWS,dws_p46_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""haoshen_ods.charge_order_info""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_time`) AS stat_date, `user_id`,
+46,DW,R46_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""haoshen_ods.charge_order_info""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_time`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `haoshen_ods`.`charge_order_info`
 WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}' AND `user_id` IS NOT NULL
@@ -1695,7 +1695,7 @@ FROM cohort c LEFT JOIN login_days r
 GROUP BY c.stat_date;"
 86,地方棋牌,DWS01,DWS,friend_dws.user_app_login_daily_d,现有账号登录日汇总,复用现有,P1,dt×user_type×user_id,"[""friend_ods.app_login_log""]",现有dt分区，查询直接过滤dt,复用现有产出，先核验覆盖；保留迟到重算与完整性水位,',','
 86,地方棋牌,DWS02,DWS,friend_dws.user_comm_game_daily_d,现有玩家玩法参与日汇总,复用现有,P1,dt×user_type×user_id×game_id,"[""friend_ods.comm_game_log""]",现有dt分区，查询直接过滤dt,复用现有参与次数；新增口径前核对生产SQL和迟到补数,',','
-91,灵画师-国内版,R91_DWD_login,DWD,dwd_p91_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×log_date。,"[""lhs_ods.app_login_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+91,灵画师-国内版,R91_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×log_date。,"[""lhs_ods.app_login_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `log_date`,
   `user_id`,
@@ -1708,7 +1708,7 @@ GROUP BY c.stat_date;"
   `area`
 FROM `lhs_ods`.`app_login_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-91,灵画师-国内版,R91_DWD_payment,DWD,dwd_p91_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×log_date。,"[""lhs_ods.recharge_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+91,灵画师-国内版,R91_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×log_date。,"[""lhs_ods.recharge_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `log_date`,
   `order_num`,
@@ -1729,7 +1729,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `third_order_num`
 FROM `lhs_ods`.`recharge_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-91,灵画师-国内版,R91_DWD_register,DWD,dwd_p91_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date。,"[""lhs_ods.app_reg_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+91,灵画师-国内版,R91_DWD_register,DWD,dwd_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date。,"[""lhs_ods.app_reg_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `log_date`,
   `agent_id`,
@@ -1741,7 +1741,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `app_type`
 FROM `lhs_ods`.`app_reg_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-91,灵画师-国内版,R91_DWD_game,DWD,dwd_p91_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""lhs_ods.game_info_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+91,灵画师-国内版,R91_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""lhs_ods.game_info_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `log_date`,
   `user_id`,
@@ -1753,7 +1753,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `log_info`
 FROM `lhs_ods`.`game_info_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-91,灵画师-国内版,R91_DWD_asset,DWD,dwd_p91_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""lhs_ods.item_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+91,灵画师-国内版,R91_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""lhs_ods.item_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `log_date`,
   `user_id`,
@@ -1766,12 +1766,12 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `after_count`
 FROM `lhs_ods`.`item_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-91,灵画师-国内版,R91_DWS_login,DWS,dws_p91_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lhs_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+91,灵画师-国内版,R91_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lhs_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `lhs_ods`.`app_login_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-91,灵画师-国内版,R91_DWS_payment,DWS,dws_p91_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lhs_ods.recharge_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+91,灵画师-国内版,R91_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""lhs_ods.recharge_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `lhs_ods`.`recharge_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
@@ -1783,7 +1783,7 @@ GROUP BY DATE(`log_date`), `user_id`;"
   `login_num`
 FROM `ludocafe_dwd`.`user_login_record`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-100,DominoCafe,R100_DWD_payment,DWD,dwd_p100_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""ludocafe_ods.pook_infull""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+100,DominoCafe,R100_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""ludocafe_ods.pook_infull""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `user_id`,
   `id`,
@@ -1841,7 +1841,7 @@ WHERE `etl_time` >= '${start_date}' AND `etl_time` < '${end_date}';"
   `fu_num`
 FROM `ludocafe_dwd`.`dwd_user_money_log_di`
 WHERE `etl_time` >= '${start_date}' AND `etl_time` < '${end_date}';"
-100,DominoCafe,R100_DWD_operation,DWD,dwd_p100_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：unique_id×log_date。,"[""ludocafe_ods.user_activity_common_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+100,DominoCafe,R100_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：unique_id×log_date。,"[""ludocafe_ods.user_activity_common_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `unique_id`,
   `log_date`,
   `user_id`,
@@ -1850,17 +1850,17 @@ WHERE `etl_time` >= '${start_date}' AND `etl_time` < '${end_date}';"
   `extra_param`
 FROM `ludocafe_ods`.`user_activity_common_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-100,DominoCafe,R100_DWS_login,DWS,dws_p100_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ludocafe_dwd.user_login_record""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+100,DominoCafe,R100_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ludocafe_dwd.user_login_record""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `ludocafe_dwd`.`user_login_record`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-100,DominoCafe,R100_DWS_payment,DWS,dws_p100_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ludocafe_ods.pook_infull""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+100,DominoCafe,R100_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ludocafe_ods.pook_infull""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `ludocafe_ods`.`pook_infull`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-103,捕鱼达人千炮版3D,R103_DWD_login,DWD,dwd_p103_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：all_id×user_id×login_date。,"[""byqp_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+103,捕鱼达人千炮版3D,R103_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：all_id×user_id×login_date。,"[""byqp_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `all_id`,
   `user_id`,
   `login_date`,
@@ -1888,7 +1888,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
   `port`
 FROM `byqp_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-103,捕鱼达人千炮版3D,R103_DWD_payment,DWD,dwd_p103_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no。,"[""byqp_ods.view_infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+103,捕鱼达人千炮版3D,R103_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no。,"[""byqp_ods.view_infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `infull_type`,
   `infull_platform`,
@@ -1913,7 +1913,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `infull_count`
 FROM `byqp_ods`.`view_infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
-103,捕鱼达人千炮版3D,R103_DWD_game,DWD,dwd_p103_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×user_id×log_date。,"[""byqp_ods.game_module_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+103,捕鱼达人千炮版3D,R103_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×user_id×log_date。,"[""byqp_ods.game_module_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `log_date`,
@@ -1938,7 +1938,7 @@ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
   `prop_num_5`
 FROM `byqp_ods`.`game_module_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-103,捕鱼达人千炮版3D,R103_DWD_asset,DWD,dwd_p103_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×user_id×log_date。,"[""byqp_ods.prop_send_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+103,捕鱼达人千炮版3D,R103_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×user_id×log_date。,"[""byqp_ods.prop_send_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `log_date`,
@@ -1954,18 +1954,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `agent_id`
 FROM `byqp_ods`.`prop_send_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-103,捕鱼达人千炮版3D,R103_DWS_login,DWS,dws_p103_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byqp_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+103,捕鱼达人千炮版3D,R103_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byqp_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `byqp_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-103,捕鱼达人千炮版3D,R103_DWS_payment,DWS,dws_p103_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byqp_ods.view_infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+103,捕鱼达人千炮版3D,R103_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""byqp_ods.view_infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `infull_state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `byqp_ods`.`view_infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-137,新仙魔3D,R137_DWD_login,DWD,dwd_p137_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""xianmo_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+137,新仙魔3D,R137_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""xianmo_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `all_id`,
   `user_name`,
@@ -2001,7 +2001,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
   `finger_print_id`
 FROM `xianmo_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-137,新仙魔3D,R137_DWD_payment,DWD,dwd_p137_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×order_id×infull_date×game_id。,"[""xianmo_ods_rt.fish_open_order""]",infull_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+137,新仙魔3D,R137_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×order_id×infull_date×game_id。,"[""xianmo_ods_rt.fish_open_order""]",infull_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_id`,
   `state`,
   `amount`,
@@ -2033,7 +2033,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `bank_pet_money`
 FROM `xianmo_ods_rt`.`fish_open_order`
 WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}';"
-137,新仙魔3D,R137_DWD_game,DWD,dwd_p137_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：log_date×user_id。,"[""xianmo_ods_rt.fish_shot_info_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+137,新仙魔3D,R137_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：log_date×user_id。,"[""xianmo_ods_rt.fish_shot_info_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `room_type_id`,
   `server_id`,
@@ -2074,7 +2074,7 @@ WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}';"
   `credit2_lib_use`
 FROM `xianmo_ods_rt`.`fish_shot_info_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-137,新仙魔3D,R137_DWD_asset,DWD,dwd_p137_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""xianmo_ods.fish_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+137,新仙魔3D,R137_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""xianmo_ods.fish_money_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `fml_id`,
   `user_id`,
   `type`,
@@ -2091,7 +2091,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `bank_money`
 FROM `xianmo_ods`.`fish_money_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-137,新仙魔3D,R137_DWD_operation,DWD,dwd_p137_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""xianmo_ai.fish_activity_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+137,新仙魔3D,R137_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""xianmo_ai.fish_activity_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `fal_id`,
   `user_id`,
   `nick_name`,
@@ -2106,18 +2106,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `agent_id`
 FROM `xianmo_ai`.`fish_activity_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-137,新仙魔3D,R137_DWS_login,DWS,dws_p137_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""xianmo_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+137,新仙魔3D,R137_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""xianmo_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `xianmo_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-137,新仙魔3D,R137_DWS_payment,DWS,dws_p137_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""xianmo_ods_rt.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`infull_date`) AS stat_date, `user_id`,
+137,新仙魔3D,R137_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""xianmo_ods_rt.fish_open_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`infull_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `xianmo_ods_rt`.`fish_open_order`
 WHERE `infull_date` >= '${start_date}' AND `infull_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`infull_date`), `user_id`;"
-146,MJ,R146_DWD_login,DWD,dwd_p146_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×login_date。,"[""hsmj_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+146,MJ,R146_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×login_date。,"[""hsmj_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `login_date`,
   `user_id`,
@@ -2145,7 +2145,7 @@ GROUP BY DATE(`infull_date`), `user_id`;"
   `leave_day`
 FROM `hsmj_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-146,MJ,R146_DWD_payment,DWD,dwd_p146_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no。,"[""hsmj_ods.charge_order_info""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+146,MJ,R146_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no。,"[""hsmj_ods.charge_order_info""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `user_id`,
   `user_name`,
@@ -2187,7 +2187,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `last_total_bet`
 FROM `hsmj_ods`.`charge_order_info`
 WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';"
-146,MJ,R146_DWD_game,DWD,dwd_p146_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""hsmj_ods.slot_main_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+146,MJ,R146_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""hsmj_ods.slot_main_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `log_date`,
   `user_id`,
@@ -2286,7 +2286,7 @@ WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';"
   `vip_level`
 FROM `hsmj_ods`.`slot_main_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-146,MJ,R146_DWD_asset,DWD,dwd_p146_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""hsmj_ods.free_get_point_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+146,MJ,R146_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""hsmj_ods.free_get_point_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `log_date`,
   `user_id`,
@@ -2311,17 +2311,17 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `vip_level`
 FROM `hsmj_ods`.`free_get_point_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-146,MJ,R146_DWS_login,DWS,dws_p146_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""hsmj_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+146,MJ,R146_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""hsmj_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `hsmj_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-146,MJ,R146_DWS_payment,DWS,dws_p146_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""hsmj_ods.charge_order_info""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_time`) AS stat_date, `user_id`,
+146,MJ,R146_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""hsmj_ods.charge_order_info""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_time`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `hsmj_ods`.`charge_order_info`
 WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_time`), `user_id`;"
-159,跃动小子,R159_DWD_login,DWD,dwd_p159_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×login_date。,"[""ydxz_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+159,跃动小子,R159_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×login_date。,"[""ydxz_ods.app_login_log""]",login_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `user_id`,
   `agent_id`,
@@ -2336,7 +2336,7 @@ GROUP BY DATE(`log_time`), `user_id`;"
   `host_info`
 FROM `ydxz_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-159,跃动小子,R159_DWD_payment,DWD,dwd_p159_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×order_num×log_date。,"[""ydxz_ods.recharge_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+159,跃动小子,R159_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×order_num×log_date。,"[""ydxz_ods.recharge_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `order_num`,
   `center_order_num`,
@@ -2356,7 +2356,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `pay_type`
 FROM `ydxz_ods`.`recharge_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-159,跃动小子,R159_DWD_register,DWD,dwd_p159_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""ydxz_ods.app_reg_log""]",reg_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+159,跃动小子,R159_DWD_register,DWD,dwd_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""ydxz_ods.app_reg_log""]",reg_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `agent_id`,
   `channel_id`,
@@ -2368,7 +2368,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `app_type`
 FROM `ydxz_ods`.`app_reg_log`
 WHERE `reg_time` >= '${start_date}' AND `reg_time` < '${end_date}';"
-159,跃动小子,R159_DWD_asset,DWD,dwd_p159_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""ydxz_ods.knight_item_log""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+159,跃动小子,R159_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""ydxz_ods.knight_item_log""]",log_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `player_id`,
   `server_id`,
@@ -2380,12 +2380,12 @@ WHERE `reg_time` >= '${start_date}' AND `reg_time` < '${end_date}';"
   `log_time`
 FROM `ydxz_ods`.`knight_item_log`
 WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';"
-159,跃动小子,R159_DWS_login,DWS,dws_p159_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ydxz_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+159,跃动小子,R159_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ydxz_ods.app_login_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `ydxz_ods`.`app_login_log`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-159,跃动小子,R159_DWS_payment,DWS,dws_p159_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ydxz_ods.recharge_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+159,跃动小子,R159_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""ydxz_ods.recharge_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `status` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `ydxz_ods`.`recharge_log`
@@ -2398,7 +2398,7 @@ GROUP BY DATE(`log_date`), `user_id`;"
   `max_version`
 FROM `boss_domino_dwd`.`dwd_login_record`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
-174,BossDomino,R174_DWD_payment,DWD,dwd_p174_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no×infull_date。,"[""boss_domino_ods.infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+174,BossDomino,R174_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no×infull_date。,"[""boss_domino_ods.infull_order""]",success_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `infull_type`,
   `infull_platform`,
@@ -2440,7 +2440,7 @@ WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';"
   `buyer_infullamount`
 FROM `boss_domino_ods`.`infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
-174,BossDomino,R174_DWD_register,DWD,dwd_p174_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""boss_domino_ods.user_reg_info""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+174,BossDomino,R174_DWD_register,DWD,dwd_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""boss_domino_ods.user_reg_info""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `reg_mac`,
   `reg_ip`,
@@ -2474,7 +2474,7 @@ WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}';"
   `reg_location`
 FROM `boss_domino_ods`.`user_reg_info`
 WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}';"
-174,BossDomino,R174_DWD_game,DWD,dwd_p174_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""boss_domino_ods.user_slot_game_log_realtime""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+174,BossDomino,R174_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""boss_domino_ods.user_slot_game_log_realtime""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `agent_id`,
@@ -2506,7 +2506,7 @@ WHERE `reg_date` >= '${start_date}' AND `reg_date` < '${end_date}';"
   `json_log`
 FROM `boss_domino_ods`.`user_slot_game_log_realtime`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-174,BossDomino,R174_DWD_asset,DWD,dwd_p174_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""boss_domino_ods.user_money_log_view""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+174,BossDomino,R174_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""boss_domino_ods.user_money_log_view""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `game_num`,
   `user_id`,
   `type`,
@@ -2534,7 +2534,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `turnover_num`
 FROM `boss_domino_ods`.`user_money_log_view`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-174,BossDomino,R174_DWD_operation,DWD,dwd_p174_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""boss_domino_ods.activity_play_log_view""]",operate_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+174,BossDomino,R174_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：未提供。,"[""boss_domino_ods.activity_play_log_view""]",operate_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `act_id`,
   `activity_period`,
@@ -2554,18 +2554,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `buff3`
 FROM `boss_domino_ods`.`activity_play_log_view`
 WHERE `operate_date` >= '${start_date}' AND `operate_date` < '${end_date}';"
-174,BossDomino,R174_DWS_login,DWS,dws_p174_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""boss_domino_dwd.dwd_login_record""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
+174,BossDomino,R174_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""boss_domino_dwd.dwd_login_record""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`login_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `boss_domino_dwd`.`dwd_login_record`
 WHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`login_date`), `user_id`;"
-174,BossDomino,R174_DWS_payment,DWS,dws_p174_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""boss_domino_ods.infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+174,BossDomino,R174_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""boss_domino_ods.infull_order""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `infull_state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `boss_domino_ods`.`infull_order`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-177,MergeRestyle,R177_DWD_payment,DWD,dwd_p177_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no×log_date。,"[""merge_ods.order_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+177,MergeRestyle,R177_DWD_payment,DWD,dwd_payment_detail_di,充值支付来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：order_no×log_date。,"[""merge_ods.order_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `order_no`,
   `log_date`,
   `state`,
@@ -2597,7 +2597,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
   `country`
 FROM `merge_ods`.`order_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-177,MergeRestyle,R177_DWD_asset,DWD,dwd_p177_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date。,"[""merge_ods.prop_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+177,MergeRestyle,R177_DWD_asset,DWD,dwd_asset_detail_di,资产流水来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id×log_date。,"[""merge_ods.prop_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `log_date`,
   `add_prop_num`,
@@ -2610,18 +2610,18 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `ets`
 FROM `merge_ods`.`prop_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-177,MergeRestyle,R177_DWS_payment,DWS,dws_p177_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""merge_ods.order_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+177,MergeRestyle,R177_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""merge_ods.order_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt,
        SUM(CASE WHEN `state` = 1 THEN 1 ELSE 0 END) AS success_record_cnt
 FROM `merge_ods`.`order_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-177,MergeRestyle,R177_DWS_asset,DWS,dws_p177_asset_user_1d,资产流水账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""merge_ods.prop_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+177,MergeRestyle,R177_DWS_asset,DWS,dws_asset_user_1d,资产流水账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""merge_ods.prop_log""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `merge_ods`.`prop_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-247,HiggsRubyPalace,R247_DWD_register,DWD,dwd_p247_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""hrp_ods.user_reg_info""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+247,HiggsRubyPalace,R247_DWD_register,DWD,dwd_register_detail_di,注册来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：user_id。,"[""hrp_ods.user_reg_info""]",reg_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `user_id`,
   `reg_mac`,
   `reg_ip`,
@@ -2814,7 +2814,7 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `order_id`
 FROM `bbs_dwd`.`dwd_eco_prop_log_di`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-267,BigBossSlot,R267_DWD_operation,DWD,dwd_p267_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id。,"[""bbs_ods.user_task_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+267,BigBossSlot,R267_DWD_operation,DWD,dwd_operation_detail_di,运营活动来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id。,"[""bbs_ods.user_task_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `user_id`,
   `task_id`,
@@ -2830,17 +2830,17 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `task_position`
 FROM `bbs_ods`.`user_task_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
-267,BigBossSlot,R267_DWS_login,DWS,dws_p267_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bbs_dwd.dwd_usr_login_log_di""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
+267,BigBossSlot,R267_DWS_login,DWS,dws_login_user_1d,登录账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bbs_dwd.dwd_usr_login_log_di""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`log_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `bbs_dwd`.`dwd_usr_login_log_di`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_date`), `user_id`;"
-267,BigBossSlot,R267_DWS_payment,DWS,dws_p267_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bbs_dwd.dwd_trd_infull_order_d""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
+267,BigBossSlot,R267_DWS_payment,DWS,dws_payment_user_1d,充值支付账号日集合/统计,建议新建,P1,业务日×源账号user_id,"[""bbs_dwd.dwd_trd_infull_order_d""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]","SELECT DATE(`success_date`) AS stat_date, `user_id`,
        COUNT(*) AS source_record_cnt
 FROM `bbs_dwd`.`dwd_trd_infull_order_d`
 WHERE `success_date` >= '${start_date}' AND `success_date` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`success_date`), `user_id`;"
-279,线上比赛,R279_DWD_game,DWD,dwd_p279_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""xsbs_ods.tms_game_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+279,线上比赛,R279_DWD_game,DWD,dwd_game_detail_di,游戏行为来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：id×log_date。,"[""xsbs_ods.tms_game_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `id`,
   `log_date`,
   `user_id`,
@@ -2890,7 +2890,7 @@ GROUP BY DATE(`success_date`), `user_id`;"
 FROM `xsbs_ods`.`tms_game_log`
 WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
 279,线上比赛,R279_DWS_game,DWS,xsbs_dws.dws_tournament_user_daily_di,游戏行为账号日集合/统计,复用现有,P1,业务日×源账号user_id,"[""xsbs_dws.dws_tournament_user_daily_di""]",stat_date,只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。,复用待核生产口径，未执行取数,"[""复核已有同粒度DWS，避免重复建设"", ""确认上游标准明细或原来源具备相同口径与完整性""]",'
-338,大数据运维,R338_DWD_audit,DWD,dwd_p338_audit_detail_di,运维审计来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：query_time×cluster_name×query_id。,"[""dwops_audit.sr_sql_full_log""]",query_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
+338,大数据运维,R338_DWD_audit,DWD,dwd_audit_detail_di,运维审计来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：query_time×cluster_name×query_id。,"[""dwops_audit.sr_sql_full_log""]",query_time对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `query_time`,
   `cluster_name`,
   `query_id`,
