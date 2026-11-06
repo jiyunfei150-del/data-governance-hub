@@ -1,0 +1,172 @@
+{
+  "updated_at": "2026-11-06T21:07:02.895612",
+  "execution_order": [
+    {
+      "id": "LC",
+      "project_id": 86,
+      "project_name": "地方棋牌",
+      "status": "已收敛：92项可用、32项合并后草稿；剩余标准定义继续核对",
+      "completed": {
+        "available_metrics": 92,
+        "merged_drafts": 32,
+        "primary_updates": 14,
+        "metadata_added": 1,
+        "metadata_updated": 1,
+        "published_knowledge": 1,
+        "补录贵族首购指标": 1,
+        "月活状态纠正": 1
+      },
+      "pending": [
+        "41条未登记标准定义已逐项分类：5条已有口径可复用，不重复新增",
+        "贵族首次购买已补录；行为、注册留存、双来源消耗、比赛奖励和画像继续按各自条件收敛",
+        "行为指标先核对friend/gold同名来源并按事件、入口及免费/付费维度收敛",
+        "注册账号留存、双来源求签消耗、比赛奖励与RFM画像继续按各自前置条件处理",
+        "同日期/渠道业务数值对账待补充，未执行生产取数"
+      ],
+      "steps": [
+        "元数据来源覆盖17张已核对，新增user_vip_info、完善cell_mac_info说明",
+        "指标已收敛，保留独立月活；贵族首次购买阻塞解除后已补录",
+        "设备七日留存已按首次激活设备与D+6修正，项目知识已发布",
+        "41条剩余标准定义继续先核对复用与来源，再补独有口径"
+      ]
+    },
+    {
+      "id": "F31",
+      "project_id": 31,
+      "project_name": "猎鱼达人3D",
+      "status": "本批完成：42张元数据、2项指标、1篇知识已核验；4条范围/采集缺口单列",
+      "current": {
+        "native_metrics": 34,
+        "tagged_tables": 44,
+        "first_batch": 75,
+        "first_pending_metadata": 42,
+        "first_already_tagged": 29,
+        "first_missing_in_pool": 4,
+        "metadata_added_verified": 42,
+        "metric_additions_prepared": 2,
+        "metrics_added_verified": 2,
+        "current_available_metrics": 36,
+        "knowledge_published": 1,
+        "unbound_an_tables": 2,
+        "metadata_refresh_status": "已重新采集，2张DWD仍未采集，单列缺口"
+      },
+      "steps": [
+        "核对当前绑定四库、项目名与ID",
+        "补首批缺失元数据并逐项回读",
+        "对照现有34项指标，补充已核实的缺失项，避免同义重复",
+        "整理并发布可复用项目知识"
+      ]
+    },
+    {
+      "id": "F12",
+      "project_id": 12,
+      "project_name": "猎鱼达人手游",
+      "status": "本批完成：9张元数据、1项指标、1篇知识已核验；2条范围/采集缺口单列",
+      "current": {
+        "native_metrics": 54,
+        "tagged_tables": 38,
+        "first_batch": 22,
+        "first_pending_metadata": 9,
+        "first_already_tagged": 11,
+        "first_missing_in_pool": 2,
+        "metadata_added_verified": 9,
+        "metrics_added_verified": 1,
+        "current_available_metrics": 55,
+        "knowledge_published": 1,
+        "metadata_pool_after_refresh": 467
+      },
+      "steps": [
+        "元数据补标与回读",
+        "指标去重、校验、补录",
+        "项目知识沉淀"
+      ]
+    },
+    {
+      "id": "F38",
+      "project_id": 38,
+      "project_name": "猎鱼达人-H5",
+      "status": "本批完成：7张元数据、2项新增指标、2项留存修正、1篇知识已核验",
+      "current": {
+        "native_metrics": 40,
+        "tagged_tables": 26,
+        "first_batch": 7,
+        "first_pending_metadata": 7,
+        "central_schema_missing": 0,
+        "旧快照原缺口": 7,
+        "metadata_added_verified": 7,
+        "fields_verified": 308,
+        "metrics_added_verified": 2,
+        "existing_metrics_fixed": 2,
+        "current_available_metrics": 42,
+        "knowledge_published": 1,
+        "tagged_tables_after": 33
+      },
+      "steps": [
+        "在平台核对当前采集结构，补足旧中央快照缺口",
+        "补首批元数据",
+        "指标去重、校验、补录",
+        "项目知识沉淀"
+      ]
+    },
+    {
+      "id": "BK1",
+      "project_id": 1,
+      "project_name": "波克棋牌",
+      "status": "82张元数据已保存回读；9项指标和1篇知识稿待问数开关确认",
+      "authorization": "允许新增连接源；已复用国内ADB源绑定bkqp五库，问数和申请目前关闭",
+      "steps": [
+        "已核对项目1与五个bkqp源库，复用国内ADB连接",
+        "82张首批元数据已保存回读；保留AN来源，不擅自改数仓层级",
+        "待确认开启项目问数后，先查重，再补9项已核实候选",
+        "发布已整理的项目知识；金额、道具产消、设备留存继续待确认"
+      ],
+      "current": {
+        "metadata_target": 82,
+        "metadata_saved": 82,
+        "标准数仓层级": 71,
+        "AN层级待确认": 11,
+        "已准备指标": 9,
+        "已保存指标": 0,
+        "已准备知识稿": 1,
+        "已发布知识": 0
+      }
+    },
+    {
+      "id": "ALL",
+      "project_name": "全项目初始化与分类",
+      "status": "初始草案已整理；游戏分类和中间表醒目入口已完成本地更新，待部署",
+      "current": {
+        "projects": 112,
+        "review_only": "其他未授权项目保持只整理"
+      },
+      "steps": [
+        "以MCP元数据中有记录的项目为范围，连接尚未建立也列入清单",
+        "游戏/非游戏/待确认标记；游戏优先，同类型按本期用表记录由多到少排序",
+        "逐项目列首批活性、表结构、标签草案、指标方向及缺口",
+        "中间表建议表名不加p4等项目编号，列建议新增表与SQL；DWD优先，每项目最多两张新增DWS"
+      ]
+    },
+    {
+      "id": "WEB",
+      "project_name": "统一HTML与部署",
+      "status": "本地更新已完成，正在核验和部署",
+      "steps": [
+        "清晰区分已存在、补录成功、重复跳过和待确认",
+        "合并已有捕鱼游戏王、地方棋牌成果及本次进度",
+        "部署jiyunfei150统一入口；保留原有独立站点",
+        "游戏/非游戏标注、游戏项目优先、中间表重点突出继续保留待办"
+      ]
+    }
+  ],
+  "constraints": [
+    "首批q7>0且q30>4；活性未知不入首批",
+    "同名项目和同名表按项目ID、源库核对",
+    "复用已有业务域与业务过程；不擅自新建分类",
+    "指标名称不塞模块括号，模块置别名；定义不加依据或过程说明",
+    "金额/状态/主体/去重/时间字段先核实元数据；不跨游戏套用留存算法",
+    "高同质指标用维度收敛；不为数量重复新增",
+    "新建物理DWD/DWS不在本次平台登记范围；建议DWD优先，最多两张新增DWS",
+    "其余未获授权项目只整理，不录入"
+  ],
+  "knowledge_policy": "提炼来源范围、主体、粒度、时间、单位、状态和去重规则；区分已确认与待确认，先查重再发布。"
+}

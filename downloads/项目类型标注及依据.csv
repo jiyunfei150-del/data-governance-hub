@@ -1,0 +1,114 @@
+﻿id,name,project_kind_label,project_category,project_kind_reason,project_kind_evidence,usage_count
+5,HiggsDomino-印尼,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""domino_ods.prop_log"", ""domino_ods.comm_game_log"", ""domino_ods.activity_user_game_log"", ""domino_ods.game_biz_map_conf""]",972
+1,波克棋牌,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""bkqp_ods.fish_game_log"", ""bkqp_ods.tb_game_log"", ""bkqp_ods.fish_open_order"", ""bkqp_dws.dws_fish_game_daily_user_agg""]",519
+100,DominoCafe,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""ludocafe_ods.zeusslot_game_log"", ""ludocafe_ods.slot_bonus_log"", ""ludocafe_ods.slot_player_floor_log"", ""ludocafe_ods.games""]",514
+174,BossDomino,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""boss_domino_ods.user_slot_game_log_realtime"", ""boss_domino_ods.infull_order"", ""boss_domino_ods.games"", ""boss_domino_an.slotbuff_rep_di""]",365
+4,捕鱼游戏王,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""byqph5_rep.buyu_total_report_normal"", ""byqph5_ods.fish_game_log"", ""byqph5_ods.fish_money_log"", ""byqph5_ods.pook_infull""]",330
+103,捕鱼达人千炮版3D,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""byqp_ods.prop_send_log"", ""byqp_ods.game_money_log"", ""byqp_ods.buyu_rank_msg"", ""byqp_ods.buyu_rank_msg_hi""]",317
+31,猎鱼达人3D,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""lydr3d_ods.fish_game_log"", ""lydr3d_ods.fish_boke_point_log"", ""lydr3d_ods.game_event_log"", ""lydr3d_ods.fish_money_log""]",310
+86,地方棋牌,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""gold_ods.games"", ""gold_ods.comm_game_log"", ""friend_ods.comm_game_log"", ""friend_ods.friend_game_log""]",301
+137,新仙魔3D,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""xianmo_ods_rt.fish_shot_info_log"", ""xianmo_ai.user_infull_detail"", ""xianmo_ai.dwd_user_game_score_di"", ""xianmo_ai.dwd_user_infull_info_di""]",293
+8,Dummy-泰国,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""dummy_ods.infull_order"", ""dummy_ods.games"", ""dummy_ods.user_slot_game_log_realtime"", ""dummy_ods_rt.infull_order_log""]",274
+3,仙魔2D,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""bkby_ods.fish_money_log"", ""bkby_ods.fish_activity_log"", ""bkby_ods.fish_coupon_exchange_order"", ""bkby_dwd.dwd_user_game_score_di""]",273
+267,BigBossSlot,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""bbs_ods.user_slot_game_log"", ""bbs_ods.user_prop_log"", ""bbs_ods.infull_order"", ""bbs_ods.user_slot_login_log""]",210
+231,BetFrenzy,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""ynh5_ods.fish_money_log"", ""ynh5_ods.fish_game_log"", ""ynh5_ods.prop_send_log"", ""ynh5_ods.smg_zeus_game_log""]",200
+6,大世界,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""bydsj_ods_rt.fish_open_order"", ""bydsj_ods_rt.fish_boss_ex_log"", ""bydsj_ods_rt.fish_coupon_exchange_order"", ""bydsj_ods.fish_open_order""]",195
+146,MJ,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""hsmj_ods.slot_main_log"", ""hsmj_dws.dws_user_game_total_di"", ""hsmj_ods.games"", ""hsmj_ads.games_config""]",173
+46,DW,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""haoshen_ods.slot_main_log"", ""haoshen_ads.total_game_report"", ""haoshen_dwd.dwd_slot_main_log_di"", ""haoshen_ods.games""]",148
+12,猎鱼达人手游,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""byhls_ods.buyu_users"", ""byhls_ods.view_infull_order"", ""byhls_ods.fish_info_log"", ""byhls_ods.game_money_log""]",143
+38,猎鱼达人-H5,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""lydrh5_ads.ads_game_operation_report_di"", ""lydrh5_ods.pook_infull"", ""lydrh5_ods.fish_game_log"", ""lydrh5_ods.ods_txstarlog_fish_game_log_hi""]",139
+43,爆炒江湖,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""bcjh_ods.pay_log"", ""bcjh_ads.ads_game_operation_report"", ""bcjh_ads.game_operation_report"", ""bcjh_fxy.pay_log""]",126
+159,跃动小子,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""ydxz_ods.recharge_log"", ""ydxz_ods.role_info"", ""ydxz_ods.knight_item_log"", ""ydxz_ods.role_info_log""]",112
+252,越南捕鱼-zgc联运,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""zgcby_ods.smg_candy_game_log"", ""zgcby_ods.fish_game_log"", ""zgcby_ods.fish_pet_game_log"", ""zgcby_ods.smg_sugar_game_log""]",56
+91,灵画师-国内版,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""lhs_ods.game_info_log"", ""lhs_ods.recharge_log"", ""lhs_ods.role_log_his"", ""lhs_ods.role_log""]",55
+247,HiggsRubyPalace,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""hrp_ads.new_user_slot_report"", ""hrp_ods.user_slot_game_log_realtime"", ""hrp_ods.games"", ""hrp_ods.infull_partner_config""]",53
+279,线上比赛,游戏项目,赛事游戏业务,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""xsbs_ods.tms_game_log"", ""xsbs_ods.tms_task_user_progress"", ""xsbs_ods.tms_task_user_cycle"", ""xsbs_ods.tms_task_config""]",39
+177,MergeRestyle,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""merge_ods.prop_log""]",39
+224,BonusDomino,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""bonusdomino_ods.zeusslot_game_log"", ""bonusdomino_ods.pook_infull"", ""bonusdomino_ods.user_lgdpenalty_slot_info"", ""bonusdomino_ads.game_total_report""]",36
+277,主公请出山,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""sgyx_ods.recharge_log"", ""sgyx_ods.role_login_log"", ""sgyx_ods.role_info"", ""sgyx_ods.knight_raid_log""]",32
+271,师兄别作妖,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""lhshw_ods.game_info_log"", ""lhshw_ods.recharge_log"", ""lhshw_ods.role_log"", ""lhshw_ods.role_log_his""]",21
+241,项目 241（名称待核对）,游戏项目,游戏产品,虽未匹配项目名称，但buyu_users、user_weapon、user_soul_cannon等表名体现捕鱼游戏业务；类型暂列游戏，名称仍待核对。,"[""btns_ods.buyu_user_energy_info"", ""btns_ods.buyu_users"", ""btns_ods.user_prop_info"", ""btns_ods.personalization_prop_info""]",21
+354,FireBirdRU,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""mj_ods.slot_main_log"", ""mj_ods.mac_game_state_record"", ""mj_ods.fish_game_log"", ""mj_ods.user_game_play_info""]",18
+278,仙魔捕鱼,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""xmby_ods.fish_game_log"", ""xmby_ods.ex_prop_change_log"", ""xmby_ods.prop_change_log"", ""xmby_ods.fish_life_info_log""]",18
+147,BearfishCasino,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""oceanwar_ads.ads_game_operation_report_di"", ""oceanwar_ads.ads_total_game_event_report_di"", ""oceanwar_ads.ads_total_game_report"", ""oceanwar_ads.ads_partner_infull_report_di""]",17
+156,锻造与冒险,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""dzymx_tw_ods.knight_info_log"", ""dzymx_tw_ods.knight_ad_log"", ""dzymx_tw_ods.knight_item_log"", ""dzymx_tw_ods.recharge_log""]",15
+189,欢乐游戏人,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""ssjt_ads.ads_game_operation_report"", ""ssjt_ods.game_name_conf"", ""ssjt_ods.recharge_log"", ""ssjt_ods.role_info""]",15
+242,仙尘小径,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""xcxj_ods.prop_log""]",12
+199,土耳其101okey,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""okey_ads.ads_game_operation_report_di"", ""okey_ods.slots_control_log"", ""okey_ods.slots_draw_log""]",11
+11,Slotsmash_美国,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""slot_ods.charge_order_info"", ""slot_dwd.view_user_info"", ""slot_ods.agent_user_info"", ""slot_ods.app_open_info""]",10
+29,Tongits,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""tongits_ads.ads_game_operation_report_di""]",9
+321,萌将过招slg,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""mjsg_ods.app_login_log"", ""mjsg_ods.pay_order"", ""mjsg_ods.device_login_log""]",9
+312,动物连萌,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""dwlm_ods.pay_order"", ""dwlm_ads.ads_regularity_platform_report_di"", ""dwlm_dws.dws_account_new_reg_nd""]",7
+296,MaxReels,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""maxreels_ods.drama"", ""maxreels_ods.coin_subscribe_log"", ""maxreels_ods.drama_episode""]",6
+345,捕鱼赛道,游戏项目,游戏赛道业务,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""bydw_ads.ads_pub_by_user_daily_report_di"", ""bydw_dws.dws_eco_by_user_topic"", ""bydw_dws.dws_gam_by_user_room_topic_di""]",4
+216,有仙则名,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""yxzm_ods.recharge_log"", ""yxzm_ods.game_info_log"", ""yxzm_ods.role_info""]",4
+45,妙奇星球,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""mqxq_ods.pay_log""]",4
+238,赛赛军团抖音版,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""ssjtdy_ods.role_info""]",3
+280,HiggsDominoSA,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""hdg_sa_ads.game_operation_report"", ""hdg_sa_ads.game_operation_report_early""]",3
+313,森林大冒险小游戏,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""sldmxxyx_ods.pay_order"", ""sldmxxyx_dws.dws_account_new_reg_nd""]",2
+114,我是航天员,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""tiangong_ods.wshty_login_blog"", ""tiangong_ods.wshty_reg_blog""]",2
+222,WHOT,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""whot_ods.activity_daily_info"", ""whot_ods.app_login_log""]",2
+254,萌将过招,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""qjsw_ods.player_login_log"", ""qjsw_ods.shop_buy_log""]",2
+295,森林大冒险-国内,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""sldmx_ods.pay_order""]",1
+10,KogaDomino-巴西,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""koga_ads.game_operation_report""]",1
+123,Durak,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""durak_ods.user_order_info""]",1
+284,HiggsDominoESP,游戏项目,游戏产品,依据项目名称映射及其游戏、角色、道具、赛事或充值等业务表名，归入本轮游戏业务优先队列。,"[""hdg_esp_ods.es_game_operate_log""]",1
+282,游戏算法支撑服务,非游戏项目,游戏支撑系统,面向算法、客服助手或发行的共享支撑系统，不按单款游戏产品排期。,"[""alphatarget_an.dws_user_active_di"", ""alphatarget_ods.sdk_common_unified_flow_log"", ""alphatarget_ods.sdk_xxmjj_game_event""]",520
+23,国内投放后台,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""boke_ads_manage.adsense_info"", ""boke_ads_report.media_daily_record_tem"", ""boke_ads_manage.project_info""]",517
+7,财务报表,非游戏项目,财务/业财系统,面向财务报表、结算或业财处理的系统。,"[""finance_ods.alipay_bill_split"", ""finance_ads.czzx_total_report"", ""finance_dim.cooperative_corpor""]",201
+274,applifier,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""applifier.t_platform_creative"", ""gcuser.component_info"", ""gcuser.campaign_info""]",175
+66,基建开发,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""boke_db_v2.review_workflow"", ""boke_db.user"", ""dev_hub.ip_source_info""]",156
+111,海外投放平台_PerforMad,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""mpui_new.t_user"", ""adsapi_new.pm_sys_material_accounts"", ""adsapi_new.pm_sys_unity_user""]",154
+162,BPM流程中心,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""bpm_user.view_i3zs2_expense_reimbursement"", ""bpm_user.biz_workflow_instance"", ""bpm_user.view_i3zs2_payment_application""]",126
+264,Aegis运维后台,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""aegis.jenkins_deploy_history"", ""aegis.project"", ""aegis.cloud_server""]",104
+58,波克发行系统,非游戏项目,游戏支撑系统,面向算法、客服助手或发行的共享支撑系统，不按单款游戏产品排期。,"[""hermes_ods.ad_dwd_orion_payment_share_di"", ""dawn_ods.platform_app_user"", ""hermes_ods.ad_dwd_h5_device_backflow_zipper_component_df""]",95
+300,Ai网关,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""aigateway_sh_ods.logs"", ""aigateway_dwd.dwd_ai_usage_detail_di"", ""ai_multimedia.video_process_task""]",64
+255,海外棋牌投放,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""mpui_new.t_user"", ""adsapi_new.pm_sys_material_accounts"", ""adsapi_new.pm_sys_materials""]",53
+24,海外投放后台,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""hw_ad.ad_track_platform_config"", ""hw_ad.original_ad_insight_day_report"", ""hw_ad.game_report""]",51
+318,AI素材平台,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""ai_material.sys_hermes_user"", ""ai_material.sys_hermes_user_leader"", ""ai_material.wf_workflow""]",48
+347,波克报表中心,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""qpdw_ads.ads_pub_qp_ovs_domino_base_di"", ""qpdw_ads.ads_pub_qp_ovs_dominocafe_base_di"", ""qpdw_ads.ads_pub_qp_ovs_dw_game_di""]",45
+302,流程引擎,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""flow.wf_task"", ""flow.eac_ru_procinst"", ""flow.eac_hi_procinst""]",43
+140,美术外包平台,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""art_osp_user.security_user"", ""art_osp_user.project_info"", ""art_osp_user.project_name_info""]",38
+338,大数据运维,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""dwops_audit.sr_sql_full_log"", ""dwops_audit.adb_sql_full_log"", ""dwops_audit.slow_sql_alert_state""]",37
+315,业财数据一体化,非游戏项目,财务/业财系统,面向财务报表、结算或业财处理的系统。,"[""ycsj.mv_finance_game_order_202607"", ""ycsj.mgmt_report_data"", ""ycsj.dq_ads_game_order_platform_unknown_default_daily_deviation""]",36
+203,运维基础服务,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""security.boke_sec_dc_winlog_i_d"", ""security.boke_sec_nginx_access_log_i_d"", ""security.boke_sec_sas_aegis_network_log_i_d""]",32
+184,Novel,非游戏项目,内容业务,小说、短剧等内容业务，不能按游戏登录/付费指标直接套用。,"[""novel_ads.ads_novel_book_base_status"", ""novel_ods.user_pay_order"", ""novel_ads.ads_novel_user_behave""]",32
+244,数据仓库,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""ds_metadata.ds_project"", ""ds_metadata.ds_task_definition"", ""ds_metadata.ds_process_definition""]",31
+118,快乐视界星球,非游戏项目,医疗/训练业务,项目名称及训练、检查、医生、眼位采集等用表记录指向医疗或训练业务。,"[""klsjxq_ods.aio_sub_account_info"", ""klsjxq_ods.cdkey_record"", ""klsjxq_ods.eye_account_info""]",31
+160,波克医疗通用服务,非游戏项目,医疗/训练业务,项目名称及训练、检查、医生、眼位采集等用表记录指向医疗或训练业务。,"[""medicine_ods.ppt_tasks"", ""medicine_ods.ppt_users"", ""medicine_ods.crm_sys_user""]",29
+323,游戏算法支撑服务-北美,非游戏项目,游戏支撑系统,面向算法、客服助手或发行的共享支撑系统，不按单款游戏产品排期。,"[""alphatargetns_ods.sdk_game_slot_spin_event"", ""alphatargetns_ods.sdk_infull_event"", ""alphatargetns_ods.sdk_client_event""]",26
+207,ADHD,非游戏项目,医疗/训练业务,项目名称及训练、检查、医生、眼位采集等用表记录指向医疗或训练业务。,"[""adhd_ods.school_train_record"", ""adhd_ods.school_push_log"", ""adhd_ods.school_student""]",20
+311,新人landing,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""newbie_landing.person_info"", ""newbie_landing.task_instance"", ""newbie_landing.task_instance_assignee""]",20
+48,国内充值中心,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""gnczpt_dwd.dwd_pay_order"", ""gnczpt_ods.pay_order"", ""gnczpt_dwd.dim_infull_type_d""]",15
+268,核心看板,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""game_op_db.woo_op_log"", ""game_op_db.app_info"", ""game_op_db.platform_info_v2""]",14
+243,Galaxy埋点,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""venus_test.dwd_ad_orion_log"", ""venus2.dwd_orion_log"", ""venus_test.dwd_orion_log""]",12
+130,测试数据库,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""sql_cultivate.app_login_log"", ""sql_cultivate.fish_game_log"", ""sql_cultivate.agent""]",12
+286,主体管理系统,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""legal_entity.legal_entity"", ""legal_entity.agent_file_task"", ""legal_entity.executive_position_record""]",12
+322,AI试玩素材,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""goodgame.t_projects"", ""goodgame.t_tags"", ""goodgame.t_orgs""]",11
+232,PA财务报表系统,非游戏项目,财务/业财系统,面向财务报表、结算或业财处理的系统。,"[""finance_pa.bpm_ivned_company_info"", ""finance_pa.bpm_ivned_department_extend"", ""finance_pa.bpm_ivned_project_info""]",10
+119,技术部基础服务,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""basic_server_ods.forb_word_new_log"", ""basic_server_ods.app_extra_info"", ""basic_server_ods.identity_auth_log""]",9
+331,职级套改系统,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""talent_promotion.department_info"", ""talent_promotion.employee_info"", ""talent_promotion.notification_message""]",7
+308,回传策略引擎,非游戏项目,投放/素材支撑,投放、媒体、广告对象或素材生产系统，按支撑业务整理。,"[""strategy_engine.callback_ploy_config_def"", ""strategy_engine_log.app_media_callback_partition_log"", ""strategy_engine.app_af_cumulative_info""]",6
+132,海外发行系统,非游戏项目,游戏支撑系统,面向算法、客服助手或发行的共享支撑系统，不按单款游戏产品排期。,"[""dawn_ods.app_login_log"", ""dawn_ods.app_pck_config"", ""dawn_ods.app_pck_third_param_conf""]",6
+330,数据部门MCP服务,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""datamcp_ods.meta_aug_columns_auto"", ""datamcp_ods.meta_aug_columns_profile"", ""datamcp_ods.meta_aug_partitions_snap""]",6
+212,数据仓库-加密数据,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""data_scrt.phone_call_log"", ""data_scrt.message_send_record"", ""data_scrt.bkby_phone_card_info""]",5
+136,信息化任务平台,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""task_platform.feishu_employee"", ""task_platform.core_hr_employee"", ""task_platform.feishu_department""]",5
+188,波克眼位采集系统,非游戏项目,医疗/训练业务,项目名称及训练、检查、医生、眼位采集等用表记录指向医疗或训练业务。,"[""bkywcjxt_ods.patient_info"", ""bkywcjxt_ods.per_report_info"", ""bkywcjxt_ods.report_info""]",5
+285,QC游戏助手,非游戏项目,游戏支撑系统,面向算法、客服助手或发行的共享支撑系统，不按单款游戏产品排期。,"[""gcmanage.qiyu_session"", ""gcmanage.qc_promise_record"", ""gcmanage.qc_demands_record""]",4
+358,需求管理数据中台,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""projectdatasync_ods.fps_field_definition"", ""projectdatasync_ods.fps_space"", ""projectdatasync_ods.fps_work_item""]",4
+260,后台日志审计,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""system_audit.login_log"", ""system_audit.login_log_new"", ""system_audit.project_web_login_log""]",3
+275,SSO系统,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""sso_auth.app_auth_info"", ""sso_auth.cursor_user"", ""sso_auth.oauth_third_party_auth_info""]",3
+309,SSO网关,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""sso_gateway.gateway_service"", ""sso_gateway.gateway_route""]",2
+289,文件网关,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""file_gateway.app_access_key"", ""file_gateway.storage_config_oss""]",2
+341,Agent平台,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""agent_platform.runtime_run"", ""agent_platform.runtime_conversation_message""]",2
+68,QuickBi,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""quickbi.bi_agents_model"", ""quickbi.user_info""]",2
+246,DramaNovel,非游戏项目,内容业务,小说、短剧等内容业务，不能按游戏登录/付费指标直接套用。,"[""drama_ods.login_log"", ""drama_ods.sys_user""]",2
+303,波克技术站,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""techkb.kb_document"", ""techkb.kb_document_relation""]",2
+266,波克眼位采集系统海外版,非游戏项目,医疗/训练业务,项目名称及训练、检查、医生、眼位采集等用表记录指向医疗或训练业务。,"[""bkywcjxt_ods.report_info""]",1
+297,消息中心,非游戏项目,平台/管理支撑,项目名称与用表记录体现运维、数据、流程、身份或企业管理支撑系统。,"[""message_center.msg_send_record""]",1
+79,昊天元界,待确认,项目性质待核对,项目名称缺失或当前仅有实名、合同、设备/账号类用表记录，无法可靠判断是否为游戏产品。,"[""htyj_ads.detail_run_report"", ""htyj_data.realname_s3"", ""htyj_data.realname_s4""]",9
+316,BodyKnows,待确认,项目性质待核对,项目名称缺失或当前仅有实名、合同、设备/账号类用表记录，无法可靠判断是否为游戏产品。,"[""bodyknows_ods.base_vip_product"", ""bodyknows_ods.base_contract"", ""bodyknows_ods.base_web_user""]",5
+307,NeckGo,待确认,项目性质待核对,项目名称缺失或当前仅有实名、合同、设备/账号类用表记录，无法可靠判断是否为游戏产品。,"[""neckgo_ods.base_contract"", ""neckgo_ods.base_device"", ""neckgo_ods.base_user_login""]",5
+42,项目 42（名称待核对）,待确认,项目性质待核对,项目名称缺失或当前仅有实名、合同、设备/账号类用表记录，无法可靠判断是否为游戏产品。,"[""ddxy_ods.pay_order""]",1
+169,项目 169（名称待核对）,待确认,项目性质待核对,项目名称缺失或当前仅有实名、合同、设备/账号类用表记录，无法可靠判断是否为游戏产品。,"[""xkdmx_ods.recharge_log""]",1
+unassigned,未关联项目的元数据,未归属目录,未关联项目,目录尚未关联到项目，不参与游戏优先队列。,[],0
