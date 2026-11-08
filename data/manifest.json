@@ -1,5 +1,5 @@
 {
-  "revision": "d91341faadfc",
+  "revision": "8f73b8177598",
   "stats": {
     "date": "2026-11-06",
     "activity_date": "2026-11-04",
@@ -17,10 +17,10 @@
     "first_with_schema": 1250,
     "projects_usage_with_schema": 29,
     "connections": 14,
-    "available_metrics": 760,
-    "review_metrics": 140,
-    "models": 141,
-    "model_dwd": 99,
+    "available_metrics": 766,
+    "review_metrics": 131,
+    "models": 143,
+    "model_dwd": 101,
     "model_dws": 42,
     "known_registered_review_tables": 378,
     "unassigned_tables": 155,
@@ -49,7 +49,10 @@
       "metric_export_snapshot": 691,
       "metric_ui_new_confirmed": 16,
       "temporary_metric_copy_excluded": 1
-    }
+    },
+    "platform_new_metrics_20261108": 6,
+    "platform_existing_updates_20261108": 3,
+    "platform_new_metadata_20261108": 0
   },
   "projects": [
     {
@@ -523,24 +526,27 @@
       "fields": 11886,
       "field_comment_gaps": 933,
       "tag_drafts": 165,
-      "available_metrics": 92,
-      "review_metrics": 36,
-      "candidate_metrics": 20,
-      "model_dwd": 9,
+      "available_metrics": 98,
+      "review_metrics": 25,
+      "candidate_metrics": 0,
+      "model_dwd": 10,
       "model_dws": 2,
-      "model_new": 11,
+      "model_new": 12,
       "verified_registered_tables": 59,
       "data_file": "data/projects/86.json",
-      "initialization": "本批已录入并回读核验",
+      "initialization": "本批6项新增、3项完善已核验；25条标准定义待核对",
       "priority": "已录入复核",
       "model_dws_reuse": 2,
       "upload_summary": {
         "tables": 59,
-        "metrics": 92,
+        "metrics": 98,
         "drafts": 32,
-        "verified": "2026-11-06"
+        "verified": "2026-11-08",
+        "new_metrics_this_batch": 6,
+        "existing_updated_this_batch": 3,
+        "knowledge_verified": 2
       },
-      "scope_note": "好友房friend_*、金币房gold_*均属于地方棋牌。旧44项已按用户确认删除；重建后目前92项可用、32项合并后草稿。另41条未登记标准定义中，5条已有口径可复用，其余继续核对来源、依赖和收敛方案；不按缺少编码数重复补录。",
+      "scope_note": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。",
       "legacy_url": "https://jiyunfei150-del.github.io/local-chess-governance-v2/",
       "review_stage": "本批已核验",
       "review_tags": 0,
@@ -5502,13 +5508,13 @@
   "notes": [
     "项目清单来自中央调用元数据；游戏/非游戏为审阅分类，待确认项目另列。游戏项目优先，同类型按本期用表记录从多到少排列。",
     "调用快照2026-11-04；高活跃≥100、中10–99、低1–9、冷=30天0次。首批要求7天>0且30天>4，活性未知和已删除表不入首批。",
-    "地方棋牌、猎鱼达人3D、手游、H5采用2026-11-06平台回读；其他项目仍保留2026-11-05原快照。全局指标数是分项目登记证据的汇总，不是此刻全平台完整实时盘点。",
-    "地方棋牌当前124项资产：92项可用、32项合并后草稿。另41条未登记标准定义已分类，5条可复用，其余继续核对。原44项已按用户确认删除，旧站和旧运营总表审阅稿保留历史版本，不能作为当前库存。",
+    "地方棋牌采用2026-11-08平台回读，猎鱼达人3D、手游、H5采用2026-11-06回读；其他项目仍保留2026-11-05原快照。全局指标数是分项目登记证据的汇总，不是此刻全平台完整实时盘点。",
     "本批3D新增42张元数据、2项指标；手游新增9张、1项指标；H5新增7张、2项指标并修正2项已有留存。每个项目各发布1篇知识；地方棋牌另发布1篇设备留存知识。",
     "3D与手游未绑定AN库及采集后仍缺的表保留缺口，不擅自以同名或近似后缀替换。波克棋牌新建五库元数据连接后继续办理。",
     "其他未授权项目只整理，不录入；不新增业务域或业务过程，不执行建表或调度。DWD优先，每项目最多建议新增两张DWS。",
     "字段/SQL静态核对和平台回读不等于生产数值对账。H5字段约束未在页面提供的项目保留未知，不伪造主键或非空约束。",
-    "2026-11-08波克棋牌：问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选及1篇知识稿仍未提交。其他项目回读日期维持各自原快照。"
+    "2026-11-08波克棋牌：问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选及1篇知识稿仍未提交。其他项目回读日期维持各自原快照。",
+    "地方棋牌当前130项资产：98项可用、32项合并草稿。本批6项新增、3项已有指标完善覆盖11条标准定义；未单独登记的37条英文编码中，12条通过核心指标复用，25条仍待核对。知识已发布V2。"
   ],
-  "updated_at": "2026-11-08T19:15:27.216317"
+  "updated_at": "2026-11-08T19:55:32.036685"
 }

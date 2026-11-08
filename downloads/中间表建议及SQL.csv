@@ -1504,197 +1504,6 @@ GROUP BY DATE(`login_date`), `user_id`;"
 FROM `haoshen_ods`.`charge_order_info`
 WHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}' AND `user_id` IS NOT NULL
 GROUP BY DATE(`log_time`), `user_id`;"
-86,地方棋牌,DWD01,DWD,friend_dwd.dwd_friend_login_event_di,标准登录事件,建议新建,P1,一条源登录记录；候选唯一键src_id×login_time，业务去重规则待核对,"[""friend_ods.app_login_log""]",login_date（日分区，建议新增字段）,按登录时间增量；按源键幂等补写，设置迟到重跑窗口,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-SELECT id AS src_id, user_id, 'friend' AS account_domain,
-       login_date AS login_time, DATE(login_date) AS login_date,
-       pid, agent_id, login_type AS platform_code_raw,
-       CASE login_type WHEN 0 THEN 'pc' WHEN 1 THEN 'android'
-                       WHEN 2 THEN 'ios' ELSE 'unknown' END AS platform_std,
-       mac
-FROM friend_ods.app_login_log
-WHERE login_date >= '${start_date}' AND login_date < '${end_date}';"
-86,地方棋牌,DWD03,DWD,friend_dwd.dwd_friend_pay_success_di,支付成功订单明细,建议新建,P1,一个成功支付订单order_no；是否存在分次支付/补单版本须核验,"[""friend_ods.pook_infull""]",success_date（日分区）,优先按CDC或更新时间捕获状态变化；源无可靠更新时间时设计补扫与订单对账，不假定仅扫下单日足够,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-SELECT order_no, user_id, 'friend' AS account_domain,
-       infull_date AS order_time, success_date AS success_time,
-       DATE(success_date) AS success_date,
-       CAST(infull_amount AS DECIMAL(38,2)) AS amount_fen,
-       CAST(infull_amount AS DECIMAL(38,2))/100.00 AS amount_yuan,
-       infull_platform AS pay_platform_raw, pid, agent_id, item_id,
-       infull_state AS order_state
-FROM friend_ods.pook_infull
-WHERE success_date >= '${start_date}' AND success_date < '${end_date}'
-  AND infull_state=1;"
-86,地方棋牌,DWD02,DWD,friend_dwd.dwd_friend_user_profile_df,账号属性日快照,建议新建,P1,snapshot_date×user_id×account_domain；PID维度是否进入键须核验,"[""friend_ods.user_info"", ""friend_ods.user_remark""]",snapshot_date（日分区）,从建设日起留存每日快照；注册信息和历史删除账号覆盖另行对账,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
--- snapshot_date 必须是调度实际采集日；禁止用今天状态伪造过去快照。
-SELECT CAST('${snapshot_date}' AS DATE) AS snapshot_date,
-       u.user_id, 'friend' AS account_domain, u.reg_date AS reg_time,
-       u.pid, u.agent_id, u.vip_type AS account_type_raw,
-       r.reg_type AS registration_type_raw, r.pid AS registration_pid_raw,
-       CAST(NULL AS SIGNED) AS is_deleted_if_available
-FROM friend_ods.user_info u
-LEFT JOIN friend_ods.user_remark r ON u.user_id=r.user_id;"
-86,地方棋牌,DWD04,DWD,friend_dwd.dwd_friend_game_player_round_di,玩家对局与时长明细,建议新建,P1,源记录id×event_time；标准玩家小局键尚待验收，当前is_canonical=0,"[""friend_ods.comm_game_log""]",event_date（日分区）,只采一条日志源并保留原键；小局键与单位验收后才开放标准局次/时长聚合,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""核实 game_num / friend_game_num 的事件唯一性、重连重报规则，验收后才生成 round_id 并置 is_canonical=1。"", ""核实时长单位和异常范围后才生成 duration_sec、置 unit_confirmed=1；其他两张源表仅作键和覆盖对照，不直接拼接。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
--- 此为待验收的标准化输入，不可直接把每行当作一局或一名独立玩家参与。
-SELECT id AS src_id, log_time AS event_time, DATE(log_time) AS event_date,
-       friend_game_num, game_num, user_id, 'friend' AS account_domain,
-       game_id, pid, game_type AS game_type_raw,
-       CAST(NULL AS CHAR) AS round_id,
-       game_time AS duration_raw, 'unknown' AS duration_unit_raw,
-       CAST(NULL AS DECIMAL(38,6)) AS duration_sec,
-       0 AS unit_confirmed, 0 AS is_canonical,
-       CAST(NULL AS CHAR) AS unit_mapping_version,
-       'friend_ods.comm_game_log' AS source_table
-FROM friend_ods.comm_game_log
-WHERE log_time >= '${start_date}' AND log_time < '${end_date}'
-  AND game_type=1;"
-86,地方棋牌,DWD06,DWD,friend_dwd.dwd_friend_room_card_flow_di,房卡标准流水,建议新建,P1,一条来源流水id×log_date×source_table；业务去重键及冲正关联待确认,"[""friend_ods.package_log"", ""friend_ods.prop_info""]",event_date（日分区）,增量采集原流水并幂等回补；字典映射版本化，迟到和冲正单独处理,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""查清 change_log_type_config 中 function_type=1 的类型字典及历史变化，确认系统发放、游戏消耗、内部转移、退回、冲正的映射。"", ""验收数量单位、正负号、prop_num 与余额差的关系；验收前不产出标准 delta_qty。当前 prop_info 字典未证明历史房卡覆盖完整。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-WITH card_props AS (
-  SELECT prop_id, prop_type
-  FROM friend_ods.prop_info
-  WHERE prop_type=1
-), raw_flow AS (
-  SELECT id, user_id, type, amount, prop_id, begin_num, end_num, prop_num,
-         log_date, order_no, if_agent, card_from_user_id, card_from_type, pid
-  FROM friend_ods.package_log
-  WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-)
-SELECT f.id AS flow_id, f.log_date AS event_time, DATE(f.log_date) AS event_date,
-       f.user_id, 'friend' AS account_domain, f.if_agent AS account_type_raw,
-       f.pid, f.prop_id, f.begin_num AS before_qty_raw,
-       f.end_num AS after_qty_raw, f.prop_num AS prop_qty_raw,
-       f.end_num-f.begin_num AS balance_delta_raw, f.amount AS amount_raw,
-       f.type AS operation_type_raw, f.card_from_type AS card_from_type_raw,
-       f.card_from_user_id AS counterparty_user_id, f.order_no,
-       'unknown' AS qty_unit, 'unknown' AS operation_category,
-       CAST(NULL AS DECIMAL(38,6)) AS delta_qty,
-       CAST(NULL AS SIGNED) AS is_internal_transfer,
-       CAST(NULL AS CHAR) AS correction_ref,
-       CAST(NULL AS CHAR) AS mapping_version, 0 AS mapping_confirmed
-FROM raw_flow f JOIN card_props p ON f.prop_id=p.prop_id;"
-86,地方棋牌,DWD05,DWD,friend_dwd.dwd_friend_room_lifecycle_di,房间与牌局生命周期,建议新建,P2,源记录src_id×room_code×game_id×record_time；friend_game_num为候选业务键,"[""friend_ods.create_room_log""]",record_date（日分区），同时保留created_date,按record_time增量并按源键幂等；保留created_time，不将当前房间属性回填历史,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-SELECT id AS src_id, friend_game_num, room_code, game_id,
-       main_userid AS owner_user_id, pid,
-       room_create_time AS created_time, DATE(room_create_time) AS created_date,
-       begin_time AS start_time, log_time AS record_time,
-       DATE(log_time) AS record_date, end_type AS end_type_raw,
-       play_num AS played_rounds, league_id
-FROM friend_ods.create_room_log
-WHERE log_time >= '${start_date}' AND log_time < '${end_date}';"
-86,地方棋牌,DWD07,DWD,friend_dwd.dwd_friend_sign_operation_di,签到与补签事件,建议新建,P2,一条签到操作id×log_date,"[""friend_ods.user_sign_log""]",operation_date（日分区）,源键幂等增量；补签分别保留操作日和归属日,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-SELECT id AS src_id, user_id, 'friend' AS account_domain,
-       log_date AS operation_time, DATE(log_date) AS operation_date,
-       sign_date, type AS operation_type, award AS award_raw, period
-FROM friend_ods.user_sign_log
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
-86,地方棋牌,DWD08,DWD,friend_dwd.dwd_friend_feedback_di,玩家反馈与处理状态,建议新建,P2,一条反馈id×log_date，处理状态版本另行保留,"[""friend_ods.user_suggest""]",feedback_date（日分区）,反馈新增与处理更新分开采集；无法识别首次回复时不造首次响应时间,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""当前SQL按反馈创建日提取源当前状态；要跟踪旧反馈的回复或状态变化，需接CDC或设计可靠的历史补扫任务，不能仅扫当天新增。"", ""状态枚举和answer_time语义未确认前，不生成解决率、首次响应时长；现有SQL也不表示已保存处理变更历史。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-SELECT id AS feedback_id, user_id, 'friend' AS account_domain,
-       log_date AS feedback_time, DATE(log_date) AS feedback_date,
-       pid, scene_id, game_id, state AS state_raw,
-       answer_time AS answer_time_raw, 0 AS reply_time_semantics_confirmed
-FROM friend_ods.user_suggest
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
-86,地方棋牌,DWD09,DWD,friend_dwd.dwd_friend_device_first_open_df,设备应用首次激活,建议新建,P2,pid×mac设备应用对,"[""friend_ods.cell_mac_info""]",first_open_date（日分区）,按设备应用键更新最早可靠激活记录，设备标识重置规则另行确认,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-SELECT pid, mac AS device_id_raw, 'source_mac' AS device_id_type,
-       first_open_date AS first_open_time, DATE(first_open_date) AS first_open_date,
-       os_id AS os_id_raw,
-       CASE WHEN os_id IN (0,1) THEN 'ios'
-            WHEN os_id=2 THEN 'android' ELSE 'unknown' END AS platform_std,
-       agent_id AS agent_id_raw
-FROM friend_ods.cell_mac_info
-WHERE first_open_date >= '${start_date}' AND first_open_date < '${end_date}';"
-86,地方棋牌,DWS05,DWS,friend_dws.dws_friend_login_pay_user_1d,账号日登录付费汇总（保留支付全集）,建议新建,P1,stat_date×account_domain×account_key；空账号支付按日保留对账桶，不计账号数,"[""friend_dwd.dwd_friend_login_event_di"", ""friend_dwd.dwd_friend_pay_success_di""]",stat_date（日分区）,从登录与成功支付DWD分别聚合账号日，合并账号全集；迟到、补单、状态修正重算受影响分区,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-WITH logged AS (
-  SELECT login_date AS stat_date, account_domain, user_id,
-         CONCAT('uid:',CAST(user_id AS CHAR)) AS account_key,
-         COUNT(*) AS login_record_cnt
-  FROM friend_dwd.dwd_friend_login_event_di
-  WHERE login_date >= CAST('${start_date}' AS DATE)
-    AND login_date < CAST('${end_date}' AS DATE) AND user_id IS NOT NULL
-  GROUP BY login_date, account_domain, user_id
-), paid AS (
-  SELECT success_date AS stat_date, account_domain, user_id,
-         CASE WHEN user_id IS NULL THEN 'null_uid_reconciliation'
-              ELSE CONCAT('uid:',CAST(user_id AS CHAR)) END AS account_key,
-         COUNT(*) AS success_order_cnt, SUM(amount_fen) AS success_amount_fen
-  FROM friend_dwd.dwd_friend_pay_success_di
-  WHERE success_date >= CAST('${start_date}' AS DATE)
-    AND success_date < CAST('${end_date}' AS DATE)
-  GROUP BY success_date, account_domain, user_id
-), account_set AS (
-  SELECT stat_date, account_domain, user_id, account_key FROM logged
-  UNION
-  SELECT stat_date, account_domain, user_id, account_key FROM paid
-)
-SELECT a.stat_date, a.account_domain, a.account_key, a.user_id,
-       CASE WHEN a.user_id IS NULL THEN 0 ELSE 1 END AS is_identified_account,
-       CASE WHEN l.user_id IS NULL THEN 0 ELSE 1 END AS login_flag,
-       COALESCE(l.login_record_cnt,0) AS login_record_cnt,
-       CASE WHEN a.user_id IS NOT NULL AND p.success_order_cnt>0 THEN 1 ELSE 0 END AS pay_flag,
-       COALESCE(p.success_order_cnt,0) AS success_order_cnt,
-       CASE WHEN p.success_order_cnt IS NULL THEN 0 ELSE p.success_amount_fen END AS success_amount_fen,
-       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before
-FROM account_set a LEFT JOIN logged l
-  ON a.stat_date=l.stat_date AND a.account_domain=l.account_domain AND a.account_key=l.account_key
-LEFT JOIN paid p
-  ON a.stat_date=p.stat_date AND a.account_domain=p.account_domain AND a.account_key=p.account_key;"
-86,地方棋牌,DWS03,DWS,friend_dws.dws_friend_login_retention_1d,登录分群留存汇总,建议新建,P1,cohort_date×account_domain×retention_days（1/3/7）,"[""friend_dws.user_app_login_daily_d""]",cohort_date（日分区）,每日重算仍处于1/3/7日观察窗的分群，加迟到窗口；以任务验收水位确认成熟,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
--- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
-WITH login_days AS (
-  SELECT DATE(dt) AS stat_date, user_id
-  FROM friend_dws.user_app_login_daily_d
-  WHERE dt >= '${start_date}'
-    AND dt < DATE_ADD('${end_date}', INTERVAL 7 DAY)
-    AND user_type=1 AND user_id IS NOT NULL
-  GROUP BY DATE(dt), user_id
-), cohort AS (
-  SELECT stat_date, user_id FROM login_days
-  WHERE stat_date >= CAST('${start_date}' AS DATE)
-    AND stat_date < CAST('${end_date}' AS DATE)
-)
-SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
-       1 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
-       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 2 DAY) <= CAST('${data_complete_before}' AS DATETIME)
-            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
-       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 2 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
-       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
-       CURRENT_TIMESTAMP AS computed_at
-FROM cohort c LEFT JOIN login_days r
-  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 1 DAY)
-GROUP BY c.stat_date
-UNION ALL
-SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
-       3 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
-       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 4 DAY) <= CAST('${data_complete_before}' AS DATETIME)
-            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
-       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 4 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
-       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
-       CURRENT_TIMESTAMP AS computed_at
-FROM cohort c LEFT JOIN login_days r
-  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 3 DAY)
-GROUP BY c.stat_date
-UNION ALL
-SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
-       7 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
-       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 8 DAY) <= CAST('${data_complete_before}' AS DATETIME)
-            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
-       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 8 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
-       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
-       CURRENT_TIMESTAMP AS computed_at
-FROM cohort c LEFT JOIN login_days r
-  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 7 DAY)
-GROUP BY c.stat_date;"
-86,地方棋牌,DWS01,DWS,friend_dws.user_app_login_daily_d,现有账号登录日汇总,复用现有,P1,dt×user_type×user_id,"[""friend_ods.app_login_log""]",现有dt分区，查询直接过滤dt,复用现有产出，先核验覆盖；保留迟到重算与完整性水位,',','
-86,地方棋牌,DWS02,DWS,friend_dws.user_comm_game_daily_d,现有玩家玩法参与日汇总,复用现有,P1,dt×user_type×user_id×game_id,"[""friend_ods.comm_game_log""]",现有dt分区，查询直接过滤dt,复用现有参与次数；新增口径前核对生产SQL和迟到补数,',','
 91,灵画师-国内版,R91_DWD_login,DWD,dwd_login_detail_di,登录来源标准明细,建议新建,P1,暂保留源行粒度；业务事件键待验证，采集键：dbid×log_date。,"[""lhs_ods.app_login_log""]",log_date对应业务日期（时区确认后）,SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。,仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。,"[""确认同项目来源归属、业务键和状态生命周期"", ""验收时间字段含义、时区、重复及迟到窗口"", ""先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用""]","SELECT
   `dbid`,
   `log_date`,
@@ -2929,3 +2738,220 @@ WHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';"
   `collected_at`
 FROM `dwops_audit`.`sr_sql_full_log`
 WHERE `query_time` >= '${start_date}' AND `query_time` < '${end_date}';"
+86,地方棋牌,DWD01,DWD,friend_dwd.dwd_friend_login_event_di,标准登录事件,建议新建,P1,一条源登录记录；候选唯一键src_id×login_time，业务去重规则待核对,"[""friend_ods.app_login_log""]",login_date（日分区，建议新增字段）,按登录时间增量；按源键幂等补写，设置迟到重跑窗口,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS src_id, user_id, 'friend' AS account_domain,
+       login_date AS login_time, DATE(login_date) AS login_date,
+       pid, agent_id, login_type AS platform_code_raw,
+       CASE login_type WHEN 0 THEN 'pc' WHEN 1 THEN 'android'
+                       WHEN 2 THEN 'ios' ELSE 'unknown' END AS platform_std,
+       mac
+FROM friend_ods.app_login_log
+WHERE login_date >= '${start_date}' AND login_date < '${end_date}';"
+86,地方棋牌,DWD03,DWD,friend_dwd.dwd_friend_pay_success_di,支付成功订单明细,建议新建,P1,一个成功支付订单order_no；是否存在分次支付/补单版本须核验,"[""friend_ods.pook_infull""]",success_date（日分区）,优先按CDC或更新时间捕获状态变化；源无可靠更新时间时设计补扫与订单对账，不假定仅扫下单日足够,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT order_no, user_id, 'friend' AS account_domain,
+       infull_date AS order_time, success_date AS success_time,
+       DATE(success_date) AS success_date,
+       CAST(infull_amount AS DECIMAL(38,2)) AS amount_fen,
+       CAST(infull_amount AS DECIMAL(38,2))/100.00 AS amount_yuan,
+       infull_platform AS pay_platform_raw, pid, agent_id, item_id,
+       infull_state AS order_state
+FROM friend_ods.pook_infull
+WHERE success_date >= '${start_date}' AND success_date < '${end_date}'
+  AND infull_state=1;"
+86,地方棋牌,DWD02,DWD,friend_dwd.dwd_friend_user_profile_df,账号属性日快照,建议新建,P1,snapshot_date×user_id×account_domain；PID维度是否进入键须核验,"[""friend_ods.user_info"", ""friend_ods.user_remark""]",snapshot_date（日分区）,从建设日起留存每日快照；注册信息和历史删除账号覆盖另行对账,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+-- snapshot_date 必须是调度实际采集日；禁止用今天状态伪造过去快照。
+SELECT CAST('${snapshot_date}' AS DATE) AS snapshot_date,
+       u.user_id, 'friend' AS account_domain, u.reg_date AS reg_time,
+       u.pid, u.agent_id, u.vip_type AS account_type_raw,
+       r.reg_type AS registration_type_raw, r.pid AS registration_pid_raw,
+       CAST(NULL AS SIGNED) AS is_deleted_if_available
+FROM friend_ods.user_info u
+LEFT JOIN friend_ods.user_remark r ON u.user_id=r.user_id;"
+86,地方棋牌,DWD04,DWD,friend_dwd.dwd_friend_game_player_round_di,玩家对局与时长明细,建议新建,P1,源记录id×event_time；标准玩家小局键尚待验收，当前is_canonical=0,"[""friend_ods.comm_game_log""]",event_date（日分区）,只采一条日志源并保留原键；小局键与单位验收后才开放标准局次/时长聚合,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""核实 game_num / friend_game_num 的事件唯一性、重连重报规则，验收后才生成 round_id 并置 is_canonical=1。"", ""核实时长单位和异常范围后才生成 duration_sec、置 unit_confirmed=1；其他两张源表仅作键和覆盖对照，不直接拼接。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+-- 此为待验收的标准化输入，不可直接把每行当作一局或一名独立玩家参与。
+SELECT id AS src_id, log_time AS event_time, DATE(log_time) AS event_date,
+       friend_game_num, game_num, user_id, 'friend' AS account_domain,
+       game_id, pid, game_type AS game_type_raw,
+       CAST(NULL AS CHAR) AS round_id,
+       game_time AS duration_raw, 'unknown' AS duration_unit_raw,
+       CAST(NULL AS DECIMAL(38,6)) AS duration_sec,
+       0 AS unit_confirmed, 0 AS is_canonical,
+       CAST(NULL AS CHAR) AS unit_mapping_version,
+       'friend_ods.comm_game_log' AS source_table
+FROM friend_ods.comm_game_log
+WHERE log_time >= '${start_date}' AND log_time < '${end_date}'
+  AND game_type=1;"
+86,地方棋牌,DWD06,DWD,friend_dwd.dwd_friend_room_card_flow_di,房卡标准流水,建议新建,P1,一条来源流水id×log_date×source_table；业务去重键及冲正关联待确认,"[""friend_ods.package_log"", ""friend_ods.prop_info""]",event_date（日分区）,增量采集原流水并幂等回补；字典映射版本化，迟到和冲正单独处理,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""查清 change_log_type_config 中 function_type=1 的类型字典及历史变化，确认系统发放、游戏消耗、内部转移、退回、冲正的映射。"", ""验收数量单位、正负号、prop_num 与余额差的关系；验收前不产出标准 delta_qty。当前 prop_info 字典未证明历史房卡覆盖完整。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+WITH card_props AS (
+  SELECT prop_id, prop_type
+  FROM friend_ods.prop_info
+  WHERE prop_type=1
+), raw_flow AS (
+  SELECT id, user_id, type, amount, prop_id, begin_num, end_num, prop_num,
+         log_date, order_no, if_agent, card_from_user_id, card_from_type, pid
+  FROM friend_ods.package_log
+  WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
+)
+SELECT f.id AS flow_id, f.log_date AS event_time, DATE(f.log_date) AS event_date,
+       f.user_id, 'friend' AS account_domain, f.if_agent AS account_type_raw,
+       f.pid, f.prop_id, f.begin_num AS before_qty_raw,
+       f.end_num AS after_qty_raw, f.prop_num AS prop_qty_raw,
+       f.end_num-f.begin_num AS balance_delta_raw, f.amount AS amount_raw,
+       f.type AS operation_type_raw, f.card_from_type AS card_from_type_raw,
+       f.card_from_user_id AS counterparty_user_id, f.order_no,
+       'unknown' AS qty_unit, 'unknown' AS operation_category,
+       CAST(NULL AS DECIMAL(38,6)) AS delta_qty,
+       CAST(NULL AS SIGNED) AS is_internal_transfer,
+       CAST(NULL AS CHAR) AS correction_ref,
+       CAST(NULL AS CHAR) AS mapping_version, 0 AS mapping_confirmed
+FROM raw_flow f JOIN card_props p ON f.prop_id=p.prop_id;"
+86,地方棋牌,DWD05,DWD,friend_dwd.dwd_friend_room_lifecycle_di,房间与牌局生命周期,建议新建,P2,源记录src_id×room_code×game_id×record_time；friend_game_num为候选业务键,"[""friend_ods.create_room_log""]",record_date（日分区），同时保留created_date,按record_time增量并按源键幂等；保留created_time，不将当前房间属性回填历史,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS src_id, friend_game_num, room_code, game_id,
+       main_userid AS owner_user_id, pid,
+       room_create_time AS created_time, DATE(room_create_time) AS created_date,
+       begin_time AS start_time, log_time AS record_time,
+       DATE(log_time) AS record_date, end_type AS end_type_raw,
+       play_num AS played_rounds, league_id
+FROM friend_ods.create_room_log
+WHERE log_time >= '${start_date}' AND log_time < '${end_date}';"
+86,地方棋牌,DWD07,DWD,friend_dwd.dwd_friend_sign_operation_di,签到与补签事件,建议新建,P2,一条签到操作id×log_date,"[""friend_ods.user_sign_log""]",operation_date（日分区）,源键幂等增量；补签分别保留操作日和归属日,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS src_id, user_id, 'friend' AS account_domain,
+       log_date AS operation_time, DATE(log_date) AS operation_date,
+       sign_date, type AS operation_type, award AS award_raw, period
+FROM friend_ods.user_sign_log
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+86,地方棋牌,DWD08,DWD,friend_dwd.dwd_friend_feedback_di,玩家反馈与处理状态,建议新建,P2,一条反馈id×log_date，处理状态版本另行保留,"[""friend_ods.user_suggest""]",feedback_date（日分区）,反馈新增与处理更新分开采集；无法识别首次回复时不造首次响应时间,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,"[""当前SQL按反馈创建日提取源当前状态；要跟踪旧反馈的回复或状态变化，需接CDC或设计可靠的历史补扫任务，不能仅扫当天新增。"", ""状态枚举和answer_time语义未确认前，不生成解决率、首次响应时长；现有SQL也不表示已保存处理变更历史。""]","'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT id AS feedback_id, user_id, 'friend' AS account_domain,
+       log_date AS feedback_time, DATE(log_date) AS feedback_date,
+       pid, scene_id, game_id, state AS state_raw,
+       answer_time AS answer_time_raw, 0 AS reply_time_semantics_confirmed
+FROM friend_ods.user_suggest
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+86,地方棋牌,DWD09,DWD,friend_dwd.dwd_friend_device_first_open_df,设备应用首次激活,建议新建,P2,pid×mac设备应用对,"[""friend_ods.cell_mac_info""]",first_open_date（日分区）,按设备应用键更新最早可靠激活记录，设备标识重置规则另行确认,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+SELECT pid, mac AS device_id_raw, 'source_mac' AS device_id_type,
+       first_open_date AS first_open_time, DATE(first_open_date) AS first_open_date,
+       os_id AS os_id_raw,
+       CASE WHEN os_id IN (0,1) THEN 'ios'
+            WHEN os_id=2 THEN 'android' ELSE 'unknown' END AS platform_std,
+       agent_id AS agent_id_raw
+FROM friend_ods.cell_mac_info
+WHERE first_open_date >= '${start_date}' AND first_open_date < '${end_date}';"
+86,地方棋牌,DWS05,DWS,friend_dws.dws_friend_login_pay_user_1d,账号日登录付费汇总（保留支付全集）,建议新建,P1,stat_date×account_domain×account_key；空账号支付按日保留对账桶，不计账号数,"[""friend_dwd.dwd_friend_login_event_di"", ""friend_dwd.dwd_friend_pay_success_di""]",stat_date（日分区）,从登录与成功支付DWD分别聚合账号日，合并账号全集；迟到、补单、状态修正重算受影响分区,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+WITH logged AS (
+  SELECT login_date AS stat_date, account_domain, user_id,
+         CONCAT('uid:',CAST(user_id AS CHAR)) AS account_key,
+         COUNT(*) AS login_record_cnt
+  FROM friend_dwd.dwd_friend_login_event_di
+  WHERE login_date >= CAST('${start_date}' AS DATE)
+    AND login_date < CAST('${end_date}' AS DATE) AND user_id IS NOT NULL
+  GROUP BY login_date, account_domain, user_id
+), paid AS (
+  SELECT success_date AS stat_date, account_domain, user_id,
+         CASE WHEN user_id IS NULL THEN 'null_uid_reconciliation'
+              ELSE CONCAT('uid:',CAST(user_id AS CHAR)) END AS account_key,
+         COUNT(*) AS success_order_cnt, SUM(amount_fen) AS success_amount_fen
+  FROM friend_dwd.dwd_friend_pay_success_di
+  WHERE success_date >= CAST('${start_date}' AS DATE)
+    AND success_date < CAST('${end_date}' AS DATE)
+  GROUP BY success_date, account_domain, user_id
+), account_set AS (
+  SELECT stat_date, account_domain, user_id, account_key FROM logged
+  UNION
+  SELECT stat_date, account_domain, user_id, account_key FROM paid
+)
+SELECT a.stat_date, a.account_domain, a.account_key, a.user_id,
+       CASE WHEN a.user_id IS NULL THEN 0 ELSE 1 END AS is_identified_account,
+       CASE WHEN l.user_id IS NULL THEN 0 ELSE 1 END AS login_flag,
+       COALESCE(l.login_record_cnt,0) AS login_record_cnt,
+       CASE WHEN a.user_id IS NOT NULL AND p.success_order_cnt>0 THEN 1 ELSE 0 END AS pay_flag,
+       COALESCE(p.success_order_cnt,0) AS success_order_cnt,
+       CASE WHEN p.success_order_cnt IS NULL THEN 0 ELSE p.success_amount_fen END AS success_amount_fen,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before
+FROM account_set a LEFT JOIN logged l
+  ON a.stat_date=l.stat_date AND a.account_domain=l.account_domain AND a.account_key=l.account_key
+LEFT JOIN paid p
+  ON a.stat_date=p.stat_date AND a.account_domain=p.account_domain AND a.account_key=p.account_key;"
+86,地方棋牌,DWS03,DWS,friend_dws.dws_friend_login_retention_1d,登录分群留存汇总,建议新建,P1,cohort_date×account_domain×retention_days（1/3/7）,"[""friend_dws.user_app_login_daily_d""]",cohort_date（日分区）,每日重算仍处于1/3/7日观察窗的分群，加迟到窗口；以任务验收水位确认成熟,已按采集元数据核对字段，并做静态解析；未执行取数、未做本轮引擎EXPLAIN或对账。,[],"'-- 示例 start_date=2026-11-02 00:00:00，end_date=2026-11-03 00:00:00。
+-- 其他调度参数：snapshot_date=实际采集日，history_start_date=快照建设首日，data_complete_before=验收水位。
+WITH login_days AS (
+  SELECT DATE(dt) AS stat_date, user_id
+  FROM friend_dws.user_app_login_daily_d
+  WHERE dt >= '${start_date}'
+    AND dt < DATE_ADD('${end_date}', INTERVAL 7 DAY)
+    AND user_type=1 AND user_id IS NOT NULL
+  GROUP BY DATE(dt), user_id
+), cohort AS (
+  SELECT stat_date, user_id FROM login_days
+  WHERE stat_date >= CAST('${start_date}' AS DATE)
+    AND stat_date < CAST('${end_date}' AS DATE)
+)
+SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
+       1 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 2 DAY) <= CAST('${data_complete_before}' AS DATETIME)
+            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 2 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
+       CURRENT_TIMESTAMP AS computed_at
+FROM cohort c LEFT JOIN login_days r
+  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 1 DAY)
+GROUP BY c.stat_date
+UNION ALL
+SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
+       3 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 4 DAY) <= CAST('${data_complete_before}' AS DATETIME)
+            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 4 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
+       CURRENT_TIMESTAMP AS computed_at
+FROM cohort c LEFT JOIN login_days r
+  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 3 DAY)
+GROUP BY c.stat_date
+UNION ALL
+SELECT c.stat_date AS cohort_date, 'friend' AS account_domain,
+       7 AS retention_days, COUNT(c.user_id) AS cohort_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 8 DAY) <= CAST('${data_complete_before}' AS DATETIME)
+            THEN COUNT(r.user_id) ELSE NULL END AS retained_user_cnt,
+       CASE WHEN DATE_ADD(c.stat_date, INTERVAL 8 DAY) <= CAST('${data_complete_before}' AS DATETIME) THEN 1 ELSE 0 END AS is_mature,
+       CAST('${data_complete_before}' AS DATETIME) AS data_complete_before,
+       CURRENT_TIMESTAMP AS computed_at
+FROM cohort c LEFT JOIN login_days r
+  ON c.user_id=r.user_id AND r.stat_date=DATE_ADD(c.stat_date, INTERVAL 7 DAY)
+GROUP BY c.stat_date;"
+86,地方棋牌,DWS01,DWS,friend_dws.user_app_login_daily_d,现有账号登录日汇总,复用现有,P1,dt×user_type×user_id,"[""friend_ods.app_login_log""]",现有dt分区，查询直接过滤dt,复用现有产出，先核验覆盖；保留迟到重算与完整性水位,',','
+86,地方棋牌,DWS02,DWS,friend_dws.user_comm_game_daily_d,现有玩家玩法参与日汇总,复用现有,P1,dt×user_type×user_id×game_id,"[""friend_ods.comm_game_log""]",现有dt分区，查询直接过滤dt,复用现有参与次数；新增口径前核对生产SQL和迟到补数,',','
+86,地方棋牌,DWD10,DWD,gold_dwd.dwd_gold_voucher_transaction_event_di,金币房点券交易事件明细,建议新建,P1,一条源扣券或金币到账流水；两侧保留各自事件，不强制按日配对,"[""gold_ods.prop_log"", ""gold_ods.user_money_log""]",event_date（日分区，建议新增字段）,按事件时间闭开窗口读取；以source_table和源复合键幂等重跑，验收迟到窗口后再定调度,来源和字段按采集元数据静态核对，SELECT语法已解析；未建表、未运行生产取数或业务对账。,"[""核验两张源表复合键唯一性及迟到水位；不得只用id跨源去重"", ""验收447/448/449/450业务映射及金币排除1500的规则"", ""下游保留单位和flow_side；展示日历补0不能改写源记录缺失含义""]","SELECT 'gold_ods.prop_log' AS source_table, id AS src_id,
+       log_date AS event_time, DATE(log_date) AS event_date,
+       'gold' AS account_domain, user_id, agent_id, game_id,
+       'voucher_debit' AS flow_side, 'ticket' AS resource_type,
+       data_type AS biz_type, data_type AS raw_data_type,
+       CAST(NULL AS SIGNED) AS raw_money_type,
+       prop_id, prop_num AS amount_delta, 0 AS coin_credit_count
+FROM gold_ods.prop_log
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
+  AND prop_id=100000 AND prop_num<0 AND data_type IN (447,448,450)
+UNION ALL
+SELECT 'gold_ods.user_money_log', id, log_date, DATE(log_date),
+       'gold', user_id, agent_id, game_id,
+       'coin_credit', 'gold', CASE WHEN type=449 THEN 448 ELSE type END,
+       CAST(NULL AS SIGNED), type, prop_id, prop_num, 1
+FROM gold_ods.user_money_log
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
+  AND prop_id=1 AND prop_num>0
+  AND (type=449 OR (type=447 AND prop_num<>1500));"
+86,地方棋牌,DWD11,DWD,gold_dwd.dwd_infull_order_d,金币房成功订单明细（现有表复用候选）,复用现有,P2,现有玩家充值事实行；order_no经游戏归因后是否仍唯一待核验,"[""gold_dwd.dwd_infull_order_d""]",现有etl_time分区；业务成功日使用success_date，不将etl_time当成功时间,先核验订单状态更新与归因展开方式；复用前确认完整性及晚到补写，不直接替换当前ODS口径,来源和字段按采集元数据静态核对，SELECT语法已解析；金额单位、去重和生产数值未验收。,"[""核验order_no唯一性和游戏/房间归因展开规则"", ""核对order_amt与ODS order_amount单位、舍入及订单金额一致性"", ""确认成功日完整性、状态更新及ETL水位；RFM另验收登录来源""]","'-- 复用候选字段投影；金额单位、订单粒度和完整性验收后才能替换现行ODS来源。
+SELECT user_id, order_no, order_amt AS source_order_amount,
+       order_status, success_date, product_id, product_name,
+       agent_id, infull_agent_id, platform_id, infull_platform_id, etl_time
+FROM gold_dwd.dwd_infull_order_d
+WHERE success_date >= '${start_date}' AND success_date < '${end_date}'
+  AND order_status=1;"
