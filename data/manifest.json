@@ -1,5 +1,5 @@
 {
-  "revision": "eb1c5859e7bb",
+  "revision": "7dbe7cd09fd8",
   "stats": {
     "date": "2026-11-06",
     "activity_date": "2026-11-04",
@@ -17,8 +17,8 @@
     "first_with_schema": 1250,
     "projects_usage_with_schema": 29,
     "connections": 14,
-    "available_metrics": 768,
-    "review_metrics": 131,
+    "available_metrics": 776,
+    "review_metrics": 121,
     "models": 143,
     "model_dwd": 101,
     "model_dws": 42,
@@ -59,7 +59,10 @@
     "platform_knowledge_20261109": 1,
     "platform_table_descriptions_20261109": 1,
     "platform_knowledge_updates_20261109": 1,
-    "metadata_status_restored_20261109": 3
+    "metadata_status_restored_20261109": 3,
+    "platform_new_metrics_saved_20261109": 11,
+    "platform_boke_new_available": 7,
+    "platform_boke_new_drafts": 2
   },
   "projects": [
     {
@@ -162,18 +165,18 @@
       "fields": 30226,
       "field_comment_gaps": 1912,
       "tag_drafts": 181,
-      "available_metrics": 0,
-      "review_metrics": 9,
-      "candidate_metrics": 9,
+      "available_metrics": 7,
+      "review_metrics": 0,
+      "candidate_metrics": 0,
       "model_dwd": 6,
       "model_dws": 2,
       "model_new": 6,
       "verified_registered_tables": 71,
       "data_file": "data/projects/1.json",
-      "initialization": "82张元数据已保存；当前账号仍缺指标/知识项目入口",
+      "initialization": "82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布",
       "priority": "待项目入口开放",
       "model_dws_reuse": 0,
-      "review_stage": "已重新核查；指标、知识及查询项目入口仍缺波克棋牌",
+      "review_stage": "82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布",
       "review_tags": 181,
       "review_only": false,
       "project_kind": "game",
@@ -189,12 +192,18 @@
       "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
       "upload_summary": {
         "tables": 82,
-        "metrics": 0,
-        "verified": "2026-11-06",
-        "an_layer_pending": 11
+        "metrics": 7,
+        "verified": "2026-11-09",
+        "an_layer_pending": 11,
+        "drafts": 2,
+        "knowledge": 1,
+        "knowledge_latest_version": "V2",
+        "merged_drafts": 0,
+        "deferred_metrics": 0
       },
-      "scope_note": "五个bkqp库已绑定，82张标签保存回读通过：71张标准层级、11张AN层级待确认。问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选指标和1篇知识稿尚未提交，实时指标库存未完成盘点，0仅为本轮确认保存数。 续办：用户已表示处理当前账号的项目权限后通知，期间不改为管理员、不绕过项目选择。",
-      "followup_date": "2026-11-09"
+      "scope_note": "波克棋牌（ID1）五库连接、问数与当前账号入口已恢复。82张元数据有回执：71张标准层、11张AN层级待确认；9项指标已保存，7项可用、2项时长草稿按用户决定等待补齐。1篇知识V2已发布。指标字段与SQL原生导出核验通过，单日聚合可执行；这不代表运营数值已全部验收。",
+      "followup_date": "2026-11-09",
+      "metric_drafts": 2
     },
     {
       "id": "100",
@@ -541,8 +550,8 @@
       "fields": 11886,
       "field_comment_gaps": 933,
       "tag_drafts": 165,
-      "available_metrics": 98,
-      "review_metrics": 25,
+      "available_metrics": 99,
+      "review_metrics": 24,
       "candidate_metrics": 0,
       "model_dwd": 10,
       "model_dws": 2,
@@ -554,21 +563,23 @@
       "model_dws_reuse": 2,
       "upload_summary": {
         "tables": 59,
-        "metrics": 98,
-        "drafts": 32,
-        "verified": "2026-11-08",
+        "metrics": 99,
+        "drafts": 33,
+        "verified": "2026-11-09",
         "new_metrics_this_batch": 6,
         "existing_updated_this_batch": 3,
         "knowledge_verified": 3,
         "knowledge_verified_date": "2026-11-09",
-        "field_notes_updated_20261109": 3
+        "field_notes_updated_20261109": 3,
+        "merged_drafts": 32,
+        "other_offline": 1
       },
-      "scope_note": "98项可用、32项合并后草稿。剩余37条标准定义中：12条沿用既有核心指标，1条求签钻石在已核对38天日粒度窗口复用；21条行为定义已收敛为6个核心候选，待可靠绑定好友房来源；3条冷来源比赛奖励不入首批。事件知识V2已发布。指标快照日期2026-11-08，其他人员新维护的知识单列，不计本轮新增。",
+      "scope_note": "2026-11-09原生导出：99项可用、33项草稿/停用（32项原合并草稿，另1项由同事停用）。同事新增2项已同步保留；本轮未修改其定义或SQL。剩余37条标准定义中：12条沿用既有核心指标，1条求签钻石在已核对38天日粒度窗口复用；21条行为定义已收敛为6个核心候选，待可靠绑定好友房来源；3条冷来源比赛奖励不入首批。事件知识V2已发布。指标库存已刷新至2026-11-09；其他人员维护项不计本轮新增。",
       "legacy_url": "https://jiyunfei150-del.github.io/local-chess-governance-v2/",
       "review_stage": "21条行为定义已收敛为6个核心候选；求签38天日粒度可复用，知识V2已发布",
       "review_tags": 0,
       "review_only": false,
-      "metric_drafts": 32,
+      "metric_drafts": 33,
       "project_kind": "game",
       "project_kind_label": "游戏项目",
       "project_category": "游戏产品",
@@ -5541,7 +5552,8 @@
     "2026-11-08波克棋牌：问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选及1篇知识稿仍未提交。其他项目回读日期维持各自原快照。",
     "地方棋牌当前130项资产：98项可用、32项合并草稿。本批6项新增、3项已有指标完善覆盖11条标准定义；未单独登记的37条英文编码中，12条通过核心指标复用，25条仍待核对。知识已发布V2。",
     "2026-11-09六项目：H5新增2项日报指标，完善1张表说明、9字段和知识V2，峰值单日一致；地方棋牌补3字段及1篇已发布知识。3D/手游源缺口、波克入口保留；捕鱼游戏王REP两表按用户决定不扩范围，另7表非首批。生产样本数值仅存本地回执。",
-    "2026-11-09续办：3D两表和手游一表原为暂不纳入，已沿用原标签恢复，当前已打标88/48张；AN三表及REP两表均按用户决定保留。地方棋牌21条行为定义收敛为6个候选，求签38天日指标可复用；H5空留存连续七天，知识V3已发布。"
+    "2026-11-09续办：3D两表和手游一表原为暂不纳入，已沿用原标签恢复，当前已打标88/48张；AN三表及REP两表均按用户决定保留。地方棋牌21条行为定义收敛为6个候选，求签38天日指标可复用；H5空留存连续七天，知识V3已发布。",
+    "2026-11-09权限恢复后续办：波克棋牌9项指标保存，7可用2时长草稿，知识V2发布；地方棋牌同步同事新增2项、停用1项，最新99可用33草稿/停用。手游DB-Query仍到期，平台维护入口与查询授权分别核对。"
   ],
-  "updated_at": "2026-11-09T11:02:44.343783"
+  "updated_at": "2026-11-09T11:26:19.998774"
 }

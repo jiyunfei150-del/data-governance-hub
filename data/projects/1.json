@@ -34,18 +34,18 @@
     "fields": 30226,
     "field_comment_gaps": 1912,
     "tag_drafts": 181,
-    "available_metrics": 0,
-    "review_metrics": 9,
-    "candidate_metrics": 9,
+    "available_metrics": 7,
+    "review_metrics": 0,
+    "candidate_metrics": 0,
     "model_dwd": 6,
     "model_dws": 2,
     "model_new": 6,
     "verified_registered_tables": 71,
     "data_file": "data/projects/1.json",
-    "initialization": "82张元数据已保存；当前账号仍缺指标/知识项目入口",
+    "initialization": "82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布",
     "priority": "待项目入口开放",
     "model_dws_reuse": 0,
-    "review_stage": "已重新核查；指标、知识及查询项目入口仍缺波克棋牌",
+    "review_stage": "82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布",
     "review_tags": 181,
     "review_only": false,
     "project_kind": "game",
@@ -61,12 +61,18 @@
     "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
     "upload_summary": {
       "tables": 82,
-      "metrics": 0,
-      "verified": "2026-11-06",
-      "an_layer_pending": 11
+      "metrics": 7,
+      "verified": "2026-11-09",
+      "an_layer_pending": 11,
+      "drafts": 2,
+      "knowledge": 1,
+      "knowledge_latest_version": "V2",
+      "merged_drafts": 0,
+      "deferred_metrics": 0
     },
-    "scope_note": "五个bkqp库已绑定，82张标签保存回读通过：71张标准层级、11张AN层级待确认。问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选指标和1篇知识稿尚未提交，实时指标库存未完成盘点，0仅为本轮确认保存数。 续办：用户已表示处理当前账号的项目权限后通知，期间不改为管理员、不绕过项目选择。",
-    "followup_date": "2026-11-09"
+    "scope_note": "波克棋牌（ID1）五库连接、问数与当前账号入口已恢复。82张元数据有回执：71张标准层、11张AN层级待确认；9项指标已保存，7项可用、2项时长草稿按用户决定等待补齐。1篇知识V2已发布。指标字段与SQL原生导出核验通过，单日聚合可执行；这不代表运营数值已全部验收。",
+    "followup_date": "2026-11-09",
+    "metric_drafts": 2
   },
   "tables": [
     {
@@ -64949,7 +64955,7 @@
       "stat_field": "user_id",
       "time": "login_time",
       "calc_func": "COUNT_DISTINCT",
-      "business_definition": "按登录明细login_time归日，对user_id去重。仅统计该明细覆盖的账号，login_status没有已确认成功码值，因此不额外增加成功筛选。游戏、渠道分别限定，跨渠道或跨游戏人数从明细重新去重。账号迁移前后按原user_id识别，不擅自合并身份。",
+      "business_definition": "按登录明细login_time归日，对user_id去重。仅统计该明细覆盖的账号，login_status没有已确认成功码值，因此不额外增加成功筛选。游戏、渠道分别限定，跨渠道或跨游戏人数从明细重新去重。账号迁移前后按原user_id识别，不擅自合并身份。 单位：账号。",
       "definition": "按登录明细login_time归日，对user_id去重。仅统计该明细覆盖的账号，login_status没有已确认成功码值，因此不额外增加成功筛选。游戏、渠道分别限定，跨渠道或跨游戏人数从明细重新去重。账号迁移前后按原user_id识别，不擅自合并身份。",
       "alias": "",
       "sql": "SELECT DATE(login_time) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_dwd.dwd_login_log_detail_di\nWHERE login_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND login_time < CURRENT_DATE()\nGROUP BY DATE(login_time);",
@@ -64960,18 +64966,41 @@
         "game_id"
       ],
       "unit": "账号",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "平台可用",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_login_log_detail_di"
       ],
       "id": "BK1_login_user_cnt",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_login",
         "R1_DWS_login"
+      ],
+      "platform_status": "available",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "按登录明细login_time归日，对user_id去重。仅统计该明细覆盖的账号，login_status没有已确认成功码值，因此不额外增加成功筛选。游戏、渠道分别限定，跨渠道或跨游戏人数从明细重新去重。账号迁移前后按原user_id识别，不擅自合并身份。 单位：账号。",
+      "created_at": "2026-11-09 11:07:48",
+      "updated_at": "2026-11-09 11:07:48",
+      "platform_time_field": "login_time",
+      "platform_dimensions": [
+        {
+          "name": "agent_id",
+          "column_id": 173701,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "game_id",
+          "column_id": 173699,
+          "dimension_name": "游戏ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -64986,7 +65015,7 @@
       "stat_field": "user_id",
       "time": "reg_date",
       "calc_func": "COUNT_DISTINCT",
-      "business_definition": "按user_reg_log.reg_date归日，对user_id去重。reg_agent和reg_platform为注册归属，reg_mac为注册设备；本指标统计账号，不统计设备，不用活动激活或回流替代首次注册记录。跨日期与维度从注册明细重新去重。",
+      "business_definition": "按user_reg_log.reg_date归日，对user_id去重。reg_agent和reg_platform为注册归属，reg_mac为注册设备；本指标统计账号，不统计设备，不用活动激活或回流替代首次注册记录。跨日期与维度从注册明细重新去重。 单位：账号。",
       "definition": "按user_reg_log.reg_date归日，对user_id去重。reg_agent和reg_platform为注册归属，reg_mac为注册设备；本指标统计账号，不统计设备，不用活动激活或回流替代首次注册记录。跨日期与维度从注册明细重新去重。",
       "alias": "",
       "sql": "SELECT DATE(reg_date) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_ods.user_reg_log\nWHERE reg_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND reg_date < CURRENT_DATE()\nGROUP BY DATE(reg_date);",
@@ -64997,17 +65026,40 @@
         "reg_platform"
       ],
       "unit": "账号",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "平台可用",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.user_reg_log"
       ],
       "id": "BK1_reg_user_cnt",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_register"
+      ],
+      "platform_status": "available",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "按user_reg_log.reg_date归日，对user_id去重。reg_agent和reg_platform为注册归属，reg_mac为注册设备；本指标统计账号，不统计设备，不用活动激活或回流替代首次注册记录。跨日期与维度从注册明细重新去重。 单位：账号。",
+      "created_at": "2026-11-09 11:08:49",
+      "updated_at": "2026-11-09 11:08:49",
+      "platform_time_field": "reg_date",
+      "platform_dimensions": [
+        {
+          "name": "reg_agent",
+          "column_id": 192986,
+          "dimension_name": "注册渠道",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "reg_platform",
+          "column_id": 192982,
+          "dimension_name": "注册平台",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -65022,7 +65074,7 @@
       "stat_field": "user_id",
       "time": "log_time",
       "calc_func": "COUNT_DISTINCT",
-      "business_definition": "按多游戏合并明细log_time归日，对user_id去重。game_id和source_table保留来源游戏范围，不额外要求玩分大于某门槛。日志覆盖捕鱼、棋牌和其他子游戏，不能把账号数当完整局数；跨游戏合计重新去重。",
+      "business_definition": "按多游戏合并明细log_time归日，对user_id去重。game_id和source_table保留来源游戏范围，不额外要求玩分大于某门槛。日志覆盖捕鱼、棋牌和其他子游戏，不能把账号数当完整局数；跨游戏合计重新去重。 单位：账号。",
       "definition": "按多游戏合并明细log_time归日，对user_id去重。game_id和source_table保留来源游戏范围，不额外要求玩分大于某门槛。日志覆盖捕鱼、棋牌和其他子游戏，不能把账号数当完整局数；跨游戏合计重新去重。",
       "alias": "",
       "sql": "SELECT DATE(log_time) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_dwd.dwd_game_play_log_di\nWHERE log_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_time < CURRENT_DATE()\nGROUP BY DATE(log_time);",
@@ -65034,17 +65086,47 @@
         "source_table"
       ],
       "unit": "账号",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "平台可用",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_game_play_log_di"
       ],
       "id": "BK1_game_user_cnt",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_game"
+      ],
+      "platform_status": "available",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "按多游戏合并明细log_time归日，对user_id去重。game_id和source_table保留来源游戏范围，不额外要求玩分大于某门槛。日志覆盖捕鱼、棋牌和其他子游戏，不能把账号数当完整局数；跨游戏合计重新去重。 单位：账号。",
+      "created_at": "2026-11-09 11:09:37",
+      "updated_at": "2026-11-09 11:09:37",
+      "platform_time_field": "log_time",
+      "platform_dimensions": [
+        {
+          "name": "game_id",
+          "column_id": 171723,
+          "dimension_name": "游戏ID（捕鱼=11，掼蛋比赛=25，宝石迷城=1777，套圈圈=35，棋牌按各自game_id）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "agent_id",
+          "column_id": 171722,
+          "dimension_name": "渠道ID（fish/tb 取 agent_id，宝石迷城取 channel_id，其它为NULL）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "source_table",
+          "column_id": 171735,
+          "dimension_name": "来源ODS表，用于数据血缘追溯",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -65059,7 +65141,7 @@
       "stat_field": "game_time",
       "time": "log_time",
       "calc_func": "SUM",
-      "business_definition": "按dwd_game_play_log_di.log_time归日，汇总game_time，字段注释单位秒。按game_id、source_table和渠道限定同一事件范围；不是账号累计在线时长，也不以日志行数推算局数。分段重叠与补发仍需在上游清洗范围中核对。",
+      "business_definition": "按dwd_game_play_log_di.log_time归日，汇总game_time，字段注释单位秒。按game_id、source_table和渠道限定同一事件范围；不是账号累计在线时长，也不以日志行数推算局数。分段重叠与补发仍需在上游清洗范围中核对。 单位：秒。",
       "definition": "按dwd_game_play_log_di.log_time归日，汇总game_time，字段注释单位秒。按game_id、source_table和渠道限定同一事件范围；不是账号累计在线时长，也不以日志行数推算局数。分段重叠与补发仍需在上游清洗范围中核对。",
       "alias": "",
       "sql": "SELECT DATE(log_time) AS dt, SUM(game_time) AS metric_value\nFROM bkqp_dwd.dwd_game_play_log_di\nWHERE log_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_time < CURRENT_DATE()\nGROUP BY DATE(log_time);",
@@ -65071,18 +65153,49 @@
         "source_table"
       ],
       "unit": "秒",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "时长待补草稿",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_game_play_log_di"
       ],
       "id": "BK1_game_time",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "用户明确要求保留草稿，等待补齐游戏时长；定义、SQL、依赖与维度完整保留。",
       "model_ids": [
         "R1_DWD_game"
-      ]
+      ],
+      "platform_status": "offline",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "按dwd_game_play_log_di.log_time归日，汇总game_time，字段注释单位秒。按game_id、source_table和渠道限定同一事件范围；不是账号累计在线时长，也不以日志行数推算局数。分段重叠与补发仍需在上游清洗范围中核对。 单位：秒。",
+      "created_at": "2026-11-09 11:09:55",
+      "updated_at": "2026-11-09 11:19:58",
+      "platform_time_field": "log_time",
+      "platform_dimensions": [
+        {
+          "name": "game_id",
+          "column_id": 171723,
+          "dimension_name": "游戏ID（捕鱼=11，掼蛋比赛=25，宝石迷城=1777，套圈圈=35，棋牌按各自game_id）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "agent_id",
+          "column_id": 171722,
+          "dimension_name": "渠道ID（fish/tb 取 agent_id，宝石迷城取 channel_id，其它为NULL）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "source_table",
+          "column_id": 171735,
+          "dimension_name": "来源ODS表，用于数据血缘追溯",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ],
+      "deferred_reason": "样本日宝石迷城1777、套圈圈35的game_time为空，用户决定补齐前保留草稿；不补0，不改成部分游戏时长口径。"
     },
     {
       "project_id": "1",
@@ -65096,7 +65209,7 @@
       "stat_field": "game_time",
       "time": "log_time",
       "calc_func": "CUSTOM",
-      "business_definition": "同一游戏明细范围SUM(game_time)/COUNT(DISTINCT user_id)，单位秒/游戏账号，转分钟再除60。分母是有游戏记录的账号，不是登录或注册人数；跨日与跨维度重算时长和去重人数，不平均人均值。分母为0返回NULL。",
+      "business_definition": "同一游戏明细范围SUM(game_time)/COUNT(DISTINCT user_id)，单位秒/游戏账号，转分钟再除60。分母是有游戏记录的账号，不是登录或注册人数；跨日与跨维度重算时长和去重人数，不平均人均值。分母为0返回NULL。 单位：秒/账号。",
       "definition": "同一游戏明细范围SUM(game_time)/COUNT(DISTINCT user_id)，单位秒/游戏账号，转分钟再除60。分母是有游戏记录的账号，不是登录或注册人数；跨日与跨维度重算时长和去重人数，不平均人均值。分母为0返回NULL。",
       "alias": "",
       "sql": "SELECT DATE(log_time) AS dt, SUM(game_time)*1.0/NULLIF(COUNT(DISTINCT user_id),0) AS metric_value\nFROM bkqp_dwd.dwd_game_play_log_di\nWHERE log_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_time < CURRENT_DATE()\nGROUP BY DATE(log_time);",
@@ -65114,18 +65227,49 @@
         "source_table"
       ],
       "unit": "秒/账号",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "时长待补草稿",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_game_play_log_di"
       ],
       "id": "BK1_avg_game_duration",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "用户明确要求保留草稿，等待补齐游戏时长；定义、SQL、依赖与维度完整保留。",
       "model_ids": [
         "R1_DWD_game"
-      ]
+      ],
+      "platform_status": "offline",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "同一游戏明细范围SUM(game_time)/COUNT(DISTINCT user_id)，单位秒/游戏账号，转分钟再除60。分母是有游戏记录的账号，不是登录或注册人数；跨日与跨维度重算时长和去重人数，不平均人均值。分母为0返回NULL。 单位：秒/账号。",
+      "created_at": "2026-11-09 11:11:19",
+      "updated_at": "2026-11-09 11:20:09",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "game_id",
+          "column_id": 171723,
+          "dimension_name": "游戏ID（捕鱼=11，掼蛋比赛=25，宝石迷城=1777，套圈圈=35，棋牌按各自game_id）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "agent_id",
+          "column_id": 171722,
+          "dimension_name": "渠道ID（fish/tb 取 agent_id，宝石迷城取 channel_id，其它为NULL）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "source_table",
+          "column_id": 171735,
+          "dimension_name": "来源ODS表，用于数据血缘追溯",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ],
+      "deferred_reason": "样本日宝石迷城1777、套圈圈35的game_time为空，用户决定补齐前保留草稿；不补0，不改成部分游戏时长口径。"
     },
     {
       "project_id": "1",
@@ -65139,7 +65283,7 @@
       "stat_field": "user_id",
       "time": "infull_date",
       "calc_func": "COUNT_DISTINCT",
-      "business_definition": "按fish_open_order.infull_date成功日期归日，限定state=1，对user_id去重。type区分充值波克点、钻石和贵族礼包，均是本来源成功开分覆盖的账号；不是全部支付系统去重付费人数，也未排除退款。不同type不能直接相加人数。",
+      "business_definition": "按fish_open_order.infull_date成功日期归日，限定state=1，对user_id去重。type区分充值波克点、钻石和贵族礼包，均是本来源成功开分覆盖的账号；不是全部支付系统去重付费人数，也未排除退款。不同type不能直接相加人数。 单位：账号。",
       "definition": "按fish_open_order.infull_date成功日期归日，限定state=1，对user_id去重。type区分充值波克点、钻石和贵族礼包，均是本来源成功开分覆盖的账号；不是全部支付系统去重付费人数，也未排除退款。不同type不能直接相加人数。",
       "alias": "",
       "sql": "SELECT DATE(infull_date) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_ods.fish_open_order\nWHERE infull_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND infull_date < CURRENT_DATE()\n  AND state=1\nGROUP BY DATE(infull_date);",
@@ -65150,18 +65294,41 @@
         "platform_id"
       ],
       "unit": "账号",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "平台可用",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.fish_open_order"
       ],
       "id": "BK1_successful_open_user_cnt",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_payment",
         "R1_DWS_payment"
+      ],
+      "platform_status": "available",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "按fish_open_order.infull_date成功日期归日，限定state=1，对user_id去重。type区分充值波克点、钻石和贵族礼包，均是本来源成功开分覆盖的账号；不是全部支付系统去重付费人数，也未排除退款。不同type不能直接相加人数。 单位：账号。",
+      "created_at": "2026-11-09 11:10:10",
+      "updated_at": "2026-11-09 11:10:10",
+      "platform_time_field": "infull_date",
+      "platform_dimensions": [
+        {
+          "name": "type",
+          "column_id": 179437,
+          "dimension_name": "0表示充值波克点 1表示充值钻石 2表示贵族礼包",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "platform_id",
+          "column_id": 179452,
+          "dimension_name": "平台类型（改版新增）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -65176,7 +65343,7 @@
       "stat_field": "user_id",
       "time": "login_time",
       "calc_func": "CUSTOM",
-      "business_definition": "当日登录账号中，同日fish_open_order.state=1成功开分账号的交集人数，除以当日登录账号数。登录和开分分别取login_time与infull_date，按同日user_id关联。输出0—1比例，分母为0返回NULL；成功开分来源覆盖及退款限制保留，不替代全支付系统有效付费率。",
+      "business_definition": "当日登录账号中，同日fish_open_order.state=1成功开分账号的交集人数，除以当日登录账号数。登录和开分分别取login_time与infull_date，按同日user_id关联。输出0—1比例，分母为0返回NULL；成功开分来源覆盖及退款限制保留，不替代全支付系统有效付费率。 单位：0—1比例。",
       "definition": "当日登录账号中，同日fish_open_order.state=1成功开分账号的交集人数，除以当日登录账号数。登录和开分分别取login_time与infull_date，按同日user_id关联。输出0—1比例，分母为0返回NULL；成功开分来源覆盖及退款限制保留，不替代全支付系统有效付费率。",
       "alias": "",
       "sql": "WITH login_user AS (\n SELECT DISTINCT DATE(login_time) AS dt,user_id FROM bkqp_dwd.dwd_login_log_detail_di\n WHERE login_time>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND login_time<CURRENT_DATE()\n), paid_user AS (\n SELECT DISTINCT DATE(infull_date) AS dt,user_id FROM bkqp_ods.fish_open_order\n WHERE state=1 AND infull_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND infull_date<CURRENT_DATE()\n)\nSELECT l.dt,COUNT(DISTINCT p.user_id)*1.0/NULLIF(COUNT(DISTINCT l.user_id),0) AS metric_value\nFROM login_user l LEFT JOIN paid_user p ON l.dt=p.dt AND l.user_id=p.user_id\nGROUP BY l.dt;",
@@ -65193,19 +65360,42 @@
         "game_id"
       ],
       "unit": "0—1比例",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "平台可用",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_login_log_detail_di",
         "bkqp_ods.fish_open_order"
       ],
       "id": "BK1_login_success_open_rate",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_login",
         "R1_DWS_login"
+      ],
+      "platform_status": "available",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "当日登录账号中，同日fish_open_order.state=1成功开分账号的交集人数，除以当日登录账号数。登录和开分分别取login_time与infull_date，按同日user_id关联。输出0—1比例，分母为0返回NULL；成功开分来源覆盖及退款限制保留，不替代全支付系统有效付费率。 单位：0—1比例。",
+      "created_at": "2026-11-09 11:11:34",
+      "updated_at": "2026-11-09 11:11:34",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "agent_id",
+          "column_id": 173701,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "game_id",
+          "column_id": 173699,
+          "dimension_name": "游戏ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -65220,7 +65410,7 @@
       "stat_field": "user_id",
       "time": "reg_date",
       "calc_func": "CUSTOM",
-      "business_definition": "以注册日D的user_reg_log去重账号为人群，D+1在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+1，不和设备、活跃人群回访混用。",
+      "business_definition": "以注册日D的user_reg_log去重账号为人群，D+1在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+1，不和设备、活跃人群回访混用。 单位：0—1比例。",
       "definition": "以注册日D的user_reg_log去重账号为人群，D+1在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+1，不和设备、活跃人群回访混用。",
       "alias": "",
       "sql": "WITH reg_user AS (\n SELECT DISTINCT user_id FROM bkqp_ods.user_reg_log\n WHERE reg_date>=DATE('${bizdate}') AND reg_date<DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)\n), returned AS (\n SELECT DISTINCT user_id FROM bkqp_dwd.dwd_login_log_detail_di\n WHERE login_time>=DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)\n AND login_time<DATE_ADD(DATE('${bizdate}'),INTERVAL 2 DAY)\n)\nSELECT IF(DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)<CURRENT_DATE(),\n COUNT(DISTINCT l.user_id)*1.0/NULLIF(COUNT(DISTINCT r.user_id),0),NULL) AS metric_value\nFROM reg_user r LEFT JOIN returned l ON r.user_id=l.user_id;",
@@ -65237,18 +65427,41 @@
         "reg_platform"
       ],
       "unit": "0—1比例",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "平台可用",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.user_reg_log",
         "bkqp_dwd.dwd_login_log_detail_di"
       ],
       "id": "BK1_reg_d1_retention_rate",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_register"
+      ],
+      "platform_status": "available",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "以注册日D的user_reg_log去重账号为人群，D+1在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+1，不和设备、活跃人群回访混用。 单位：0—1比例。",
+      "created_at": "2026-11-09 11:11:48",
+      "updated_at": "2026-11-09 11:11:48",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "reg_agent",
+          "column_id": 192986,
+          "dimension_name": "注册渠道",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "reg_platform",
+          "column_id": 192982,
+          "dimension_name": "注册平台",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -65263,7 +65476,7 @@
       "stat_field": "user_id",
       "time": "reg_date",
       "calc_func": "CUSTOM",
-      "business_definition": "以注册日D的user_reg_log去重账号为人群，D+7在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+7，不和设备、活跃人群回访混用。",
+      "business_definition": "以注册日D的user_reg_log去重账号为人群，D+7在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+7，不和设备、活跃人群回访混用。 单位：0—1比例。",
       "definition": "以注册日D的user_reg_log去重账号为人群，D+7在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+7，不和设备、活跃人群回访混用。",
       "alias": "",
       "sql": "WITH reg_user AS (\n SELECT DISTINCT user_id FROM bkqp_ods.user_reg_log\n WHERE reg_date>=DATE('${bizdate}') AND reg_date<DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)\n), returned AS (\n SELECT DISTINCT user_id FROM bkqp_dwd.dwd_login_log_detail_di\n WHERE login_time>=DATE_ADD(DATE('${bizdate}'),INTERVAL 7 DAY)\n AND login_time<DATE_ADD(DATE('${bizdate}'),INTERVAL 8 DAY)\n)\nSELECT IF(DATE_ADD(DATE('${bizdate}'),INTERVAL 7 DAY)<CURRENT_DATE(),\n COUNT(DISTINCT l.user_id)*1.0/NULLIF(COUNT(DISTINCT r.user_id),0),NULL) AS metric_value\nFROM reg_user r LEFT JOIN returned l ON r.user_id=l.user_id;",
@@ -65280,18 +65493,41 @@
         "reg_platform"
       ],
       "unit": "0—1比例",
-      "status": "候选待审",
-      "validation": "只读SELECT语法、源表及有效字段静态核对通过；未执行生产取数",
+      "status": "平台可用",
+      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.user_reg_log",
         "bkqp_dwd.dwd_login_log_detail_di"
       ],
       "id": "BK1_reg_d7_retention_rate",
-      "origin": "2026-11-06字段静态核对草案",
-      "comparison": "2026-11-08问数已开启；指标录入项目选项仍缺失，实时查重与保存尚未完成。",
+      "origin": "2026-11-09平台原生导出回读",
+      "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_register"
+      ],
+      "platform_status": "available",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "platform_business_definition": "以注册日D的user_reg_log去重账号为人群，D+7在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+7，不和设备、活跃人群回访混用。 单位：0—1比例。",
+      "created_at": "2026-11-09 11:12:59",
+      "updated_at": "2026-11-09 11:12:59",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "reg_agent",
+          "column_id": 192986,
+          "dimension_name": "注册渠道",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "reg_platform",
+          "column_id": 192982,
+          "dimension_name": "注册平台",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -65727,31 +65963,26 @@
   ],
   "tasks": [
     {
-      "task": "建立连接及采集",
-      "status": "已核验，问数已开启",
-      "detail": "复用国内ADB源绑定bkqp五库；2026-11-08按用户确认开启问数，申请关闭。"
+      "task": "元数据",
+      "status": "82张已保存回读",
+      "detail": "71张标准层；11张AN任务报表已打标但标准层级仍待确认。"
     },
     {
-      "task": "首批元数据",
-      "status": "82张已回读",
-      "detail": "71张标准层级，11张AN保留来源、层级待确认；未新建业务域或业务过程。"
+      "task": "指标",
+      "status": "7可用、2时长草稿",
+      "detail": "9项均已保存并经原生导出核验；两项时长按用户决定等待补齐，不自动改口径。"
     },
     {
-      "task": "指标整理与录入",
-      "status": "待项目入口开放",
-      "detail": "问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项定义及SQL已准备，实际保存0项。"
-    },
-    {
-      "task": "项目知识",
-      "status": "草稿已整理，待项目入口",
-      "detail": "1篇知识稿未发布；当前知识库项目列表同样无波克棋牌。"
+      "task": "知识与抽查",
+      "status": "知识V2已发布，单日可执行性已查",
+      "detail": "账号、开分交集与成熟留存使用原来源；时长缺值覆盖边界已明确，尚未完成运营报表对账。"
     }
   ],
   "review": {
     "project_id": "1",
     "project_name": "波克棋牌",
     "name": "波克棋牌",
-    "stage": "已重新核查；指标、知识及查询项目入口仍缺波克棋牌",
+    "stage": "82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布",
     "read_only": false,
     "platform_writes": 82,
     "date": "2026-11-09",
@@ -65760,8 +65991,8 @@
     "first_count": 82,
     "first_schema": 82,
     "first_missing": 0,
-    "metric_sql_count": 9,
-    "stock_count": 0,
+    "metric_sql_count": 0,
+    "stock_count": 7,
     "stock_overlap_count": 0,
     "dwd_count": 6,
     "new_dws_count": 2,
@@ -65939,8 +66170,10 @@
       }
     ],
     "blockers": [
-      "当前账号项目可见及维护权限由用户协助核实，处理后通知",
-      "9项指标和1篇知识继续保留草案，尚未提交"
+      "补齐宝石迷城1777、套圈圈35的game_time后，再验收并启用2项时长草稿",
+      "11张已打标AN任务报表仍待业务归属或标准层级确认",
+      "7项可用指标已做单日可执行性抽查，仍需与运营报表完成同窗口业务验收",
+      "充值金额单位/退款规则、道具操作原因字典、设备首次激活与统一身份规则仍待确认；3类话题不凑数录入"
     ],
     "collection": [],
     "metric_ids": [
@@ -65954,22 +66187,31 @@
       "BK1_reg_d1_retention_rate",
       "BK1_reg_d7_retention_rate"
     ],
-    "conclusion": "连接源问数仍开启，五库已绑定；本次未改权限和连接范围；指标项目列表及查询系统项目搜索均未见波克棋牌。待办：当前账号项目授权/列表范围需平台侧核实；9项指标及1篇知识稿继续保留，未提交",
-    "next_action": "当前账号项目授权/列表范围需平台侧核实；9项指标及1篇知识稿继续保留，未提交",
+    "conclusion": "波克棋牌（ID1）五库连接、问数与当前账号入口已恢复。82张元数据有回执：71张标准层、11张AN层级待确认；9项指标已保存，7项可用、2项时长草稿按用户决定等待补齐。1篇知识V2已发布。指标字段与SQL原生导出核验通过，单日聚合可执行；这不代表运营数值已全部验收。",
+    "next_action": "补齐时长和AN业务层级证据，再启用时长草稿；其他7项继续运营数值验收。",
     "authority": "按用户最新指令：其他项目只整理，不录入平台。",
     "stock_inventory_verified": false
   },
   "followup_20261109": {
-    "status": "已重新核查；指标、知识及查询项目入口仍缺波克棋牌",
+    "status": "82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布",
     "completed": [
-      "连接源问数仍开启，五库已绑定；本次未改权限和连接范围",
-      "指标项目列表及查询系统项目搜索均未见波克棋牌"
+      "用户补权限后，指标和知识项目入口恢复，查询系统项目卡片永久有效",
+      "平台查重0项后录入9项，原生导出逐项核验项目、来源、定义、SQL、依赖及维度",
+      "游戏时长、人均游戏时长按用户决定保留草稿，其余7项可用，最终导出确认内容完整保留",
+      "发布多游戏指标与元数据知识V2，完整正文回读一致",
+      "单日只读抽查完成：账号、开分交集及成熟留存可计算；时长覆盖缺口已定位"
     ],
     "pending": [
-      "当前账号项目可见及维护权限由用户协助核实，处理后通知",
-      "9项指标和1篇知识继续保留草案，尚未提交"
+      "补齐宝石迷城1777、套圈圈35的game_time后，再验收并启用2项时长草稿",
+      "11张已打标AN任务报表仍待业务归属或标准层级确认",
+      "7项可用指标已做单日可执行性抽查，仍需与运营报表完成同窗口业务验收",
+      "充值金额单位/退款规则、道具操作原因字典、设备首次激活与统一身份规则仍待确认；3类话题不凑数录入"
     ],
-    "metrics_saved": 0,
-    "knowledge_published": 0
+    "metrics_saved": 9,
+    "knowledge_published": 1,
+    "available_metrics": 7,
+    "draft_metrics": 2,
+    "knowledge_version": "V2",
+    "production_selects": 3
   }
 }

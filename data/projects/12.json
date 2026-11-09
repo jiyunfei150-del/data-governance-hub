@@ -34882,7 +34882,7 @@
       "platform_sql_exact": true
     },
     {
-      "id": "LIVE12_play_user_cnt",
+      "id": "LIVE12_play_user_cnt_report_game_users",
       "name": "游戏用户数",
       "type": "原子",
       "domain": "玩家域",
