@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-09T12:32:09.954978",
+  "updated_at": "2026-11-09T14:11:18.311151",
   "execution_order": [
     {
       "id": "LC",
@@ -22,6 +22,7 @@
         "本次新增指标": 0
       },
       "pending": [
+        "本期首批58张中56张有逐表入仓回执；friend_ods.card_donate_log、friend_dwd.dwd_user_info_di两张仍缺回执，需核对，不直接判为未录入。",
         "6个核心行为候选覆盖21条标准定义：来源选择器仍须可靠区分friend/gold同名表，未猜选保存",
         "求签日粒度复用仅验证2026-10-01至11-07；其他历史和分钟级范围仍需独立核对",
         "3条比赛奖励来自冷来源，按首批规则暂不纳入"
@@ -47,6 +48,7 @@
           "最新137项原生库存同步：104可用、33草稿/停用；同事新增5项完整保留，平台0写入。"
         ],
         "pending": [
+          "本期首批58张中56张有逐表入仓回执；friend_ods.card_donate_log、friend_dwd.dwd_user_info_di两张仍缺回执，需核对，不直接判为未录入。",
           "6个核心行为候选覆盖21条标准定义：来源选择器仍须可靠区分friend/gold同名表，未猜选保存",
           "求签日粒度复用仅验证2026-10-01至11-07；其他历史和分钟级范围仍需独立核对",
           "3条比赛奖励来自冷来源，按首批规则暂不纳入"
@@ -68,7 +70,16 @@
         "available_metrics": 104,
         "draft_metrics": 33,
         "native_metric_assets": 137,
-        "knowledge_articles_total": 4
+        "knowledge_articles_total": 4,
+        "first_batch_audit": {
+          "target": 58,
+          "with_receipt": 56,
+          "pending_verification": [
+            "friend_ods.card_donate_log",
+            "friend_dwd.dwd_user_info_di"
+          ],
+          "user_kept_scope_gap": 0
+        }
       },
       "current": {
         "元数据回执": 59,
@@ -88,7 +99,8 @@
         "本轮原有指标修改": 0,
         "available_metrics": 104,
         "平台草稿或停用": 33,
-        "指标资产": 137
+        "指标资产": 137,
+        "首批缺逐表回执": 2
       }
     },
     {
@@ -315,7 +327,8 @@
         "当前可用指标": 61,
         "草稿或停用": 0,
         "本轮撤出新增指标": 0,
-        "本轮原有指标修改": 0
+        "本轮原有指标修改": 0,
+        "首批缺逐表回执": 10
       },
       "steps": [
         "按2026-11-04调用快照及q7>0、q30>4重新核对原9张待处理表",
@@ -323,6 +336,7 @@
         "本轮对照审阅我新增的10项记录；未发现可直接替代的原有项，本轮不修改本项目原有指标。"
       ],
       "pending": [
+        "本期首批45张中33张有逐表入仓回执；现有四库内另10张缺回执，需逐表核对是否已录及标签说明；另外2张REP按用户决定保留。",
         "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
       ],
       "followup_20261109": {
@@ -333,6 +347,7 @@
           "本轮对照审阅我新增的10项记录；未发现可直接替代的原有项，本轮不修改本项目原有指标。"
         ],
         "pending": [
+          "本期首批45张中33张有逐表入仓回执；现有四库内另10张缺回执，需逐表核对是否已录及标签说明；另外2张REP按用户决定保留。",
           "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
         ],
         "first_batch_pending_tables": 2,
@@ -345,7 +360,24 @@
           "date": "2026-11-09"
         },
         "available_metrics": 61,
-        "draft_metrics": 0
+        "draft_metrics": 0,
+        "first_batch_audit": {
+          "target": 45,
+          "with_receipt": 33,
+          "pending_verification": [
+            "byqph5_dwd.dwd_is_bot_player_di",
+            "byqph5_dwd.dwd_usr_vip_info_di",
+            "byqph5_ods.agent",
+            "byqph5_ods.buyu_user_energy_info",
+            "byqph5_ods.buried_point_log",
+            "byqph5_ods.plat_info",
+            "byqph5_ods.seasonpass_log",
+            "byqph5_ods.challenge_log",
+            "byqph5_ods.sign_info_log",
+            "byqph5_ods.weixin_sign_log"
+          ],
+          "user_kept_scope_gap": 2
+        }
       }
     },
     {
@@ -453,7 +485,8 @@
     "高同质指标用维度收敛；不为数量重复新增",
     "新建物理DWD/DWS不在本次平台登记范围；建议DWD优先，最多两张新增DWS",
     "其余未获授权项目只整理，不录入",
-    "新增指标若与同项目原有指标覆盖同一业务主题，优先保留原有；撤出新增项并检查依赖，不修改原有定义或跨项目替代。"
+    "新增指标若与同项目原有指标覆盖同一业务主题，优先保留原有；撤出新增项并检查依赖，不修改原有定义或跨项目替代。",
+    "新增指标前必须查重，能复用原有的就复用；报表不同、取数来源不同或数仓层不同，不构成再建一套同主题指标的理由。"
   ],
   "knowledge_policy": "提炼来源范围、主体、粒度、时间、单位、状态和去重规则；区分已确认与待确认，先查重再发布。",
   "cooperation_items": [
@@ -491,5 +524,17 @@
     "retired_added": 2,
     "original_writes": 0,
     "url": "新增指标重合审阅.html"
+  },
+  "metric_creation_policy": {
+    "confirmed_at": "2026-11-09T14:11:18.311151",
+    "rule": "新增指标前必须查重，能复用原有的就复用；报表不同、取数来源不同或数仓层不同，不构成再建一套同主题指标的理由。",
+    "steps": [
+      "查询当前项目可用项、草稿及别名",
+      "对照业务含义、人群、公式、粒度、时间和单位",
+      "优先复用原有，来源差异进入元数据或知识及对账",
+      "仅无可复用项且业务含义独立时新增，保存前说明理由"
+    ],
+    "original_priority": true,
+    "source_difference_alone_allows_new_metric": false
   }
 }

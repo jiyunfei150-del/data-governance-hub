@@ -58,7 +58,7 @@
       "drafts": 0,
       "metric_verified": "2026-11-09"
     },
-    "scope_note": "原审阅91张中82张已登记，原9张未登记表按最新快照分流：2张REP报表达到首批门槛但未绑定，7张因7天0次或30天不超过4次暂不进入首批。当前104项资产和61项可用指标仍沿用原登记快照，未将盘点数量冒充本次补录。",
+    "scope_note": "原审阅91张中82张已登记，原9张未登记表按最新快照分流：2张REP报表达到首批门槛但未绑定，7张因7天0次或30天不超过4次暂不进入首批。当前104项资产和61项可用指标仍沿用原登记快照，未将盘点数量冒充本次补录。 本期首批45张中33张有逐表入仓回执；现有四库内另10张缺回执，需逐表核对是否已录及标签说明；另外2张REP按用户决定保留。",
     "legacy_url": "https://jiyunfei150-del.github.io/project-table-activity/fish-king/",
     "review_stage": "原9表已分流；REP按用户要求保留缺口，7张非首批暂缓",
     "review_tags": 0,
@@ -63226,6 +63226,11 @@
       "task": "原待处理表重新分流",
       "status": "2张待范围、7张非首批",
       "detail": "待范围为byqph5_rep下经营总报和留存分群报表；视图来源仍有歧义且不满足首批，不以相似名字归入项目。"
+    },
+    {
+      "task": "本期首批回执复核",
+      "status": "10张待核验，2张REP保留",
+      "detail": "本期首批45张中33张有逐表入仓回执；现有四库内另10张缺回执，需逐表核对是否已录及标签说明；另外2张REP按用户决定保留。"
     }
   ],
   "review": {
@@ -63244,8 +63249,9 @@
     "dwd_count": 5,
     "new_dws_count": 2,
     "focus": "沿用既有审阅与独立录入凭据",
-    "conclusion": "原审阅91张中82张已登记，原9张未登记表按最新快照分流：2张REP报表达到首批门槛但未绑定，7张因7天0次或30天不超过4次暂不进入首批。当前104项资产和61项可用指标仍沿用原登记快照，未将盘点数量冒充本次补录。",
+    "conclusion": "原审阅91张中82张已登记，原9张未登记表按最新快照分流：2张REP报表达到首批门槛但未绑定，7张因7天0次或30天不超过4次暂不进入首批。当前104项资产和61项可用指标仍沿用原登记快照，未将盘点数量冒充本次补录。 本期首批45张中33张有逐表入仓回执；现有四库内另10张缺回执，需逐表核对是否已录及标签说明；另外2张REP按用户决定保留。",
     "blockers": [
+      "本期首批45张中33张有逐表入仓回执；现有四库内另10张缺回执，需逐表核对是否已录及标签说明；另外2张REP按用户决定保留。",
       "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
     ],
     "coverage": [],
@@ -63264,6 +63270,7 @@
       "本轮对照审阅我新增的10项记录；未发现可直接替代的原有项，本轮不修改本项目原有指标。"
     ],
     "pending": [
+      "本期首批45张中33张有逐表入仓回执；现有四库内另10张缺回执，需逐表核对是否已录及标签说明；另外2张REP按用户决定保留。",
       "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
     ],
     "first_batch_pending_tables": 2,
@@ -63276,6 +63283,23 @@
       "date": "2026-11-09"
     },
     "available_metrics": 61,
-    "draft_metrics": 0
+    "draft_metrics": 0,
+    "first_batch_audit": {
+      "target": 45,
+      "with_receipt": 33,
+      "pending_verification": [
+        "byqph5_dwd.dwd_is_bot_player_di",
+        "byqph5_dwd.dwd_usr_vip_info_di",
+        "byqph5_ods.agent",
+        "byqph5_ods.buyu_user_energy_info",
+        "byqph5_ods.buried_point_log",
+        "byqph5_ods.plat_info",
+        "byqph5_ods.seasonpass_log",
+        "byqph5_ods.challenge_log",
+        "byqph5_ods.sign_info_log",
+        "byqph5_ods.weixin_sign_log"
+      ],
+      "user_kept_scope_gap": 2
+    }
   }
 }

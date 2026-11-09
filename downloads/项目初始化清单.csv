@@ -1,6 +1,6 @@
 ﻿id,name,project_kind_label,project_category,priority,initialization,usage_count,first_count,first_with_schema,first_schema_missing,available_metrics,metric_drafts,verified_registered_tables
 5,HiggsDomino-印尼,游戏项目,游戏产品,P1 核对首批,结构草案已整理，未录入平台,972,176,173,3,274,',0
-1,波克棋牌,游戏项目,游戏产品,待项目入口开放,82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布,519,82,82,0,7,2,71
+1,波克棋牌,游戏项目,游戏产品,已录入复核,82张元数据已有回执；9项指标已保存，7可用2时长草稿，知识V2已发布,519,82,82,0,7,2,71
 100,DominoCafe,游戏项目,游戏产品,P1 核对首批,结构草案已整理，未录入平台,514,90,83,7,60,',0
 174,BossDomino,游戏项目,游戏产品,P1 核对首批,结构草案已整理，未录入平台,365,81,81,0,0,',0
 4,捕鱼游戏王,游戏项目,游戏产品,已录入复核,原9表已分流；REP按用户要求保留缺口，7张非首批暂缓,330,45,45,0,61,0,82
