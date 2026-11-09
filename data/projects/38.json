@@ -57,7 +57,9 @@
       "new_metadata": 7,
       "new_metrics_20261109": 2,
       "field_notes_updated_20261109": 9,
-      "knowledge_latest_version": "V3"
+      "knowledge_latest_version": "V3",
+      "metric_verified": "2026-11-09",
+      "table_verified": "2026-11-06"
     },
     "scope_note": "本项目44项可用指标已通过2026-11-09原生导出回读；本次新增2项运营日报注册/活跃指标，原42项完整保留。日报表说明、9条字段和既有知识V2已完善。日报第七日为D+6、回访日为轴，DWD原七日指标为D+7、注册日为轴。在线峰值单日对账一致；历史注册、活跃快照及空留存仍有待核项。 续办：2026-11-01至11-07日报留存连续为空，已在知识V3明确不补0、不用DWD回填；仍待生产任务侧处理。",
     "project_kind": "game",

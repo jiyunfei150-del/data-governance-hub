@@ -68,7 +68,9 @@
       "knowledge": 1,
       "knowledge_latest_version": "V2",
       "merged_drafts": 0,
-      "deferred_metrics": 0
+      "deferred_metrics": 0,
+      "metric_verified": "2026-11-09",
+      "table_verified": "2026-11-06"
     },
     "scope_note": "波克棋牌（ID1）五库连接、问数与当前账号入口已恢复。82张元数据有回执：71张标准层、11张AN层级待确认；9项指标已保存，7项可用、2项时长草稿按用户决定等待补齐。1篇知识V2已发布。指标字段与SQL原生导出核验通过，单日聚合可执行；这不代表运营数值已全部验收。",
     "followup_date": "2026-11-09",
