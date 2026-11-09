@@ -47,7 +47,7 @@
     "model_new": 12,
     "verified_registered_tables": 59,
     "data_file": "data/projects/86.json",
-    "initialization": "98项可用；已补行为字段与知识，22条口径待核、3条冷来源暂缓",
+    "initialization": "21条行为定义已收敛为6个核心候选；求签38天日粒度可复用，知识V2已发布",
     "priority": "已录入复核",
     "model_dws_reuse": 2,
     "upload_summary": {
@@ -61,9 +61,9 @@
       "knowledge_verified_date": "2026-11-09",
       "field_notes_updated_20261109": 3
     },
-    "scope_note": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。 2026-11-09补充3条好友房行为字段说明及1篇事件口径知识，项目累计已核验3篇已发布知识。25条暂缓定义中22条需继续核对，3条冷来源奖励不进入首批。",
+    "scope_note": "98项可用、32项合并后草稿。剩余37条标准定义中：12条沿用既有核心指标，1条求签钻石在已核对38天日粒度窗口复用；21条行为定义已收敛为6个核心候选，待可靠绑定好友房来源；3条冷来源比赛奖励不入首批。事件知识V2已发布。指标快照日期2026-11-08，其他人员新维护的知识单列，不计本轮新增。",
     "legacy_url": "https://jiyunfei150-del.github.io/local-chess-governance-v2/",
-    "review_stage": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
+    "review_stage": "21条行为定义已收敛为6个核心候选；求签38天日粒度可复用，知识V2已发布",
     "review_tags": 0,
     "review_only": false,
     "metric_drafts": 32,
@@ -78,7 +78,8 @@
       "friend_ods.friend_game_log"
     ],
     "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
-    "followup_date": "2026-11-09"
+    "followup_date": "2026-11-09",
+    "behavior_plan_url": "地方棋牌行为指标收敛.html"
   },
   "tables": [
     {
@@ -40856,12 +40857,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_records，event_group=success；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f060",
+        "old_name": "好友房｜祈福成功操作次数",
+        "target": "friend_pray_behavior_records",
+        "event_groups": [
+          "success"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f061",
@@ -40896,12 +40906,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_users，event_group=success；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f061",
+        "old_name": "好友房｜祈福成功参与账号数",
+        "target": "friend_pray_behavior_users",
+        "event_groups": [
+          "success"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f062",
@@ -40936,12 +40955,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_users，event_group=participation；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f062",
+        "old_name": "好友房｜祈福行为参与账号数",
+        "target": "friend_pray_behavior_users",
+        "event_groups": [
+          "participation"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f065",
@@ -40976,12 +41004,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_records，event_group=quick_free；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f065",
+        "old_name": "好友房｜快速祈福免费成功次数",
+        "target": "friend_pray_behavior_records",
+        "event_groups": [
+          "quick_free"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f067",
@@ -41016,12 +41053,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_records，event_group=purchase；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f067",
+        "old_name": "好友房｜祈福购买成功次数",
+        "target": "friend_pray_behavior_records",
+        "event_groups": [
+          "purchase"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f068",
@@ -41056,12 +41102,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_users，event_group=purchase；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f068",
+        "old_name": "好友房｜祈福购买成功账号数",
+        "target": "friend_pray_behavior_users",
+        "event_groups": [
+          "purchase"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f070",
@@ -41096,12 +41151,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_users，event_group=participation；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f070",
+        "old_name": "好友房｜求签行为参与账号数",
+        "target": "friend_draw_behavior_users",
+        "event_groups": [
+          "participation"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f063_cdf629",
@@ -41136,12 +41200,23 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_records，event_group=exposure_game,exposure_quick,exposure_human；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f063_cdf629",
+        "old_name": "好友房｜祈福链路曝光次数",
+        "target": "friend_pray_behavior_records",
+        "event_groups": [
+          "exposure_game",
+          "exposure_quick",
+          "exposure_human"
+        ],
+        "note": "各事件分组分别查询；不相加分组UV"
+      }
     },
     {
       "id": "friend_std_f063_4849d1",
@@ -41176,12 +41251,23 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_users，event_group=exposure_game,exposure_quick,exposure_human；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f063_4849d1",
+        "old_name": "好友房｜祈福链路曝光账号数",
+        "target": "friend_pray_behavior_users",
+        "event_groups": [
+          "exposure_game",
+          "exposure_quick",
+          "exposure_human"
+        ],
+        "note": "各事件分组分别查询；不相加分组UV"
+      }
     },
     {
       "id": "friend_std_f064_346c7c",
@@ -41216,12 +41302,23 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_records，event_group=click_game,click_quick,click_human；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f064_346c7c",
+        "old_name": "好友房｜祈福链路点击次数",
+        "target": "friend_pray_behavior_records",
+        "event_groups": [
+          "click_game",
+          "click_quick",
+          "click_human"
+        ],
+        "note": "各事件分组分别查询；不相加分组UV"
+      }
     },
     {
       "id": "friend_std_f064_678a81",
@@ -41256,12 +41353,23 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_behavior_users，event_group=click_game,click_quick,click_human；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f064_678a81",
+        "old_name": "好友房｜祈福链路点击账号数",
+        "target": "friend_pray_behavior_users",
+        "event_groups": [
+          "click_game",
+          "click_quick",
+          "click_human"
+        ],
+        "note": "各事件分组分别查询；不相加分组UV"
+      }
     },
     {
       "id": "friend_std_f071_ff85cb",
@@ -41296,12 +41404,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_records，event_group=exposure；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f071_ff85cb",
+        "old_name": "好友房｜求签入口曝光次数",
+        "target": "friend_draw_behavior_records",
+        "event_groups": [
+          "exposure"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f071_a39e66",
@@ -41336,12 +41453,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_users，event_group=exposure；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f071_a39e66",
+        "old_name": "好友房｜求签入口曝光账号数",
+        "target": "friend_draw_behavior_users",
+        "event_groups": [
+          "exposure"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f072_ac77ef",
@@ -41376,12 +41502,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_records，event_group=click；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f072_ac77ef",
+        "old_name": "好友房｜求签入口点击次数",
+        "target": "friend_draw_behavior_records",
+        "event_groups": [
+          "click"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f072_af59bd",
@@ -41416,12 +41551,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_users，event_group=click；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f072_af59bd",
+        "old_name": "好友房｜求签入口点击账号数",
+        "target": "friend_draw_behavior_users",
+        "event_groups": [
+          "click"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f073_bc86e1",
@@ -41456,12 +41600,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_records，event_group=free_success；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f073_bc86e1",
+        "old_name": "好友房｜求签免费成功次数",
+        "target": "friend_draw_behavior_records",
+        "event_groups": [
+          "free_success"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f073_ee21d5",
@@ -41496,12 +41649,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_users，event_group=free_success；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f073_ee21d5",
+        "old_name": "好友房｜求签免费成功账号数",
+        "target": "friend_draw_behavior_users",
+        "event_groups": [
+          "free_success"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f074_d5a732",
@@ -41536,12 +41698,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_records，event_group=paid_success；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f074_d5a732",
+        "old_name": "好友房｜求签付费成功次数",
+        "target": "friend_draw_behavior_records",
+        "event_groups": [
+          "paid_success"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f074_56a83b",
@@ -41576,12 +41747,21 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_behavior_users，event_group=paid_success；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f074_56a83b",
+        "old_name": "好友房｜求签付费成功账号数",
+        "target": "friend_draw_behavior_users",
+        "event_groups": [
+          "paid_success"
+        ],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f066",
@@ -41616,12 +41796,19 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_pray_quick_free_ratio，event_group=固定比例；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f066",
+        "old_name": "好友房｜快速祈福免费占比",
+        "target": "friend_pray_quick_free_ratio",
+        "event_groups": [],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "friend_std_f075",
@@ -41656,12 +41843,19 @@
       "registration_blockers": [
         "friend/gold同名行为表结构相同，须核验平台来源ID或使用全限定名导入"
       ],
-      "comparison": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
+      "comparison": "已收敛至核心候选friend_draw_free_ratio，event_group=固定比例；未单独新增本条标准定义。来源绑定仍待区分friend/gold。",
       "reuse_english": "",
       "reuse_name": "",
       "deferred_reason": "friend/gold均有同名行为表，须在平台确认本表来源库；可按事件、入口、免费/付费维度进一步收敛次数/账号数，不能直接新增20余项。",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "consolidation_target": {
+        "old_code": "friend_std_f075",
+        "old_name": "好友房｜求签免费占比",
+        "target": "friend_draw_free_ratio",
+        "event_groups": [],
+        "note": "按指定分组或比例口径查询"
+      }
     },
     {
       "id": "gold_std_g145",
@@ -41844,20 +42038,24 @@
       "source_file": "好友房指标计算方式与取数口径.md",
       "source_line": 89,
       "dataset": "好友房七日交叉大屏指标",
-      "status": "暂缓登记",
+      "status": "已核对窗口可复用",
       "source_refs": [
         "friend_ods.package_log"
       ],
       "alias": "好友房七日交叉大屏指标、七日交叉求签钻石消耗",
       "business_definition": "`package_log` 中 `prop_id=300`、`prop_num<0`、`type=111` 的 `ABS(prop_num)` 求和。 `friend_ods.package_log`；与日常监控中资产侧 `prop_send_log` 定义分开。 period_type区分最近七日与上月日均；展示补零不代表底表完整。 单位：钻石。",
-      "validation": "SELECT语法、实际物理来源及可解析字段静态检查通过；未运行生产SQL/EXPLAIN或业务对账",
+      "validation": "38天生产只读组合聚合核对；无个人明细导出，未认定全历史镜像",
       "registration_blockers": [],
-      "comparison": "本条使用package_log.type=111，已有求签钻石消耗使用prop_send_log.use_type=111；先核对镜像、版本及覆盖差异，不能仅换名称重复登记。",
-      "reuse_english": "",
-      "reuse_name": "",
-      "deferred_reason": "本条使用package_log.type=111，已有求签钻石消耗使用prop_send_log.use_type=111；先核对镜像、版本及覆盖差异，不能仅换名称重复登记。",
+      "comparison": "2026-10-01至11-07的日×账号×pid×数量及重复次数已对齐，可复用friend_std_f027；两表不相加。精确时间戳仍有差异，不认定明细镜像或全部历史一致。",
+      "reuse_english": "friend_std_f027",
+      "reuse_name": "好友房｜求签钻石消耗",
+      "deferred_reason": "未覆盖历史与分钟级仍待验证；已核对窗口不重复新增",
       "origin": "标准定义剩余口径核对",
-      "model_ids": []
+      "model_ids": [],
+      "conditional_reuse_window": [
+        "2026-10-01",
+        "2026-11-07"
+      ]
     },
     {
       "id": "friend_std_f048",
@@ -43134,13 +43332,18 @@
       "task": "项目知识",
       "status": "3篇已发布核验",
       "detail": "好友房祈福与求签：事件分类及计数边界 V1已发布；原有2篇保留。"
+    },
+    {
+      "task": "行为指标收敛",
+      "status": "21→6，草案待可靠绑定",
+      "detail": "4个分组次数/账号数核心原子指标，2个固定免费占比；完整映射及SQL见行为收敛方案。原始事件分组不可相加，UV必须重算。"
     }
   ],
   "review": {
     "project_id": "86",
     "project_name": "地方棋牌",
     "name": "地方棋牌",
-    "stage": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
+    "stage": "21条行为定义已收敛为6个核心候选；求签38天日粒度可复用，知识V2已发布",
     "read_only": false,
     "platform_writes": 1,
     "tagged_tables": 0,
@@ -43152,31 +43355,41 @@
     "dwd_count": 10,
     "new_dws_count": 2,
     "focus": "沿用既有审阅与独立录入凭据",
-    "conclusion": "friend_ods.behavior_log的event_id、temp_b、temp_c说明已保存并逐项回读；发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对。待办：21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源；1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入",
+    "conclusion": "98项可用、32项合并后草稿。剩余37条标准定义中：12条沿用既有核心指标，1条求签钻石在已核对38天日粒度窗口复用；21条行为定义已收敛为6个核心候选，待可靠绑定好友房来源；3条冷来源比赛奖励不入首批。事件知识V2已发布。指标快照日期2026-11-08，其他人员新维护的知识单列，不计本轮新增。",
     "blockers": [
-      "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源",
-      "1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入"
+      "6个核心行为候选覆盖21条标准定义：来源选择器仍须可靠区分friend/gold同名表，未猜选保存",
+      "求签日粒度复用仅验证2026-10-01至11-07；其他历史和分钟级范围仍需独立核对",
+      "3条比赛奖励来自冷来源，按首批规则暂不纳入"
     ],
     "coverage": [],
     "collection": [],
     "top_tables": [],
     "metric_ids": [],
-    "next_action": "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源；1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入",
+    "next_action": "来源标识明确后录入6个核心行为候选，再进行同窗口业务数值验收；未覆盖的历史仍保留核对。",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。",
     "date": "2026-11-09"
   },
   "followup_20261109": {
-    "status": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
+    "status": "21条行为定义已收敛为6个核心候选；求签38天日粒度可复用，知识V2已发布",
     "completed": [
       "friend_ods.behavior_log的event_id、temp_b、temp_c说明已保存并逐项回读",
-      "发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对"
+      "发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对",
+      "求签双来源已对照38天：日×账号×产品×变动数量及重复次数一致；日指标在该窗口复用friend_std_f027，精确时间戳不互换",
+      "21条祈福求签行为定义映射为6个核心候选，完整SQL和去向已整理；尚未录入",
+      "原好友房事件知识更新至V2并完整回读；平台当前4篇知识，其中3篇为本轮维护成果"
     ],
     "pending": [
-      "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源",
-      "1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入"
+      "6个核心行为候选覆盖21条标准定义：来源选择器仍须可靠区分friend/gold同名表，未猜选保存",
+      "求签日粒度复用仅验证2026-10-01至11-07；其他历史和分钟级范围仍需独立核对",
+      "3条比赛奖励来自冷来源，按首批规则暂不纳入"
     ],
     "new_metrics": 0,
     "field_notes_updated": 3,
-    "knowledge_added": 1
+    "knowledge_added": 1,
+    "core_behavior_candidates": 6,
+    "behavior_standard_definitions": 21,
+    "knowledge_version": "V2",
+    "visible_knowledge_total": 4,
+    "agent_maintained_knowledge": 3
   }
 }

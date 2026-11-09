@@ -40,23 +40,24 @@
     "model_dwd": 5,
     "model_dws": 2,
     "model_new": 5,
-    "verified_registered_tables": 86,
+    "verified_registered_tables": 88,
     "data_file": "data/projects/31.json",
-    "initialization": "本批登记已核验；重新采集后4条范围/采集缺口仍在",
+    "initialization": "修复2张被状态筛选隐藏的正式表，已打标共88张；AN按用户决定保留缺口",
     "priority": "已录入复核",
     "model_dws_reuse": 0,
-    "review_stage": "已重新采集并复查；4条范围/采集缺口仍在",
+    "review_stage": "修复2张被状态筛选隐藏的正式表，已打标共88张；AN按用户决定保留缺口",
     "review_tags": 170,
     "review_only": false,
     "metric_drafts": 0,
     "upload_summary": {
-      "tables": 86,
+      "tables": 88,
       "metrics": 36,
       "drafts": 0,
-      "verified": "2026-11-06",
-      "new_metadata": 42
+      "verified": "2026-11-09",
+      "new_metadata": 42,
+      "metadata_status_restored": 2
     },
-    "scope_note": "本批新增42张元数据、2项指标；原有指标按原生导出逐项比对。未绑定AN库或重新采集后仍缺的表已单列；同名/后缀相近表不擅自替代。",
+    "scope_note": "本次修复2张原已治理但被暂不纳入状态隐藏的正式表；标签与说明沿用原值。当前已打标88张，原首批75张中已覆盖73张，其余2张位于AN库，按用户决定保留缺口。指标数沿用原生导出快照，未以本次元数据状态修复冒充新增指标。",
     "project_kind": "game",
     "project_kind_label": "游戏项目",
     "project_category": "游戏产品",
@@ -1485,17 +1486,17 @@
       "row_count": "148405274",
       "collected_at": "2026-11-05 01:01:09",
       "schema_file": "data/schemas/lydr3d_dwd.json",
-      "domain": "公共域",
-      "process": "行为明细",
-      "definition": "其他业务来源；保留采集说明：用户付费行为事实表。可用账号字段user_id；时间候选log_date（数据时间）。",
+      "domain": "付费域",
+      "process": "充值支付,点券消费",
+      "definition": "用户付费行为事实表 记录玩家充值和消费订单的完整明细。 使用场景： 充值转化漏斗分析（请求→成功转化率） ARPU/ARPPU 计算 充值渠道/平台偏好分析 抵用券使用效果评估 异常订单监控（同IP/MAC大量充值）",
       "grain": "暂保留源行粒度；业务事件键待验证，采集键：log_date×action_name×order_no。",
       "time": "log_date",
       "risk": "不能直接把行数解释为订单数、局数或任务完成次数；须核对重放、状态更新和事件唯一键。",
-      "confidence": "结构审阅建议：依据原表/字段注释和字段类型，业务归属与口径仍待负责人确认",
-      "platform_status": "未逐表核验",
-      "platform_verified": "",
+      "confidence": "项目、精确库表名、原标签及保存后状态已回读；未验证生产业务数值",
+      "platform_status": "已入仓",
+      "platform_verified": "2026-11-09状态修复与标签回读",
       "in_connection_scope": true,
-      "curated": false,
+      "curated": true,
       "first_batch_activity": true,
       "first_batch": true,
       "batch": "首批候选",
@@ -1507,10 +1508,11 @@
         "infull_state [bigint(20)]：用户充值订单行为专用，充值状态(0: 请求中，1: 成功，2: 失败)"
       ],
       "review_family": "other",
-      "review_stage": "结构证据草案，未录入",
+      "review_stage": "沿用既有标签，由暂不纳入恢复为已打标",
       "review_questions": [
         "不能直接把行数解释为订单数、局数或任务完成次数；须核对重放、状态更新和事件唯一键。"
-      ]
+      ],
+      "platform_description": "用户付费行为事实表 记录玩家充值和消费订单的完整明细。 使用场景： 充值转化漏斗分析（请求→成功转化率） ARPU/ARPPU 计算 充值渠道/平台偏好分析 抵用券使用效果评估 异常订单监控（同IP/MAC大量充值）"
     },
     {
       "project_id": "31",
@@ -2399,16 +2401,16 @@
       "collected_at": "2026-11-05 01:01:09",
       "schema_file": "data/schemas/lydr3d_dwd.json",
       "domain": "经济域",
-      "process": "金币流水",
-      "definition": "资产流水来源；保留采集说明：用户金币/钻石/道具流水事实表。可用账号字段user_id；时间候选log_date（数据时间）。",
+      "process": "金币流水,道具流水,红宝石流水",
+      "definition": "用户金币/钻石/道具流水事实表 整合了金币、钻石、道具三类资产的所有增减明细，是经济系统最核心的流水表，注释覆盖率 100%。 使用场景： 游戏经济健康度监控（金币/钻石净流入流出） 免费 vs 付费来源的资产占比分析 特定行为（如充值、救济、打鱼）的资产贡献拆解",
       "grain": "暂保留源行粒度；业务事件键待验证，采集键：user_id×action_name×action_scene×log_date。",
       "time": "log_date",
       "risk": "不能直接把行数解释为订单数、局数或任务完成次数；须核对重放、状态更新和事件唯一键。 按道具ID/币种及变动原因分组；原数量字段正负方向、冲正、转移与余额范围待核，不默认房卡ID。",
-      "confidence": "结构审阅建议：依据原表/字段注释和字段类型，业务归属与口径仍待负责人确认",
-      "platform_status": "未逐表核验",
-      "platform_verified": "",
+      "confidence": "项目、精确库表名、原标签及保存后状态已回读；未验证生产业务数值",
+      "platform_status": "已入仓",
+      "platform_verified": "2026-11-09状态修复与标签回读",
       "in_connection_scope": true,
-      "curated": false,
+      "curated": true,
       "first_batch_activity": true,
       "first_batch": true,
       "batch": "首批候选",
@@ -2424,11 +2426,12 @@
         "total_prop_num [bigint(20)]：历史总数量"
       ],
       "review_family": "asset",
-      "review_stage": "结构证据草案，未录入",
+      "review_stage": "沿用既有标签，由暂不纳入恢复为已打标",
       "review_questions": [
         "不能直接把行数解释为订单数、局数或任务完成次数；须核对重放、状态更新和事件唯一键。",
         "按道具ID/币种及变动原因分组；原数量字段正负方向、冲正、转移与余额范围待核，不默认房卡ID。"
-      ]
+      ],
+      "platform_description": "用户金币/钻石/道具流水事实表 整合了金币、钻石、道具三类资产的所有增减明细，是经济系统最核心的流水表，注释覆盖率 100%。 使用场景： 游戏经济健康度监控（金币/钻石净流入流出） 免费 vs 付费来源的资产占比分析 特定行为（如充值、救济、打鱼）的资产贡献拆解"
     },
     {
       "project_id": "31",
@@ -35306,13 +35309,18 @@
       "task": "项目知识沉淀",
       "status": "已发布",
       "detail": "已将核心使用口径发布到对应项目知识库，避免跨游戏混用。"
+    },
+    {
+      "task": "隐藏状态修复",
+      "status": "2张已纳入并回读",
+      "detail": "默认状态筛选隐藏暂不纳入记录；切换后找到精确表，原标签保留。原首批覆盖73/75，已打标总数88。"
     }
   ],
   "review": {
     "project_id": "31",
     "project_name": "猎鱼达人3D",
     "name": "猎鱼达人3D",
-    "stage": "已重新采集并复查；4条范围/采集缺口仍在",
+    "stage": "修复2张被状态筛选隐藏的正式表，已打标共88张；AN按用户决定保留缺口",
     "read_only": false,
     "platform_writes": 42,
     "date": "2026-11-09",
@@ -35517,26 +35525,29 @@
       }
     ],
     "blockers": [
-      "lydr3d_dwd.dwd_trd_order_info_di仍未采集",
-      "lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集",
-      "lydr3d_an下2张原首批表未绑定；不自动扩大连接范围"
+      "lydr3d_an下2张首批表按用户决定暂不扩展，保留范围缺口"
     ],
     "collection": [],
     "metric_ids": [],
-    "conclusion": "在既有四库范围操作重新获取并复查精确表名；dwd_eco_money_prop_log_di仅看到_bak版本，未以备份替代正式表。待办：lydr3d_dwd.dwd_trd_order_info_di仍未采集；lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集；lydr3d_an下2张原首批表未绑定；不自动扩大连接范围",
-    "next_action": "lydr3d_dwd.dwd_trd_order_info_di仍未采集；lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集；lydr3d_an下2张原首批表未绑定；不自动扩大连接范围",
+    "conclusion": "本次修复2张原已治理但被暂不纳入状态隐藏的正式表；标签与说明沿用原值。当前已打标88张，原首批75张中已覆盖73张，其余2张位于AN库，按用户决定保留缺口。指标数沿用原生导出快照，未以本次元数据状态修复冒充新增指标。",
+    "next_action": "按用户决定保留AN范围缺口；既有范围继续核对，权限恢复后执行生产数值验收。",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。"
   },
   "followup_20261109": {
-    "status": "已重新采集并复查；4条范围/采集缺口仍在",
+    "status": "修复2张被状态筛选隐藏的正式表，已打标共88张；AN按用户决定保留缺口",
     "completed": [
       "在既有四库范围操作重新获取并复查精确表名",
-      "dwd_eco_money_prop_log_di仅看到_bak版本，未以备份替代正式表"
+      "在暂不纳入筛选中找回2张精确原表；沿用原业务域、过程和说明重新纳入，逐项回读成功",
+      "先前采集缺失判断已更正：正式表存在，不使用后缀备份表替代",
+      "用户明确暂不加入AN库，连接仍为原四库"
     ],
     "pending": [
-      "lydr3d_dwd.dwd_trd_order_info_di仍未采集",
-      "lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集",
-      "lydr3d_an下2张原首批表未绑定；不自动扩大连接范围"
-    ]
+      "lydr3d_an下2张首批表按用户决定暂不扩展，保留范围缺口"
+    ],
+    "metadata_status_restored": 2,
+    "tagged_tables": 88,
+    "first_batch_covered": 73,
+    "first_batch_target": 75,
+    "remaining_unbound": 2
   }
 }

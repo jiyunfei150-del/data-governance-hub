@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-09T10:37:42.478930",
+  "updated_at": "2026-11-09T11:02:44.343783",
   "execution_order": [
     {
       "id": "LC",
       "project_id": 86,
       "project_name": "地方棋牌",
-      "status": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
+      "status": "21条行为定义已收敛为6个核心候选；求签38天日粒度可复用，知识V2已发布",
       "completed": {
         "available_metrics": 98,
         "merged_drafts": 32,
@@ -22,115 +22,168 @@
         "本次新增指标": 0
       },
       "pending": [
-        "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源",
-        "1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入"
+        "6个核心行为候选覆盖21条标准定义：来源选择器仍须可靠区分friend/gold同名表，未猜选保存",
+        "求签日粒度复用仅验证2026-10-01至11-07；其他历史和分钟级范围仍需独立核对",
+        "3条比赛奖励来自冷来源，按首批规则暂不纳入"
       ],
       "steps": [
         "friend_ods.behavior_log的event_id、temp_b、temp_c说明已保存并逐项回读",
-        "发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对"
+        "发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对",
+        "求签双来源已对照38天：日×账号×产品×变动数量及重复次数一致；日指标在该窗口复用friend_std_f027，精确时间戳不互换",
+        "21条祈福求签行为定义映射为6个核心候选，完整SQL和去向已整理；尚未录入",
+        "原好友房事件知识更新至V2并完整回读；平台当前4篇知识，其中3篇为本轮维护成果"
       ],
       "followup_20261109": {
-        "status": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
+        "status": "21条行为定义已收敛为6个核心候选；求签38天日粒度可复用，知识V2已发布",
         "completed": [
           "friend_ods.behavior_log的event_id、temp_b、temp_c说明已保存并逐项回读",
-          "发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对"
+          "发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对",
+          "求签双来源已对照38天：日×账号×产品×变动数量及重复次数一致；日指标在该窗口复用friend_std_f027，精确时间戳不互换",
+          "21条祈福求签行为定义映射为6个核心候选，完整SQL和去向已整理；尚未录入",
+          "原好友房事件知识更新至V2并完整回读；平台当前4篇知识，其中3篇为本轮维护成果"
         ],
         "pending": [
-          "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源",
-          "1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入"
+          "6个核心行为候选覆盖21条标准定义：来源选择器仍须可靠区分friend/gold同名表，未猜选保存",
+          "求签日粒度复用仅验证2026-10-01至11-07；其他历史和分钟级范围仍需独立核对",
+          "3条比赛奖励来自冷来源，按首批规则暂不纳入"
         ],
         "new_metrics": 0,
         "field_notes_updated": 3,
-        "knowledge_added": 1
+        "knowledge_added": 1,
+        "core_behavior_candidates": 6,
+        "behavior_standard_definitions": 21,
+        "knowledge_version": "V2",
+        "visible_knowledge_total": 4,
+        "agent_maintained_knowledge": 3
+      },
+      "current": {
+        "available_metrics": 98,
+        "merged_drafts": 32,
+        "primary_updates": 14,
+        "metadata_added": 1,
+        "metadata_updated": 1,
+        "published_knowledge": 3,
+        "补录贵族首购指标": 1,
+        "月活状态纠正": 1,
+        "本批新增指标": 6,
+        "本批完善指标": 3,
+        "本批覆盖标准定义": 11,
+        "本次补充字段说明": 3,
+        "本次新增指标": 0,
+        "行为标准定义": 21,
+        "收敛核心候选": 6,
+        "条件复用口径": 1,
+        "暂缓标准定义": 24,
+        "事件知识版本": "V2"
       }
     },
     {
       "id": "F31",
       "project_id": 31,
       "project_name": "猎鱼达人3D",
-      "status": "已重新采集并复查；4条范围/采集缺口仍在",
+      "status": "修复2张被状态筛选隐藏的正式表，已打标共88张；AN按用户决定保留缺口",
       "current": {
         "native_metrics": 34,
         "tagged_tables": 44,
         "first_batch": 75,
         "first_pending_metadata": 42,
         "first_already_tagged": 29,
-        "first_missing_in_pool": 4,
+        "first_missing_in_pool": 0,
         "metadata_added_verified": 42,
         "metric_additions_prepared": 2,
         "metrics_added_verified": 2,
         "current_available_metrics": 36,
         "knowledge_published": 1,
         "unbound_an_tables": 2,
-        "metadata_refresh_status": "已重新采集，2张DWD仍未采集，单列缺口"
+        "metadata_refresh_status": "已重新采集，2张DWD仍未采集，单列缺口",
+        "tagged_tables_after": 88,
+        "本次隐藏状态修复": 2,
+        "AN范围决定": "暂不扩展，保留缺口"
       },
       "steps": [
         "在既有四库范围操作重新获取并复查精确表名",
-        "dwd_eco_money_prop_log_di仅看到_bak版本，未以备份替代正式表"
+        "在暂不纳入筛选中找回2张精确原表；沿用原业务域、过程和说明重新纳入，逐项回读成功",
+        "先前采集缺失判断已更正：正式表存在，不使用后缀备份表替代",
+        "用户明确暂不加入AN库，连接仍为原四库"
       ],
       "followup_20261109": {
-        "status": "已重新采集并复查；4条范围/采集缺口仍在",
+        "status": "修复2张被状态筛选隐藏的正式表，已打标共88张；AN按用户决定保留缺口",
         "completed": [
           "在既有四库范围操作重新获取并复查精确表名",
-          "dwd_eco_money_prop_log_di仅看到_bak版本，未以备份替代正式表"
+          "在暂不纳入筛选中找回2张精确原表；沿用原业务域、过程和说明重新纳入，逐项回读成功",
+          "先前采集缺失判断已更正：正式表存在，不使用后缀备份表替代",
+          "用户明确暂不加入AN库，连接仍为原四库"
         ],
         "pending": [
-          "lydr3d_dwd.dwd_trd_order_info_di仍未采集",
-          "lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集",
-          "lydr3d_an下2张原首批表未绑定；不自动扩大连接范围"
-        ]
+          "lydr3d_an下2张首批表按用户决定暂不扩展，保留范围缺口"
+        ],
+        "metadata_status_restored": 2,
+        "tagged_tables": 88,
+        "first_batch_covered": 73,
+        "first_batch_target": 75,
+        "remaining_unbound": 2
       },
       "pending": [
-        "lydr3d_dwd.dwd_trd_order_info_di仍未采集",
-        "lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集",
-        "lydr3d_an下2张原首批表未绑定；不自动扩大连接范围"
+        "lydr3d_an下2张首批表按用户决定暂不扩展，保留范围缺口"
       ]
     },
     {
       "id": "F12",
       "project_id": 12,
       "project_name": "猎鱼达人手游",
-      "status": "2条来源缺口仍在；查询授权显示已过期",
+      "status": "修复1张被状态筛选隐藏的正式表，已打标共48张；AN按用户决定保留缺口",
       "current": {
         "native_metrics": 54,
         "tagged_tables": 38,
         "first_batch": 22,
         "first_pending_metadata": 9,
         "first_already_tagged": 11,
-        "first_missing_in_pool": 2,
+        "first_missing_in_pool": 0,
         "metadata_added_verified": 9,
         "metrics_added_verified": 1,
         "current_available_metrics": 55,
         "knowledge_published": 1,
-        "metadata_pool_after_refresh": 467
+        "metadata_pool_after_refresh": 467,
+        "tagged_tables_after": 48,
+        "本次隐藏状态修复": 1,
+        "AN范围决定": "暂不扩展，保留缺口"
       },
       "steps": [
         "核对当前采集池，原fish_money_log只有fish_money_log_hi及dwd_fish_money_log_hi近似版本",
-        "查询系统显示当前账号该项目授权已于2026-01-11到期"
+        "查询系统显示当前账号该项目授权已于2026-01-11到期",
+        "在暂不纳入筛选中找回1张精确原表；沿用原业务域、过程和说明重新纳入，逐项回读成功",
+        "先前采集缺失判断已更正：正式表存在，不使用后缀备份表替代",
+        "用户明确暂不加入AN库，连接仍为原四库"
       ],
       "followup_20261109": {
-        "status": "2条来源缺口仍在；查询授权显示已过期",
+        "status": "修复1张被状态筛选隐藏的正式表，已打标共48张；AN按用户决定保留缺口",
         "completed": [
           "核对当前采集池，原fish_money_log只有fish_money_log_hi及dwd_fish_money_log_hi近似版本",
-          "查询系统显示当前账号该项目授权已于2026-01-11到期"
+          "查询系统显示当前账号该项目授权已于2026-01-11到期",
+          "在暂不纳入筛选中找回1张精确原表；沿用原业务域、过程和说明重新纳入，逐项回读成功",
+          "先前采集缺失判断已更正：正式表存在，不使用后缀备份表替代",
+          "用户明确暂不加入AN库，连接仍为原四库"
         ],
         "pending": [
-          "byhls_ods.fish_money_log与_hi表的版本/替代关系待确认，未自动替换",
-          "byhls_an下1张原首批表未绑定",
-          "生产取数前需恢复当前账号项目查询授权"
-        ]
+          "byhls_an下1张首批表按用户决定暂不扩展，保留范围缺口",
+          "生产取数需恢复当前账号手游查询授权，用户已表示处理后通知"
+        ],
+        "metadata_status_restored": 1,
+        "tagged_tables": 48,
+        "first_batch_covered": 21,
+        "first_batch_target": 22,
+        "remaining_unbound": 1
       },
       "pending": [
-        "byhls_ods.fish_money_log与_hi表的版本/替代关系待确认，未自动替换",
-        "byhls_an下1张原首批表未绑定",
-        "生产取数前需恢复当前账号项目查询授权"
+        "byhls_an下1张首批表按用户决定暂不扩展，保留范围缺口",
+        "生产取数需恢复当前账号手游查询授权，用户已表示处理后通知"
       ]
     },
     {
       "id": "F38",
       "project_id": 38,
       "project_name": "猎鱼达人-H5",
-      "status": "新增2项日报指标、补表说明及9字段、知识V2已核验；峰值单日对账一致",
+      "status": "44项指标保持；日报七日空留存已核对，知识更新至V3",
       "current": {
         "native_metrics": 40,
         "tagged_tables": 26,
@@ -151,29 +204,34 @@
         "本次新增日报指标": 2,
         "本次字段说明": 9,
         "本次表说明": 1,
-        "知识版本": "V2",
-        "视图DDL权限不足": 1
+        "知识版本": "V3",
+        "视图DDL权限不足": 1,
+        "留存缺值核验": "2026-11-01至11-07连续七天"
       },
       "steps": [
         "用户提供的生产SQL仅作为口径参考，未执行INSERT",
         "新增运营日报注册用户数、运营日报活跃用户数，已核验44项可用及原42项记录完整保留",
         "运营日报表说明、粒度与9条字段说明已保存回读",
         "原核心口径知识更新至V2，明确日报第七日D+6与DWD D+7、账号代理设备列及支付转换边界",
-        "按真实online_num_logs源规则做单日峰值对账，与日报一致"
+        "按真实online_num_logs源规则做单日峰值对账，与日报一致",
+        "2026-11-01至11-07日报每天1行，注册/活跃非空，次日、第七日和30日留存列连续为空；空值使用边界发布到原知识V3",
+        "样本日期比较表达式在当前ADB执行正常，原比较与归一日期比较均返回相等；未将此项误判为空值根因"
       ],
       "followup_20261109": {
-        "status": "新增2项日报指标、补表说明及9字段、知识V2已核验；峰值单日对账一致",
+        "status": "44项指标保持；日报七日空留存已核对，知识更新至V3",
         "completed": [
           "用户提供的生产SQL仅作为口径参考，未执行INSERT",
           "新增运营日报注册用户数、运营日报活跃用户数，已核验44项可用及原42项记录完整保留",
           "运营日报表说明、粒度与9条字段说明已保存回读",
           "原核心口径知识更新至V2，明确日报第七日D+6与DWD D+7、账号代理设备列及支付转换边界",
-          "按真实online_num_logs源规则做单日峰值对账，与日报一致"
+          "按真实online_num_logs源规则做单日峰值对账，与日报一致",
+          "2026-11-01至11-07日报每天1行，注册/活跃非空，次日、第七日和30日留存列连续为空；空值使用边界发布到原知识V3",
+          "样本日期比较表达式在当前ADB执行正常，原比较与归一日期比较均返回相等；未将此项误判为空值根因"
         ],
         "pending": [
           "样本日注册主档当前结果仍与存储日报不同，需核对当日输入快照、迟到水位和任务版本",
           "日报日活使用持续变化的主档最近登录日期，历史对账需当日快照；不能用当前主档直接回算",
-          "日报留存样本列为空，且日期轴、人群与偏移不同，不能拿DWD留存值强行验收或补0"
+          "需数据任务负责人核对2026-11-01至11-07日报liucun2/liucun7/liucun30全部为空的写入版本、调度与生成结果"
         ],
         "production_selects": 9,
         "metadata_shows": 1,
@@ -182,13 +240,13 @@
         "field_notes_updated": 9,
         "table_description_updated": 1,
         "knowledge_updated": 1,
-        "knowledge_version": "V2",
+        "knowledge_version": "V3",
         "metadata_show_view_denied": 1
       },
       "pending": [
         "样本日注册主档当前结果仍与存储日报不同，需核对当日输入快照、迟到水位和任务版本",
         "日报日活使用持续变化的主档最近登录日期，历史对账需当日快照；不能用当前主档直接回算",
-        "日报留存样本列为空，且日期轴、人群与偏移不同，不能拿DWD留存值强行验收或补0"
+        "需数据任务负责人核对2026-11-01至11-07日报liucun2/liucun7/liucun30全部为空的写入版本、调度与生成结果"
       ]
     },
     {
@@ -206,12 +264,24 @@
       },
       "steps": [
         "按2026-11-04调用快照及q7>0、q30>4重新核对原9张待处理表",
-        "现有连接仍为ads/dws/dwd/ods四库，REP尚未绑定",
-        "用户明确暂不加入byqph5_rep，已取消未提交表单，原四库保持不变"
+        "现有连接仍为ads/dws/dwd/ods四库，REP尚未绑定"
       ],
       "pending": [
         "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
-      ]
+      ],
+      "followup_20261109": {
+        "status": "原9表已分流；REP按用户要求保留缺口，7张非首批暂缓",
+        "completed": [
+          "按2026-11-04调用快照及q7>0、q30>4重新核对原9张待处理表",
+          "现有连接仍为ads/dws/dwd/ods四库，REP尚未绑定"
+        ],
+        "pending": [
+          "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
+        ],
+        "first_batch_pending_tables": 2,
+        "non_first_batch_deferred_tables": 7,
+        "connection_scope_decision": "用户2026-11-09明确暂不加入byqph5_rep，已取消未提交表单，保持原四库"
+      }
     },
     {
       "id": "BK1",
@@ -237,8 +307,8 @@
         "入口复核日期": "2026-11-09"
       },
       "pending": [
-        "当前账号项目授权/列表范围需平台侧核实",
-        "9项指标及1篇知识稿继续保留，未提交"
+        "当前账号项目可见及维护权限由用户协助核实，处理后通知",
+        "9项指标和1篇知识继续保留草案，尚未提交"
       ],
       "followup_20261109": {
         "status": "已重新核查；指标、知识及查询项目入口仍缺波克棋牌",
@@ -247,8 +317,8 @@
           "指标项目列表及查询系统项目搜索均未见波克棋牌"
         ],
         "pending": [
-          "当前账号项目授权/列表范围需平台侧核实",
-          "9项指标及1篇知识稿继续保留，未提交"
+          "当前账号项目可见及维护权限由用户协助核实，处理后通知",
+          "9项指标和1篇知识继续保留草案，尚未提交"
         ],
         "metrics_saved": 0,
         "knowledge_published": 0
@@ -294,5 +364,35 @@
     "新建物理DWD/DWS不在本次平台登记范围；建议DWD优先，最多两张新增DWS",
     "其余未获授权项目只整理，不录入"
   ],
-  "knowledge_policy": "提炼来源范围、主体、粒度、时间、单位、状态和去重规则；区分已确认与待确认，先查重再发布。"
+  "knowledge_policy": "提炼来源范围、主体、粒度、时间、单位、状态和去重规则；区分已确认与待确认，先查重再发布。",
+  "cooperation_items": [
+    {
+      "project": "猎鱼达人手游（12）",
+      "issue": "当前账号查询授权到期",
+      "needed": "恢复吉云飞的手游查询授权；用户已表示处理后通知",
+      "impact": "生产取数验收受阻，元数据已继续完成，当前48张已打标",
+      "state": "用户处理中"
+    },
+    {
+      "project": "波克棋牌（1）",
+      "issue": "新增指标、项目知识库的项目入口不可见",
+      "needed": "核对吉云飞的项目可见及维护权限，正常下拉应可选到波克棋牌；用户已表示处理后通知",
+      "impact": "9项指标、1篇知识仍为草案；82张元数据已有保存回执",
+      "state": "用户处理中"
+    },
+    {
+      "project": "地方棋牌（86）",
+      "issue": "两个同名behavior_log来源无法可靠区分好友房与金币房",
+      "needed": "来源选项需显示friend_ods/gold_ods，或提供可从界面可靠核对的对应关系",
+      "impact": "21条标准定义已收敛成6个核心候选，SQL及映射齐全，尚未录入",
+      "state": "需平台来源标识"
+    },
+    {
+      "project": "猎鱼达人-H5（38）",
+      "issue": "历史日报注册差异、可变主档日活及连续七天留存空值",
+      "needed": "核对11月1日实际执行的任务版本、历史输入快照/水位；解释11月1日至7日liucun2/liucun7/liucun30全部为空的生成或写入情况。生成SQL已收到，无需重复提供同一份SQL",
+      "impact": "44项指标定义已有回读；在线峰值单日一致，历史数值验收尚未完成。样本日期比较表达式在ADB正常",
+      "state": "需数据任务侧证据"
+    }
+  ]
 }

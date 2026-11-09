@@ -1,0 +1,424 @@
+{
+  "project_id": 86,
+  "project_name": "地方棋牌",
+  "date": "2026-11-09",
+  "old_definitions": 21,
+  "new_core_candidates": 6,
+  "platform_saved": 0,
+  "source": "friend_ods.behavior_log",
+  "blocker": "来源下拉有两个同名behavior_log，尚不能可靠识别好友房资产；不按顺序猜选。",
+  "boundaries": [
+    "21条原标准定义映射到6个核心候选，不是新增21项。",
+    "event_group是SQL内固定业务分组，不是新建平台分类或业务过程。",
+    "同一事件可能同时属于success、participation等分组；查询必须明确分组，不合计分组结果。",
+    "分组内UV使用COUNT(DISTINCT user_id)；跨日期或分组UV需从原始明细重算。",
+    "入口或渠道下钻需在同一原始事件集合重新聚合，本稿未预聚合这些维度。",
+    "两项占比须重算分子分母，不平均日比例；缺数据不补0。",
+    "本稿SQL未执行生产取数，待绑定后验收；未创建物理中间表。"
+  ],
+  "metrics": [
+    {
+      "english": "friend_pray_behavior_records",
+      "name": "好友房｜祈福分组行为次数",
+      "type": "原子",
+      "domain": "公共域",
+      "process": "行为明细",
+      "source": "friend_ods.behavior_log",
+      "dimensions": [
+        "event_group"
+      ],
+      "unit": "次",
+      "definition": "指定event_group内按事件记录行计数。每个分组对应固定事件集合；曝光、点击、成功、参与分别筛选，不把各分组相加。账号数跨事件、渠道或日期汇总须从原明细重算。",
+      "sql": "WITH event_map AS (\n SELECT 'success' AS event_group,'use_quick_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'success' AS event_group,'use_game_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'success' AS event_group,'pray_lucky_use_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'game_pray_lucky_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'quick_pray_lucky_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'use_quick_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'pray_lucky_human_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'pray_lucky_use_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'pray_lucky_purchase_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'purchase' AS event_group,'pray_lucky_purchase_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'quick_success' AS event_group,'use_quick_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'quick_free' AS event_group,'use_quick_pray_lucky_success' AS event_id,1 AS free_only\n UNION ALL\n SELECT 'exposure_game' AS event_group,'game_pray_lucky_icon_show' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'exposure_quick' AS event_group,'quick_pray_lucky_show' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'exposure_human' AS event_group,'pray_lucky_human_exposure' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click_game' AS event_group,'game_pray_lucky_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click_quick' AS event_group,'quick_pray_lucky_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click_human' AS event_group,'pray_lucky_human_click' AS event_id,0 AS free_only\n)\nSELECT DATE(b.log_date) AS dt,m.event_group,COUNT(*) AS metric_value\nFROM friend_ods.behavior_log b\nJOIN event_map m ON b.event_id=m.event_id AND (m.free_only=0 OR b.temp_c='free')\nWHERE b.log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND b.log_date<CURRENT_DATE()\nGROUP BY DATE(b.log_date),m.event_group;",
+      "event_groups": {
+        "success": [
+          "use_quick_pray_lucky_success",
+          "use_game_pray_lucky_success",
+          "pray_lucky_use_success"
+        ],
+        "participation": [
+          "game_pray_lucky_icon_click",
+          "quick_pray_lucky_click",
+          "use_quick_pray_lucky_success",
+          "pray_lucky_human_click",
+          "pray_lucky_use_success",
+          "pray_lucky_purchase_success"
+        ],
+        "purchase": [
+          "pray_lucky_purchase_success"
+        ],
+        "quick_success": [
+          "use_quick_pray_lucky_success"
+        ],
+        "quick_free": [
+          "use_quick_pray_lucky_success"
+        ],
+        "exposure_game": [
+          "game_pray_lucky_icon_show"
+        ],
+        "exposure_quick": [
+          "quick_pray_lucky_show"
+        ],
+        "exposure_human": [
+          "pray_lucky_human_exposure"
+        ],
+        "click_game": [
+          "game_pray_lucky_icon_click"
+        ],
+        "click_quick": [
+          "quick_pray_lucky_click"
+        ],
+        "click_human": [
+          "pray_lucky_human_click"
+        ]
+      },
+      "status": "已收敛草案；未录入，待可靠来源绑定及生产验收"
+    },
+    {
+      "english": "friend_pray_behavior_users",
+      "name": "好友房｜祈福分组行为账号数",
+      "type": "原子",
+      "domain": "公共域",
+      "process": "行为明细",
+      "source": "friend_ods.behavior_log",
+      "dimensions": [
+        "event_group"
+      ],
+      "unit": "账号",
+      "definition": "指定event_group内按user_id去重。每个分组对应固定事件集合；曝光、点击、成功、参与分别筛选，不把各分组相加。账号数跨事件、渠道或日期汇总须从原明细重算。",
+      "sql": "WITH event_map AS (\n SELECT 'success' AS event_group,'use_quick_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'success' AS event_group,'use_game_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'success' AS event_group,'pray_lucky_use_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'game_pray_lucky_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'quick_pray_lucky_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'use_quick_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'pray_lucky_human_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'pray_lucky_use_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'pray_lucky_purchase_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'purchase' AS event_group,'pray_lucky_purchase_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'quick_success' AS event_group,'use_quick_pray_lucky_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'quick_free' AS event_group,'use_quick_pray_lucky_success' AS event_id,1 AS free_only\n UNION ALL\n SELECT 'exposure_game' AS event_group,'game_pray_lucky_icon_show' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'exposure_quick' AS event_group,'quick_pray_lucky_show' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'exposure_human' AS event_group,'pray_lucky_human_exposure' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click_game' AS event_group,'game_pray_lucky_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click_quick' AS event_group,'quick_pray_lucky_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click_human' AS event_group,'pray_lucky_human_click' AS event_id,0 AS free_only\n)\nSELECT DATE(b.log_date) AS dt,m.event_group,COUNT(DISTINCT b.user_id) AS metric_value\nFROM friend_ods.behavior_log b\nJOIN event_map m ON b.event_id=m.event_id AND (m.free_only=0 OR b.temp_c='free')\nWHERE b.log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND b.log_date<CURRENT_DATE()\nGROUP BY DATE(b.log_date),m.event_group;",
+      "event_groups": {
+        "success": [
+          "use_quick_pray_lucky_success",
+          "use_game_pray_lucky_success",
+          "pray_lucky_use_success"
+        ],
+        "participation": [
+          "game_pray_lucky_icon_click",
+          "quick_pray_lucky_click",
+          "use_quick_pray_lucky_success",
+          "pray_lucky_human_click",
+          "pray_lucky_use_success",
+          "pray_lucky_purchase_success"
+        ],
+        "purchase": [
+          "pray_lucky_purchase_success"
+        ],
+        "quick_success": [
+          "use_quick_pray_lucky_success"
+        ],
+        "quick_free": [
+          "use_quick_pray_lucky_success"
+        ],
+        "exposure_game": [
+          "game_pray_lucky_icon_show"
+        ],
+        "exposure_quick": [
+          "quick_pray_lucky_show"
+        ],
+        "exposure_human": [
+          "pray_lucky_human_exposure"
+        ],
+        "click_game": [
+          "game_pray_lucky_icon_click"
+        ],
+        "click_quick": [
+          "quick_pray_lucky_click"
+        ],
+        "click_human": [
+          "pray_lucky_human_click"
+        ]
+      },
+      "status": "已收敛草案；未录入，待可靠来源绑定及生产验收"
+    },
+    {
+      "english": "friend_draw_behavior_records",
+      "name": "好友房｜求签分组行为次数",
+      "type": "原子",
+      "domain": "公共域",
+      "process": "行为明细",
+      "source": "friend_ods.behavior_log",
+      "dimensions": [
+        "event_group"
+      ],
+      "unit": "次",
+      "definition": "指定event_group内按事件记录行计数。每个分组对应固定事件集合；曝光、点击、成功、参与分别筛选，不把各分组相加。账号数跨事件、渠道或日期汇总须从原明细重算。",
+      "sql": "WITH event_map AS (\n SELECT 'participation' AS event_group,'draw_lots_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'draw_lots_click_change' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'draw_lots_free_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'draw_lots_cost_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'exposure' AS event_group,'draw_lots_icon_exposure' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click' AS event_group,'draw_lots_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'free_success' AS event_group,'draw_lots_free_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'paid_success' AS event_group,'draw_lots_cost_success' AS event_id,0 AS free_only\n)\nSELECT DATE(b.log_date) AS dt,m.event_group,COUNT(*) AS metric_value\nFROM friend_ods.behavior_log b\nJOIN event_map m ON b.event_id=m.event_id AND (m.free_only=0 OR b.temp_c='free')\nWHERE b.log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND b.log_date<CURRENT_DATE()\nGROUP BY DATE(b.log_date),m.event_group;",
+      "event_groups": {
+        "participation": [
+          "draw_lots_icon_click",
+          "draw_lots_click_change",
+          "draw_lots_free_success",
+          "draw_lots_cost_success"
+        ],
+        "exposure": [
+          "draw_lots_icon_exposure"
+        ],
+        "click": [
+          "draw_lots_icon_click"
+        ],
+        "free_success": [
+          "draw_lots_free_success"
+        ],
+        "paid_success": [
+          "draw_lots_cost_success"
+        ]
+      },
+      "status": "已收敛草案；未录入，待可靠来源绑定及生产验收"
+    },
+    {
+      "english": "friend_draw_behavior_users",
+      "name": "好友房｜求签分组行为账号数",
+      "type": "原子",
+      "domain": "公共域",
+      "process": "行为明细",
+      "source": "friend_ods.behavior_log",
+      "dimensions": [
+        "event_group"
+      ],
+      "unit": "账号",
+      "definition": "指定event_group内按user_id去重。每个分组对应固定事件集合；曝光、点击、成功、参与分别筛选，不把各分组相加。账号数跨事件、渠道或日期汇总须从原明细重算。",
+      "sql": "WITH event_map AS (\n SELECT 'participation' AS event_group,'draw_lots_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'draw_lots_click_change' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'draw_lots_free_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'participation' AS event_group,'draw_lots_cost_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'exposure' AS event_group,'draw_lots_icon_exposure' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'click' AS event_group,'draw_lots_icon_click' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'free_success' AS event_group,'draw_lots_free_success' AS event_id,0 AS free_only\n UNION ALL\n SELECT 'paid_success' AS event_group,'draw_lots_cost_success' AS event_id,0 AS free_only\n)\nSELECT DATE(b.log_date) AS dt,m.event_group,COUNT(DISTINCT b.user_id) AS metric_value\nFROM friend_ods.behavior_log b\nJOIN event_map m ON b.event_id=m.event_id AND (m.free_only=0 OR b.temp_c='free')\nWHERE b.log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND b.log_date<CURRENT_DATE()\nGROUP BY DATE(b.log_date),m.event_group;",
+      "event_groups": {
+        "participation": [
+          "draw_lots_icon_click",
+          "draw_lots_click_change",
+          "draw_lots_free_success",
+          "draw_lots_cost_success"
+        ],
+        "exposure": [
+          "draw_lots_icon_exposure"
+        ],
+        "click": [
+          "draw_lots_icon_click"
+        ],
+        "free_success": [
+          "draw_lots_free_success"
+        ],
+        "paid_success": [
+          "draw_lots_cost_success"
+        ]
+      },
+      "status": "已收敛草案；未录入，待可靠来源绑定及生产验收"
+    },
+    {
+      "english": "friend_pray_quick_free_ratio",
+      "name": "好友房｜快速祈福免费占比",
+      "type": "复合",
+      "domain": "公共域",
+      "process": "行为明细",
+      "source": "friend_ods.behavior_log",
+      "unit": "0—1比例",
+      "definition": "同一窗口内use_quick_pray_lucky_success中temp_c=free的记录数／该事件全部记录数；空值及其他编码不擅自判断为付费。分母为0返回NULL。",
+      "sql": "SELECT DATE(log_date) AS dt, SUM(CASE WHEN temp_c='free' THEN 1 ELSE 0 END)*1.0/NULLIF(COUNT(*),0) AS metric_value\nFROM friend_ods.behavior_log\nWHERE log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND log_date<CURRENT_DATE()\n AND event_id='use_quick_pray_lucky_success'\nGROUP BY DATE(log_date);",
+      "status": "已收敛草案；未录入，待可靠来源绑定及生产验收"
+    },
+    {
+      "english": "friend_draw_free_ratio",
+      "name": "好友房｜求签免费占比",
+      "type": "复合",
+      "domain": "公共域",
+      "process": "行为明细",
+      "source": "friend_ods.behavior_log",
+      "unit": "0—1比例",
+      "definition": "同一窗口内draw_lots_free_success记录数／（免费成功＋draw_lots_cost_success付费成功记录数）；不计曝光、点击或补签。分母为0返回NULL。",
+      "sql": "SELECT DATE(log_date) AS dt, SUM(CASE WHEN event_id='draw_lots_free_success' THEN 1 ELSE 0 END)*1.0/NULLIF(COUNT(*),0) AS metric_value\nFROM friend_ods.behavior_log\nWHERE log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND log_date<CURRENT_DATE()\n AND event_id IN ('draw_lots_free_success','draw_lots_cost_success')\nGROUP BY DATE(log_date);",
+      "status": "已收敛草案；未录入，待可靠来源绑定及生产验收"
+    }
+  ],
+  "mapping": [
+    {
+      "old_code": "friend_std_f060",
+      "old_name": "好友房｜祈福成功操作次数",
+      "target": "friend_pray_behavior_records",
+      "event_groups": [
+        "success"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f061",
+      "old_name": "好友房｜祈福成功参与账号数",
+      "target": "friend_pray_behavior_users",
+      "event_groups": [
+        "success"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f062",
+      "old_name": "好友房｜祈福行为参与账号数",
+      "target": "friend_pray_behavior_users",
+      "event_groups": [
+        "participation"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f065",
+      "old_name": "好友房｜快速祈福免费成功次数",
+      "target": "friend_pray_behavior_records",
+      "event_groups": [
+        "quick_free"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f067",
+      "old_name": "好友房｜祈福购买成功次数",
+      "target": "friend_pray_behavior_records",
+      "event_groups": [
+        "purchase"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f068",
+      "old_name": "好友房｜祈福购买成功账号数",
+      "target": "friend_pray_behavior_users",
+      "event_groups": [
+        "purchase"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f070",
+      "old_name": "好友房｜求签行为参与账号数",
+      "target": "friend_draw_behavior_users",
+      "event_groups": [
+        "participation"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f063_cdf629",
+      "old_name": "好友房｜祈福链路曝光次数",
+      "target": "friend_pray_behavior_records",
+      "event_groups": [
+        "exposure_game",
+        "exposure_quick",
+        "exposure_human"
+      ],
+      "note": "各事件分组分别查询；不相加分组UV"
+    },
+    {
+      "old_code": "friend_std_f063_4849d1",
+      "old_name": "好友房｜祈福链路曝光账号数",
+      "target": "friend_pray_behavior_users",
+      "event_groups": [
+        "exposure_game",
+        "exposure_quick",
+        "exposure_human"
+      ],
+      "note": "各事件分组分别查询；不相加分组UV"
+    },
+    {
+      "old_code": "friend_std_f064_346c7c",
+      "old_name": "好友房｜祈福链路点击次数",
+      "target": "friend_pray_behavior_records",
+      "event_groups": [
+        "click_game",
+        "click_quick",
+        "click_human"
+      ],
+      "note": "各事件分组分别查询；不相加分组UV"
+    },
+    {
+      "old_code": "friend_std_f064_678a81",
+      "old_name": "好友房｜祈福链路点击账号数",
+      "target": "friend_pray_behavior_users",
+      "event_groups": [
+        "click_game",
+        "click_quick",
+        "click_human"
+      ],
+      "note": "各事件分组分别查询；不相加分组UV"
+    },
+    {
+      "old_code": "friend_std_f071_ff85cb",
+      "old_name": "好友房｜求签入口曝光次数",
+      "target": "friend_draw_behavior_records",
+      "event_groups": [
+        "exposure"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f071_a39e66",
+      "old_name": "好友房｜求签入口曝光账号数",
+      "target": "friend_draw_behavior_users",
+      "event_groups": [
+        "exposure"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f072_ac77ef",
+      "old_name": "好友房｜求签入口点击次数",
+      "target": "friend_draw_behavior_records",
+      "event_groups": [
+        "click"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f072_af59bd",
+      "old_name": "好友房｜求签入口点击账号数",
+      "target": "friend_draw_behavior_users",
+      "event_groups": [
+        "click"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f073_bc86e1",
+      "old_name": "好友房｜求签免费成功次数",
+      "target": "friend_draw_behavior_records",
+      "event_groups": [
+        "free_success"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f073_ee21d5",
+      "old_name": "好友房｜求签免费成功账号数",
+      "target": "friend_draw_behavior_users",
+      "event_groups": [
+        "free_success"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f074_d5a732",
+      "old_name": "好友房｜求签付费成功次数",
+      "target": "friend_draw_behavior_records",
+      "event_groups": [
+        "paid_success"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f074_56a83b",
+      "old_name": "好友房｜求签付费成功账号数",
+      "target": "friend_draw_behavior_users",
+      "event_groups": [
+        "paid_success"
+      ],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f066",
+      "old_name": "好友房｜快速祈福免费占比",
+      "target": "friend_pray_quick_free_ratio",
+      "event_groups": [],
+      "note": "按指定分组或比例口径查询"
+    },
+    {
+      "old_code": "friend_std_f075",
+      "old_name": "好友房｜求签免费占比",
+      "target": "friend_draw_free_ratio",
+      "event_groups": [],
+      "note": "按指定分组或比例口径查询"
+    }
+  ]
+}
