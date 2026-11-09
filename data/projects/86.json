@@ -47,7 +47,7 @@
     "model_new": 12,
     "verified_registered_tables": 59,
     "data_file": "data/projects/86.json",
-    "initialization": "本批6项新增、3项完善已核验；25条标准定义待核对",
+    "initialization": "98项可用；已补行为字段与知识，22条口径待核、3条冷来源暂缓",
     "priority": "已录入复核",
     "model_dws_reuse": 2,
     "upload_summary": {
@@ -57,11 +57,13 @@
       "verified": "2026-11-08",
       "new_metrics_this_batch": 6,
       "existing_updated_this_batch": 3,
-      "knowledge_verified": 2
+      "knowledge_verified": 3,
+      "knowledge_verified_date": "2026-11-09",
+      "field_notes_updated_20261109": 3
     },
-    "scope_note": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。",
+    "scope_note": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。 2026-11-09补充3条好友房行为字段说明及1篇事件口径知识，项目累计已核验3篇已发布知识。25条暂缓定义中22条需继续核对，3条冷来源奖励不进入首批。",
     "legacy_url": "https://jiyunfei150-del.github.io/local-chess-governance-v2/",
-    "review_stage": "本批已核验",
+    "review_stage": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
     "review_tags": 0,
     "review_only": false,
     "metric_drafts": 32,
@@ -75,7 +77,8 @@
       "friend_ods.comm_game_log",
       "friend_ods.friend_game_log"
     ],
-    "project_kind_confidence": "本轮审阅分类，待业务负责人复核"
+    "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
+    "followup_date": "2026-11-09"
   },
   "tables": [
     {
@@ -197,7 +200,7 @@
       "stat_date": "2026-11-04",
       "field_count": 19,
       "missing_comments": 8,
-      "governance_fields": 1,
+      "governance_fields": 4,
       "keys": [
         "id",
         "user_id",
@@ -229,7 +232,8 @@
       "room": "好友房",
       "platform_description": "好友房｜玩家行为事件明细。记录账号、事件名、设备、渠道及扩展参数，供行为分析和埋点追溯。\n业务粒度：一条账号事件记录；采集键id×user_id×event_id×log_date\n业务时间：log_date\n口径与限制：temp_a至temp_h须按event_id补事件字典，不能用字段名猜漏斗或事件含义。",
       "platform_prefix_verified": "2026-11-05 已保存并回读",
-      "batch": "首批候选"
+      "batch": "首批候选",
+      "field_governance_verified": "2026-11-09"
     },
     {
       "project_id": "86",
@@ -43118,25 +43122,25 @@
   "tasks": [
     {
       "task": "指标收敛与补录",
-      "status": "本批已核验",
-      "detail": "98项可用、32项合并草稿；新增6项、完善3项，覆盖11条标准定义。"
+      "status": "98项可用、32项合并草稿",
+      "detail": "本次没有新增指标；21条行为定义待唯一来源绑定，1条双来源差异待核。另3条冷来源奖励按规则暂缓。"
+    },
+    {
+      "task": "好友房行为字段",
+      "status": "3条已保存回读",
+      "detail": "event_id、temp_b、temp_c的事件语义、场景与支付确认码分别说明。"
     },
     {
       "task": "项目知识",
-      "status": "已发布V2",
-      "detail": "地方棋牌｜注册留存、点券交易与付费画像口径；本项目已核验2篇已发布知识。"
-    },
-    {
-      "task": "剩余标准定义",
-      "status": "25条待核对",
-      "detail": "37条未单独登记的英文编码中，12条已由核心指标覆盖；其余21条行为、3条比赛奖励、1条双来源差异继续核对。"
+      "status": "3篇已发布核验",
+      "detail": "好友房祈福与求签：事件分类及计数边界 V1已发布；原有2篇保留。"
     }
   ],
   "review": {
     "project_id": "86",
     "project_name": "地方棋牌",
     "name": "地方棋牌",
-    "stage": "本批6项新增、3项完善已核验；25条标准定义待核对",
+    "stage": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
     "read_only": false,
     "platform_writes": 1,
     "tagged_tables": 0,
@@ -43148,19 +43152,31 @@
     "dwd_count": 10,
     "new_dws_count": 2,
     "focus": "沿用既有审阅与独立录入凭据",
-    "conclusion": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。",
+    "conclusion": "friend_ods.behavior_log的event_id、temp_b、temp_c说明已保存并逐项回读；发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对。待办：21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源；1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入",
     "blockers": [
-      "21条行为定义：同名来源选项仍未区分friend/gold，完整库名智能解析也未找到对应资产，暂不猜绑定。",
-      "3条比赛奖励定义：来源本期7/30日均0，不纳入第一批。",
-      "1条求签钻石消耗：package_log与prop_send_log两来源差异未确认。",
-      "数值对账尚需同日期、渠道及产品范围核对。"
+      "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源",
+      "1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入"
     ],
     "coverage": [],
     "collection": [],
     "top_tables": [],
     "metric_ids": [],
-    "next_action": "继续核对21条行为定义的来源绑定、3条低活性比赛奖励来源及1条求签双来源差异；游戏项目优先，其他未授权项目只整理。",
+    "next_action": "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源；1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。",
-    "date": "2026-11-08"
+    "date": "2026-11-09"
+  },
+  "followup_20261109": {
+    "status": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
+    "completed": [
+      "friend_ods.behavior_log的event_id、temp_b、temp_c说明已保存并逐项回读",
+      "发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对"
+    ],
+    "pending": [
+      "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源",
+      "1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入"
+    ],
+    "new_metrics": 0,
+    "field_notes_updated": 3,
+    "knowledge_added": 1
   }
 }

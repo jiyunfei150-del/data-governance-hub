@@ -280,10 +280,10 @@
     "project_id": "1",
     "project_name": "波克棋牌",
     "name": "波克棋牌",
-    "stage": "82张元数据已打标，问数已开启；指标待项目入口开放",
+    "stage": "已重新核查；指标、知识及查询项目入口仍缺波克棋牌",
     "read_only": false,
     "platform_writes": 82,
-    "date": "2026-11-08",
+    "date": "2026-11-09",
     "snapshot": "2026-11-04",
     "tagged_tables": 181,
     "first_count": 82,
@@ -468,8 +468,8 @@
       }
     ],
     "blockers": [
-      "问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。",
-      "11张AN未识别标准层级，保留来源不擅自归入DWD/ADS。"
+      "当前账号项目授权/列表范围需平台侧核实",
+      "9项指标及1篇知识稿继续保留，未提交"
     ],
     "collection": [],
     "metric_ids": [
@@ -483,8 +483,8 @@
       "BK1_reg_d1_retention_rate",
       "BK1_reg_d7_retention_rate"
     ],
-    "conclusion": "五个bkqp库已绑定，82张标签保存回读通过：71张标准层级、11张AN层级待确认。问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选指标和1篇知识稿尚未提交，实时指标库存未完成盘点，0仅为本轮确认保存数。",
-    "next_action": "核对当前账号的项目范围或平台项目列表同步；入口开放后先查重，再保存9项候选并发布知识。",
+    "conclusion": "连接源问数仍开启，五库已绑定；本次未改权限和连接范围；指标项目列表及查询系统项目搜索均未见波克棋牌。待办：当前账号项目授权/列表范围需平台侧核实；9项指标及1篇知识稿继续保留，未提交",
+    "next_action": "当前账号项目授权/列表范围需平台侧核实；9项指标及1篇知识稿继续保留，未提交",
     "authority": "按用户最新指令：其他项目只整理，不录入平台。",
     "stock_inventory_verified": false
   },
@@ -989,7 +989,7 @@
     "project_id": "4",
     "project_name": "捕鱼游戏王",
     "name": "捕鱼游戏王",
-    "stage": "沿用既有录入成果",
+    "stage": "9张原待处理表重新分流：2张REP待范围确认，7张非首批暂不纳入",
     "read_only": true,
     "platform_writes": 0,
     "tagged_tables": 0,
@@ -1001,14 +1001,17 @@
     "dwd_count": 5,
     "new_dws_count": 2,
     "focus": "沿用既有审阅与独立录入凭据",
-    "conclusion": "本项目保留既有治理和指标成果，本轮未追加平台写入。",
-    "blockers": [],
+    "conclusion": "按2026-11-04调用快照及q7>0、q30>4重新核对原9张待处理表；现有连接仍为ads/dws/dwd/ods四库，REP尚未绑定。待办：byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围",
+    "blockers": [
+      "byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围"
+    ],
     "coverage": [],
     "collection": [],
     "top_tables": [],
     "metric_ids": [],
-    "next_action": "保留既有录入事实，待业务审阅后另行安排",
-    "authority": "本轮仅审阅，不追加录入。"
+    "next_action": "byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围",
+    "authority": "本轮仅审阅，不追加录入。",
+    "date": "2026-11-09"
   },
   {
     "project_id": "103",
@@ -1786,10 +1789,10 @@
     "project_id": "31",
     "project_name": "猎鱼达人3D",
     "name": "猎鱼达人3D",
-    "stage": "本批已录入并回读核验",
+    "stage": "已重新采集并复查；4条范围/采集缺口仍在",
     "read_only": false,
     "platform_writes": 42,
-    "date": "2026-11-05",
+    "date": "2026-11-09",
     "snapshot": "2026-11-04",
     "tagged_tables": 170,
     "first_count": 75,
@@ -1991,19 +1994,21 @@
       }
     ],
     "blockers": [
-      "同库推定的目录归属仍需确认；不把共享库的资产全部视为本项目事实。"
+      "lydr3d_dwd.dwd_trd_order_info_di仍未采集",
+      "lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集",
+      "lydr3d_an下2张原首批表未绑定；不自动扩大连接范围"
     ],
     "collection": [],
     "metric_ids": [],
-    "conclusion": "当前项目已有36项可用指标，0项合并后草稿；本次平台保存及原生导出已核验。",
-    "next_action": "按单列缺口补充来源或业务确认，避免重复创建指标。",
+    "conclusion": "在既有四库范围操作重新获取并复查精确表名；dwd_eco_money_prop_log_di仅看到_bak版本，未以备份替代正式表。待办：lydr3d_dwd.dwd_trd_order_info_di仍未采集；lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集；lydr3d_an下2张原首批表未绑定；不自动扩大连接范围",
+    "next_action": "lydr3d_dwd.dwd_trd_order_info_di仍未采集；lydr3d_dwd.dwd_eco_money_prop_log_di仍未采集；lydr3d_an下2张原首批表未绑定；不自动扩大连接范围",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。"
   },
   {
     "project_id": "86",
     "project_name": "地方棋牌",
     "name": "地方棋牌",
-    "stage": "本批6项新增、3项完善已核验；25条标准定义待核对",
+    "stage": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
     "read_only": false,
     "platform_writes": 1,
     "tagged_tables": 0,
@@ -2015,20 +2020,18 @@
     "dwd_count": 10,
     "new_dws_count": 2,
     "focus": "沿用既有审阅与独立录入凭据",
-    "conclusion": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。",
+    "conclusion": "friend_ods.behavior_log的event_id、temp_b、temp_c说明已保存并逐项回读；发布好友房祈福求签事件口径知识V1，完整正文已通过编辑器全选复制回读核对。待办：21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源；1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入",
     "blockers": [
-      "21条行为定义：同名来源选项仍未区分friend/gold，完整库名智能解析也未找到对应资产，暂不猜绑定。",
-      "3条比赛奖励定义：来源本期7/30日均0，不纳入第一批。",
-      "1条求签钻石消耗：package_log与prop_send_log两来源差异未确认。",
-      "数值对账尚需同日期、渠道及产品范围核对。"
+      "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源",
+      "1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入"
     ],
     "coverage": [],
     "collection": [],
     "top_tables": [],
     "metric_ids": [],
-    "next_action": "继续核对21条行为定义的来源绑定、3条低活性比赛奖励来源及1条求签双来源差异；游戏项目优先，其他未授权项目只整理。",
+    "next_action": "21条行为定义：指标来源表仍只显示两个behavior_log，无法可靠区分friend/gold；未猜选来源；1条求签钻石双来源差异待核；3条冷来源比赛奖励按首批规则暂不纳入",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。",
-    "date": "2026-11-08"
+    "date": "2026-11-09"
   },
   {
     "project_id": "137",
@@ -4224,10 +4227,10 @@
     "project_id": "12",
     "project_name": "猎鱼达人手游",
     "name": "猎鱼达人手游",
-    "stage": "本批已录入并回读核验",
+    "stage": "2条来源缺口仍在；查询授权显示已过期",
     "read_only": false,
     "platform_writes": 9,
-    "date": "2026-11-05",
+    "date": "2026-11-09",
     "snapshot": "2026-11-04",
     "tagged_tables": 70,
     "first_count": 22,
@@ -4422,22 +4425,24 @@
       }
     ],
     "blockers": [
-      "同库推定的目录归属仍需确认；不把共享库的资产全部视为本项目事实。"
+      "byhls_ods.fish_money_log与_hi表的版本/替代关系待确认，未自动替换",
+      "byhls_an下1张原首批表未绑定",
+      "生产取数前需恢复当前账号项目查询授权"
     ],
     "collection": [],
     "metric_ids": [],
-    "conclusion": "当前项目已有55项可用指标，0项合并后草稿；本次平台保存及原生导出已核验。",
-    "next_action": "按单列缺口补充来源或业务确认，避免重复创建指标。",
+    "conclusion": "核对当前采集池，原fish_money_log只有fish_money_log_hi及dwd_fish_money_log_hi近似版本；查询系统显示当前账号该项目授权已于2026-01-11到期。待办：byhls_ods.fish_money_log与_hi表的版本/替代关系待确认，未自动替换；byhls_an下1张原首批表未绑定；生产取数前需恢复当前账号项目查询授权",
+    "next_action": "byhls_ods.fish_money_log与_hi表的版本/替代关系待确认，未自动替换；byhls_an下1张原首批表未绑定；生产取数前需恢复当前账号项目查询授权",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。"
   },
   {
     "project_id": "38",
     "project_name": "猎鱼达人-H5",
     "name": "猎鱼达人-H5",
-    "stage": "本批已录入并回读核验",
+    "stage": "已执行单日生产抽样，发现明细与日报差异待核",
     "read_only": false,
     "platform_writes": 7,
-    "date": "2026-11-05",
+    "date": "2026-11-09",
     "snapshot": "2026-11-04",
     "tagged_tables": 0,
     "first_count": 7,
@@ -4534,8 +4539,9 @@
       }
     ],
     "blockers": [
-      "首批7张表缺结构；完整表名和采集要求见本项目缺口列表。",
-      "本项目无可用的首批表结构，暂不生成字段级指标或中间表SQL。"
+      "注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认",
+      "参考日报次留/七留列为空，不能作为留存通过对账的证据",
+      "分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0"
     ],
     "collection": [
       {
@@ -4631,8 +4637,8 @@
       }
     ],
     "metric_ids": [],
-    "conclusion": "当前项目已有42项可用指标，0项合并后草稿；本次平台保存及原生导出已核验。",
-    "next_action": "按单列缺口补充来源或业务确认，避免重复创建指标。",
+    "conclusion": "对2026-11-01注册、登录、游戏时长及成熟注册次留/七留做只读抽样；单日时长来源未见空值或负数；成熟人群留存公式可执行。待办：注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认；参考日报次留/七留列为空，不能作为留存通过对账的证据；分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0",
+    "next_action": "注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认；参考日报次留/七留列为空，不能作为留存通过对账的证据；分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。"
   },
   {

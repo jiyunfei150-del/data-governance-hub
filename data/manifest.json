@@ -1,5 +1,5 @@
 {
-  "revision": "8f73b8177598",
+  "revision": "c2ad7260d500",
   "stats": {
     "date": "2026-11-06",
     "activity_date": "2026-11-04",
@@ -52,7 +52,11 @@
     },
     "platform_new_metrics_20261108": 6,
     "platform_existing_updates_20261108": 3,
-    "platform_new_metadata_20261108": 0
+    "platform_new_metadata_20261108": 0,
+    "platform_new_metrics_20261109": 0,
+    "platform_new_metadata_20261109": 0,
+    "platform_field_notes_20261109": 3,
+    "platform_knowledge_20261109": 1
   },
   "projects": [
     {
@@ -163,10 +167,10 @@
       "model_new": 6,
       "verified_registered_tables": 71,
       "data_file": "data/projects/1.json",
-      "initialization": "首批82张已打标，问数已开启；指标与知识待项目入口开放",
+      "initialization": "82张元数据已保存；当前账号仍缺指标/知识项目入口",
       "priority": "待项目入口开放",
       "model_dws_reuse": 0,
-      "review_stage": "结构草案已整理",
+      "review_stage": "已重新核查；指标、知识及查询项目入口仍缺波克棋牌",
       "review_tags": 181,
       "review_only": false,
       "project_kind": "game",
@@ -186,7 +190,8 @@
         "verified": "2026-11-06",
         "an_layer_pending": 11
       },
-      "scope_note": "五个bkqp库已绑定，82张标签保存回读通过：71张标准层级、11张AN层级待确认。问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选指标和1篇知识稿尚未提交，实时指标库存未完成盘点，0仅为本轮确认保存数。"
+      "scope_note": "五个bkqp库已绑定，82张标签保存回读通过：71张标准层级、11张AN层级待确认。问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选指标和1篇知识稿尚未提交，实时指标库存未完成盘点，0仅为本轮确认保存数。",
+      "followup_date": "2026-11-09"
     },
     {
       "id": "100",
@@ -340,7 +345,7 @@
       "model_new": 7,
       "verified_registered_tables": 82,
       "data_file": "data/projects/4.json",
-      "initialization": "已完成初始化草案，待业务审阅",
+      "initialization": "原待处理9张已分流：2张REP待范围，7张非首批暂缓",
       "priority": "已录入复核",
       "model_dws_reuse": 0,
       "upload_summary": {
@@ -350,11 +355,13 @@
         "project_assets": 104,
         "metrics": 10,
         "available_metrics": 61,
-        "verified": "2026-11-04"
+        "verified": "2026-11-04",
+        "first_batch_pending_tables": 2,
+        "non_first_batch_deferred_tables": 7
       },
-      "scope_note": "既有审阅91张，其中82张已纳入；项目资产总数104张。全项目视图另外保留中央调用关联及同库待确认记录，均不自动推送。",
+      "scope_note": "原审阅91张中82张已登记，原9张未登记表按最新快照分流：2张REP报表达到首批门槛但未绑定，7张因7天0次或30天不超过4次暂不进入首批。当前104项资产和61项可用指标仍沿用原登记快照，未将盘点数量冒充本次补录。",
       "legacy_url": "https://jiyunfei150-del.github.io/project-table-activity/fish-king/",
-      "review_stage": "沿用既有录入成果",
+      "review_stage": "9张原待处理表重新分流：2张REP待范围确认，7张非首批暂不纳入",
       "review_tags": 0,
       "review_only": true,
       "project_kind": "game",
@@ -367,7 +374,10 @@
         "byqph5_ods.fish_money_log",
         "byqph5_ods.pook_infull"
       ],
-      "project_kind_confidence": "本轮审阅分类，待业务负责人复核"
+      "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
+      "pending_first_batch_tables": 2,
+      "policy_deferred_tables": 7,
+      "followup_date": "2026-11-09"
     },
     {
       "id": "103",
@@ -459,10 +469,10 @@
       "model_new": 5,
       "verified_registered_tables": 86,
       "data_file": "data/projects/31.json",
-      "initialization": "本批已录入并回读核验",
+      "initialization": "本批登记已核验；重新采集后4条范围/采集缺口仍在",
       "priority": "已录入复核",
       "model_dws_reuse": 0,
-      "review_stage": "本批已核验",
+      "review_stage": "已重新采集并复查；4条范围/采集缺口仍在",
       "review_tags": 170,
       "review_only": false,
       "metric_drafts": 0,
@@ -484,7 +494,8 @@
         "lydr3d_ods.game_event_log",
         "lydr3d_ods.fish_money_log"
       ],
-      "project_kind_confidence": "本轮审阅分类，待业务负责人复核"
+      "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
+      "followup_date": "2026-11-09"
     },
     {
       "id": "86",
@@ -534,7 +545,7 @@
       "model_new": 12,
       "verified_registered_tables": 59,
       "data_file": "data/projects/86.json",
-      "initialization": "本批6项新增、3项完善已核验；25条标准定义待核对",
+      "initialization": "98项可用；已补行为字段与知识，22条口径待核、3条冷来源暂缓",
       "priority": "已录入复核",
       "model_dws_reuse": 2,
       "upload_summary": {
@@ -544,11 +555,13 @@
         "verified": "2026-11-08",
         "new_metrics_this_batch": 6,
         "existing_updated_this_batch": 3,
-        "knowledge_verified": 2
+        "knowledge_verified": 3,
+        "knowledge_verified_date": "2026-11-09",
+        "field_notes_updated_20261109": 3
       },
-      "scope_note": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。",
+      "scope_note": "好友房friend_*与金币房gold_*均属于地方棋牌。当前130项平台资产：98项可用、32项合并草稿。本批新增6个核心指标、完善3个已有指标，覆盖11条标准定义，并发布同一篇口径知识V2。另37条标准定义未单独登记，其中12条由现有核心指标按条件复用，25条待核对；不按缺失英文编码数量重复新增。 2026-11-09补充3条好友房行为字段说明及1篇事件口径知识，项目累计已核验3篇已发布知识。25条暂缓定义中22条需继续核对，3条冷来源奖励不进入首批。",
       "legacy_url": "https://jiyunfei150-del.github.io/local-chess-governance-v2/",
-      "review_stage": "本批已核验",
+      "review_stage": "补充3条字段说明、1篇知识已核验；来源绑定待平台修复",
       "review_tags": 0,
       "review_only": false,
       "metric_drafts": 32,
@@ -562,7 +575,8 @@
         "friend_ods.comm_game_log",
         "friend_ods.friend_game_log"
       ],
-      "project_kind_confidence": "本轮审阅分类，待业务负责人复核"
+      "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
+      "followup_date": "2026-11-09"
     },
     {
       "id": "137",
@@ -1025,10 +1039,10 @@
       "model_new": 6,
       "verified_registered_tables": 47,
       "data_file": "data/projects/12.json",
-      "initialization": "本批已录入并回读核验",
+      "initialization": "本批登记已核验；2条来源缺口、查询授权过期",
       "priority": "已录入复核",
       "model_dws_reuse": 0,
-      "review_stage": "本批已核验",
+      "review_stage": "2条来源缺口仍在；查询授权显示已过期",
       "review_tags": 70,
       "review_only": false,
       "metric_drafts": 0,
@@ -1050,7 +1064,8 @@
         "byhls_ods.fish_info_log",
         "byhls_ods.game_money_log"
       ],
-      "project_kind_confidence": "本轮审阅分类，待业务负责人复核"
+      "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
+      "followup_date": "2026-11-09"
     },
     {
       "id": "38",
@@ -1095,10 +1110,10 @@
       "model_new": 0,
       "verified_registered_tables": 33,
       "data_file": "data/projects/38.json",
-      "initialization": "本批已录入并回读核验",
+      "initialization": "本批登记已核验；生产抽样发现明细与日报差异待核",
       "priority": "已录入复核",
       "model_dws_reuse": 0,
-      "review_stage": "本批已核验",
+      "review_stage": "已执行单日生产抽样，发现明细与日报差异待核",
       "review_tags": 0,
       "review_only": false,
       "metric_drafts": 0,
@@ -1120,7 +1135,8 @@
         "lydrh5_ods.fish_game_log",
         "lydrh5_ods.ods_txstarlog_fish_game_log_hi"
       ],
-      "project_kind_confidence": "本轮审阅分类，待业务负责人复核"
+      "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
+      "followup_date": "2026-11-09"
     },
     {
       "id": "43",
@@ -5514,7 +5530,8 @@
     "其他未授权项目只整理，不录入；不新增业务域或业务过程，不执行建表或调度。DWD优先，每项目最多建议新增两张DWS。",
     "字段/SQL静态核对和平台回读不等于生产数值对账。H5字段约束未在页面提供的项目保留未知，不伪造主键或非空约束。",
     "2026-11-08波克棋牌：问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选及1篇知识稿仍未提交。其他项目回读日期维持各自原快照。",
-    "地方棋牌当前130项资产：98项可用、32项合并草稿。本批6项新增、3项已有指标完善覆盖11条标准定义；未单独登记的37条英文编码中，12条通过核心指标复用，25条仍待核对。知识已发布V2。"
+    "地方棋牌当前130项资产：98项可用、32项合并草稿。本批6项新增、3项已有指标完善覆盖11条标准定义；未单独登记的37条英文编码中，12条通过核心指标复用，25条仍待核对。知识已发布V2。",
+    "2026-11-09六项目收尾：地方棋牌新增3条字段说明和1篇已发布知识，未新增指标。H5已做单日只读抽样并发现差异；3D/手游精确来源缺口、波克项目入口仍待解决。捕鱼游戏王原9张未登记表中2张REP待范围、7张按首批规则暂缓。生产样本数值仅留在本地回执。"
   ],
-  "updated_at": "2026-11-08T19:55:32.036685"
+  "updated_at": "2026-11-09T10:12:08.480309"
 }
