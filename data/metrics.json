@@ -27506,16 +27506,18 @@
     ],
     "sql": "SELECT DATE(log_date) AS dt,\n       SUM(game_second) AS total_game_seconds,\n       COUNT(DISTINCT user_id) AS game_users,\n       SUM(game_second) * 1.0 / NULLIF(COUNT(DISTINCT user_id), 0) AS metric_value\nFROM byhls_dwd.dwd_gam_play_log_hi\nWHERE log_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_date < CURRENT_DATE()\nGROUP BY DATE(log_date);",
     "duplicate_check": "现有游戏时长和游戏人数为基础口径，当前项目未见人均游戏时长；复用原子指标，使用同一明细范围计算。",
-    "validation": "SELECT语法、可用原子依赖及已采集字段核对通过",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "physical_sql_executions": 0,
     "status": "平台可用",
     "example": "猎鱼达人手游近7个完整自然日的人均游戏时长是多少？",
     "platform_status": "available",
-    "origin": "2026-11-06平台原生导出核验",
-    "platform_verified": "2026-11-06",
+    "origin": "2026-11-09平台原生导出回读",
+    "platform_verified": "2026-11-09",
     "platform_sql_exact": true,
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "model_ids": []
+    "model_ids": [],
+    "created_at": "2026-11-06 19:31:05",
+    "updated_at": "2026-11-06 19:31:05"
   },
   {
     "id": "LIVE12_game_time",
@@ -27539,17 +27541,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-07-27 11:14:12",
+    "updated_at": "2026-07-27 11:17:47"
   },
   {
     "id": "LIVE12_lose_user",
@@ -27564,7 +27568,7 @@
     "alias": "",
     "definition": "捕鱼过程中，获得金币小于等于消耗金币的玩家人数",
     "example": "",
-    "sql": "select\n    count(*) as win_user_cnt\nfrom (\n    select\n        user_id,\n        sum(ifnull(money_add, 0)) as total_add_money,\n        sum(ifnull(money_use, 0)) as total_use_money\n    from byhls_dwd.dwd_gam_play_log_hi\n    group by user_id\n    having sum(ifnull(money_add, 0)) <= sum(ifnull(money_use, 0))\n) t",
+    "sql": "select\r\n    count(*) as win_user_cnt\r\nfrom (\r\n    select\r\n        user_id,\r\n        sum(ifnull(money_add, 0)) as total_add_money,\r\n        sum(ifnull(money_use, 0)) as total_use_money\r\n    from byhls_dwd.dwd_gam_play_log_hi\r\n    group by user_id\r\n    having sum(ifnull(money_add, 0)) <= sum(ifnull(money_use, 0))\r\n) t",
     "dependencies": [],
     "calc_func": "count",
     "stat_field": "money_use",
@@ -27573,17 +27577,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-29 16:19:01",
+    "updated_at": "2026-07-27 11:19:16"
   },
   {
     "id": "LIVE12_win_user",
@@ -27598,7 +27604,7 @@
     "alias": "",
     "definition": "游戏中获得金币大于消耗金币的人数",
     "example": "",
-    "sql": "select\n    count(*) as win_user_cnt\nfrom (\n    select\n        user_id,\n        sum(ifnull(money_add, 0)) as total_add_money,\n        sum(ifnull(money_use, 0)) as total_use_money\n    from byhls_dwd.dwd_gam_play_log_hi\n    group by user_id\n    having sum(ifnull(money_add, 0)) > sum(ifnull(money_use, 0))\n) t",
+    "sql": "select\r\n    count(*) as win_user_cnt\r\nfrom (\r\n    select\r\n        user_id,\r\n        sum(ifnull(money_add, 0)) as total_add_money,\r\n        sum(ifnull(money_use, 0)) as total_use_money\r\n    from byhls_dwd.dwd_gam_play_log_hi\r\n    group by user_id\r\n    having sum(ifnull(money_add, 0)) > sum(ifnull(money_use, 0))\r\n) t",
     "dependencies": [],
     "calc_func": "count",
     "stat_field": "money_add",
@@ -27607,17 +27613,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-29 16:16:57",
+    "updated_at": "2026-07-27 11:19:07"
   },
   {
     "id": "LIVE12_play_user_cnt",
@@ -27640,18 +27648,21 @@
     "dimensions": "",
     "risk": "",
     "unit": "",
-    "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
-    "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "status": "合并后草稿",
+    "origin": "2026-11-09平台原生导出回读",
+    "comparison": "与“游戏用户数”同源、同字段及同英文编码；别名已合并至保留项。本条转为可恢复草稿，原定义与SQL保留，未永久删除。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_ads.ads_base_daily_report_di"
     ],
-    "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_status": "offline",
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-25 19:38:12",
+    "updated_at": "2026-11-09 11:50:50",
+    "merged_into": "LIVE12_play_user_cnt_report_game_users"
   },
   {
     "id": "LIVE12_game_produce_money",
@@ -27675,17 +27686,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-25 18:18:24",
+    "updated_at": "2026-09-14 14:55:48"
   },
   {
     "id": "LIVE12_game_consume_money",
@@ -27709,17 +27722,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-25 18:14:09",
+    "updated_at": "2026-09-14 14:56:04"
   },
   {
     "id": "LIVE12_activity_consume_money",
@@ -27743,17 +27758,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-25 18:10:09",
+    "updated_at": "2026-09-14 14:56:19"
   },
   {
     "id": "LIVE12_lobby_free_money_produce",
@@ -27777,17 +27794,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-25 18:07:14",
+    "updated_at": "2026-09-14 14:56:33"
   },
   {
     "id": "LIVE12_lobby_recharge_money_produce",
@@ -27811,17 +27830,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-25 17:59:05",
+    "updated_at": "2026-09-14 14:56:49"
   },
   {
     "id": "LIVE12_activity_gold_produce",
@@ -27845,17 +27866,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-25 17:55:56",
+    "updated_at": "2026-09-14 14:57:19"
   },
   {
     "id": "LIVE12_game_prop_consume",
@@ -27870,7 +27893,7 @@
     "alias": "捕鱼道具消耗、捕鱼道具使用",
     "definition": "玩家在捕鱼过程中使用的道具数量",
     "example": "",
-    "sql": "SELECT\n  SUM(change_prop_num)\nFROM\n  byhls_dwd.dwd_eco_prop_log_hi\nWHERE\n  action_scene = '捕鱼道具消耗'",
+    "sql": "SELECT\r\n  SUM(change_prop_num)\r\nFROM\r\n  byhls_dwd.dwd_eco_prop_log_hi\r\nWHERE\r\n  action_scene = '捕鱼道具消耗'",
     "dependencies": [],
     "calc_func": "sum",
     "stat_field": "change_prop_num",
@@ -27879,17 +27902,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_prop_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-24 11:31:15",
+    "updated_at": "2026-09-14 14:57:34"
   },
   {
     "id": "LIVE12_game_prop_produce",
@@ -27904,7 +27929,7 @@
     "alias": "捕鱼道具产出、捕鱼道具发放、捕鱼道具掉落",
     "definition": "玩家在捕鱼过程中获得的道具数量",
     "example": "",
-    "sql": "SELECT\n  SUM(change_prop_num)\nFROM\n  byhls_dwd.dwd_eco_prop_log_hi\nWHERE\n  action_scene = '捕鱼道具发放'",
+    "sql": "SELECT\r\n  SUM(change_prop_num)\r\nFROM\r\n  byhls_dwd.dwd_eco_prop_log_hi\r\nWHERE\r\n  action_scene = '捕鱼道具发放'",
     "dependencies": [],
     "calc_func": "sum",
     "stat_field": "change_prop_num",
@@ -27913,17 +27938,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_prop_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-24 11:30:22",
+    "updated_at": "2026-09-14 14:57:48"
   },
   {
     "id": "LIVE12_avg_shot_num",
@@ -27938,7 +27965,7 @@
     "alias": "",
     "definition": "游戏用户人均发射子弹数",
     "example": "",
-    "sql": "select sum(shot_num)  / count(distinct user_id) as avg_shot_cnt \nfrom byhls_dwd.dwd_gam_play_log_hi\nwhere log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)",
+    "sql": "select sum(shot_num)  / count(distinct user_id) as avg_shot_cnt \r\nfrom byhls_dwd.dwd_gam_play_log_hi\r\nwhere log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)",
     "dependencies": [
       "发射子弹数"
     ],
@@ -27949,17 +27976,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-24 11:15:51",
+    "updated_at": "2026-07-27 11:19:30"
   },
   {
     "id": "LIVE12_play_user_cnt_by_agent",
@@ -27974,7 +28003,7 @@
     "alias": "渠道游戏人数",
     "definition": "按不同渠道划分游戏用户数，agent_id=-1，agent_name = '全渠道'代表全部渠道",
     "example": "",
-    "sql": "SELECT\n  agent_id,\n  agent_name,\n  play_user_cnt\nFROM\n  byhls_ads.ads_base_daily_report_di\nwhere dt = '${today}'",
+    "sql": "SELECT\r\n  agent_id,\r\n  agent_name,\r\n  play_user_cnt\r\nFROM\r\n  byhls_ads.ads_base_daily_report_di\r\nwhere dt = '${today}'",
     "dependencies": [],
     "calc_func": "-",
     "stat_field": "play_user_cnt",
@@ -27983,17 +28012,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_ads.ads_base_daily_report_di"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-22 16:15:56",
+    "updated_at": "2026-06-22 16:30:30"
   },
   {
     "id": "LIVE12_play_user_cnt_report_game_users",
@@ -28005,7 +28036,7 @@
     "table": "byhls_ads.ads_base_daily_report_di",
     "project_name": "猎鱼达人手游",
     "english": "play_user_cnt",
-    "alias": "游戏人数",
+    "alias": "游戏人数、参与游戏的人数",
     "definition": "参与游戏的人数",
     "example": "",
     "sql": "SELECT\n  play_user_cnt\nFROM\n  byhls_ads.ads_base_daily_report_di\nwhere dt = '${today}'",
@@ -28017,17 +28048,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
-    "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "origin": "2026-11-09平台原生导出回读",
+    "comparison": "保留为可用主项，合并“游戏人数、参与游戏的人数”别名；现有“游戏用户渗透率”依赖继续保留，日期条件与计算字段不变。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_ads.ads_base_daily_report_di"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-22 15:40:40",
+    "updated_at": "2026-11-09 11:51:14"
   },
   {
     "id": "LIVE12_diamond_net_flow",
@@ -28054,17 +28087,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_diamond_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:32:50",
+    "updated_at": "2026-09-14 14:58:11"
   },
   {
     "id": "LIVE12_game_gold_net_flow",
@@ -28091,17 +28126,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:31:27",
+    "updated_at": "2026-09-14 14:58:26"
   },
   {
     "id": "LIVE12_avg_boss_win_gold",
@@ -28128,17 +28165,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_boss_kill_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:29:33",
+    "updated_at": "2026-09-14 14:58:39"
   },
   {
     "id": "LIVE12_boss_challenge_rate",
@@ -28164,9 +28203,9 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
@@ -28174,8 +28213,10 @@
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:28:41",
+    "updated_at": "2026-09-14 14:58:52"
   },
   {
     "id": "LIVE12_avg_catch_gold",
@@ -28190,7 +28231,7 @@
     "alias": "",
     "definition": "游戏用户人均捕鱼获得金币",
     "example": "",
-    "sql": "select sum(money_add) / count(distinct user_id) as avg_catch_gold\nfrom byhls_dwd.dwd_gam_play_log_hi\nwhere log_date >= '${today}'\n  and log_date < date_add('${today}', interval 1 day)",
+    "sql": "select sum(money_add) / count(distinct user_id) as avg_catch_gold\r\nfrom byhls_dwd.dwd_gam_play_log_hi\r\nwhere log_date >= '${today}'\r\n  and log_date < date_add('${today}', interval 1 day)",
     "dependencies": [
       "赢分"
     ],
@@ -28201,17 +28242,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:25:58",
+    "updated_at": "2026-07-27 11:19:50"
   },
   {
     "id": "LIVE12_avg_shot_cost",
@@ -28237,17 +28280,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:24:47",
+    "updated_at": "2026-07-27 11:19:57"
   },
   {
     "id": "LIVE12_game_penetration_rate",
@@ -28262,7 +28307,7 @@
     "alias": "",
     "definition": "当日登录后进入游戏的比例",
     "example": "",
-    "sql": "WITH\n  game AS (\n    SELECT\n      play_user_cnt\n    FROM\n      byhls_ads.ads_base_daily_report_hi\n    WHERE\n      dt = '${today}'\n      and agent_name = '全渠道'\n  ),\n  login AS (\n    SELECT\n      COUNT(DISTINCT user_id) AS login_user_cnt\n    FROM\n      byhls_dwd.dwd_usr_login_log_di\n    WHERE\n      log_date >= '${today}'\n      AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\n  )\nSELECT\n  play_user_cnt / login_user_cnt AS game_penetration_rate\nFROM\n  game,\n  login",
+    "sql": "WITH\n  game AS (\n    SELECT\n      play_user_cnt\n    FROM\n      byhls_ads.ads_base_daily_report_di\n    WHERE\n      dt = '${today}'\n      and agent_name = '全渠道'\n  ),\n  login AS (\n    SELECT\n      COUNT(DISTINCT user_id) AS login_user_cnt\n    FROM\n      byhls_dwd.dwd_usr_login_log_hi\n    WHERE\n      log_date >= '${today}'\n      AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\n  )\nSELECT\n  play_user_cnt / login_user_cnt AS game_penetration_rate\nFROM\n  game,\n  login",
     "dependencies": [
       "登录用户数",
       "游戏用户数"
@@ -28271,21 +28316,23 @@
     "stat_field": null,
     "time": "",
     "dimensions": "",
-    "risk": "",
+    "risk": "当前为日报全渠道游戏人数 / DWD当日登录去重账号；没有明细交集，尚不能视为已验收的用户级转化漏斗。",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
-    "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "origin": "2026-11-09平台原生导出回读",
+    "comparison": "SQL旧表标识已修正为本项目已绑定正式表；计算表达式、过滤条件、依赖、维度和标签保持。原生导出确认，未冒充数值对账。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
-      "byhls_ads.ads_base_daily_report_hi",
-      "byhls_dwd.dwd_usr_login_log_di"
+      "byhls_ads.ads_base_daily_report_di",
+      "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:23:46",
+    "updated_at": "2026-11-09 11:54:54"
   },
   {
     "id": "LIVE12_avg_consume_boke_point",
@@ -28312,17 +28359,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_boke_point_consume_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:21:57",
+    "updated_at": "2026-10-27 16:51:41"
   },
   {
     "id": "LIVE12_charge_success_rate",
@@ -28349,17 +28398,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_user_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:20:59",
+    "updated_at": "2026-09-14 14:59:27"
   },
   {
     "id": "LIVE12_arpu",
@@ -28374,7 +28425,7 @@
     "alias": "arpu",
     "definition": "活跃用户人均充值金额（单位：元）",
     "example": "",
-    "sql": "with infull as (\n  select sum(infull_amount) as infull_amt\n  from byhls_dwd.dwd_trd_user_infull_log_hi\n  where infull_state = 1\n    and log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n),\nlogin as (\n  select count(distinct user_id) as login_cnt\n  from byhls_dwd.dwd_usr_login_log_hi\n  where  log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n)\nselect infull_amt / login_cnt as arpu from infull, login",
+    "sql": "with infull as (\r\n  select sum(infull_amount) as infull_amt\r\n  from byhls_dwd.dwd_trd_user_infull_log_hi\r\n  where infull_state = 1\r\n    and log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n),\r\nlogin as (\r\n  select count(distinct user_id) as login_cnt\r\n  from byhls_dwd.dwd_usr_login_log_hi\r\n  where  log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n)\r\nselect infull_amt / login_cnt as arpu from infull, login",
     "dependencies": [
       "登录用户数",
       "充值金额"
@@ -28386,9 +28437,9 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
@@ -28396,8 +28447,10 @@
       "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:20:06",
+    "updated_at": "2026-10-27 16:51:23"
   },
   {
     "id": "LIVE12_arppu",
@@ -28424,17 +28477,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_user_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:07:03",
+    "updated_at": "2026-10-27 16:50:54"
   },
   {
     "id": "LIVE12_recharge_conversion_rate",
@@ -28449,7 +28504,7 @@
     "alias": "",
     "definition": "当日登录用户中完成充值的比例",
     "example": "",
-    "sql": "WITH\n  infull_users AS (\n    SELECT\n      DISTINCT user_id\n    FROM\n      byhls_dwd.dwd_trd_user_infull_log_hi\n    WHERE\n      infull_state = 1\n      AND log_date >= '${today}'\n      AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\n  ),\n  login_users AS (\n    SELECT\n      DISTINCT user_id\n    FROM\n      byhls_dwd.dwd_usr_login_log_hi\n    WHERE\n      log_date >= '${today}'\n      AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\n  )\nSELECT\n  COUNT(DISTINCT c.user_id) / COUNT(DISTINCT l.user_id) AS recharge_conversion_rate\nFROM\n  login_users l\n  LEFT JOIN infull_users c ON l.user_id = c.user_id",
+    "sql": "WITH\r\n  infull_users AS (\r\n    SELECT\r\n      DISTINCT user_id\r\n    FROM\r\n      byhls_dwd.dwd_trd_user_infull_log_hi\r\n    WHERE\r\n      infull_state = 1\r\n      AND log_date >= '${today}'\r\n      AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\r\n  ),\r\n  login_users AS (\r\n    SELECT\r\n      DISTINCT user_id\r\n    FROM\r\n      byhls_dwd.dwd_usr_login_log_hi\r\n    WHERE\r\n      log_date >= '${today}'\r\n      AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\r\n  )\r\nSELECT\r\n  COUNT(DISTINCT c.user_id) / COUNT(DISTINCT l.user_id) AS recharge_conversion_rate\r\nFROM\r\n  login_users l\r\n  LEFT JOIN infull_users c ON l.user_id = c.user_id",
     "dependencies": [
       "登录用户数",
       "充值用户数"
@@ -28461,9 +28516,9 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
@@ -28471,8 +28526,10 @@
       "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:05:59",
+    "updated_at": "2026-09-14 14:59:55"
   },
   {
     "id": "LIVE12_d7_retention_rate",
@@ -28487,7 +28544,7 @@
     "alias": "",
     "definition": "${bizdate}当天注册用户中，于${bizdate}+7当天登录的去重用户数占${bizdate}当天注册去重用户数的比例。",
     "example": "",
-    "sql": "WITH reg_user AS (\n    SELECT DISTINCT user_id\n    FROM byhls_dwd.dwd_usr_reg_log_hi\n    WHERE log_date >= date_format('${bizdate}', '%Y-%m-%d')\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 1)\n),\nd7_login_user AS (\n    SELECT DISTINCT user_id\n    FROM byhls_dwd.dwd_usr_login_log_hi\n    WHERE log_date >= date_add(date_format('${bizdate}', '%Y-%m-%d'), 7)\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 8)\n)\nSELECT\n    IF(COUNT(DISTINCT r.user_id) > 0,\n       COUNT(DISTINCT l.user_id) / COUNT(DISTINCT r.user_id),\n       NULL) AS d7_retention_rate\nFROM reg_user r\nLEFT JOIN d7_login_user l\n    ON r.user_id = l.user_id;",
+    "sql": "WITH reg_user AS (\r\n    SELECT DISTINCT user_id\r\n    FROM byhls_dwd.dwd_usr_reg_log_hi\r\n    WHERE log_date >= date_format('${bizdate}', '%Y-%m-%d')\r\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 1)\r\n),\r\nd7_login_user AS (\r\n    SELECT DISTINCT user_id\r\n    FROM byhls_dwd.dwd_usr_login_log_hi\r\n    WHERE log_date >= date_add(date_format('${bizdate}', '%Y-%m-%d'), 7)\r\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 8)\r\n)\r\nSELECT\r\n    IF(COUNT(DISTINCT r.user_id) > 0,\r\n       COUNT(DISTINCT l.user_id) / COUNT(DISTINCT r.user_id),\r\n       NULL) AS d7_retention_rate\r\nFROM reg_user r\r\nLEFT JOIN d7_login_user l\r\n    ON r.user_id = l.user_id;",
     "dependencies": [
       "注册用户数",
       "登录用户数"
@@ -28499,9 +28556,9 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
@@ -28509,8 +28566,10 @@
       "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:04:12",
+    "updated_at": "2026-08-11 16:33:33"
   },
   {
     "id": "LIVE12_day1_retention_rate",
@@ -28525,7 +28584,7 @@
     "alias": "次留，次留率",
     "definition": "${bizdate}当天注册用户中，于${bizdate}+1当天登录的去重用户数占${bizdate}当天注册去重用户数的比例",
     "example": "",
-    "sql": "WITH reg_user AS (\n    SELECT DISTINCT user_id\n    FROM byhls_dwd.dwd_usr_reg_log_hi\n    WHERE log_date >= date_format('${bizdate}', '%Y-%m-%d')\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 1)\n),\nd1_login_user AS (\n    SELECT DISTINCT user_id\n    FROM byhls_dwd.dwd_usr_login_log_hi\n    WHERE log_date >= date_add(date_format('${bizdate}', '%Y-%m-%d'), 1)\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 2)\n)\nSELECT\n    IF(COUNT(DISTINCT r.user_id) > 0,\n       COUNT(DISTINCT l.user_id) / COUNT(DISTINCT r.user_id),\n       NULL) AS d1_retention_rate\nFROM reg_user r\nLEFT JOIN d1_login_user l\n    ON r.user_id = l.user_id;",
+    "sql": "WITH reg_user AS (\r\n    SELECT DISTINCT user_id\r\n    FROM byhls_dwd.dwd_usr_reg_log_hi\r\n    WHERE log_date >= date_format('${bizdate}', '%Y-%m-%d')\r\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 1)\r\n),\r\nd1_login_user AS (\r\n    SELECT DISTINCT user_id\r\n    FROM byhls_dwd.dwd_usr_login_log_hi\r\n    WHERE log_date >= date_add(date_format('${bizdate}', '%Y-%m-%d'), 1)\r\n      AND log_date <  date_add(date_format('${bizdate}', '%Y-%m-%d'), 2)\r\n)\r\nSELECT\r\n    IF(COUNT(DISTINCT r.user_id) > 0,\r\n       COUNT(DISTINCT l.user_id) / COUNT(DISTINCT r.user_id),\r\n       NULL) AS d1_retention_rate\r\nFROM reg_user r\r\nLEFT JOIN d1_login_user l\r\n    ON r.user_id = l.user_id;",
     "dependencies": [
       "注册用户数",
       "登录用户数"
@@ -28537,9 +28596,9 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
@@ -28547,8 +28606,10 @@
       "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 18:00:14",
+    "updated_at": "2026-08-11 16:34:39"
   },
   {
     "id": "LIVE12_recharge_amount_by_agent",
@@ -28563,7 +28624,7 @@
     "alias": "",
     "definition": "按渠道分组的充值金额（单位：元）",
     "example": "",
-    "sql": "SELECT\n  agent_id,\n  agent_name,\n  SUM(infull_amount) AS recharge_amount_by_agent\nFROM\n  byhls_dwd.dwd_trd_user_infull_log_hi\nWHERE\n  infull_state = 1\n  AND log_date >= '${today}'\n  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\nGROUP BY\n  agent_id,\n  agent_name",
+    "sql": "SELECT\r\n  agent_id,\r\n  agent_name,\r\n  SUM(infull_amount) AS recharge_amount_by_agent\r\nFROM\r\n  byhls_dwd.dwd_trd_user_infull_log_hi\r\nWHERE\r\n  infull_state = 1\r\n  AND log_date >= '${today}'\r\n  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)\r\nGROUP BY\r\n  agent_id,\r\n  agent_name",
     "dependencies": [
       "充值金额"
     ],
@@ -28574,17 +28635,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_user_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:58:49",
+    "updated_at": "2026-10-27 16:50:29"
   },
   {
     "id": "LIVE12_reg_user_cnt_by_agent",
@@ -28610,17 +28673,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_usr_reg_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:27:20",
+    "updated_at": "2026-06-24 11:45:46"
   },
   {
     "id": "LIVE12_diamond_consume",
@@ -28644,17 +28709,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_diamond_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:13:17",
+    "updated_at": "2026-09-14 15:00:21"
   },
   {
     "id": "LIVE12_diamond_produce",
@@ -28678,17 +28745,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_diamond_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:20",
+    "updated_at": "2026-09-14 15:49:22"
   },
   {
     "id": "LIVE12_prop_consume",
@@ -28703,7 +28772,7 @@
     "alias": "活动道具消耗、活动道具使用",
     "definition": "玩家通过活动消耗、使用的道具总数量",
     "example": "",
-    "sql": "SELECT\n  SUM(change_prop_num)\nFROM\n  byhls_dwd.dwd_eco_prop_log_hi\nWHERE\n  action_scene = '活动道具消耗'",
+    "sql": "SELECT\r\n  SUM(change_prop_num)\r\nFROM\r\n  byhls_dwd.dwd_eco_prop_log_hi\r\nWHERE\r\n  action_scene = '活动道具消耗'",
     "dependencies": [],
     "calc_func": "SUM",
     "stat_field": "change_prop_num",
@@ -28712,17 +28781,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_prop_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:20",
+    "updated_at": "2026-09-14 15:49:52"
   },
   {
     "id": "LIVE12_prop_produce",
@@ -28746,17 +28817,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_prop_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:20",
+    "updated_at": "2026-09-14 15:51:32"
   },
   {
     "id": "LIVE12_lobby_gold_produce",
@@ -28780,17 +28853,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_eco_money_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-09-14 15:52:00"
   },
   {
     "id": "LIVE12_boss_drop_prop_cnt",
@@ -28805,7 +28880,7 @@
     "alias": "Boss掉落数",
     "definition": "击杀Boss时掉落道具的总数量",
     "example": "",
-    "sql": "select sum(prop_num) from byhls_dwd.dwd_boss_kill_log_hi",
+    "sql": "select sum(prop_num) from byhls_dwd.dwd_gam_boss_kill_log_hi",
     "dependencies": [],
     "calc_func": "SUM",
     "stat_field": "prop_num",
@@ -28814,17 +28889,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
-    "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "origin": "2026-11-09平台原生导出回读",
+    "comparison": "SQL旧表标识已修正为本项目已绑定正式表；计算表达式、过滤条件、依赖、维度和标签保持。原生导出确认，未冒充数值对账。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
-      "byhls_dwd.dwd_boss_kill_log_hi"
+      "byhls_dwd.dwd_gam_boss_kill_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-11-09 11:54:28"
   },
   {
     "id": "LIVE12_boss_kill_win_gold",
@@ -28848,17 +28925,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_boss_kill_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-09-14 15:53:53"
   },
   {
     "id": "LIVE12_boss_kill_user_cnt",
@@ -28882,17 +28961,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_boss_kill_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-09-14 15:54:15"
   },
   {
     "id": "LIVE12_boss_kill_cnt",
@@ -28916,17 +28997,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_boss_kill_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-09-14 15:55:07"
   },
   {
     "id": "LIVE12_fish_catch_cnt",
@@ -28950,17 +29033,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-09-14 15:55:13"
   },
   {
     "id": "LIVE12_shot_num",
@@ -28984,17 +29069,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-07-27 11:20:37"
   },
   {
     "id": "LIVE12_catch_gold",
@@ -29018,17 +29105,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-07-27 11:20:53"
   },
   {
     "id": "LIVE12_shot_cost",
@@ -29052,17 +29141,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_gam_play_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-07-27 11:35:24"
   },
   {
     "id": "LIVE12_boke_point_consume_amount",
@@ -29086,17 +29177,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_boke_point_consume_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-10-27 16:50:07"
   },
   {
     "id": "LIVE12_boke_point_recharge_amount",
@@ -29120,17 +29213,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_boke_point_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-10-27 16:49:58"
   },
   {
     "id": "LIVE12_recharge_request_cnt",
@@ -29154,17 +29249,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_user_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-09-14 15:59:01"
   },
   {
     "id": "LIVE12_recharge_user_cnt",
@@ -29188,17 +29285,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_user_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:19",
+    "updated_at": "2026-09-14 15:59:12"
   },
   {
     "id": "LIVE12_recharge_order_cnt",
@@ -29222,17 +29321,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_user_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:18",
+    "updated_at": "2026-09-14 15:59:25"
   },
   {
     "id": "LIVE12_recharge_amount",
@@ -29256,17 +29357,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_trd_user_infull_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:18",
+    "updated_at": "2026-09-14 16:00:11"
   },
   {
     "id": "LIVE12_login_pv",
@@ -29281,7 +29384,7 @@
     "alias": "PV、登录PV",
     "definition": "发生登录行为的总次数（不去重）",
     "example": "",
-    "sql": "select count(1) from byhls_dwd.dwd_usr_login_log_di",
+    "sql": "select count(1) from byhls_dwd.dwd_usr_login_log_hi",
     "dependencies": [],
     "calc_func": "COUNT",
     "stat_field": "log_date",
@@ -29290,17 +29393,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
-    "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "origin": "2026-11-09平台原生导出回读",
+    "comparison": "SQL旧表标识已修正为本项目已绑定正式表；计算表达式、过滤条件、依赖、维度和标签保持。原生导出确认，未冒充数值对账。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
-      "byhls_dwd.dwd_usr_login_log_di"
+      "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:18",
+    "updated_at": "2026-11-09 11:54:03"
   },
   {
     "id": "LIVE12_login_user_cnt",
@@ -29324,17 +29429,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:18",
+    "updated_at": "2026-06-24 11:40:15"
   },
   {
     "id": "LIVE12_register_user_cnt",
@@ -29358,17 +29465,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_usr_reg_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 17:07:18",
+    "updated_at": "2026-06-24 11:45:36"
   },
   {
     "id": "LIVE12_dau",
@@ -29394,17 +29503,19 @@
     "risk": "",
     "unit": "",
     "status": "平台可用",
-    "origin": "2026-11-06平台原生导出核验",
+    "origin": "2026-11-09平台原生导出回读",
     "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-    "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+    "validation": "已逐项回读平台定义、SQL、依赖及状态；SQL所涉11张正式表均在当前48张已打标目录中。生产查询结果展示矛盾，数值验收仍待完成。",
     "model_ids": [],
     "project_id": "12",
     "source_refs": [
       "byhls_dwd.dwd_usr_login_log_hi"
     ],
     "platform_status": "available",
-    "platform_verified": "2026-11-06",
-    "platform_sql_exact": true
+    "platform_verified": "2026-11-09",
+    "platform_sql_exact": true,
+    "created_at": "2026-06-17 16:27:19",
+    "updated_at": "2026-07-22 15:36:47"
   },
   {
     "project_id": "38",

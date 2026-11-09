@@ -1,5 +1,5 @@
 {
-  "revision": "08cab2946a7e",
+  "revision": "58ef108c8e5d",
   "stats": {
     "date": "2026-11-06",
     "activity_date": "2026-11-04",
@@ -17,7 +17,7 @@
     "first_with_schema": 1250,
     "projects_usage_with_schema": 29,
     "connections": 14,
-    "available_metrics": 776,
+    "available_metrics": 775,
     "review_metrics": 121,
     "models": 143,
     "model_dwd": 101,
@@ -1053,7 +1053,7 @@
       "fields": 16409,
       "field_comment_gaps": 439,
       "tag_drafts": 70,
-      "available_metrics": 55,
+      "available_metrics": 54,
       "review_metrics": 0,
       "candidate_metrics": 6,
       "model_dwd": 4,
@@ -1061,24 +1061,29 @@
       "model_new": 6,
       "verified_registered_tables": 48,
       "data_file": "data/projects/12.json",
-      "initialization": "修复1张被状态筛选隐藏的正式表，已打标共48张；AN按用户决定保留缺口",
+      "initialization": "48张已打标；指标54可用、1合并草稿；修正3项来源表名，知识V2已发布",
       "priority": "已录入复核",
       "model_dws_reuse": 0,
-      "review_stage": "修复1张被状态筛选隐藏的正式表，已打标共48张；AN按用户决定保留缺口",
+      "review_stage": "48张已打标；指标54可用、1合并草稿；修正3项来源表名，知识V2已发布",
       "review_tags": 70,
       "review_only": false,
-      "metric_drafts": 0,
+      "metric_drafts": 1,
       "upload_summary": {
         "tables": 48,
-        "metrics": 55,
-        "drafts": 0,
+        "metrics": 54,
+        "drafts": 1,
         "verified": "2026-11-09",
         "new_metadata": 9,
         "metadata_status_restored": 1,
-        "metric_verified": "2026-11-06",
-        "table_verified": "2026-11-09"
+        "metric_verified": "2026-11-09",
+        "table_verified": "2026-11-09",
+        "merged_drafts": 1,
+        "metric_assets": 55,
+        "knowledge": 1,
+        "knowledge_latest_version": "V2",
+        "knowledge_total": 2
       },
-      "scope_note": "本次修复1张原已治理但被暂不纳入状态隐藏的正式表；标签与说明沿用原值。当前已打标48张，原首批22张中已覆盖21张，其余1张位于AN库，按用户决定保留缺口。指标数沿用原生导出快照，未以本次元数据状态修复冒充新增指标。",
+      "scope_note": "2026-11-09重新登录后已继续处理：55项指标资产原生回读，54项可用、1项重复人数草稿；3项旧指标SQL的表名与正式绑定统一，公式、过滤条件和依赖保留，另50项原记录未变。当前48张表已打标；可用SQL涉及11张正式表，均已纳入。核心知识更新至V2，另1篇同事维护的版本更新知识保持V10。生产取数卡片与最终文字仍矛盾，含SELECT 1探针，不采用文字中的业务数值。AN库按用户决定不扩展。",
       "project_kind": "game",
       "project_kind_label": "游戏项目",
       "project_category": "游戏产品",
@@ -5563,7 +5568,8 @@
     "地方棋牌当前130项资产：98项可用、32项合并草稿。本批6项新增、3项已有指标完善覆盖11条标准定义；未单独登记的37条英文编码中，12条通过核心指标复用，25条仍待核对。知识已发布V2。",
     "2026-11-09六项目：H5新增2项日报指标，完善1张表说明、9字段和知识V2，峰值单日一致；地方棋牌补3字段及1篇已发布知识。3D/手游源缺口、波克入口保留；捕鱼游戏王REP两表按用户决定不扩范围，另7表非首批。生产样本数值仅存本地回执。",
     "2026-11-09续办：3D两表和手游一表原为暂不纳入，已沿用原标签恢复，当前已打标88/48张；AN三表及REP两表均按用户决定保留。地方棋牌21条行为定义收敛为6个候选，求签38天日指标可复用；H5空留存连续七天，知识V3已发布。",
-    "2026-11-09权限恢复后续办：波克棋牌9项指标保存，7可用2时长草稿，知识V2发布；地方棋牌同步同事新增2项、停用1项，最新99可用33草稿/停用。手游DB-Query仍到期，平台维护入口与查询授权分别核对。"
+    "2026-11-09权限恢复后续办：波克棋牌9项指标保存，7可用2时长草稿，知识V2发布；地方棋牌同步同事新增2项、停用1项，最新99可用33草稿/停用。手游后续重新登录完成，维护入口可用；查询卡片与文字结果矛盾，数值待验收。",
+    "2026-11-09手游重新登录续办：48张已打标，55项资产中54可用、1合并草稿；3项旧SQL表名修正、核心知识V2。可用SQL所涉11张表均已纳入；结果卡片与最终文字矛盾，未采信文字业务值。"
   ],
-  "updated_at": "2026-11-09T11:33:08.422363"
+  "updated_at": "2026-11-09T11:58:37.644776"
 }

@@ -6454,11 +6454,11 @@ GROUP BY DATE(`log_date`);",',','
 FROM byhls_dwd.dwd_gam_play_log_hi
 WHERE log_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
   AND log_date < CURRENT_DATE()
-GROUP BY DATE(log_date);","[""游戏时长""]",2026-11-06,'
+GROUP BY DATE(log_date);","[""游戏时长""]",2026-11-09,'
 12,猎鱼达人手游,游戏时长,game_time,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家进行游戏的时间，单位：秒,"SELECT
   SUM(game_second)
 FROM
-  byhls_dwd.dwd_gam_play_log_hi",[],2026-11-06,'
+  byhls_dwd.dwd_gam_play_log_hi",[],2026-11-09,'
 12,猎鱼达人手游,输分人数,lose_user,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,捕鱼过程中，获得金币小于等于消耗金币的玩家人数,"select
     count(*) as win_user_cnt
 from (
@@ -6469,7 +6469,7 @@ from (
     from byhls_dwd.dwd_gam_play_log_hi
     group by user_id
     having sum(ifnull(money_add, 0)) <= sum(ifnull(money_use, 0))
-) t",[],2026-11-06,'
+) t",[],2026-11-09,'
 12,猎鱼达人手游,赢分人数,win_user,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,游戏中获得金币大于消耗金币的人数,"select
     count(*) as win_user_cnt
 from (
@@ -6480,39 +6480,39 @@ from (
     from byhls_dwd.dwd_gam_play_log_hi
     group by user_id
     having sum(ifnull(money_add, 0)) > sum(ifnull(money_use, 0))
-) t",[],2026-11-06,'
-12,猎鱼达人手游,游戏人数,play_user_cnt,原子,平台可用,byhls_ads.ads_base_daily_report_di,参加捕鱼游戏的人数,"SELECT
+) t",[],2026-11-09,'
+12,猎鱼达人手游,游戏人数,play_user_cnt,原子,合并后草稿,byhls_ads.ads_base_daily_report_di,参加捕鱼游戏的人数,"SELECT
   play_user_cnt
 FROM
-  byhls_ads.ads_base_daily_report_di",[],2026-11-06,'
+  byhls_ads.ads_base_daily_report_di",[],2026-11-09,'
 12,猎鱼达人手游,游戏产出金币,game_produce_money,原子,平台可用,byhls_dwd.dwd_eco_money_log_hi,玩家在捕鱼游戏过程中，获得的金币,"select sum(change_money)
 from byhls_dwd.dwd_eco_money_log_hi
 where money_flow_type = '金币产出'
-and action_scene = '捕鱼获得金币'",[],2026-11-06,'
+and action_scene = '捕鱼获得金币'",[],2026-11-09,'
 12,猎鱼达人手游,游戏消耗金币,game_consume_money,原子,平台可用,byhls_dwd.dwd_eco_money_log_hi,玩家进行捕鱼游戏中，使用、消耗的金币,"select sum(change_money)
 from byhls_dwd.dwd_eco_money_log_hi
 where 
 money_flow_type = '金币消耗'
-action_scene = '捕鱼消耗金币'",[],2026-11-06,'
+action_scene = '捕鱼消耗金币'",[],2026-11-09,'
 12,猎鱼达人手游,活动消耗金币,activity_consume_money,原子,平台可用,byhls_dwd.dwd_eco_money_log_hi,玩家在活动中使用、消耗的金币数量,"SELECT
   SUM(change_money)
 FROM
   byhls_dwd.dwd_eco_money_log_hi
 WHERE
   money_flow_type = '金币消耗'
-  action_scene = '活动消耗金币'",[],2026-11-06,'
+  action_scene = '活动消耗金币'",[],2026-11-09,'
 12,猎鱼达人手游,大厅免费金币产出,lobby_free_money_produce,原子,平台可用,byhls_dwd.dwd_eco_money_log_hi,大厅活动免费发放的金币、产出的金币,"SELECT
   SUM(change_money)
 FROM
   byhls_dwd.dwd_eco_money_log_hi
 WHERE
   money_flow_type = '金币产出'
-  action_scene = '活动免费金币'",[],2026-11-06,'
+  action_scene = '活动免费金币'",[],2026-11-09,'
 12,猎鱼达人手游,大厅充值金币产出,lobby_recharge_money_produce,原子,平台可用,byhls_dwd.dwd_eco_money_log_hi,玩家在游戏大厅通过充值获得的金币，是大厅金币产出的一部分,"select sum(change_money)
 from byhls_dwd.dwd_eco_money_log_hi
 where 
 money_flow_type = '金币产出'
-action_scene = '活动充值金币'",[],2026-11-06,'
+action_scene = '活动充值金币'",[],2026-11-09,'
 12,猎鱼达人手游,活动金币产出,activity_gold_produce,原子,平台可用,byhls_dwd.dwd_eco_money_log_hi,玩家通过活动获得的金币,"SELECT
   SUM(change_money)
 FROM
@@ -6523,35 +6523,35 @@ WHERE
     action_scene = '活动充值金币'
     OR action_scene = '活动免费金币'
     OR action_scene = '活动其他金币'
-  )",[],2026-11-06,'
+  )",[],2026-11-09,'
 12,猎鱼达人手游,捕鱼道具消耗数量,game_prop_consume,原子,平台可用,byhls_dwd.dwd_eco_prop_log_hi,玩家在捕鱼过程中使用的道具数量,"SELECT
   SUM(change_prop_num)
 FROM
   byhls_dwd.dwd_eco_prop_log_hi
 WHERE
-  action_scene = '捕鱼道具消耗'",[],2026-11-06,'
+  action_scene = '捕鱼道具消耗'",[],2026-11-09,'
 12,猎鱼达人手游,捕鱼道具产出数量,game_prop_produce,原子,平台可用,byhls_dwd.dwd_eco_prop_log_hi,玩家在捕鱼过程中获得的道具数量,"SELECT
   SUM(change_prop_num)
 FROM
   byhls_dwd.dwd_eco_prop_log_hi
 WHERE
-  action_scene = '捕鱼道具发放'",[],2026-11-06,'
+  action_scene = '捕鱼道具发放'",[],2026-11-09,'
 12,猎鱼达人手游,人均发射子弹数,avg_shot_num,复合,平台可用,byhls_dwd.dwd_gam_play_log_hi,游戏用户人均发射子弹数,"select sum(shot_num)  / count(distinct user_id) as avg_shot_cnt 
 from byhls_dwd.dwd_gam_play_log_hi
 where log_date >= '${today}'
-    and log_date < date_add('${today}', interval 1 day)","[""发射子弹数""]",2026-11-06,'
+    and log_date < date_add('${today}', interval 1 day)","[""发射子弹数""]",2026-11-09,'
 12,猎鱼达人手游,渠道游戏用户数,play_user_cnt_by_agent,原子,平台可用,byhls_ads.ads_base_daily_report_di,按不同渠道划分游戏用户数，agent_id=-1，agent_name = '全渠道'代表全部渠道,"SELECT
   agent_id,
   agent_name,
   play_user_cnt
 FROM
   byhls_ads.ads_base_daily_report_di
-where dt = '${today}'",[],2026-11-06,'
+where dt = '${today}'",[],2026-11-09,'
 12,猎鱼达人手游,游戏用户数,play_user_cnt,原子,平台可用,byhls_ads.ads_base_daily_report_di,参与游戏的人数,"SELECT
   play_user_cnt
 FROM
   byhls_ads.ads_base_daily_report_di
-where dt = '${today}'",[],2026-11-06,'
+where dt = '${today}'",[],2026-11-09,'
 12,猎鱼达人手游,红宝石净流出,diamond_net_flow,复合,平台可用,byhls_dwd.dwd_eco_diamond_log_hi,红宝石整体净消耗,"WITH
   produce AS (
     SELECT
@@ -6577,7 +6577,7 @@ SELECT
   diamond_consume - diamond_produce AS diamond_net_flow
 FROM
   produce,
-  consume","[""红宝石产出"", ""红宝石消耗""]",2026-11-06,'
+  consume","[""红宝石产出"", ""红宝石消耗""]",2026-11-09,'
 12,猎鱼达人手游,游戏金币净流出,game_gold_net_flow,复合,平台可用,byhls_dwd.dwd_eco_money_log_hi,玩家在捕鱼游戏过程中，金币整体净消耗量（正值=通缩）,"WITH
   produce AS (
     SELECT
@@ -6603,14 +6603,14 @@ SELECT
   game_gold_consume - game_gold_produce AS game_gold_net_flow
 FROM
   produce,
-  consume","[""游戏消耗金币"", ""游戏产出金币""]",2026-11-06,'
+  consume","[""游戏消耗金币"", ""游戏产出金币""]",2026-11-09,'
 12,猎鱼达人手游,Boss人均赢分,avg_boss_win_gold,复合,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss用户的人均赢分,"SELECT
   SUM(buyu_win_money) / COUNT(DISTINCT user_id) AS avg_boss_win_gold
 FROM
   byhls_dwd.dwd_gam_boss_kill_log_hi
 WHERE
   log_date >= '${today}'
-  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""击杀Boss用户数"", ""Boss赢分""]",2026-11-06,'
+  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""击杀Boss用户数"", ""Boss赢分""]",2026-11-09,'
 12,猎鱼达人手游,Boss挑战渗透率,boss_challenge_rate,复合,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,游戏用户中参与Boss挑战/击杀boss的比例,"WITH
   boss AS (
     SELECT
@@ -6634,21 +6634,21 @@ SELECT
   boss_cnt / game_cnt AS boss_challenge_rate
 FROM
   boss,
-  game","[""击杀Boss用户数""]",2026-11-06,'
+  game","[""击杀Boss用户数""]",2026-11-09,'
 12,猎鱼达人手游,人均赢分,avg_catch_gold,复合,平台可用,byhls_dwd.dwd_gam_play_log_hi,游戏用户人均捕鱼获得金币,"select sum(money_add) / count(distinct user_id) as avg_catch_gold
 from byhls_dwd.dwd_gam_play_log_hi
 where log_date >= '${today}'
-  and log_date < date_add('${today}', interval 1 day)","[""赢分""]",2026-11-06,'
+  and log_date < date_add('${today}', interval 1 day)","[""赢分""]",2026-11-09,'
 12,猎鱼达人手游,人均玩分,avg_shot_cost,复合,平台可用,byhls_dwd.dwd_gam_play_log_hi,游戏用户人均子弹消耗金币,"select sum(money_use) / count(distinct user_id) as avg_shot_cost
 from byhls_dwd.dwd_gam_play_log_hi
 where log_date >= '${today}'
-  and log_date < date_add('${today}', interval 1 day)","[""玩分""]",2026-11-06,'
+  and log_date < date_add('${today}', interval 1 day)","[""玩分""]",2026-11-09,'
 12,猎鱼达人手游,游戏用户渗透率,game_penetration_rate,复合,平台可用,byhls_ads.ads_base_daily_report_di,当日登录后进入游戏的比例,"WITH
   game AS (
     SELECT
       play_user_cnt
     FROM
-      byhls_ads.ads_base_daily_report_hi
+      byhls_ads.ads_base_daily_report_di
     WHERE
       dt = '${today}'
       and agent_name = '全渠道'
@@ -6657,7 +6657,7 @@ where log_date >= '${today}'
     SELECT
       COUNT(DISTINCT user_id) AS login_user_cnt
     FROM
-      byhls_dwd.dwd_usr_login_log_di
+      byhls_dwd.dwd_usr_login_log_hi
     WHERE
       log_date >= '${today}'
       AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)
@@ -6666,14 +6666,14 @@ SELECT
   play_user_cnt / login_user_cnt AS game_penetration_rate
 FROM
   game,
-  login","[""登录用户数"", ""游戏用户数""]",2026-11-06,'
+  login","[""登录用户数"", ""游戏用户数""]",2026-11-09,'
 12,猎鱼达人手游,人均消费点券,avg_consume_boke_point,复合,平台可用,byhls_dwd.dwd_trd_boke_point_consume_log_hi,付费用户人均点券消费（单位：元）,"SELECT
   SUM(consume_boke_point) / COUNT(DISTINCT user_id) AS avg_consume_boke_point
 FROM
   byhls_dwd.dwd_trd_boke_point_consume_log_hi
 WHERE
   log_date >= '${today}'
-  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""充值用户数"", ""点券消费金额""]",2026-11-06,'
+  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""充值用户数"", ""点券消费金额""]",2026-11-09,'
 12,猎鱼达人手游,订单成功率,charge_success_rate,复合,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,充值请求中成功的比例,"SELECT
   COUNT(
     CASE
@@ -6684,7 +6684,7 @@ FROM
   byhls_dwd.dwd_trd_user_infull_log_hi
 WHERE
   log_date >= '${today}'
-  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""充值订单数"", ""充值请求订单数""]",2026-11-06,'
+  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""充值订单数"", ""充值请求订单数""]",2026-11-09,'
 12,猎鱼达人手游,人均充值额（ARPU）,arpu,复合,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,活跃用户人均充值金额（单位：元）,"with infull as (
   select sum(infull_amount) as infull_amt
   from byhls_dwd.dwd_trd_user_infull_log_hi
@@ -6698,7 +6698,7 @@ login as (
   where  log_date >= '${today}'
     and log_date < date_add('${today}', interval 1 day)
 )
-select infull_amt / login_cnt as arpu from infull, login","[""登录用户数"", ""充值金额""]",2026-11-06,'
+select infull_amt / login_cnt as arpu from infull, login","[""登录用户数"", ""充值金额""]",2026-11-09,'
 12,猎鱼达人手游,客单价（ARPPU）,arppu,复合,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,付费用户人均充值金额（单位：元）,"SELECT
   SUM(infull_amount) / COUNT(DISTINCT user_id) AS arppu
 FROM
@@ -6706,7 +6706,7 @@ FROM
 WHERE
   infull_state = 1
   AND log_date >= '${today}'
-  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""充值金额"", ""充值用户数""]",2026-11-06,'
+  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""充值金额"", ""充值用户数""]",2026-11-09,'
 12,猎鱼达人手游,充值转化率,recharge_conversion_rate,复合,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,当日登录用户中完成充值的比例,"WITH
   infull_users AS (
     SELECT
@@ -6731,7 +6731,7 @@ SELECT
   COUNT(DISTINCT c.user_id) / COUNT(DISTINCT l.user_id) AS recharge_conversion_rate
 FROM
   login_users l
-  LEFT JOIN infull_users c ON l.user_id = c.user_id","[""登录用户数"", ""充值用户数""]",2026-11-06,'
+  LEFT JOIN infull_users c ON l.user_id = c.user_id","[""登录用户数"", ""充值用户数""]",2026-11-09,'
 12,猎鱼达人手游,7日留存率,d7_retention_rate,复合,平台可用,byhls_dwd.dwd_usr_login_log_hi,${bizdate}当天注册用户中，于${bizdate}+7当天登录的去重用户数占${bizdate}当天注册去重用户数的比例。,"WITH reg_user AS (
     SELECT DISTINCT user_id
     FROM byhls_dwd.dwd_usr_reg_log_hi
@@ -6750,7 +6750,7 @@ SELECT
        NULL) AS d7_retention_rate
 FROM reg_user r
 LEFT JOIN d7_login_user l
-    ON r.user_id = l.user_id;","[""注册用户数"", ""登录用户数""]",2026-11-06,'
+    ON r.user_id = l.user_id;","[""注册用户数"", ""登录用户数""]",2026-11-09,'
 12,猎鱼达人手游,次日留存率,day1_retention_rate,复合,平台可用,byhls_dwd.dwd_usr_login_log_hi,${bizdate}当天注册用户中，于${bizdate}+1当天登录的去重用户数占${bizdate}当天注册去重用户数的比例,"WITH reg_user AS (
     SELECT DISTINCT user_id
     FROM byhls_dwd.dwd_usr_reg_log_hi
@@ -6769,7 +6769,7 @@ SELECT
        NULL) AS d1_retention_rate
 FROM reg_user r
 LEFT JOIN d1_login_user l
-    ON r.user_id = l.user_id;","[""注册用户数"", ""登录用户数""]",2026-11-06,'
+    ON r.user_id = l.user_id;","[""注册用户数"", ""登录用户数""]",2026-11-09,'
 12,猎鱼达人手游,渠道充值金额,recharge_amount_by_agent,派生,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,按渠道分组的充值金额（单位：元）,"SELECT
   agent_id,
   agent_name,
@@ -6782,7 +6782,7 @@ WHERE
   AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)
 GROUP BY
   agent_id,
-  agent_name","[""充值金额""]",2026-11-06,'
+  agent_name","[""充值金额""]",2026-11-09,'
 12,猎鱼达人手游,渠道注册用户数,reg_user_cnt_by_agent,派生,平台可用,byhls_dwd.dwd_usr_login_log_hi,按渠道分组的当日新注册数,"SELECT
   agent_id,
   agent_name,
@@ -6794,29 +6794,29 @@ WHERE
   AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)
 GROUP BY
   agent_id,
-  agent_name","[""登录用户数""]",2026-11-06,'
+  agent_name","[""登录用户数""]",2026-11-09,'
 12,猎鱼达人手游,红宝石消耗,diamond_consume,原子,平台可用,byhls_dwd.dwd_eco_diamond_log_hi,玩家消耗的钻石总量,"SELECT
   SUM(change_diamond)
 FROM
   byhls_dwd.dwd_eco_diamond_log_hi
-  AND diamond_flow_type = '宝石消耗'",[],2026-11-06,'
+  AND diamond_flow_type = '宝石消耗'",[],2026-11-09,'
 12,猎鱼达人手游,红宝石产出,diamond_produce,原子,平台可用,byhls_dwd.dwd_eco_diamond_log_hi,玩家获得的钻石总量,"SELECT
   SUM(change_diamond)
 FROM
   byhls_dwd.dwd_eco_diamond_log_hi
-  AND diamond_flow_type = '宝石产出'",[],2026-11-06,'
+  AND diamond_flow_type = '宝石产出'",[],2026-11-09,'
 12,猎鱼达人手游,活动道具消耗数量,prop_consume,原子,平台可用,byhls_dwd.dwd_eco_prop_log_hi,玩家通过活动消耗、使用的道具总数量,"SELECT
   SUM(change_prop_num)
 FROM
   byhls_dwd.dwd_eco_prop_log_hi
 WHERE
-  action_scene = '活动道具消耗'",[],2026-11-06,'
+  action_scene = '活动道具消耗'",[],2026-11-09,'
 12,猎鱼达人手游,活动道具产出数量,prop_produce,原子,平台可用,byhls_dwd.dwd_eco_prop_log_hi,玩家通过活动发放获得的道具总数量,"SELECT
   SUM(change_prop_num)
 FROM
   byhls_dwd.dwd_eco_prop_log_hi
 WHERE
-  action_scene = '活动道具发放'",[],2026-11-06,'
+  action_scene = '活动道具发放'",[],2026-11-09,'
 12,猎鱼达人手游,大厅金币产出,lobby_gold_produce,原子,平台可用,byhls_dwd.dwd_eco_money_log_hi,玩家在大厅获得的金币总量，包括活动充值金币与免费金币,"SELECT
   SUM(change_money)
 FROM
@@ -6826,46 +6826,46 @@ WHERE
   AND (
     action_scene = '活动充值金币'
     OR action_scene = ""活动免费金币""
-  )",[],2026-11-06,'
-12,猎鱼达人手游,Boss掉落道具数量,boss_drop_prop_cnt,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss时掉落道具的总数量,select sum(prop_num) from byhls_dwd.dwd_boss_kill_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,Boss赢分,boss_kill_win_gold,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss获得的金币总量,select sum(buyu_win_money) from byhls_dwd.dwd_gam_boss_kill_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,击杀Boss用户数,boss_kill_user_cnt,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss的去重用户数,select count(distinct user_id) from byhls_dwd.dwd_gam_boss_kill_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,击杀Boss次数,boss_kill_cnt,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss的总次数,select count(1) from byhls_dwd.dwd_gam_boss_kill_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,捕鱼数量,fish_catch_cnt,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家捕鱼的总数量,select sum(fish_num) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,发射子弹数,shot_num,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家发射子弹的总数,select sum(shot_num) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,赢分,catch_gold,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家捕鱼成功获得的金币总量,select sum(money_add) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,玩分,shot_cost,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家发射子弹消耗的金币总量。分指金币，玩分指发射子弹消耗的总金币,select sum(money_use) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,点券消费金额,boke_point_consume_amount,原子,平台可用,byhls_dwd.dwd_trd_boke_point_consume_log_hi,通过计费点消费的点券金额，单位：元,select sum(consume_boke_point) from byhls_dwd.dwd_trd_boke_point_consume_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,点券充值金额,boke_point_recharge_amount,原子,平台可用,byhls_dwd.dwd_trd_boke_point_infull_log_hi,通过计费点充值获得的点券金额，单位：元,select sum(add_boke_point) from byhls_dwd.dwd_trd_boke_point_infull_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,充值请求订单数,recharge_request_cnt,原子,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,所有充值请求的订单数（含失败）,select count(order_no) from byhls_dwd.dwd_trd_user_infull_log_hi,[],2026-11-06,'
+  )",[],2026-11-09,'
+12,猎鱼达人手游,Boss掉落道具数量,boss_drop_prop_cnt,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss时掉落道具的总数量,select sum(prop_num) from byhls_dwd.dwd_gam_boss_kill_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,Boss赢分,boss_kill_win_gold,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss获得的金币总量,select sum(buyu_win_money) from byhls_dwd.dwd_gam_boss_kill_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,击杀Boss用户数,boss_kill_user_cnt,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss的去重用户数,select count(distinct user_id) from byhls_dwd.dwd_gam_boss_kill_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,击杀Boss次数,boss_kill_cnt,原子,平台可用,byhls_dwd.dwd_gam_boss_kill_log_hi,击杀Boss的总次数,select count(1) from byhls_dwd.dwd_gam_boss_kill_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,捕鱼数量,fish_catch_cnt,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家捕鱼的总数量,select sum(fish_num) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,发射子弹数,shot_num,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家发射子弹的总数,select sum(shot_num) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,赢分,catch_gold,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家捕鱼成功获得的金币总量,select sum(money_add) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,玩分,shot_cost,原子,平台可用,byhls_dwd.dwd_gam_play_log_hi,玩家发射子弹消耗的金币总量。分指金币，玩分指发射子弹消耗的总金币,select sum(money_use) from byhls_dwd.dwd_gam_play_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,点券消费金额,boke_point_consume_amount,原子,平台可用,byhls_dwd.dwd_trd_boke_point_consume_log_hi,通过计费点消费的点券金额，单位：元,select sum(consume_boke_point) from byhls_dwd.dwd_trd_boke_point_consume_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,点券充值金额,boke_point_recharge_amount,原子,平台可用,byhls_dwd.dwd_trd_boke_point_infull_log_hi,通过计费点充值获得的点券金额，单位：元,select sum(add_boke_point) from byhls_dwd.dwd_trd_boke_point_infull_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,充值请求订单数,recharge_request_cnt,原子,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,所有充值请求的订单数（含失败）,select count(order_no) from byhls_dwd.dwd_trd_user_infull_log_hi,[],2026-11-09,'
 12,猎鱼达人手游,充值用户数,recharge_user_cnt,原子,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,至少完成一笔成功充值的去重用户数,"SELECT
   COUNT(DISTINCT user_id)
 FROM
   byhls_dwd.dwd_trd_user_infull_log_hi
 WHERE
-  infull_state = 1",[],2026-11-06,'
+  infull_state = 1",[],2026-11-09,'
 12,猎鱼达人手游,充值订单数,recharge_order_cnt,原子,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,充值状态为成功的订单总数,"SELECT
   COUNT(order_no)
 FROM
   byhls_dwd.dwd_trd_user_infull_log_hi
 WHERE
-  infull_state = 1",[],2026-11-06,'
+  infull_state = 1",[],2026-11-09,'
 12,猎鱼达人手游,充值金额,recharge_amount,原子,平台可用,byhls_dwd.dwd_trd_user_infull_log_hi,充值状态为成功的订单金额合计，单位：元,"SELECT
   SUM(infull_amount)
 FROM
   byhls_dwd.dwd_trd_user_infull_log_hi
 WHERE
-  infull_state = 1",[],2026-11-06,'
-12,猎鱼达人手游,登录次数,login_pv,原子,平台可用,byhls_dwd.dwd_usr_login_log_hi,发生登录行为的总次数（不去重）,select count(1) from byhls_dwd.dwd_usr_login_log_di,[],2026-11-06,'
-12,猎鱼达人手游,登录用户数,login_user_cnt,原子,平台可用,byhls_dwd.dwd_usr_login_log_hi,发生登录行为的去重用户数，不含时间限定,select count(distinct user_id) from byhls_dwd.dwd_usr_login_log_hi,[],2026-11-06,'
-12,猎鱼达人手游,注册用户数,register_user_cnt,原子,平台可用,byhls_dwd.dwd_usr_reg_log_hi,完成注册行为的去重用户数，不含时间限定,select count(distinct user_id) from byhls_dwd.dwd_usr_reg_log_hi,[],2026-11-06,'
+  infull_state = 1",[],2026-11-09,'
+12,猎鱼达人手游,登录次数,login_pv,原子,平台可用,byhls_dwd.dwd_usr_login_log_hi,发生登录行为的总次数（不去重）,select count(1) from byhls_dwd.dwd_usr_login_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,登录用户数,login_user_cnt,原子,平台可用,byhls_dwd.dwd_usr_login_log_hi,发生登录行为的去重用户数，不含时间限定,select count(distinct user_id) from byhls_dwd.dwd_usr_login_log_hi,[],2026-11-09,'
+12,猎鱼达人手游,注册用户数,register_user_cnt,原子,平台可用,byhls_dwd.dwd_usr_reg_log_hi,完成注册行为的去重用户数，不含时间限定,select count(distinct user_id) from byhls_dwd.dwd_usr_reg_log_hi,[],2026-11-09,'
 12,猎鱼达人手游,今日活跃用户数,dau,派生,平台可用,byhls_dwd.dwd_usr_login_log_hi,当日登录的去重用户数,"SELECT
   COUNT(DISTINCT user_id) AS dau
 FROM
   byhls_dwd.dwd_usr_login_log_hi
 WHERE
   log_date >= '${today}'
-  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""登录用户数""]",2026-11-06,'
+  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)","[""登录用户数""]",2026-11-09,'
 38,猎鱼达人-H5,运营日报注册用户数,report_registered_users,原子,平台可用,lydrh5_ads.ads_game_operation_report_di,读取lydrh5_ads.ads_game_operation_report_di.reg_user，以log_date为统计日，限定当前生产生成规则的platform_id=5、currency=rmb；治理项目为38，源项目码5不等于治理ID或DWD客户端平台码。日报生成以view_user_info为基表并左关联agent_user_info，按主档reg_date属于统计日计行；不同于DWD注册日志按user_id去重的注册用户数。同一统计日、源项目码和币种应仅有一行日报；多行时返回NULL并核查重复调度，缺报不补0。,"SELECT DATE(log_date) AS dt,platform_id,currency,
  CASE WHEN COUNT(*)=1 THEN MAX(reg_user) ELSE NULL END AS metric_value
 FROM lydrh5_ads.ads_game_operation_report_di
