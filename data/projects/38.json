@@ -34,7 +34,7 @@
     "fields": 0,
     "field_comment_gaps": 0,
     "tag_drafts": 0,
-    "available_metrics": 42,
+    "available_metrics": 44,
     "review_metrics": 0,
     "candidate_metrics": 0,
     "model_dwd": 0,
@@ -42,21 +42,24 @@
     "model_new": 0,
     "verified_registered_tables": 33,
     "data_file": "data/projects/38.json",
-    "initialization": "本批登记已核验；生产抽样发现明细与日报差异待核",
+    "initialization": "新增2项日报指标与口径完善已核验；历史数据差异待核",
     "priority": "已录入复核",
     "model_dws_reuse": 0,
-    "review_stage": "已执行单日生产抽样，发现明细与日报差异待核",
+    "review_stage": "新增2项日报指标、补表说明及9字段、知识V2已核验；峰值单日对账一致",
     "review_tags": 0,
     "review_only": false,
     "metric_drafts": 0,
     "upload_summary": {
       "tables": 33,
-      "metrics": 42,
+      "metrics": 44,
       "drafts": 0,
-      "verified": "2026-11-06",
-      "new_metadata": 7
+      "verified": "2026-11-09",
+      "new_metadata": 7,
+      "new_metrics_20261109": 2,
+      "field_notes_updated_20261109": 9,
+      "knowledge_latest_version": "V2"
     },
-    "scope_note": "本批新增7张元数据、2项指标；原有指标按原生导出逐项比对。另修正2项已有注册留存的错误来源表名，保留D+1/D+7含义。",
+    "scope_note": "本项目44项可用指标已通过2026-11-09原生导出回读；本次新增2项运营日报注册/活跃指标，原42项完整保留。日报表说明、9条字段和既有知识V2已完善。日报第七日为D+6、回访日为轴，DWD原七日指标为D+7、注册日为轴。在线峰值单日对账一致；历史注册、活跃快照及空留存仍有待核项。",
     "project_kind": "game",
     "project_kind_label": "游戏项目",
     "project_category": "游戏产品",
@@ -91,7 +94,7 @@
       "stat_date": "2026-11-04",
       "field_count": 32,
       "missing_comments": 0,
-      "governance_fields": 0,
+      "governance_fields": 9,
       "keys": [],
       "partition": "",
       "data_model": "",
@@ -102,13 +105,13 @@
       "schema_file": "data/schemas/lydrh5_ads.json",
       "domain": "公共域",
       "process": "数据分析汇总",
-      "definition": "猎鱼达人-H5｜游戏经营日报。log_date为统计日零点；platform_id是来源项目/平台维度，不等于治理项目ID38；金额按currency分开，不能混加币种。online_user为当日最高在线人数，多日最高取MAX，各平台各自峰值不可相加成同时在线峰值。total_*为累计值，month_active_user/year_active_user为期间活跃人数，不按日相加。设备数及设备留存字段注明缺少设备数据时回填对应用户值，不能据字段名认定真实设备口径。liucun系列的人群、偏移、日期轴和比例单位仍需调度SQL核对。",
-      "grain": "未采集到可靠唯一键，业务粒度待核对",
+      "definition": "猎鱼达人-H5｜运营日报，log_date为统计/回访日D。生成SQL固定platform_id=5、currency=rmb，5不等于治理ID38。基表view_user_info左关联agent_user_info；注册按主档reg_date归日计行，活跃按主档last_login_date归日计行，非DWD去重账号。主档及关联唯一性需验。liucun2/3/7/15/30分别为D-1/-2/-6/-14/-29注册人群在D登录的比例，0—1、四位小数；设备列复用账号计算，非设备去重。online_user取online_num_logs中game_id=249同log_date合计后的日MAX，不相加房间峰值。成功充值infull_state=1，金额为item_amt>0的infull_amount/100元；订单数按用户对成功order_no去重再合计。total_*及月/年活跃不按日相加。当前主档缺历史版本时不能直接复现历史日报。",
+      "grain": "生成SQL每业务日输出1行，固定项目码5、rmb；物理唯一约束和重复调度需核验",
       "time": "",
-      "risk": "需核对粒度、事件时间、码值与单位；现有注释不等于已验证业务口径。",
+      "risk": "日报主档计行与DWD去重口径分开；第七日D+6、回访日为轴；设备列为账号代理值；当前主档不能直接回算历史日活。",
       "confidence": "项目ID及采集目录已核对",
       "platform_status": "已入仓",
-      "platform_verified": "2026-11-06平台采集目录回读",
+      "platform_verified": "2026-11-09表说明、粒度与9字段保存回读",
       "in_connection_scope": true,
       "curated": false,
       "first_batch_activity": true,
@@ -118,7 +121,8 @@
       "review_evidence": [
         "本项目采集目录、原始字段与注释核对",
         "业务域、业务过程与说明保存后逐表回读"
-      ]
+      ],
+      "platform_description": "猎鱼达人-H5｜运营日报，log_date为统计/回访日D。生成SQL固定platform_id=5、currency=rmb，5不等于治理ID38。基表view_user_info左关联agent_user_info；注册按主档reg_date归日计行，活跃按主档last_login_date归日计行，非DWD去重账号。主档及关联唯一性需验。liucun2/3/7/15/30分别为D-1/-2/-6/-14/-29注册人群在D登录的比例，0—1、四位小数；设备列复用账号计算，非设备去重。online_user取online_num_logs中game_id=249同log_date合计后的日MAX，不相加房间峰值。成功充值infull_state=1，金额为item_amt>0的infull_amount/100元；订单数按用户对成功order_no去重再合计。total_*及月/年活跃不按日相加。当前主档缺历史版本时不能直接复现历史日报。"
     },
     {
       "project_id": "38",
@@ -6875,6 +6879,84 @@
     {
       "project_id": "38",
       "project_name": "猎鱼达人-H5",
+      "english": "report_registered_users",
+      "name": "运营日报注册用户数",
+      "alias": "H5日报注册人数、运营总表注册人数",
+      "definition": "读取lydrh5_ads.ads_game_operation_report_di.reg_user，以log_date为统计日，限定当前生产生成规则的platform_id=5、currency=rmb；治理项目为38，源项目码5不等于治理ID或DWD客户端平台码。日报生成以view_user_info为基表并左关联agent_user_info，按主档reg_date属于统计日计行；不同于DWD注册日志按user_id去重的注册用户数。同一统计日、源项目码和币种应仅有一行日报；多行时返回NULL并核查重复调度，缺报不补0。",
+      "type": "原子",
+      "table": "lydrh5_ads.ads_game_operation_report_di",
+      "domain": "公共域",
+      "process": "数据分析汇总",
+      "stat_field": "reg_user",
+      "calc_func": "CUSTOM",
+      "time": "log_date",
+      "dimensions": [
+        "platform_id",
+        "currency"
+      ],
+      "dependencies": [],
+      "sql": "SELECT DATE(log_date) AS dt,platform_id,currency,\n CASE WHEN COUNT(*)=1 THEN MAX(reg_user) ELSE NULL END AS metric_value\nFROM lydrh5_ads.ads_game_operation_report_di\nWHERE log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY)\n AND log_date<CURRENT_DATE() AND platform_id=5 AND currency='rmb'\nGROUP BY DATE(log_date),platform_id,currency;",
+      "example": "猎鱼达人-H5近7个完整自然日的运营日报注册用户数是多少？",
+      "unit": "人（日报原口径）",
+      "id": "LIVE38_report_registered_users",
+      "status": "平台可用",
+      "platform_status": "available",
+      "source_refs": [
+        "lydrh5_ads.ads_game_operation_report_di"
+      ],
+      "business_definition": "读取lydrh5_ads.ads_game_operation_report_di.reg_user，以log_date为统计日，限定当前生产生成规则的platform_id=5、currency=rmb；治理项目为38，源项目码5不等于治理ID或DWD客户端平台码。日报生成以view_user_info为基表并左关联agent_user_info，按主档reg_date属于统计日计行；不同于DWD注册日志按user_id去重的注册用户数。同一统计日、源项目码和币种应仅有一行日报；多行时返回NULL并核查重复调度，缺报不补0。",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "origin": "2026-11-09平台原生导出核验",
+      "comparison": "与既有DWD注册/登录/正向玩分人群分开；本条读取运营日报原口径，不将不同来源数值强行合并。",
+      "validation": "名称、定义、SQL、统计字段、时间与维度已通过原生导出核验；42项原记录完整保留。",
+      "model_ids": [],
+      "model_advice_note": "复用已有lydrh5_ads.ads_game_operation_report_di。上游主档、关联唯一性、历史快照和调度水位分别治理；本条不重复建议新增DWS，DWD事件分析口径独立保留。",
+      "created_at": "2026-11-09 10:30:44",
+      "updated_at": "2026-11-09 10:30:44"
+    },
+    {
+      "project_id": "38",
+      "project_name": "猎鱼达人-H5",
+      "english": "report_active_users",
+      "name": "运营日报活跃用户数",
+      "alias": "H5日报活跃人数、运营总表日活",
+      "definition": "读取lydrh5_ads.ads_game_operation_report_di.active_user，以log_date为统计日，限定当前生产生成规则的platform_id=5、currency=rmb；治理项目为38，源项目码5不等于治理ID或DWD客户端平台码。日报生成按view_user_info主档last_login_date属于统计日计行；不同于DWD登录去重账号或有正向玩分的游戏账号。最近登录日会持续更新，历史日报值不通过当前主档回算。同一统计日、源项目码和币种应仅有一行日报；多行时返回NULL并核查重复调度，缺报不补0。跨日相加是活跃人天，不是期间去重活跃人数。",
+      "type": "原子",
+      "table": "lydrh5_ads.ads_game_operation_report_di",
+      "domain": "公共域",
+      "process": "数据分析汇总",
+      "stat_field": "active_user",
+      "calc_func": "CUSTOM",
+      "time": "log_date",
+      "dimensions": [
+        "platform_id",
+        "currency"
+      ],
+      "dependencies": [],
+      "sql": "SELECT DATE(log_date) AS dt,platform_id,currency,\n CASE WHEN COUNT(*)=1 THEN MAX(active_user) ELSE NULL END AS metric_value\nFROM lydrh5_ads.ads_game_operation_report_di\nWHERE log_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY)\n AND log_date<CURRENT_DATE() AND platform_id=5 AND currency='rmb'\nGROUP BY DATE(log_date),platform_id,currency;",
+      "example": "猎鱼达人-H5近7个完整自然日的运营日报活跃用户数是多少？",
+      "unit": "人（日报原口径）",
+      "id": "LIVE38_report_active_users",
+      "status": "平台可用",
+      "platform_status": "available",
+      "source_refs": [
+        "lydrh5_ads.ads_game_operation_report_di"
+      ],
+      "business_definition": "读取lydrh5_ads.ads_game_operation_report_di.active_user，以log_date为统计日，限定当前生产生成规则的platform_id=5、currency=rmb；治理项目为38，源项目码5不等于治理ID或DWD客户端平台码。日报生成按view_user_info主档last_login_date属于统计日计行；不同于DWD登录去重账号或有正向玩分的游戏账号。最近登录日会持续更新，历史日报值不通过当前主档回算。同一统计日、源项目码和币种应仅有一行日报；多行时返回NULL并核查重复调度，缺报不补0。跨日相加是活跃人天，不是期间去重活跃人数。",
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "origin": "2026-11-09平台原生导出核验",
+      "comparison": "与既有DWD注册/登录/正向玩分人群分开；本条读取运营日报原口径，不将不同来源数值强行合并。",
+      "validation": "名称、定义、SQL、统计字段、时间与维度已通过原生导出核验；42项原记录完整保留。",
+      "model_ids": [],
+      "model_advice_note": "复用已有lydrh5_ads.ads_game_operation_report_di。上游主档、关联唯一性、历史快照和调度水位分别治理；本条不重复建议新增DWS，DWD事件分析口径独立保留。",
+      "created_at": "2026-11-09 10:31:17",
+      "updated_at": "2026-11-09 10:32:50"
+    },
+    {
+      "project_id": "38",
+      "project_name": "猎鱼达人-H5",
       "id": "LIVE38_report_peak_online_users",
       "english": "report_peak_online_users",
       "name": "最高在线人数",
@@ -6914,7 +6996,7 @@
       "data_validation_20261109": {
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
-        "note": "来源SQL已按对应口径进行只读抽样；日报范围、空留存列及分钟来源缺数另列，不等同完整数值对账。"
+        "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
       }
     },
     {
@@ -6966,7 +7048,7 @@
       "data_validation_20261109": {
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
-        "note": "来源SQL已按对应口径进行只读抽样；日报范围、空留存列及分钟来源缺数另列，不等同完整数值对账。"
+        "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
       }
     },
     {
@@ -7285,7 +7367,7 @@
       "unit": "",
       "status": "平台可用",
       "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
+      "comparison": "DWD注册明细口径以注册日为轴；次留D+1、现有七日指标D+7。用户提供的运营日报按回访日D观察D-1/D-6注册人群，主档行计数；两者不能直接互换或把空日报留存补0。",
       "validation": "已回读平台定义；原有指标未重新执行生产取数。",
       "model_ids": [],
       "project_id": "38",
@@ -7299,7 +7381,7 @@
       "data_validation_20261109": {
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
-        "note": "来源SQL已按对应口径进行只读抽样；日报范围、空留存列及分钟来源缺数另列，不等同完整数值对账。"
+        "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
       }
     },
     {
@@ -7328,7 +7410,7 @@
       "unit": "",
       "status": "平台可用",
       "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
+      "comparison": "DWD注册明细口径以注册日为轴；次留D+1、现有七日指标D+7。用户提供的运营日报按回访日D观察D-1/D-6注册人群，主档行计数；两者不能直接互换或把空日报留存补0。",
       "validation": "已回读平台定义；原有指标未重新执行生产取数。",
       "model_ids": [],
       "project_id": "38",
@@ -7342,7 +7424,7 @@
       "data_validation_20261109": {
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
-        "note": "来源SQL已按对应口径进行只读抽样；日报范围、空留存列及分钟来源缺数另列，不等同完整数值对账。"
+        "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
       }
     },
     {
@@ -8376,31 +8458,26 @@
   "models": [],
   "tasks": [
     {
-      "task": "元数据打标与字段核对",
-      "status": "本批已核验",
-      "detail": "本批新增数量及表名见表治理回执；沿用现有业务域和过程。"
+      "task": "指标补录",
+      "status": "本次新增2项，44项可用",
+      "detail": "运营日报注册用户数、运营日报活跃用户数；原42项定义、SQL和保存状态完整保留。"
     },
     {
-      "task": "指标去重与补录",
-      "status": "本批已核验",
-      "detail": "42项可用，0项合并后草稿；保留来源、人群、单位、时间和去重边界。"
+      "task": "元数据与知识",
+      "status": "表说明、9字段、知识V2已核验",
+      "detail": "明确固定业务项目码5、rmb、主档计行、D+6日期轴、设备代理值和源表峰值算法。"
     },
     {
-      "task": "项目知识沉淀",
-      "status": "已发布",
-      "detail": "已将核心使用口径发布到对应项目知识库，避免跨游戏混用。"
-    },
-    {
-      "task": "生产单日抽样对账",
-      "status": "存在差异待核",
-      "detail": "样本日2026-11-01。注册、登录明细与ADS日报不同；日报留存列为空，在线分钟候选来源无样本；原指标定义未擅自改写。"
+      "task": "生产单日对账",
+      "status": "峰值一致，其他差异待核",
+      "detail": "原始样本数值及查询结果保留本地。历史主档无法机械重算；注册水位与空留存单列。"
     }
   ],
   "review": {
     "project_id": "38",
     "project_name": "猎鱼达人-H5",
     "name": "猎鱼达人-H5",
-    "stage": "已执行单日生产抽样，发现明细与日报差异待核",
+    "stage": "新增2项日报指标、补表说明及9字段、知识V2已核验；峰值单日对账一致",
     "read_only": false,
     "platform_writes": 7,
     "date": "2026-11-09",
@@ -8410,7 +8487,7 @@
     "first_schema": 0,
     "first_missing": 7,
     "metric_sql_count": 0,
-    "stock_count": 42,
+    "stock_count": 44,
     "stock_overlap_count": 0,
     "dwd_count": 0,
     "new_dws_count": 0,
@@ -8500,9 +8577,9 @@
       }
     ],
     "blockers": [
-      "注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认",
-      "参考日报次留/七留列为空，不能作为留存通过对账的证据",
-      "分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0"
+      "样本日注册主档当前结果仍与存储日报不同，需核对当日输入快照、迟到水位和任务版本",
+      "日报日活使用持续变化的主档最近登录日期，历史对账需当日快照；不能用当前主档直接回算",
+      "日报留存样本列为空，且日期轴、人群与偏移不同，不能拿DWD留存值强行验收或补0"
     ],
     "collection": [
       {
@@ -8598,23 +8675,32 @@
       }
     ],
     "metric_ids": [],
-    "conclusion": "对2026-11-01注册、登录、游戏时长及成熟注册次留/七留做只读抽样；单日时长来源未见空值或负数；成熟人群留存公式可执行。待办：注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认；参考日报次留/七留列为空，不能作为留存通过对账的证据；分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0",
-    "next_action": "注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认；参考日报次留/七留列为空，不能作为留存通过对账的证据；分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0",
+    "conclusion": "本项目44项可用指标已通过2026-11-09原生导出回读；本次新增2项运营日报注册/活跃指标，原42项完整保留。日报表说明、9条字段和既有知识V2已完善。日报第七日为D+6、回访日为轴，DWD原七日指标为D+7、注册日为轴。在线峰值单日对账一致；历史注册、活跃快照及空留存仍有待核项。",
+    "next_action": "核对历史日报输入水位、任务版本及主档快照；保留DWD与日报各自定义，不以当前主档覆盖历史日报。",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。"
   },
   "followup_20261109": {
-    "status": "已执行单日生产抽样，发现明细与日报差异待核",
+    "status": "新增2项日报指标、补表说明及9字段、知识V2已核验；峰值单日对账一致",
     "completed": [
-      "对2026-11-01注册、登录、游戏时长及成熟注册次留/七留做只读抽样",
-      "单日时长来源未见空值或负数；成熟人群留存公式可执行"
+      "用户提供的生产SQL仅作为口径参考，未执行INSERT",
+      "新增运营日报注册用户数、运营日报活跃用户数，已核验44项可用及原42项记录完整保留",
+      "运营日报表说明、粒度与9条字段说明已保存回读",
+      "原核心口径知识更新至V2，明确日报第七日D+6与DWD D+7、账号代理设备列及支付转换边界",
+      "按真实online_num_logs源规则做单日峰值对账，与日报一致"
     ],
     "pending": [
-      "注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认",
-      "参考日报次留/七留列为空，不能作为留存通过对账的证据",
-      "分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0"
+      "样本日注册主档当前结果仍与存储日报不同，需核对当日输入快照、迟到水位和任务版本",
+      "日报日活使用持续变化的主档最近登录日期，历史对账需当日快照；不能用当前主档直接回算",
+      "日报留存样本列为空，且日期轴、人群与偏移不同，不能拿DWD留存值强行验收或补0"
     ],
-    "production_selects": 6,
+    "production_selects": 9,
     "metadata_shows": 1,
-    "data_validation_scope": "单日抽样，不代表全日期、全渠道或业务口径验收通过"
+    "data_validation_scope": "单日峰值一致；其他口径边界已明确，历史注册/活跃及空留存仍待验收。",
+    "new_metrics": 2,
+    "field_notes_updated": 9,
+    "table_description_updated": 1,
+    "knowledge_updated": 1,
+    "knowledge_version": "V2",
+    "metadata_show_view_denied": 1
   }
 }

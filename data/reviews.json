@@ -989,7 +989,7 @@
     "project_id": "4",
     "project_name": "捕鱼游戏王",
     "name": "捕鱼游戏王",
-    "stage": "9张原待处理表重新分流：2张REP待范围确认，7张非首批暂不纳入",
+    "stage": "原9表已分流；REP按用户要求保留缺口，7张非首批暂缓",
     "read_only": true,
     "platform_writes": 0,
     "tagged_tables": 0,
@@ -1003,13 +1003,13 @@
     "focus": "沿用既有审阅与独立录入凭据",
     "conclusion": "按2026-11-04调用快照及q7>0、q30>4重新核对原9张待处理表；现有连接仍为ads/dws/dwd/ods四库，REP尚未绑定。待办：byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围",
     "blockers": [
-      "byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围"
+      "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
     ],
     "coverage": [],
     "collection": [],
     "top_tables": [],
     "metric_ids": [],
-    "next_action": "byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围",
+    "next_action": "按用户决定保持原四库；REP两表保留，不重复请求关联。",
     "authority": "本轮仅审阅，不追加录入。",
     "date": "2026-11-09"
   },
@@ -4439,7 +4439,7 @@
     "project_id": "38",
     "project_name": "猎鱼达人-H5",
     "name": "猎鱼达人-H5",
-    "stage": "已执行单日生产抽样，发现明细与日报差异待核",
+    "stage": "新增2项日报指标、补表说明及9字段、知识V2已核验；峰值单日对账一致",
     "read_only": false,
     "platform_writes": 7,
     "date": "2026-11-09",
@@ -4449,7 +4449,7 @@
     "first_schema": 0,
     "first_missing": 7,
     "metric_sql_count": 0,
-    "stock_count": 42,
+    "stock_count": 44,
     "stock_overlap_count": 0,
     "dwd_count": 0,
     "new_dws_count": 0,
@@ -4539,9 +4539,9 @@
       }
     ],
     "blockers": [
-      "注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认",
-      "参考日报次留/七留列为空，不能作为留存通过对账的证据",
-      "分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0"
+      "样本日注册主档当前结果仍与存储日报不同，需核对当日输入快照、迟到水位和任务版本",
+      "日报日活使用持续变化的主档最近登录日期，历史对账需当日快照；不能用当前主档直接回算",
+      "日报留存样本列为空，且日期轴、人群与偏移不同，不能拿DWD留存值强行验收或补0"
     ],
     "collection": [
       {
@@ -4637,8 +4637,8 @@
       }
     ],
     "metric_ids": [],
-    "conclusion": "对2026-11-01注册、登录、游戏时长及成熟注册次留/七留做只读抽样；单日时长来源未见空值或负数；成熟人群留存公式可执行。待办：注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认；参考日报次留/七留列为空，不能作为留存通过对账的证据；分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0",
-    "next_action": "注册、登录明细去重与ADS日报结果存在差异，过滤范围和生成SQL待确认；参考日报次留/七留列为空，不能作为留存通过对账的证据；分钟在线候选来源该样本日无记录，不能将日报在线峰值改成0",
+    "conclusion": "本项目44项可用指标已通过2026-11-09原生导出回读；本次新增2项运营日报注册/活跃指标，原42项完整保留。日报表说明、9条字段和既有知识V2已完善。日报第七日为D+6、回访日为轴，DWD原七日指标为D+7、注册日为轴。在线峰值单日对账一致；历史注册、活跃快照及空留存仍有待核项。",
+    "next_action": "核对历史日报输入水位、任务版本及主档快照；保留DWD与日报各自定义，不以当前主档覆盖历史日报。",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。"
   },
   {

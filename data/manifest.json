@@ -1,5 +1,5 @@
 {
-  "revision": "c2ad7260d500",
+  "revision": "d3e3a3805b47",
   "stats": {
     "date": "2026-11-06",
     "activity_date": "2026-11-04",
@@ -17,7 +17,7 @@
     "first_with_schema": 1250,
     "projects_usage_with_schema": 29,
     "connections": 14,
-    "available_metrics": 766,
+    "available_metrics": 768,
     "review_metrics": 131,
     "models": 143,
     "model_dwd": 101,
@@ -53,10 +53,12 @@
     "platform_new_metrics_20261108": 6,
     "platform_existing_updates_20261108": 3,
     "platform_new_metadata_20261108": 0,
-    "platform_new_metrics_20261109": 0,
+    "platform_new_metrics_20261109": 2,
     "platform_new_metadata_20261109": 0,
-    "platform_field_notes_20261109": 3,
-    "platform_knowledge_20261109": 1
+    "platform_field_notes_20261109": 12,
+    "platform_knowledge_20261109": 1,
+    "platform_table_descriptions_20261109": 1,
+    "platform_knowledge_updates_20261109": 1
   },
   "projects": [
     {
@@ -345,7 +347,7 @@
       "model_new": 7,
       "verified_registered_tables": 82,
       "data_file": "data/projects/4.json",
-      "initialization": "原待处理9张已分流：2张REP待范围，7张非首批暂缓",
+      "initialization": "REP两表按用户要求保留缺口；7张非首批暂缓",
       "priority": "已录入复核",
       "model_dws_reuse": 0,
       "upload_summary": {
@@ -361,7 +363,7 @@
       },
       "scope_note": "原审阅91张中82张已登记，原9张未登记表按最新快照分流：2张REP报表达到首批门槛但未绑定，7张因7天0次或30天不超过4次暂不进入首批。当前104项资产和61项可用指标仍沿用原登记快照，未将盘点数量冒充本次补录。",
       "legacy_url": "https://jiyunfei150-del.github.io/project-table-activity/fish-king/",
-      "review_stage": "9张原待处理表重新分流：2张REP待范围确认，7张非首批暂不纳入",
+      "review_stage": "原9表已分流；REP按用户要求保留缺口，7张非首批暂缓",
       "review_tags": 0,
       "review_only": true,
       "project_kind": "game",
@@ -1102,7 +1104,7 @@
       "fields": 0,
       "field_comment_gaps": 0,
       "tag_drafts": 0,
-      "available_metrics": 42,
+      "available_metrics": 44,
       "review_metrics": 0,
       "candidate_metrics": 0,
       "model_dwd": 0,
@@ -1110,21 +1112,24 @@
       "model_new": 0,
       "verified_registered_tables": 33,
       "data_file": "data/projects/38.json",
-      "initialization": "本批登记已核验；生产抽样发现明细与日报差异待核",
+      "initialization": "新增2项日报指标与口径完善已核验；历史数据差异待核",
       "priority": "已录入复核",
       "model_dws_reuse": 0,
-      "review_stage": "已执行单日生产抽样，发现明细与日报差异待核",
+      "review_stage": "新增2项日报指标、补表说明及9字段、知识V2已核验；峰值单日对账一致",
       "review_tags": 0,
       "review_only": false,
       "metric_drafts": 0,
       "upload_summary": {
         "tables": 33,
-        "metrics": 42,
+        "metrics": 44,
         "drafts": 0,
-        "verified": "2026-11-06",
-        "new_metadata": 7
+        "verified": "2026-11-09",
+        "new_metadata": 7,
+        "new_metrics_20261109": 2,
+        "field_notes_updated_20261109": 9,
+        "knowledge_latest_version": "V2"
       },
-      "scope_note": "本批新增7张元数据、2项指标；原有指标按原生导出逐项比对。另修正2项已有注册留存的错误来源表名，保留D+1/D+7含义。",
+      "scope_note": "本项目44项可用指标已通过2026-11-09原生导出回读；本次新增2项运营日报注册/活跃指标，原42项完整保留。日报表说明、9条字段和既有知识V2已完善。日报第七日为D+6、回访日为轴，DWD原七日指标为D+7、注册日为轴。在线峰值单日对账一致；历史注册、活跃快照及空留存仍有待核项。",
       "project_kind": "game",
       "project_kind_label": "游戏项目",
       "project_category": "游戏产品",
@@ -5524,14 +5529,14 @@
   "notes": [
     "项目清单来自中央调用元数据；游戏/非游戏为审阅分类，待确认项目另列。游戏项目优先，同类型按本期用表记录从多到少排列。",
     "调用快照2026-11-04；高活跃≥100、中10–99、低1–9、冷=30天0次。首批要求7天>0且30天>4，活性未知和已删除表不入首批。",
-    "地方棋牌采用2026-11-08平台回读，猎鱼达人3D、手游、H5采用2026-11-06回读；其他项目仍保留2026-11-05原快照。全局指标数是分项目登记证据的汇总，不是此刻全平台完整实时盘点。",
+    "地方棋牌指标采用2026-11-08回读、H5指标采用2026-11-09回读，3D和手游采用2026-11-06回读；捕鱼游戏王原补录证据为2026-11-04，其余项目保留原快照。全局指标数为分项目混合日期证据汇总。",
     "本批3D新增42张元数据、2项指标；手游新增9张、1项指标；H5新增7张、2项指标并修正2项已有留存。每个项目各发布1篇知识；地方棋牌另发布1篇设备留存知识。",
     "3D与手游未绑定AN库及采集后仍缺的表保留缺口，不擅自以同名或近似后缀替换。波克棋牌新建五库元数据连接后继续办理。",
     "其他未授权项目只整理，不录入；不新增业务域或业务过程，不执行建表或调度。DWD优先，每项目最多建议新增两张DWS。",
     "字段/SQL静态核对和平台回读不等于生产数值对账。H5字段约束未在页面提供的项目保留未知，不伪造主键或非空约束。",
     "2026-11-08波克棋牌：问数已开启、允许申请关闭；重新登录后，指标、数仓和知识库项目列表仍无波克棋牌。项目范围/列表同步原因待核实。9项候选及1篇知识稿仍未提交。其他项目回读日期维持各自原快照。",
     "地方棋牌当前130项资产：98项可用、32项合并草稿。本批6项新增、3项已有指标完善覆盖11条标准定义；未单独登记的37条英文编码中，12条通过核心指标复用，25条仍待核对。知识已发布V2。",
-    "2026-11-09六项目收尾：地方棋牌新增3条字段说明和1篇已发布知识，未新增指标。H5已做单日只读抽样并发现差异；3D/手游精确来源缺口、波克项目入口仍待解决。捕鱼游戏王原9张未登记表中2张REP待范围、7张按首批规则暂缓。生产样本数值仅留在本地回执。"
+    "2026-11-09六项目：H5新增2项日报指标，完善1张表说明、9字段和知识V2，峰值单日一致；地方棋牌补3字段及1篇已发布知识。3D/手游源缺口、波克入口保留；捕鱼游戏王REP两表按用户决定不扩范围，另7表非首批。生产样本数值仅存本地回执。"
   ],
-  "updated_at": "2026-11-09T10:12:08.480309"
+  "updated_at": "2026-11-09T10:37:42.478930"
 }

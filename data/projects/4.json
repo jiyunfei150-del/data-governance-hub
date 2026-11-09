@@ -42,7 +42,7 @@
     "model_new": 7,
     "verified_registered_tables": 82,
     "data_file": "data/projects/4.json",
-    "initialization": "原待处理9张已分流：2张REP待范围，7张非首批暂缓",
+    "initialization": "REP两表按用户要求保留缺口；7张非首批暂缓",
     "priority": "已录入复核",
     "model_dws_reuse": 0,
     "upload_summary": {
@@ -58,7 +58,7 @@
     },
     "scope_note": "原审阅91张中82张已登记，原9张未登记表按最新快照分流：2张REP报表达到首批门槛但未绑定，7张因7天0次或30天不超过4次暂不进入首批。当前104项资产和61项可用指标仍沿用原登记快照，未将盘点数量冒充本次补录。",
     "legacy_url": "https://jiyunfei150-del.github.io/project-table-activity/fish-king/",
-    "review_stage": "9张原待处理表重新分流：2张REP待范围确认，7张非首批暂不纳入",
+    "review_stage": "原9表已分流；REP按用户要求保留缺口，7张非首批暂缓",
     "review_tags": 0,
     "review_only": true,
     "project_kind": "game",
@@ -62171,7 +62171,7 @@
     "project_id": "4",
     "project_name": "捕鱼游戏王",
     "name": "捕鱼游戏王",
-    "stage": "9张原待处理表重新分流：2张REP待范围确认，7张非首批暂不纳入",
+    "stage": "原9表已分流；REP按用户要求保留缺口，7张非首批暂缓",
     "read_only": true,
     "platform_writes": 0,
     "tagged_tables": 0,
@@ -62185,26 +62185,27 @@
     "focus": "沿用既有审阅与独立录入凭据",
     "conclusion": "按2026-11-04调用快照及q7>0、q30>4重新核对原9张待处理表；现有连接仍为ads/dws/dwd/ods四库，REP尚未绑定。待办：byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围",
     "blockers": [
-      "byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围"
+      "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
     ],
     "coverage": [],
     "collection": [],
     "top_tables": [],
     "metric_ids": [],
-    "next_action": "byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围",
+    "next_action": "按用户决定保持原四库；REP两表保留，不重复请求关联。",
     "authority": "本轮仅审阅，不追加录入。",
     "date": "2026-11-09"
   },
   "followup_20261109": {
-    "status": "9张原待处理表重新分流：2张REP待范围确认，7张非首批暂不纳入",
+    "status": "原9表已分流；REP按用户要求保留缺口，7张非首批暂缓",
     "completed": [
       "按2026-11-04调用快照及q7>0、q30>4重新核对原9张待处理表",
       "现有连接仍为ads/dws/dwd/ods四库，REP尚未绑定"
     ],
     "pending": [
-      "byqph5_rep.buyu_total_report_normal、byqph5_rep.keep_report_normal两张达标报表需明确只读连接范围"
+      "byqph5_rep下2张达标报表按用户决定暂不扩展连接范围，保留缺口"
     ],
     "first_batch_pending_tables": 2,
-    "non_first_batch_deferred_tables": 7
+    "non_first_batch_deferred_tables": 7,
+    "connection_scope_decision": "用户2026-11-09明确暂不加入byqph5_rep，已取消未提交表单，保持原四库"
   }
 }
