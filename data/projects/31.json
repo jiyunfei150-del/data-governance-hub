@@ -56,7 +56,7 @@
       "verified": "2026-11-09",
       "new_metadata": 42,
       "metadata_status_restored": 2,
-      "metric_verified": "2026-11-06",
+      "metric_verified": "2026-11-09",
       "table_verified": "2026-11-09"
     },
     "scope_note": "本次修复2张原已治理但被暂不纳入状态隐藏的正式表；标签与说明沿用原值。当前已打标88张，原首批75张中已覆盖73张，其余2张位于AN库，按用户决定保留缺口。指标数沿用原生导出快照，未以本次元数据状态修复冒充新增指标。",
@@ -71,7 +71,8 @@
       "lydr3d_ods.fish_money_log"
     ],
     "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
-    "followup_date": "2026-11-09"
+    "followup_date": "2026-11-09",
+    "metric_overlap_review_url": "新增指标重合审阅.html"
   },
   "tables": [
     {
@@ -33614,18 +33615,32 @@
       ],
       "sql": "WITH login_users AS (\n  SELECT DISTINCT DATE(log_date) AS dt, user_id\n  FROM lydr3d_dwd.dwd_usr_login_log_hi\n  WHERE log_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n    AND log_date < CURRENT_DATE()\n), paid_users AS (\n  SELECT DISTINCT DATE(success_date) AS dt, user_id\n  FROM lydr3d_ods.txstar_pook_infull\n  WHERE infull_state = 1\n    AND success_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n    AND success_date < CURRENT_DATE()\n)\nSELECT l.dt,\n       COUNT(DISTINCT l.user_id) AS login_users,\n       COUNT(DISTINCT p.user_id) AS login_paid_users,\n       COUNT(DISTINCT p.user_id) * 1.0 / NULLIF(COUNT(DISTINCT l.user_id), 0) AS metric_value\nFROM login_users l\nLEFT JOIN paid_users p ON p.dt = l.dt AND p.user_id = l.user_id\nGROUP BY l.dt;",
       "duplicate_check": "34项现有指标中未见登录账号成功支付率。充值人数仅作为业务依赖，本指标以明确成功状态和成功日的订单SQL界定分子，未改原充值人数定义。",
-      "validation": "SELECT语法、可用原子依赖及已采集字段核对通过",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "status": "平台可用",
       "example": "猎鱼达人3D近7个完整自然日的登录账号成功支付率是多少？",
       "platform_status": "available",
-      "origin": "2026-11-06平台原生导出核验",
-      "platform_verified": "2026-11-06",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
       "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
       "model_ids": [
         "R31_DWD_login",
         "R31_DWS_login"
+      ],
+      "source": "dwd_usr_login_log_hi",
+      "creator": "吉云飞",
+      "created_at": "2026-11-06 19:10:53",
+      "updated_at": "2026-11-06 19:15:24",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "agent_id",
+          "column_id": 36426,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
       ]
     },
     {
@@ -33661,16 +33676,30 @@
       ],
       "sql": "SELECT DATE(log_date) AS dt,\n       SUM(game_time) AS total_game_seconds,\n       COUNT(DISTINCT user_id) AS game_users,\n       SUM(game_time) * 1.0 / NULLIF(COUNT(DISTINCT user_id), 0) AS metric_value\nFROM lydr3d_dwd.dwd_gam_play_log_hi\nWHERE log_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_date < CURRENT_DATE()\nGROUP BY DATE(log_date);",
       "duplicate_check": "现有游戏时长和游戏人数为基础口径，当前项目未见人均游戏时长；复用原子指标，使用同一明细范围计算。",
-      "validation": "SELECT语法、可用原子依赖及已采集字段核对通过",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "status": "平台可用",
       "example": "猎鱼达人3D近7个完整自然日的人均游戏时长是多少？",
       "platform_status": "available",
-      "origin": "2026-11-06平台原生导出核验",
-      "platform_verified": "2026-11-06",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
       "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "model_ids": []
+      "model_ids": [],
+      "source": "dwd_gam_play_log_hi",
+      "creator": "吉云飞",
+      "created_at": "2026-11-06 19:09:17",
+      "updated_at": "2026-11-06 19:09:17",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "agent_id",
+          "column_id": 37049,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "id": "LIVE31_shuazi_cnt",
@@ -33694,17 +33723,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.lydr3D_lyr_history_daily_algorithm_abnormal_users_mac"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-07-17 16:17:29",
+      "updated_at": "2026-07-27 11:45:31",
+      "business_definition": "游戏中每日标记的异常用户名单",
+      "platform_time_field": "day",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_gold_charge_cnt",
@@ -33719,7 +33754,7 @@
       "alias": "金币充值人数",
       "definition": "消费点券购买金币的去重人数，除了购买能量礼包之外的都是金币， 礼包装备都和金币有绑定关系，捆绑销售",
       "example": "",
-      "sql": "SELECT\n  count(distinct user_id)\nFROM\n  lydr3d_dwd.dwd_trd_point_log_hi\nWHERE value_type='金币付费'",
+      "sql": "SELECT\r\n  count(distinct user_id)\r\nFROM\r\n  lydr3d_dwd.dwd_trd_point_log_hi\r\nWHERE value_type='金币付费'",
       "dependencies": [],
       "calc_func": "COUNT_DISTINCT",
       "stat_field": "user_id",
@@ -33728,9 +33763,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [
         "R31_DWD_asset"
       ],
@@ -33739,8 +33774,14 @@
         "lydr3d_dwd.dwd_trd_point_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-07-02 18:54:59",
+      "updated_at": "2026-07-16 11:21:58",
+      "business_definition": "消费点券购买金币的去重人数，除了购买能量礼包之外的都是金币， 礼包装备都和金币有绑定关系，捆绑销售",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_total_infull_amt",
@@ -33764,17 +33805,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dim_user_info_d"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-07-01 10:43:47",
+      "updated_at": "2026-07-01 13:20:50",
+      "business_definition": "单位元",
+      "platform_time_field": "reg_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_rate_grant_gold",
@@ -33798,17 +33845,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_eco_money_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-06-30 18:58:22",
+      "updated_at": "2026-06-30 18:58:22",
+      "business_definition": "【系统发】系统把抽水池或相关模块里的金币，再通过活动/玩法发放给用户",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_gold_rate_append",
@@ -33832,17 +33885,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-06-29 16:17:47",
+      "updated_at": "2026-06-30 17:43:30",
+      "business_definition": "【系统收】玩家游戏过程中，被系统从玩法里抽走、沉淀进抽水池的金币，区别于从抽水相关模块发放给用户的金币来自（fish_money_log.add_money）。",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_game_time",
@@ -33866,17 +33925,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-06-29 16:16:19",
+      "updated_at": "2026-06-29 16:16:19",
+      "business_definition": "玩家参与捕鱼的游戏时长，单位秒，可转分钟/小时",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_win_gold_user_cnt",
@@ -33903,17 +33968,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-06-25 12:24:13",
+      "updated_at": "2026-06-29 16:13:40",
+      "business_definition": "捕鱼游戏中，赢分大于玩分的用户",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_game_penetration_rate",
@@ -33928,7 +33999,7 @@
       "alias": "游戏用户渗透率",
       "definition": "游戏用户占活跃用户的占比",
       "example": "",
-      "sql": "with game as (\n  select count(distinct user_id) as game_cnt\n  from lydr3d_dwd.dwd_gam_play_log_hi\n  where log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n),\nlogin as (\n  select count(distinct user_id) as login_cnt\n  from lydr3d_dwd.dwd_usr_client_log_di\n  where action_name = 'app_login'\n    and log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n)\nselect game_cnt / login_cnt as game_penetration_rate from game, login",
+      "sql": "with game as (\r\n  select count(distinct user_id) as game_cnt\r\n  from lydr3d_dwd.dwd_gam_play_log_hi\r\n  where log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n),\r\nlogin as (\r\n  select count(distinct user_id) as login_cnt\r\n  from lydr3d_dwd.dwd_usr_client_log_di\r\n  where action_name = 'app_login'\r\n    and log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n)\r\nselect game_cnt / login_cnt as game_penetration_rate from game, login",
       "dependencies": [
         "活跃用户数",
         "游戏用户数"
@@ -33940,9 +34011,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
@@ -33950,8 +34021,14 @@
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-06-03 17:53:07",
+      "updated_at": "2026-06-29 16:18:37",
+      "business_definition": "游戏用户占活跃用户的占比",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_lose_gold_user_cnt",
@@ -33966,7 +34043,7 @@
       "alias": "输分玩家",
       "definition": "某个时间窗口，参加捕鱼游戏。金币净回收为负数的用户。不包括服务器发放的金币",
       "example": "",
-      "sql": "SELECT COUNT(*)\nFROM (\n    SELECT user_id\n    FROM lydr3d_dwd.dwd_gam_play_log_hi\n    WHERE log_date >= '${today}'\n      AND log_date < date_add('${today}', interval 1 day)\n    GROUP BY user_id\n    HAVING SUM(total_win) - SUM(total_play) < 0\n) t",
+      "sql": "SELECT COUNT(*)\r\nFROM (\r\n    SELECT user_id\r\n    FROM lydr3d_dwd.dwd_gam_play_log_hi\r\n    WHERE log_date >= '${today}'\r\n      AND log_date < date_add('${today}', interval 1 day)\r\n    GROUP BY user_id\r\n    HAVING SUM(total_win) - SUM(total_play) < 0\r\n) t",
       "dependencies": [],
       "calc_func": null,
       "stat_field": null,
@@ -33975,17 +34052,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-06-03 15:14:09",
+      "updated_at": "2026-06-29 16:14:10",
+      "business_definition": "某个时间窗口，参加捕鱼游戏。金币净回收为负数的用户。不包括服务器发放的金币",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_broke_user_cnt",
@@ -34000,7 +34083,7 @@
       "alias": "破产用户数",
       "definition": "用户金币归零即为破产",
       "example": "破产率，破产用户数",
-      "sql": "SELECT\n    count(distinct user_id)\nFROM lydr3d_dwd.dwd_usr_client_log_di\nWHERE action_name = 'bankrupt'",
+      "sql": "SELECT\r\n    count(distinct user_id)\r\nFROM lydr3d_dwd.dwd_usr_client_log_di\r\nWHERE action_name = 'bankrupt'",
       "dependencies": [],
       "calc_func": "count(distinct)",
       "stat_field": "user_id",
@@ -34009,17 +34092,31 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "何浩文",
+      "created_at": "2026-06-02 16:35:30",
+      "updated_at": "2026-09-01 16:52:19",
+      "business_definition": "用户金币归零即为破产",
+      "platform_time_field": "log_date",
+      "platform_dimensions": [
+        {
+          "name": "agent_name",
+          "column_id": 481,
+          "dimension_name": "渠道名称",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "id": "LIVE31_net_gold_recovery",
@@ -34046,17 +34143,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-06-01 17:33:44",
+      "updated_at": "2026-06-29 16:19:48",
+      "business_definition": "金币净回收 = 玩分(shot_cost) - 赢分(gold_catch_fish)，该指标衡量平台在一定周期内从捕鱼游戏中实际获得的净收益，反映游戏的盈利能力。数值越高，表示平台从该游戏中回收的金币越多；若为负值，则表示平台在该周期内处于亏损状态（派发奖励高于玩家消耗）。常用于评估游戏玩法配置合理性及平台整体盈亏健康度。如果净回收为负数就是输分用户，如果净回收为正就是赢分用户",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_fish_hit_rate",
@@ -34071,7 +34174,7 @@
       "alias": "",
       "definition": "",
       "example": "",
-      "sql": "with fish as (\n  select sum(count_num) as fish_cnt\n  from lydr3d_dwd.dwd_gam_shot_log_di\n  where action_name = '捕鱼数量统计'\n    and log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n),\nshot as (\n  select sum(count_num) as shot_cnt\n  from lydr3d_dwd.dwd_gam_shot_log_di\n  where action_name = '捕鱼子弹统计'\n    and log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n)\nselect fish_cnt / shot_cnt as fish_hit_rate from fish, shot",
+      "sql": "with fish as (\r\n  select sum(count_num) as fish_cnt\r\n  from lydr3d_dwd.dwd_gam_shot_log_di\r\n  where action_name = '捕鱼数量统计'\r\n    and log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n),\r\nshot as (\r\n  select sum(count_num) as shot_cnt\r\n  from lydr3d_dwd.dwd_gam_shot_log_di\r\n  where action_name = '捕鱼子弹统计'\r\n    and log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n)\r\nselect fish_cnt / shot_cnt as fish_hit_rate from fish, shot",
       "dependencies": [
         "发炮次数",
         "捕鱼数量"
@@ -34083,17 +34186,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_shot_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 14:20:24",
+      "updated_at": "2026-05-14 14:20:24",
+      "business_definition": "",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_avg_shot_cnt",
@@ -34108,7 +34217,7 @@
       "alias": "",
       "definition": "游戏用户人均发炮数",
       "example": "",
-      "sql": "with shot as (\n  select sum(count_num) as total_shot\n  from lydr3d_dwd.dwd_gam_shot_log_di\n  where action_name = '捕鱼子弹统计'\n    and log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n),\ngame_users as (\n  select count(distinct user_id) as game_cnt\n  from lydr3d_dwd.dwd_gam_play_log_di\n  where log_date >= '${today}'\n    and log_date < date_add('${today}', interval 1 day)\n)\nselect total_shot / game_cnt as avg_shot_cnt from shot, game_users",
+      "sql": "with shot as (\r\n  select sum(count_num) as total_shot\r\n  from lydr3d_dwd.dwd_gam_shot_log_di\r\n  where action_name = '捕鱼子弹统计'\r\n    and log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n),\r\ngame_users as (\r\n  select count(distinct user_id) as game_cnt\r\n  from lydr3d_dwd.dwd_gam_play_log_di\r\n  where log_date >= '${today}'\r\n    and log_date < date_add('${today}', interval 1 day)\r\n)\r\nselect total_shot / game_cnt as avg_shot_cnt from shot, game_users",
       "dependencies": [
         "发炮次数"
       ],
@@ -34119,9 +34228,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
@@ -34129,8 +34238,14 @@
         "lydr3d_dwd.dwd_gam_play_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 12:04:58",
+      "updated_at": "2026-06-30 12:08:56",
+      "business_definition": "游戏用户人均发炮数",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_charge_amount_by_agent",
@@ -34145,7 +34260,7 @@
       "alias": "",
       "definition": "按渠道分组的充值金额（单位：元）",
       "example": "",
-      "sql": "select agent_id, agent_name,\n  sum(infull_amount)  as charge_amount_by_agent\nfrom lydr3d_dwd.dwd_trd_infull_log_hi\nwhere infull_date >= '${today}'\n  and infull_date < date_add('${today}', interval 1 day)\ngroup by agent_id, agent_name",
+      "sql": "select agent_id, agent_name,\r\n  sum(infull_amount)  as charge_amount_by_agent\r\nfrom lydr3d_dwd.dwd_trd_infull_log_hi\r\nwhere infull_date >= '${today}'\r\n  and infull_date < date_add('${today}', interval 1 day)\r\ngroup by agent_id, agent_name",
       "dependencies": [
         "充值金额"
       ],
@@ -34156,17 +34271,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_trd_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 12:00:40",
+      "updated_at": "2026-06-30 12:08:56",
+      "business_definition": "按渠道分组的充值金额（单位：元）",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_prop_consume_boke_point",
@@ -34181,7 +34302,7 @@
       "alias": "",
       "definition": "不同计费大类、计费点的点券消费情况",
       "example": "充值金额存在两个固定层级：\n1. 充值金额_按大类：按充值大类聚合；\n2. 充值金额_按计费点：按计费点/礼包明细聚合。\n\n当用户同时问“大类和小类”时，应优先使用明细指标，并同时输出大类字段和计费点字段。\n当用户问“某个大类下面的小类”时，先用大类字段过滤，再按计费点字段聚合。\n不要把这两个指标理解成两个互斥指标，它们是同一充值金额的上下层级口径。",
-      "sql": "select  value_class,prop_name,sum(add_boke_point) \nfrom lydr3d_dwd.dwd_trd_point_log_hi\nwhere log_date >= '${today}'\n  and log_date < date_add('${today}'\n  group by value_class,prop_name",
+      "sql": "select  value_class,prop_name,sum(add_boke_point) \r\nfrom lydr3d_dwd.dwd_trd_point_log_hi\r\nwhere log_date >= '${today}'\r\n  and log_date < date_add('${today}'\r\n  group by value_class,prop_name",
       "dependencies": [
         "点券消费金额"
       ],
@@ -34192,9 +34313,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [
         "R31_DWD_asset"
       ],
@@ -34203,8 +34324,14 @@
         "lydr3d_dwd.dwd_trd_point_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 12:00:10",
+      "updated_at": "2026-07-01 12:12:46",
+      "business_definition": "不同计费大类、计费点的点券消费情况",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_ARPU",
@@ -34230,9 +34357,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
@@ -34240,8 +34367,14 @@
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:58:55",
+      "updated_at": "2026-06-26 19:08:04",
+      "business_definition": "活跃用户人均充值金额（单位：元）",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_ARPPU",
@@ -34256,7 +34389,7 @@
       "alias": "arppu",
       "definition": "付费用户人均充值金额（单位：元）",
       "example": "",
-      "sql": "select sum(infull_amount) / count(distinct user_id) as arppu\nfrom lydr3d_dwd.dwd_trd_infull_log_hi\nwhere  infull_date >= '${today}'\n  and infull_date < date_add('${today}', interval 1 day)",
+      "sql": "select sum(infull_amount) / count(distinct user_id) as arppu\r\nfrom lydr3d_dwd.dwd_trd_infull_log_hi\r\nwhere  infull_date >= '${today}'\r\n  and infull_date < date_add('${today}', interval 1 day)",
       "dependencies": [
         "充值金额"
       ],
@@ -34267,17 +34400,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_trd_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:27:48",
+      "updated_at": "2026-06-30 12:08:56",
+      "business_definition": "付费用户人均充值金额（单位：元）",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_reg_user_cnt_by_agent",
@@ -34303,17 +34442,23 @@
       "risk": "where action_name = 'reg_account'",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:26:32",
+      "updated_at": "2026-06-30 12:08:56",
+      "business_definition": "",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_day7_retention_rate",
@@ -34339,17 +34484,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:25:47",
+      "updated_at": "2026-06-30 12:08:56",
+      "business_definition": "N日注册用户7天后仍登录的比例",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_fish_catch_cnt",
@@ -34373,17 +34524,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_shot_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:06:49",
+      "updated_at": "2026-05-14 11:06:49",
+      "business_definition": "玩家捕鱼的总数量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_shot_cnt",
@@ -34407,17 +34564,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_shot_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:06:14",
+      "updated_at": "2026-05-14 11:06:14",
+      "business_definition": "玩家发射子弹的总次数",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_catch_gold",
@@ -34441,17 +34604,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:02:02",
+      "updated_at": "2026-06-29 16:11:49",
+      "business_definition": "玩家捕鱼成功获得的金币总量，也是指的服务器发放的金币，不包含接口金币（充值获得、活动领取等等）。",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_shot_cost",
@@ -34475,17 +34644,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:01:20",
+      "updated_at": "2026-06-29 16:12:04",
+      "business_definition": "玩家发射子弹消耗的金币总量。分指金币，玩分指发射子弹消耗的总金币",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_game_user_cnt",
@@ -34509,17 +34684,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 11:00:33",
+      "updated_at": "2026-07-21 12:21:08",
+      "business_definition": "进行了捕鱼游戏的去重用户数，业务定义进行了游戏才是真实用户",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_boke_point_consume_amount",
@@ -34543,9 +34724,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [
         "R31_DWD_asset"
       ],
@@ -34554,8 +34735,14 @@
         "lydr3d_dwd.dwd_trd_point_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:59:27",
+      "updated_at": "2026-06-30 12:11:05",
+      "business_definition": "通过计费点消费的点券金额（取绝对值），单位：元",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_energy_charge_amount",
@@ -34570,7 +34757,7 @@
       "alias": "消费点券购买能量、能量付费金额",
       "definition": "用点券购买特定的能量礼包付费，单位：元",
       "example": "",
-      "sql": "SELECT\n  SUM(add_boke_point)\nFROM\n  lydr3d_dwd.dwd_trd_point_log_hi\nWHERE value_type='能量付费'",
+      "sql": "SELECT\r\n  SUM(add_boke_point)\r\nFROM\r\n  lydr3d_dwd.dwd_trd_point_log_hi\r\nWHERE value_type='能量付费'",
       "dependencies": [],
       "calc_func": "SUM",
       "stat_field": "add_boke_point",
@@ -34579,9 +34766,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [
         "R31_DWD_asset"
       ],
@@ -34590,8 +34777,14 @@
         "lydr3d_dwd.dwd_trd_point_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:58:42",
+      "updated_at": "2026-06-30 10:04:36",
+      "business_definition": "用点券购买特定的能量礼包付费，单位：元",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_gold_charge_amount",
@@ -34606,7 +34799,7 @@
       "alias": "金币充值",
       "definition": "消费点券购买金币，除了购买能量礼包之外的都是金币， 礼包装备都和金币有绑定关系，捆绑销售，单位：元",
       "example": "",
-      "sql": "SELECT\n  SUM(add_boke_point)\nFROM\n  lydr3d_dwd.dwd_trd_point_log_hi\nWHERE value_type='金币付费'",
+      "sql": "SELECT\r\n  SUM(add_boke_point)\r\nFROM\r\n  lydr3d_dwd.dwd_trd_point_log_hi\r\nWHERE value_type='金币付费'",
       "dependencies": [],
       "calc_func": "SUM",
       "stat_field": "add_boke_point",
@@ -34615,9 +34808,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [
         "R31_DWD_asset"
       ],
@@ -34626,8 +34819,14 @@
         "lydr3d_dwd.dwd_trd_point_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:57:44",
+      "updated_at": "2026-07-16 11:19:50",
+      "business_definition": "消费点券购买金币，除了购买能量礼包之外的都是金币， 礼包装备都和金币有绑定关系，捆绑销售，单位：元",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_day1_retention_rate",
@@ -34653,17 +34852,23 @@
       "risk": "where action_name = 'reg_account'",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:24:06",
+      "updated_at": "2026-06-30 12:08:55",
+      "business_definition": "昨日注册用户中今日登录的比例",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_charge_user_cnt",
@@ -34687,17 +34892,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_trd_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:19:36",
+      "updated_at": "2026-06-26 19:00:57",
+      "business_definition": "至少完成一笔成功充值的去重用户数",
+      "platform_time_field": "infull_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_charge_order_cnt",
@@ -34721,17 +34932,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_trd_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:18:07",
+      "updated_at": "2026-06-26 19:07:44",
+      "business_definition": "充值状态为成功的订单总数",
+      "platform_time_field": "success_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_charge_amount",
@@ -34755,17 +34972,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_trd_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:15:47",
+      "updated_at": "2026-08-03 09:51:09",
+      "business_definition": "充值状态为成功的订单金额合计，单位：元",
+      "platform_time_field": "infull_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_login_pv",
@@ -34789,17 +35012,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:14:51",
+      "updated_at": "2026-05-14 10:14:51",
+      "business_definition": "发生登录行为的总次数（不去重）",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_login_user_cnt",
@@ -34823,9 +35052,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [
         "R31_DWD_login",
         "R31_DWS_login"
@@ -34835,8 +35064,14 @@
         "lydr3d_dwd.dwd_usr_login_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:12:58",
+      "updated_at": "2026-06-30 14:50:04",
+      "business_definition": "发生登录行为的去重用户数，不含时间限定",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE31_register_user_cnt",
@@ -34860,17 +35095,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "31",
       "source_refs": [
         "lydr3d_dwd.dwd_usr_client_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李中瑶",
+      "created_at": "2026-05-14 10:11:59",
+      "updated_at": "2026-05-14 10:11:59",
+      "business_definition": "完成注册行为的去重用户数，不含时间限定",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     }
   ],
   "models": [
@@ -35536,7 +35777,8 @@
       "在既有四库范围操作重新获取并复查精确表名",
       "在暂不纳入筛选中找回2张精确原表；沿用原业务域、过程和说明重新纳入，逐项回读成功",
       "先前采集缺失判断已更正：正式表存在，不使用后缀备份表替代",
-      "用户明确暂不加入AN库，连接仍为原四库"
+      "用户明确暂不加入AN库，连接仍为原四库",
+      "本轮对照审阅我新增的2项记录；未发现可直接替代的原有项，本轮不修改本项目原有指标。"
     ],
     "pending": [
       "lydr3d_an下2张首批表按用户决定暂不扩展，保留范围缺口"
@@ -35545,6 +35787,14 @@
     "tagged_tables": 88,
     "first_batch_covered": 73,
     "first_batch_target": 75,
-    "remaining_unbound": 2
+    "remaining_unbound": 2,
+    "overlap_review": {
+      "added_reviewed": 2,
+      "retired_added": 0,
+      "original_metric_writes": 0,
+      "date": "2026-11-09"
+    },
+    "available_metrics": 36,
+    "draft_metrics": 0
   }
 }

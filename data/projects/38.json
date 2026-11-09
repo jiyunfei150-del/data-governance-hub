@@ -34,7 +34,7 @@
     "fields": 0,
     "field_comment_gaps": 0,
     "tag_drafts": 0,
-    "available_metrics": 44,
+    "available_metrics": 42,
     "review_metrics": 0,
     "candidate_metrics": 0,
     "model_dwd": 0,
@@ -42,26 +42,27 @@
     "model_new": 0,
     "verified_registered_tables": 33,
     "data_file": "data/projects/38.json",
-    "initialization": "44项指标保持；日报七日空留存已核对，知识更新至V3",
+    "initialization": "42项可用、2项新增重合草稿；原有40项保持，知识V4已发布",
     "priority": "已录入复核",
     "model_dws_reuse": 0,
-    "review_stage": "44项指标保持；日报七日空留存已核对，知识更新至V3",
+    "review_stage": "42项可用、2项新增重合草稿；原有40项保持，知识V4已发布",
     "review_tags": 0,
     "review_only": false,
-    "metric_drafts": 0,
+    "metric_drafts": 2,
     "upload_summary": {
       "tables": 33,
-      "metrics": 44,
-      "drafts": 0,
+      "metrics": 42,
+      "drafts": 2,
       "verified": "2026-11-09",
       "new_metadata": 7,
       "new_metrics_20261109": 2,
       "field_notes_updated_20261109": 9,
-      "knowledge_latest_version": "V3",
+      "knowledge_latest_version": "V4",
       "metric_verified": "2026-11-09",
-      "table_verified": "2026-11-06"
+      "table_verified": "2026-11-06",
+      "merged_drafts": 2
     },
-    "scope_note": "本项目44项可用指标已通过2026-11-09原生导出回读；本次新增2项运营日报注册/活跃指标，原42项完整保留。日报表说明、9条字段和既有知识V2已完善。日报第七日为D+6、回访日为轴，DWD原七日指标为D+7、注册日为轴。在线峰值单日对账一致；历史注册、活跃快照及空留存仍有待核项。 续办：2026-11-01至11-07日报留存连续为空，已在知识V3明确不补0、不用DWD回填；仍待生产任务侧处理。",
+    "scope_note": "按用户要求优先原有：2026-11-09原生回读44项资产中42可用、2项新增日报指标草稿；原有40项名称、定义、SQL、依赖和维度全部保持。新增运营日报活跃/注册不再提供可用入口，来源差异留作知识与对账说明。保留新增人均游戏时长和最高在线人数，核心知识V4。元数据33张已有回执，历史输入差异与日报留存缺值仍待任务侧证据。",
     "project_kind": "game",
     "project_kind_label": "游戏项目",
     "project_category": "游戏产品",
@@ -73,7 +74,8 @@
       "lydrh5_ods.ods_txstarlog_fish_game_log_hi"
     ],
     "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
-    "followup_date": "2026-11-09"
+    "followup_date": "2026-11-09",
+    "metric_overlap_review_url": "新增指标重合审阅.html"
   },
   "tables": [
     {
@@ -6901,21 +6903,44 @@
       "example": "猎鱼达人-H5近7个完整自然日的运营日报注册用户数是多少？",
       "unit": "人（日报原口径）",
       "id": "LIVE38_report_registered_users",
-      "status": "平台可用",
-      "platform_status": "available",
+      "status": "合并后草稿",
+      "platform_status": "offline",
       "source_refs": [
         "lydrh5_ads.ads_game_operation_report_di"
       ],
       "business_definition": "读取lydrh5_ads.ads_game_operation_report_di.reg_user，以log_date为统计日，限定当前生产生成规则的platform_id=5、currency=rmb；治理项目为38，源项目码5不等于治理ID或DWD客户端平台码。日报生成以view_user_info为基表并左关联agent_user_info，按主档reg_date属于统计日计行；不同于DWD注册日志按user_id去重的注册用户数。同一统计日、源项目码和币种应仅有一行日报；多行时返回NULL并核查重复调度，缺报不补0。",
       "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
-      "origin": "2026-11-09平台原生导出核验",
-      "comparison": "与既有DWD注册/登录/正向玩分人群分开；本条读取运营日报原口径，不将不同来源数值强行合并。",
-      "validation": "名称、定义、SQL、统计字段、时间与维度已通过原生导出核验；42项原记录完整保留。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "按用户要求优先保留原有；与原有注册/日活主题重合的新增日报项撤出可用，原定义及SQL留作可恢复草稿。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "model_advice_note": "复用已有lydrh5_ads.ads_game_operation_report_di。上游主档、关联唯一性、历史快照和调度水位分别治理；本条不重复建议新增DWS，DWD事件分析口径独立保留。",
       "created_at": "2026-11-09 10:30:44",
-      "updated_at": "2026-11-09 10:30:44"
+      "updated_at": "2026-11-09 12:26:58",
+      "source": "ads_game_operation_report_di",
+      "creator": "吉云飞",
+      "platform_time_field": "log_date",
+      "platform_dimensions": [
+        {
+          "name": "platform_id",
+          "column_id": 100991,
+          "dimension_name": "项目ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "currency",
+          "column_id": 101020,
+          "dimension_name": "货币单位（人民币、美元、美分、印尼盾等）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ],
+      "retired_reason": "新增同主题入口收敛；日报与DWD来源算法有差异，不能宣称数值或SQL等价。",
+      "retained_original_names": [
+        "注册用户数"
+      ]
     },
     {
       "project_id": "38",
@@ -6940,21 +6965,45 @@
       "example": "猎鱼达人-H5近7个完整自然日的运营日报活跃用户数是多少？",
       "unit": "人（日报原口径）",
       "id": "LIVE38_report_active_users",
-      "status": "平台可用",
-      "platform_status": "available",
+      "status": "合并后草稿",
+      "platform_status": "offline",
       "source_refs": [
         "lydrh5_ads.ads_game_operation_report_di"
       ],
       "business_definition": "读取lydrh5_ads.ads_game_operation_report_di.active_user，以log_date为统计日，限定当前生产生成规则的platform_id=5、currency=rmb；治理项目为38，源项目码5不等于治理ID或DWD客户端平台码。日报生成按view_user_info主档last_login_date属于统计日计行；不同于DWD登录去重账号或有正向玩分的游戏账号。最近登录日会持续更新，历史日报值不通过当前主档回算。同一统计日、源项目码和币种应仅有一行日报；多行时返回NULL并核查重复调度，缺报不补0。跨日相加是活跃人天，不是期间去重活跃人数。",
       "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
-      "origin": "2026-11-09平台原生导出核验",
-      "comparison": "与既有DWD注册/登录/正向玩分人群分开；本条读取运营日报原口径，不将不同来源数值强行合并。",
-      "validation": "名称、定义、SQL、统计字段、时间与维度已通过原生导出核验；42项原记录完整保留。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "按用户要求优先保留原有；与原有注册/日活主题重合的新增日报项撤出可用，原定义及SQL留作可恢复草稿。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "model_advice_note": "复用已有lydrh5_ads.ads_game_operation_report_di。上游主档、关联唯一性、历史快照和调度水位分别治理；本条不重复建议新增DWS，DWD事件分析口径独立保留。",
       "created_at": "2026-11-09 10:31:17",
-      "updated_at": "2026-11-09 10:32:50"
+      "updated_at": "2026-11-09 12:25:55",
+      "source": "ads_game_operation_report_di",
+      "creator": "吉云飞",
+      "platform_time_field": "log_date",
+      "platform_dimensions": [
+        {
+          "name": "currency",
+          "column_id": 101020,
+          "dimension_name": "货币单位（人民币、美元、美分、印尼盾等）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "platform_id",
+          "column_id": 100991,
+          "dimension_name": "项目ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ],
+      "retired_reason": "新增同主题入口收敛；日报与DWD来源算法有差异，不能宣称数值或SQL等价。",
+      "retained_original_names": [
+        "登录用户数",
+        "活跃人数"
+      ]
     },
     {
       "project_id": "38",
@@ -6984,14 +7033,14 @@
       ],
       "sql": "SELECT DATE(log_date) AS dt, platform_id, currency,\n       MAX(online_user) AS metric_value\nFROM lydrh5_ads.ads_game_operation_report_di\nWHERE log_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_date < CURRENT_DATE()\nGROUP BY DATE(log_date), platform_id, currency;",
       "duplicate_check": "现有40项指标未见最高在线人数；运营总表该字段为bigint且已注明当日最高在线人数，使用MAX并保留平台/币种维度，避免峰值相加。",
-      "validation": "SELECT语法、现有原子依赖与平台实际字段结构回读核对通过",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "status": "平台可用",
       "taxonomy_note": "来源表已标公共域/数据分析汇总；平台来源下拉按分类过滤，因此复用该分类，在线峰值含义保留定义与别名。",
       "example": "猎鱼达人-H5近7个完整自然日的最高在线人数是多少？",
       "platform_status": "available",
-      "origin": "2026-11-06平台原生导出核验",
-      "platform_verified": "2026-11-06",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
       "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
       "model_ids": [],
@@ -6999,7 +7048,28 @@
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
         "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
-      }
+      },
+      "source": "ads_game_operation_report_di",
+      "creator": "吉云飞",
+      "created_at": "2026-11-06 20:12:09",
+      "updated_at": "2026-11-06 20:12:09",
+      "platform_time_field": "log_date",
+      "platform_dimensions": [
+        {
+          "name": "platform_id",
+          "column_id": 100991,
+          "dimension_name": "项目ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "currency",
+          "column_id": 101020,
+          "dimension_name": "货币单位（人民币、美元、美分、印尼盾等）",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "project_id": "38",
@@ -7037,13 +7107,13 @@
       ],
       "sql": "SELECT DATE(log_date) AS dt,\n       SUM(game_time) AS total_game_seconds,\n       COUNT(DISTINCT user_id) AS game_users,\n       SUM(game_time) * 1.0 / NULLIF(COUNT(DISTINCT user_id), 0) AS metric_value\nFROM lydrh5_dwd.dwd_gam_play_log_hi\nWHERE log_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_date < CURRENT_DATE()\nGROUP BY DATE(log_date);",
       "duplicate_check": "现有游戏时长和游戏人数为基础口径，当前项目未见人均游戏时长；复用原子指标，使用同一明细范围计算。",
-      "validation": "SELECT语法、现有原子依赖与平台实际字段结构回读核对通过",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "status": "平台可用",
       "example": "猎鱼达人-H5近7个完整自然日的人均游戏时长是多少？",
       "platform_status": "available",
-      "origin": "2026-11-06平台原生导出核验",
-      "platform_verified": "2026-11-06",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
       "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
       "model_ids": [],
@@ -7051,7 +7121,42 @@
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
         "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
-      }
+      },
+      "source": "dwd_gam_play_log_hi",
+      "creator": "吉云飞",
+      "created_at": "2026-11-06 20:10:41",
+      "updated_at": "2026-11-06 20:10:54",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "game_type",
+          "column_id": 116666,
+          "dimension_name": "游戏类型，分为金币房、能量房",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "platform_id",
+          "column_id": 116672,
+          "dimension_name": "平台ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "room_id",
+          "column_id": 116674,
+          "dimension_name": "房间ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "agent_id",
+          "column_id": 116670,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "id": "LIVE38_bankrupt_user_cnt",
@@ -7075,17 +7180,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-10-29 14:02:21",
+      "updated_at": "2026-10-29 14:02:21",
+      "business_definition": "破产用户人数，在 dwd_gam_play_log_hi中 action_type = 2490008",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_equip_level",
@@ -7109,17 +7220,52 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_eco_prop_equip_status_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "方欣玥",
+      "created_at": "2026-10-20 18:26:46",
+      "updated_at": "2026-10-20 18:27:21",
+      "business_definition": "",
+      "platform_time_field": "log_date",
+      "platform_dimensions": [
+        {
+          "name": "user_id",
+          "column_id": 142266,
+          "dimension_name": "当日登录用户ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "prop_type",
+          "column_id": 142267,
+          "dimension_name": "道具种类：炮台、炮灵、翅膀、宠物、神兵、神器、头像框、旗帜、主页背景",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "prop_id",
+          "column_id": 142268,
+          "dimension_name": "道具ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "prop_name",
+          "column_id": 142269,
+          "dimension_name": "道具名称",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "id": "LIVE38_recharge_success_rate",
@@ -7146,17 +7292,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_user_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-09-11 14:21:43",
+      "updated_at": "2026-09-11 14:21:43",
+      "business_definition": "所有充值订单中，充值状态为成功的订单占比",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_recharge_conversion_rate",
@@ -7183,9 +7335,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
@@ -7193,8 +7345,14 @@
         "lydrh5_dwd.dwd_usr_login_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:56:55",
+      "business_definition": "",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_arppu",
@@ -7221,17 +7379,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_user_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:56:39",
+      "business_definition": "",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_arpu",
@@ -7258,9 +7422,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
@@ -7268,23 +7432,29 @@
         "lydrh5_dwd.dwd_usr_login_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:56:16",
+      "business_definition": "",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_avg_gold_cost",
       "name": "人均玩分",
       "type": "复合",
-      "domain": "游戏域",
-      "process": "捕鱼游戏",
-      "source": "dwd_gam_kill_fish_log_hi",
+      "domain": "经济域",
+      "process": "金币流水",
+      "source": "dwd_eco_money_log_hi",
       "table": "lydrh5_dwd.dwd_gam_kill_fish_log_hi",
       "project_name": "猎鱼达人-H5",
       "english": "avg_gold_cost",
       "alias": "人均输分，人均总玩",
-      "definition": "",
-      "example": "",
-      "sql": "SELECT\n  SUM(gold_nums) / COUNT(DISTINCT user_id) AS avg_gold_cost\nFROM\n  lydrh5_dwd.dwd_gam_kill_fish_log_hi\nWHERE\n  log_date >= '${today}'\n  AND log_date < DATE_ADD('${today}', INTERVAL 1 DAY)",
+      "definition": "统计日内，累计玩分大于0的玩家平均每人消耗的金币数，单位：金币/人。玩分按金币流水中金币消耗记录的change_money原值累计=。分子和分母均限定为当日累计玩分大于0的同一批玩家，分母为0时返回NULL。",
+      "example": "昨天累计玩分大于0的玩家，人均玩分是多少？",
+      "sql": "0",
       "dependencies": [
         "玩分"
       ],
@@ -7295,17 +7465,21 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
-      "source_refs": [
-        "lydrh5_dwd.dwd_gam_kill_fish_log_hi"
-      ],
+      "source_refs": [],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-11-09 12:08:51",
+      "business_definition": "统计日内，累计玩分大于0的玩家平均每人消耗的金币数，单位：金币/人。玩分按金币流水中金币消耗记录的change_money原值累计=。分子和分母均限定为当日累计玩分大于0的同一批玩家，分母为0时返回NULL。",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_avg_gold_catch",
@@ -7331,17 +7505,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_gam_kill_fish_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:55:40",
+      "business_definition": "",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_d1_retention_rate",
@@ -7349,7 +7529,7 @@
       "type": "复合",
       "domain": "玩家域",
       "process": "注册",
-      "source": "dwd_usr_login_log_hi",
+      "source": "dwd_usr_reg_log_hi",
       "table": "lydrh5_dwd.dwd_usr_reg_log_hi",
       "project_name": "猎鱼达人-H5",
       "english": "d1_retention_rate",
@@ -7368,9 +7548,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "DWD注册明细口径以注册日为轴；次留D+1、现有七日指标D+7。用户提供的运营日报按回访日D观察D-1/D-6注册人群，主档行计数；两者不能直接互换或把空日报留存补0。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
@@ -7378,13 +7558,34 @@
         "lydrh5_dwd.dwd_usr_login_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
+      "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
       "data_validation_20261109": {
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
         "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
-      }
+      },
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-11-06 20:08:17",
+      "business_definition": "以指定注册日bizdate在lydrh5_dwd.dwd_usr_reg_log_hi的去重user_id为注册人群；这些账号在注册日加1日有lydrh5_dwd.dwd_usr_login_log_hi登录记录的去重账号数，除以注册人群账号数。日期轴按注册日解释，日窗口均为左闭右开。只计算已完整结束的回访日；分母为0或观察日未结束时返回NULL。输出0—1比例，展示可格式化为百分数。平台与渠道条件取注册记录，回访按同user_id关联，不要求回访平台/渠道相同；跨日、跨维度从明细重算，不能把活跃账号或设备人群替代注册账号。",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "agent_id",
+          "column_id": 116593,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "platform_id",
+          "column_id": 116596,
+          "dimension_name": "平台ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "id": "LIVE38_d7_retention_rate",
@@ -7392,7 +7593,7 @@
       "type": "复合",
       "domain": "玩家域",
       "process": "注册",
-      "source": "dwd_usr_login_log_hi",
+      "source": "dwd_usr_reg_log_hi",
       "table": "lydrh5_dwd.dwd_usr_reg_log_hi",
       "project_name": "猎鱼达人-H5",
       "english": "d7_retention_rate",
@@ -7411,9 +7612,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "DWD注册明细口径以注册日为轴；次留D+1、现有七日指标D+7。用户提供的运营日报按回访日D观察D-1/D-6注册人群，主档行计数；两者不能直接互换或把空日报留存补0。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
@@ -7421,13 +7622,34 @@
         "lydrh5_dwd.dwd_usr_login_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
+      "platform_verified": "2026-11-09",
       "platform_sql_exact": true,
       "data_validation_20261109": {
         "date": "2026-11-01",
         "status": "抽样待核，未业务验收",
         "note": "已取得用户提供的日报生成SQL。在线峰值按game_id=249同时间合计后取MAX，单日与日报一致；注册差异仍待历史水位/版本核对，日活主档历史不可机械重算。"
-      }
+      },
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-11-06 20:09:08",
+      "business_definition": "以指定注册日bizdate在lydrh5_dwd.dwd_usr_reg_log_hi的去重user_id为注册人群；这些账号在注册日加7日有lydrh5_dwd.dwd_usr_login_log_hi登录记录的去重账号数，除以注册人群账号数。日期轴按注册日解释，日窗口均为左闭右开。只计算已完整结束的回访日；分母为0或观察日未结束时返回NULL。输出0—1比例，展示可格式化为百分数。平台与渠道条件取注册记录，回访按同user_id关联，不要求回访平台/渠道相同；跨日、跨维度从明细重算，不能把活跃账号或设备人群替代注册账号。",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "agent_id",
+          "column_id": 116593,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "platform_id",
+          "column_id": 116596,
+          "dimension_name": "平台ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "id": "LIVE38_recharge_amt_by_platform",
@@ -7453,17 +7675,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_user_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:54:32",
+      "business_definition": "按平台分组的充值金额",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_reg_user_cnt_by_platform",
@@ -7489,17 +7717,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_usr_reg_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:54:17",
+      "business_definition": "按平台分组的当日新注册数",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_consume_prop_num_by_vip_level",
@@ -7525,9 +7759,9 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
@@ -7535,42 +7769,100 @@
         "lydrh5_dwd.dim_user_info_d"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:53:56",
+      "business_definition": "按不同VIP等级分组的玩家消耗道具数",
+      "platform_time_field": null,
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_active_user_cnt",
-      "name": "活跃用户数",
-      "type": "原子",
+      "name": "活跃人数",
+      "type": "派生",
       "domain": "游戏域",
       "process": "捕鱼游戏",
       "source": "dwd_gam_play_log_hi",
       "table": "lydrh5_dwd.dwd_gam_play_log_hi",
       "project_name": "猎鱼达人-H5",
       "english": "active_user_cnt",
-      "alias": "DAU",
-      "definition": "实际在游戏中活跃，发射子弹消耗金币的用户数",
+      "alias": "DAU, 活跃用户数, 活跃玩家数",
+      "definition": "统计日内，累计玩分（金币流水中金币消耗记录的金币变化量）大于0且累计捕鱼游戏时长超过300秒（5分钟）的去重玩家人数，单位：人。同一玩家须在同一统计日同时满足两个条件。",
       "example": "",
-      "sql": "SELECT\n  COUNT(DISTINCT user_id)\nFROM\n  lydrh5_dwd.dwd_gam_play_log_hi\nWHERE\n  gold_shot_cost > 0",
-      "dependencies": [],
-      "calc_func": "COUNT",
-      "stat_field": "user_id",
+      "sql": "WITH player_gold AS (\n    SELECT user_id\n    FROM lydrh5_dwd.dwd_eco_money_log_hi\n    WHERE log_date >= '${stat_date}'\n      AND log_date < DATE_ADD('${stat_date}', INTERVAL 1 DAY)\n      AND user_id IS NOT NULL\n    GROUP BY user_id\n    HAVING SUM(CASE WHEN money_flow_type = '金币消耗' THEN change_money ELSE 0 END) > 0\n),\nplayer_time AS (\n    SELECT user_id\n    FROM lydrh5_dwd.dwd_gam_play_log_hi\n    WHERE log_date >= '${stat_date}'\n      AND log_date < DATE_ADD('${stat_date}', INTERVAL 1 DAY)\n      AND user_id IS NOT NULL\n    GROUP BY user_id\n    HAVING SUM(game_time) > 300\n)\nSELECT COUNT(DISTINCT t.user_id) AS active_user_cnt\nFROM player_time t\nINNER JOIN player_gold g ON t.user_id = g.user_id;",
+      "dependencies": [
+        "游戏用户数"
+      ],
+      "calc_func": null,
+      "stat_field": null,
       "time": "log_date",
       "dimensions": "",
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
+        "lydrh5_dwd.dwd_eco_money_log_hi",
         "lydrh5_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-11-09 12:11:55",
+      "updated_at": "2026-11-09 12:11:55",
+      "business_definition": "统计日内，累计玩分（金币流水中金币消耗记录的金币变化量）大于0且累计捕鱼游戏时长超过300秒（5分钟）的去重玩家人数，单位：人。同一玩家须在同一统计日同时满足两个条件。",
+      "platform_time_field": null,
+      "platform_dimensions": [
+        {
+          "name": "agent_id",
+          "column_id": 116670,
+          "dimension_name": "渠道ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "room_id",
+          "column_id": 116674,
+          "dimension_name": "房间ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "room_name",
+          "column_id": 116675,
+          "dimension_name": "房间名称",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "action_type",
+          "column_id": 116677,
+          "dimension_name": "行为事件ID",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "action_name",
+          "column_id": 116678,
+          "dimension_name": "行为事件名称",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        },
+        {
+          "name": "room_type_name",
+          "column_id": 116676,
+          "dimension_name": "房间类型名称, 分为经典房、豪华房、能量房、宝莲灯金币房等",
+          "whether_to_sync": false,
+          "dimension_description": ""
+        }
+      ]
     },
     {
       "id": "LIVE38_login_pv",
@@ -7594,17 +7886,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_usr_login_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:53:01",
+      "business_definition": "发生登录行为的总次数（不去重）",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_recharge_amount",
@@ -7628,17 +7926,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_user_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:52:47",
+      "business_definition": "充值状态为成功的订单金额合计，单位：元",
+      "platform_time_field": "success_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_infull_order_cnt",
@@ -7662,17 +7966,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_user_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:52:10",
+      "business_definition": "充值状态为成功的订单总数",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_infull_user_cnt",
@@ -7696,17 +8006,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_user_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:33",
+      "updated_at": "2026-09-09 18:51:50",
+      "business_definition": "至少完成一笔成功充值的去重用户数",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_recharge_request_cnt",
@@ -7730,17 +8046,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_user_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:24:37",
+      "business_definition": "所有充值请求的订单数（含失败）",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_coupon_recharge_amount",
@@ -7764,17 +8086,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_coupon_infull_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:27:03",
+      "business_definition": "通过计费点充值获得的点券金额，单位：元",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_coupon_consume_amount",
@@ -7798,17 +8126,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_trd_coupon_consume_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:27:23",
+      "business_definition": "通过计费点消费的点券金额，单位：元",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_game_user_cnt",
@@ -7832,51 +8166,106 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:27:40",
+      "business_definition": "当日进行游戏的去重用户数，不含时间限定",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_gold_cost",
       "name": "玩分",
       "type": "原子",
-      "domain": "游戏域",
-      "process": "捕鱼游戏",
-      "source": "dwd_gam_kill_fish_log_hi",
-      "table": "lydrh5_dwd.dwd_gam_kill_fish_log_hi",
+      "domain": "经济域",
+      "process": "金币流水",
+      "source": "dwd_eco_money_log_hi",
+      "table": "lydrh5_dwd.dwd_eco_money_log_hi",
       "project_name": "猎鱼达人-H5",
       "english": "gold_cost",
-      "alias": "总玩，吸收金币数",
-      "definition": "玩家击杀鱼过程中，吸收金币的数量",
-      "example": "",
-      "sql": "SELECT\n  SUM(gold_nums)\nFROM\n  lydrh5_dwd.dwd_gam_kill_fish_log_hi",
+      "alias": "总玩，金币消耗量",
+      "definition": "玩家金币流水中，流水类型为金币消耗的金币变化量合计，单位：金币。按change_money原值累计。",
+      "example": "昨天玩家的玩分是多少？",
+      "sql": "SELECT\n    SUM(change_money) AS gold_cost\nFROM lydrh5_dwd.dwd_eco_money_log_hi\nwhere money_flow_type = '金币消耗' and change_money is not null",
       "dependencies": [],
       "calc_func": "SUM",
-      "stat_field": "gold_nums",
+      "stat_field": "change_money",
       "time": "log_date",
       "dimensions": "",
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
-        "lydrh5_dwd.dwd_gam_kill_fish_log_hi"
+        "lydrh5_dwd.dwd_eco_money_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-11-09 12:08:00",
+      "business_definition": "玩家金币流水中，流水类型为金币消耗的金币变化量合计，单位：金币。按change_money原值累计。",
+      "platform_time_field": "log_date",
+      "platform_dimensions": [
+        {
+          "name": "user_id",
+          "column_id": 116793,
+          "dimension_name": "玩家",
+          "whether_to_sync": false,
+          "dimension_description": "金币变动流水所属玩家"
+        },
+        {
+          "name": "action_scene",
+          "column_id": 116796,
+          "dimension_name": "行为场景",
+          "whether_to_sync": false,
+          "dimension_description": "金币产出或消耗发生的业务场景"
+        },
+        {
+          "name": "action_name",
+          "column_id": 116798,
+          "dimension_name": "行为事件",
+          "whether_to_sync": false,
+          "dimension_description": "引起金币变化的行为事件名称"
+        },
+        {
+          "name": "agent_id",
+          "column_id": 116801,
+          "dimension_name": "渠道",
+          "whether_to_sync": false,
+          "dimension_description": "玩家金币流水所属渠道"
+        },
+        {
+          "name": "platform_id",
+          "column_id": 116803,
+          "dimension_name": "平台",
+          "whether_to_sync": false,
+          "dimension_description": "玩家金币流水所属平台"
+        },
+        {
+          "name": "money_class",
+          "column_id": 130357,
+          "dimension_name": "金币大类",
+          "whether_to_sync": false,
+          "dimension_description": "金币流水对应的金币分类"
+        }
+      ]
     },
     {
       "id": "LIVE38_gold_catch",
@@ -7900,17 +8289,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_gam_kill_fish_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:28:26",
+      "business_definition": "玩家击杀捕鱼获得的金币总量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_shot_num",
@@ -7934,17 +8329,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:28:53",
+      "business_definition": "玩家发射子弹的总数",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_num_catch_fish",
@@ -7968,17 +8369,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:29:05",
+      "business_definition": "玩家捕到鱼的总数量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_boss_kill_cnt",
@@ -8002,17 +8409,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_kill_boss_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-08-31 15:23:32",
+      "business_definition": "击杀Boss的总次数",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_boss_kill_user_cnt",
@@ -8036,17 +8449,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_kill_boss_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-08-31 15:23:32",
+      "business_definition": "击杀Boss的去重用户数",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_diamond_produce",
@@ -8070,17 +8489,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_eco_diamond_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:50:33",
+      "business_definition": "玩家获得的钻石/红宝石总量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_diamond_consume",
@@ -8104,17 +8529,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_diamond_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:51:17",
+      "business_definition": "玩家消耗的钻石/红宝石总量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_wg_player_cnt",
@@ -8138,17 +8569,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dim_user_info_d"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-08-31 15:23:32",
+      "business_definition": "是外挂用户的人数",
+      "platform_time_field": "last_login_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_game_time",
@@ -8172,17 +8609,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_gam_play_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:21:56",
+      "business_definition": "玩家进行捕鱼游戏的总时长，单位秒",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_crazy_consume_cnt",
@@ -8206,17 +8649,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_eco_prop_consume_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:21:37",
+      "business_definition": "玩家使用/消耗的狂暴道具数量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_freeze_consume_cnt",
@@ -8240,17 +8689,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_prop_consume_log_di"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:20:23",
+      "business_definition": "玩家使用、消耗的冰冻道具数量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_lock_consume_cnt",
@@ -8274,17 +8729,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_eco_prop_consume_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:20:14",
+      "business_definition": "玩家使用、消耗的“锁定”道具使用数量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_recharge_gold_bonus",
@@ -8308,17 +8769,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dim_user_info_d"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 14:49:44",
+      "business_definition": "",
+      "platform_time_field": "last_login_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_first_infull_usr_cnt",
@@ -8342,17 +8809,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dim_user_info_d"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-08-31 15:23:32",
+      "business_definition": "可以查看某个日期首次充值的用户数有多少",
+      "platform_time_field": "first_infull_time",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_prop_consume_num",
@@ -8376,17 +8849,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_eco_prop_consume_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 15:23:32",
+      "updated_at": "2026-09-09 18:17:47",
+      "business_definition": "玩家消耗、使用的道具数量",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_login_user_cnt",
@@ -8401,7 +8880,7 @@
       "alias": "UV、uv、登录玩家数、访问用户数",
       "definition": "发生登录行为的去重用户数，不含时间限定",
       "example": "今天登录用户数有多少？今天的UV是多少？",
-      "sql": "SELECT\n  COUNT(DISTINCT user_id)\nFROM\n  lydrh5_dwd.dwd_usr_login_log_hi",
+      "sql": "SELECT\r\n  COUNT(DISTINCT user_id)\r\nFROM\r\n  lydrh5_dwd.dwd_usr_login_log_hi",
       "dependencies": [],
       "calc_func": "COUNT",
       "stat_field": "user_id",
@@ -8410,17 +8889,23 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_usr_login_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 14:54:47",
+      "updated_at": "2026-09-09 18:16:34",
+      "business_definition": "发生登录行为的去重用户数，不含时间限定",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     },
     {
       "id": "LIVE38_register_user_cnt",
@@ -8435,7 +8920,7 @@
       "alias": "新增用户数、新注册",
       "definition": "完成注册行为的去重用户数，不含时间限定",
       "example": "",
-      "sql": "SELECT\n  COUNT(DISTINCT user_id)\nFROM\n  lydrh5_dwd.dwd_usr_reg_log_hi",
+      "sql": "SELECT\r\n  COUNT(DISTINCT user_id)\r\nFROM\r\n  lydrh5_dwd.dwd_usr_reg_log_hi",
       "dependencies": [],
       "calc_func": "COUNT",
       "stat_field": "user_id",
@@ -8444,42 +8929,48 @@
       "risk": "",
       "unit": "",
       "status": "平台可用",
-      "origin": "2026-11-06平台原生导出核验",
-      "comparison": "当前项目原生导出回读，名称、SQL及保存状态以本条为准。",
-      "validation": "已回读平台定义；原有指标未重新执行生产取数。",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
+      "comparison": "原有或其他人员维护的指标，按最新原生库存同步；本轮未修改平台记录。",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "model_ids": [],
       "project_id": "38",
       "source_refs": [
         "lydrh5_dwd.dwd_usr_reg_log_hi"
       ],
       "platform_status": "available",
-      "platform_verified": "2026-11-06",
-      "platform_sql_exact": true
+      "platform_verified": "2026-11-09",
+      "platform_sql_exact": true,
+      "creator": "李斯佳",
+      "created_at": "2026-08-31 14:53:05",
+      "updated_at": "2026-09-09 18:16:22",
+      "business_definition": "完成注册行为的去重用户数，不含时间限定",
+      "platform_time_field": "log_date",
+      "platform_dimensions": []
     }
   ],
   "models": [],
   "tasks": [
     {
-      "task": "指标补录",
-      "status": "本次新增2项，44项可用",
-      "detail": "运营日报注册用户数、运营日报活跃用户数；原42项定义、SQL和保存状态完整保留。"
+      "task": "新增指标重合收敛",
+      "status": "42可用、2新增草稿",
+      "detail": "撤出新增日报活跃与注册指标，原有40项全部保持。保留人均时长与最高在线。"
     },
     {
       "task": "元数据与知识",
-      "status": "表说明、9字段、知识V3已核验",
-      "detail": "明确固定业务项目码5、rmb、主档计行、D+6日期轴、设备代理值和源表峰值算法。 补充2026-11-01至11-07留存连续空值的查询边界。"
+      "status": "33张元数据成果保留，知识V4",
+      "detail": "日报生成差异用于来源核对，问数入口优先原有。"
     },
     {
-      "task": "生产单日对账",
-      "status": "峰值一致，其他差异待核",
-      "detail": "原始样本数值及查询结果保留本地。历史主档无法机械重算；注册水位与空留存单列。"
+      "task": "生产验收",
+      "status": "留存缺值及历史输入待证据",
+      "detail": "不将来源不同或空留存解释为已完成运营数值对账。"
     }
   ],
   "review": {
     "project_id": "38",
     "project_name": "猎鱼达人-H5",
     "name": "猎鱼达人-H5",
-    "stage": "44项指标保持；日报七日空留存已核对，知识更新至V3",
+    "stage": "42项可用、2项新增重合草稿；原有40项保持，知识V4已发布",
     "read_only": false,
     "platform_writes": 7,
     "date": "2026-11-09",
@@ -8489,7 +8980,7 @@
     "first_schema": 0,
     "first_missing": 7,
     "metric_sql_count": 0,
-    "stock_count": 44,
+    "stock_count": 42,
     "stock_overlap_count": 0,
     "dwd_count": 0,
     "new_dws_count": 0,
@@ -8677,20 +9168,18 @@
       }
     ],
     "metric_ids": [],
-    "conclusion": "本项目44项可用指标已通过2026-11-09原生导出回读；本次新增2项运营日报注册/活跃指标，原42项完整保留。日报表说明、9条字段和既有知识V2已完善。日报第七日为D+6、回访日为轴，DWD原七日指标为D+7、注册日为轴。在线峰值单日对账一致；历史注册、活跃快照及空留存仍有待核项。 续办：2026-11-01至11-07日报留存连续为空，已在知识V3明确不补0、不用DWD回填；仍待生产任务侧处理。",
+    "conclusion": "按用户要求优先原有：2026-11-09原生回读44项资产中42可用、2项新增日报指标草稿；原有40项名称、定义、SQL、依赖和维度全部保持。新增运营日报活跃/注册不再提供可用入口，来源差异留作知识与对账说明。保留新增人均游戏时长和最高在线人数，核心知识V4。元数据33张已有回执，历史输入差异与日报留存缺值仍待任务侧证据。",
     "next_action": "核对历史日报输入水位、任务版本及主档快照；保留DWD与日报各自定义，不以当前主档覆盖历史日报。",
     "authority": "本项目已获用户授权补录；其他未授权项目继续只整理。"
   },
   "followup_20261109": {
-    "status": "44项指标保持；日报七日空留存已核对，知识更新至V3",
+    "status": "42项可用、2项新增重合草稿；原有40项保持，知识V4已发布",
     "completed": [
-      "用户提供的生产SQL仅作为口径参考，未执行INSERT",
-      "新增运营日报注册用户数、运营日报活跃用户数，已核验44项可用及原42项记录完整保留",
-      "运营日报表说明、粒度与9条字段说明已保存回读",
-      "原核心口径知识更新至V2，明确日报第七日D+6与DWD D+7、账号代理设备列及支付转换边界",
-      "按真实online_num_logs源规则做单日峰值对账，与日报一致",
-      "2026-11-01至11-07日报每天1行，注册/活跃非空，次日、第七日和30日留存列连续为空；空值使用边界发布到原知识V3",
-      "样本日期比较表达式在当前ADB执行正常，原比较与归一日期比较均返回相等；未将此项误判为空值根因"
+      "当前44项指标资产原生导出：42可用、2项同主题新增日报草稿；40项原有指标的全部导出字段保持。",
+      "新增运营日报活跃用户数、运营日报注册用户数已撤出可用；原有注册、登录及活跃指标优先，来源差异保留为知识。",
+      "人均游戏时长、最高在线人数保留，原有指标名单未见同一度量。",
+      "原有33张元数据成果保留；日报1张表说明、9条字段说明已有回执，来源定义不因指标撤出而删除。",
+      "核心知识V4已发布并完整回读，另1篇同事基础数值知识保持。最高在线曾完成单日抽查，历史输入及留存缺值继续单列。"
     ],
     "pending": [
       "样本日注册主档当前结果仍与存储日报不同，需核对当日输入快照、迟到水位和任务版本",
@@ -8704,7 +9193,16 @@
     "field_notes_updated": 9,
     "table_description_updated": 1,
     "knowledge_updated": 1,
-    "knowledge_version": "V3",
-    "metadata_show_view_denied": 1
+    "knowledge_version": "V4",
+    "metadata_show_view_denied": 1,
+    "overlap_review": {
+      "added_reviewed": 4,
+      "retired_added": 2,
+      "original_metric_writes": 0,
+      "date": "2026-11-09"
+    },
+    "available_metrics": 42,
+    "draft_metrics": 2,
+    "native_metric_assets": 44
   }
 }

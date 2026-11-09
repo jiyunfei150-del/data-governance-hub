@@ -74,7 +74,8 @@
     },
     "scope_note": "波克棋牌（ID1）五库连接、问数与当前账号入口已恢复。82张元数据有回执：71张标准层、11张AN层级待确认；9项指标已保存，7项可用、2项时长草稿按用户决定等待补齐。1篇知识V2已发布。指标字段与SQL原生导出核验通过，单日聚合可执行；这不代表运营数值已全部验收。",
     "followup_date": "2026-11-09",
-    "metric_drafts": 2
+    "metric_drafts": 2,
+    "metric_overlap_review_url": "新增指标重合审阅.html"
   },
   "tables": [
     {
@@ -64958,7 +64959,7 @@
       "time": "login_time",
       "calc_func": "COUNT_DISTINCT",
       "business_definition": "按登录明细login_time归日，对user_id去重。仅统计该明细覆盖的账号，login_status没有已确认成功码值，因此不额外增加成功筛选。游戏、渠道分别限定，跨渠道或跨游戏人数从明细重新去重。账号迁移前后按原user_id识别，不擅自合并身份。 单位：账号。",
-      "definition": "按登录明细login_time归日，对user_id去重。仅统计该明细覆盖的账号，login_status没有已确认成功码值，因此不额外增加成功筛选。游戏、渠道分别限定，跨渠道或跨游戏人数从明细重新去重。账号迁移前后按原user_id识别，不擅自合并身份。",
+      "definition": "按登录明细login_time归日，对user_id去重。仅统计该明细覆盖的账号，login_status没有已确认成功码值，因此不额外增加成功筛选。游戏、渠道分别限定，跨渠道或跨游戏人数从明细重新去重。账号迁移前后按原user_id识别，不擅自合并身份。 单位：账号。",
       "alias": "",
       "sql": "SELECT DATE(login_time) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_dwd.dwd_login_log_detail_di\nWHERE login_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND login_time < CURRENT_DATE()\nGROUP BY DATE(login_time);",
       "dependency_names": [],
@@ -64969,13 +64970,13 @@
       ],
       "unit": "账号",
       "status": "平台可用",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_login_log_detail_di"
       ],
       "id": "BK1_login_user_cnt",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_login",
@@ -65003,7 +65004,10 @@
           "whether_to_sync": false,
           "dimension_description": ""
         }
-      ]
+      ],
+      "source": "dwd_login_log_detail_di",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌近七个完整自然日的登录账号数。"
     },
     {
       "project_id": "1",
@@ -65018,7 +65022,7 @@
       "time": "reg_date",
       "calc_func": "COUNT_DISTINCT",
       "business_definition": "按user_reg_log.reg_date归日，对user_id去重。reg_agent和reg_platform为注册归属，reg_mac为注册设备；本指标统计账号，不统计设备，不用活动激活或回流替代首次注册记录。跨日期与维度从注册明细重新去重。 单位：账号。",
-      "definition": "按user_reg_log.reg_date归日，对user_id去重。reg_agent和reg_platform为注册归属，reg_mac为注册设备；本指标统计账号，不统计设备，不用活动激活或回流替代首次注册记录。跨日期与维度从注册明细重新去重。",
+      "definition": "按user_reg_log.reg_date归日，对user_id去重。reg_agent和reg_platform为注册归属，reg_mac为注册设备；本指标统计账号，不统计设备，不用活动激活或回流替代首次注册记录。跨日期与维度从注册明细重新去重。 单位：账号。",
       "alias": "",
       "sql": "SELECT DATE(reg_date) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_ods.user_reg_log\nWHERE reg_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND reg_date < CURRENT_DATE()\nGROUP BY DATE(reg_date);",
       "dependency_names": [],
@@ -65029,13 +65033,13 @@
       ],
       "unit": "账号",
       "status": "平台可用",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.user_reg_log"
       ],
       "id": "BK1_reg_user_cnt",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_register"
@@ -65062,7 +65066,10 @@
           "whether_to_sync": false,
           "dimension_description": ""
         }
-      ]
+      ],
+      "source": "user_reg_log",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌近七个完整自然日的注册账号数。"
     },
     {
       "project_id": "1",
@@ -65077,7 +65084,7 @@
       "time": "log_time",
       "calc_func": "COUNT_DISTINCT",
       "business_definition": "按多游戏合并明细log_time归日，对user_id去重。game_id和source_table保留来源游戏范围，不额外要求玩分大于某门槛。日志覆盖捕鱼、棋牌和其他子游戏，不能把账号数当完整局数；跨游戏合计重新去重。 单位：账号。",
-      "definition": "按多游戏合并明细log_time归日，对user_id去重。game_id和source_table保留来源游戏范围，不额外要求玩分大于某门槛。日志覆盖捕鱼、棋牌和其他子游戏，不能把账号数当完整局数；跨游戏合计重新去重。",
+      "definition": "按多游戏合并明细log_time归日，对user_id去重。game_id和source_table保留来源游戏范围，不额外要求玩分大于某门槛。日志覆盖捕鱼、棋牌和其他子游戏，不能把账号数当完整局数；跨游戏合计重新去重。 单位：账号。",
       "alias": "",
       "sql": "SELECT DATE(log_time) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_dwd.dwd_game_play_log_di\nWHERE log_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_time < CURRENT_DATE()\nGROUP BY DATE(log_time);",
       "dependency_names": [],
@@ -65089,13 +65096,13 @@
       ],
       "unit": "账号",
       "status": "平台可用",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_game_play_log_di"
       ],
       "id": "BK1_game_user_cnt",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_game"
@@ -65129,7 +65136,10 @@
           "whether_to_sync": false,
           "dimension_description": ""
         }
-      ]
+      ],
+      "source": "dwd_game_play_log_di",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌近七个完整自然日的游戏账号数。"
     },
     {
       "project_id": "1",
@@ -65144,7 +65154,7 @@
       "time": "log_time",
       "calc_func": "SUM",
       "business_definition": "按dwd_game_play_log_di.log_time归日，汇总game_time，字段注释单位秒。按game_id、source_table和渠道限定同一事件范围；不是账号累计在线时长，也不以日志行数推算局数。分段重叠与补发仍需在上游清洗范围中核对。 单位：秒。",
-      "definition": "按dwd_game_play_log_di.log_time归日，汇总game_time，字段注释单位秒。按game_id、source_table和渠道限定同一事件范围；不是账号累计在线时长，也不以日志行数推算局数。分段重叠与补发仍需在上游清洗范围中核对。",
+      "definition": "按dwd_game_play_log_di.log_time归日，汇总game_time，字段注释单位秒。按game_id、source_table和渠道限定同一事件范围；不是账号累计在线时长，也不以日志行数推算局数。分段重叠与补发仍需在上游清洗范围中核对。 单位：秒。",
       "alias": "",
       "sql": "SELECT DATE(log_time) AS dt, SUM(game_time) AS metric_value\nFROM bkqp_dwd.dwd_game_play_log_di\nWHERE log_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_time < CURRENT_DATE()\nGROUP BY DATE(log_time);",
       "dependency_names": [],
@@ -65156,13 +65166,13 @@
       ],
       "unit": "秒",
       "status": "时长待补草稿",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_game_play_log_di"
       ],
       "id": "BK1_game_time",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "用户明确要求保留草稿，等待补齐游戏时长；定义、SQL、依赖与维度完整保留。",
       "model_ids": [
         "R1_DWD_game"
@@ -65197,7 +65207,10 @@
           "dimension_description": ""
         }
       ],
-      "deferred_reason": "样本日宝石迷城1777、套圈圈35的game_time为空，用户决定补齐前保留草稿；不补0，不改成部分游戏时长口径。"
+      "deferred_reason": "样本日宝石迷城1777、套圈圈35的game_time为空，用户决定补齐前保留草稿；不补0，不改成部分游戏时长口径。",
+      "source": "dwd_game_play_log_di",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌近七个完整自然日的游戏时长。"
     },
     {
       "project_id": "1",
@@ -65208,11 +65221,11 @@
       "table": "bkqp_dwd.dwd_game_play_log_di",
       "domain": "游戏域",
       "process": "游戏行为",
-      "stat_field": "game_time",
+      "stat_field": null,
       "time": "log_time",
-      "calc_func": "CUSTOM",
+      "calc_func": null,
       "business_definition": "同一游戏明细范围SUM(game_time)/COUNT(DISTINCT user_id)，单位秒/游戏账号，转分钟再除60。分母是有游戏记录的账号，不是登录或注册人数；跨日与跨维度重算时长和去重人数，不平均人均值。分母为0返回NULL。 单位：秒/账号。",
-      "definition": "同一游戏明细范围SUM(game_time)/COUNT(DISTINCT user_id)，单位秒/游戏账号，转分钟再除60。分母是有游戏记录的账号，不是登录或注册人数；跨日与跨维度重算时长和去重人数，不平均人均值。分母为0返回NULL。",
+      "definition": "同一游戏明细范围SUM(game_time)/COUNT(DISTINCT user_id)，单位秒/游戏账号，转分钟再除60。分母是有游戏记录的账号，不是登录或注册人数；跨日与跨维度重算时长和去重人数，不平均人均值。分母为0返回NULL。 单位：秒/账号。",
       "alias": "",
       "sql": "SELECT DATE(log_time) AS dt, SUM(game_time)*1.0/NULLIF(COUNT(DISTINCT user_id),0) AS metric_value\nFROM bkqp_dwd.dwd_game_play_log_di\nWHERE log_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND log_time < CURRENT_DATE()\nGROUP BY DATE(log_time);",
       "dependency_names": [
@@ -65220,8 +65233,8 @@
         "游戏账号数"
       ],
       "dependencies": [
-        "游戏时长",
-        "游戏账号数"
+        "游戏账号数",
+        "游戏时长"
       ],
       "dimensions": [
         "game_id",
@@ -65230,13 +65243,13 @@
       ],
       "unit": "秒/账号",
       "status": "时长待补草稿",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_game_play_log_di"
       ],
       "id": "BK1_avg_game_duration",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "用户明确要求保留草稿，等待补齐游戏时长；定义、SQL、依赖与维度完整保留。",
       "model_ids": [
         "R1_DWD_game"
@@ -65271,7 +65284,10 @@
           "dimension_description": ""
         }
       ],
-      "deferred_reason": "样本日宝石迷城1777、套圈圈35的game_time为空，用户决定补齐前保留草稿；不补0，不改成部分游戏时长口径。"
+      "deferred_reason": "样本日宝石迷城1777、套圈圈35的game_time为空，用户决定补齐前保留草稿；不补0，不改成部分游戏时长口径。",
+      "source": "dwd_game_play_log_di",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌近七个完整自然日的人均游戏时长。"
     },
     {
       "project_id": "1",
@@ -65286,7 +65302,7 @@
       "time": "infull_date",
       "calc_func": "COUNT_DISTINCT",
       "business_definition": "按fish_open_order.infull_date成功日期归日，限定state=1，对user_id去重。type区分充值波克点、钻石和贵族礼包，均是本来源成功开分覆盖的账号；不是全部支付系统去重付费人数，也未排除退款。不同type不能直接相加人数。 单位：账号。",
-      "definition": "按fish_open_order.infull_date成功日期归日，限定state=1，对user_id去重。type区分充值波克点、钻石和贵族礼包，均是本来源成功开分覆盖的账号；不是全部支付系统去重付费人数，也未排除退款。不同type不能直接相加人数。",
+      "definition": "按fish_open_order.infull_date成功日期归日，限定state=1，对user_id去重。type区分充值波克点、钻石和贵族礼包，均是本来源成功开分覆盖的账号；不是全部支付系统去重付费人数，也未排除退款。不同type不能直接相加人数。 单位：账号。",
       "alias": "",
       "sql": "SELECT DATE(infull_date) AS dt, COUNT(DISTINCT user_id) AS metric_value\nFROM bkqp_ods.fish_open_order\nWHERE infull_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)\n  AND infull_date < CURRENT_DATE()\n  AND state=1\nGROUP BY DATE(infull_date);",
       "dependency_names": [],
@@ -65297,13 +65313,13 @@
       ],
       "unit": "账号",
       "status": "平台可用",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.fish_open_order"
       ],
       "id": "BK1_successful_open_user_cnt",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_payment",
@@ -65331,7 +65347,10 @@
           "whether_to_sync": false,
           "dimension_description": ""
         }
-      ]
+      ],
+      "source": "fish_open_order",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌近七个完整自然日的成功开分账号数。"
     },
     {
       "project_id": "1",
@@ -65342,11 +65361,11 @@
       "table": "bkqp_dwd.dwd_login_log_detail_di",
       "domain": "玩家域",
       "process": "登录",
-      "stat_field": "user_id",
+      "stat_field": null,
       "time": "login_time",
-      "calc_func": "CUSTOM",
+      "calc_func": null,
       "business_definition": "当日登录账号中，同日fish_open_order.state=1成功开分账号的交集人数，除以当日登录账号数。登录和开分分别取login_time与infull_date，按同日user_id关联。输出0—1比例，分母为0返回NULL；成功开分来源覆盖及退款限制保留，不替代全支付系统有效付费率。 单位：0—1比例。",
-      "definition": "当日登录账号中，同日fish_open_order.state=1成功开分账号的交集人数，除以当日登录账号数。登录和开分分别取login_time与infull_date，按同日user_id关联。输出0—1比例，分母为0返回NULL；成功开分来源覆盖及退款限制保留，不替代全支付系统有效付费率。",
+      "definition": "当日登录账号中，同日fish_open_order.state=1成功开分账号的交集人数，除以当日登录账号数。登录和开分分别取login_time与infull_date，按同日user_id关联。输出0—1比例，分母为0返回NULL；成功开分来源覆盖及退款限制保留，不替代全支付系统有效付费率。 单位：0—1比例。",
       "alias": "",
       "sql": "WITH login_user AS (\n SELECT DISTINCT DATE(login_time) AS dt,user_id FROM bkqp_dwd.dwd_login_log_detail_di\n WHERE login_time>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND login_time<CURRENT_DATE()\n), paid_user AS (\n SELECT DISTINCT DATE(infull_date) AS dt,user_id FROM bkqp_ods.fish_open_order\n WHERE state=1 AND infull_date>=DATE_SUB(CURRENT_DATE(),INTERVAL 30 DAY) AND infull_date<CURRENT_DATE()\n)\nSELECT l.dt,COUNT(DISTINCT p.user_id)*1.0/NULLIF(COUNT(DISTINCT l.user_id),0) AS metric_value\nFROM login_user l LEFT JOIN paid_user p ON l.dt=p.dt AND l.user_id=p.user_id\nGROUP BY l.dt;",
       "dependency_names": [
@@ -65363,14 +65382,14 @@
       ],
       "unit": "0—1比例",
       "status": "平台可用",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_dwd.dwd_login_log_detail_di",
         "bkqp_ods.fish_open_order"
       ],
       "id": "BK1_login_success_open_rate",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_login",
@@ -65398,7 +65417,10 @@
           "whether_to_sync": false,
           "dimension_description": ""
         }
-      ]
+      ],
+      "source": "dwd_login_log_detail_di",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌的登录账号成功开分率，说明日期口径与人群。"
     },
     {
       "project_id": "1",
@@ -65409,11 +65431,11 @@
       "table": "bkqp_ods.user_reg_log",
       "domain": "玩家域",
       "process": "注册",
-      "stat_field": "user_id",
+      "stat_field": null,
       "time": "reg_date",
-      "calc_func": "CUSTOM",
+      "calc_func": null,
       "business_definition": "以注册日D的user_reg_log去重账号为人群，D+1在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+1，不和设备、活跃人群回访混用。 单位：0—1比例。",
-      "definition": "以注册日D的user_reg_log去重账号为人群，D+1在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+1，不和设备、活跃人群回访混用。",
+      "definition": "以注册日D的user_reg_log去重账号为人群，D+1在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+1，不和设备、活跃人群回访混用。 单位：0—1比例。",
       "alias": "",
       "sql": "WITH reg_user AS (\n SELECT DISTINCT user_id FROM bkqp_ods.user_reg_log\n WHERE reg_date>=DATE('${bizdate}') AND reg_date<DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)\n), returned AS (\n SELECT DISTINCT user_id FROM bkqp_dwd.dwd_login_log_detail_di\n WHERE login_time>=DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)\n AND login_time<DATE_ADD(DATE('${bizdate}'),INTERVAL 2 DAY)\n)\nSELECT IF(DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)<CURRENT_DATE(),\n COUNT(DISTINCT l.user_id)*1.0/NULLIF(COUNT(DISTINCT r.user_id),0),NULL) AS metric_value\nFROM reg_user r LEFT JOIN returned l ON r.user_id=l.user_id;",
       "dependency_names": [
@@ -65421,8 +65443,8 @@
         "登录账号数"
       ],
       "dependencies": [
-        "注册账号数",
-        "登录账号数"
+        "登录账号数",
+        "注册账号数"
       ],
       "dimensions": [
         "reg_agent",
@@ -65430,14 +65452,14 @@
       ],
       "unit": "0—1比例",
       "status": "平台可用",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.user_reg_log",
         "bkqp_dwd.dwd_login_log_detail_di"
       ],
       "id": "BK1_reg_d1_retention_rate",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_register"
@@ -65464,7 +65486,10 @@
           "whether_to_sync": false,
           "dimension_description": ""
         }
-      ]
+      ],
+      "source": "user_reg_log",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌的注册账号次日登录留存率，说明日期口径与人群。"
     },
     {
       "project_id": "1",
@@ -65475,11 +65500,11 @@
       "table": "bkqp_ods.user_reg_log",
       "domain": "玩家域",
       "process": "注册",
-      "stat_field": "user_id",
+      "stat_field": null,
       "time": "reg_date",
-      "calc_func": "CUSTOM",
+      "calc_func": null,
       "business_definition": "以注册日D的user_reg_log去重账号为人群，D+7在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+7，不和设备、活跃人群回访混用。 单位：0—1比例。",
-      "definition": "以注册日D的user_reg_log去重账号为人群，D+7在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+7，不和设备、活跃人群回访混用。",
+      "definition": "以注册日D的user_reg_log去重账号为人群，D+7在登录明细有记录的同user_id人数除以注册账号数。按注册日展示，注册渠道/平台取reg_agent、reg_platform；回访不强制同渠道或游戏，账号迁移不合并ID。只计算完整结束的回访日，未成熟或分母为0返回NULL，输出0—1比例。明确为D+7，不和设备、活跃人群回访混用。 单位：0—1比例。",
       "alias": "",
       "sql": "WITH reg_user AS (\n SELECT DISTINCT user_id FROM bkqp_ods.user_reg_log\n WHERE reg_date>=DATE('${bizdate}') AND reg_date<DATE_ADD(DATE('${bizdate}'),INTERVAL 1 DAY)\n), returned AS (\n SELECT DISTINCT user_id FROM bkqp_dwd.dwd_login_log_detail_di\n WHERE login_time>=DATE_ADD(DATE('${bizdate}'),INTERVAL 7 DAY)\n AND login_time<DATE_ADD(DATE('${bizdate}'),INTERVAL 8 DAY)\n)\nSELECT IF(DATE_ADD(DATE('${bizdate}'),INTERVAL 7 DAY)<CURRENT_DATE(),\n COUNT(DISTINCT l.user_id)*1.0/NULLIF(COUNT(DISTINCT r.user_id),0),NULL) AS metric_value\nFROM reg_user r LEFT JOIN returned l ON r.user_id=l.user_id;",
       "dependency_names": [
@@ -65487,8 +65512,8 @@
         "登录账号数"
       ],
       "dependencies": [
-        "注册账号数",
-        "登录账号数"
+        "登录账号数",
+        "注册账号数"
       ],
       "dimensions": [
         "reg_agent",
@@ -65496,14 +65521,14 @@
       ],
       "unit": "0—1比例",
       "status": "平台可用",
-      "validation": "项目、来源、定义、SQL、依赖及维度经原生导出核验；单日生产聚合可执行，未与运营报表完成业务对账",
+      "validation": "本轮原生库存回读并核对新增与原有主题；没有执行生产取数，不新增数值验收结论。",
       "physical_sql_executions": 0,
       "source_refs": [
         "bkqp_ods.user_reg_log",
         "bkqp_dwd.dwd_login_log_detail_di"
       ],
       "id": "BK1_reg_d7_retention_rate",
-      "origin": "2026-11-09平台原生导出回读",
+      "origin": "2026-11-09平台原生库存与新增重合审阅",
       "comparison": "本项目独立登记，账号人群、成功开分与D+1/D+7口径分别明确；未扩展为全支付或设备指标。",
       "model_ids": [
         "R1_DWD_register"
@@ -65530,7 +65555,10 @@
           "whether_to_sync": false,
           "dimension_description": ""
         }
-      ]
+      ],
+      "source": "user_reg_log",
+      "creator": "吉云飞",
+      "example": "查看波克棋牌注册账号在D+7的登录留存率。"
     },
     {
       "name": "充值金额及ARPU/ARPPU",
@@ -66201,7 +66229,8 @@
       "平台查重0项后录入9项，原生导出逐项核验项目、来源、定义、SQL、依赖及维度",
       "游戏时长、人均游戏时长按用户决定保留草稿，其余7项可用，最终导出确认内容完整保留",
       "发布多游戏指标与元数据知识V2，完整正文回读一致",
-      "单日只读抽查完成：账号、开分交集及成熟留存可计算；时长覆盖缺口已定位"
+      "单日只读抽查完成：账号、开分交集及成熟留存可计算；时长覆盖缺口已定位",
+      "本轮对照审阅我新增的9项记录；未发现可直接替代的原有项，本轮不修改本项目原有指标。"
     ],
     "pending": [
       "补齐宝石迷城1777、套圈圈35的game_time后，再验收并启用2项时长草稿",
@@ -66214,6 +66243,12 @@
     "available_metrics": 7,
     "draft_metrics": 2,
     "knowledge_version": "V2",
-    "production_selects": 3
+    "production_selects": 3,
+    "overlap_review": {
+      "added_reviewed": 9,
+      "retired_added": 0,
+      "original_metric_writes": 0,
+      "date": "2026-11-09"
+    }
   }
 }
