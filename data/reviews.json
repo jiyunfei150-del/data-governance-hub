@@ -4046,21 +4046,21 @@
     "project_id": "46",
     "project_name": "DW",
     "name": "DW",
-    "stage": "结构草案已整理",
+    "stage": "调度语义审阅已整理",
     "read_only": true,
     "platform_writes": 0,
-    "date": "2026-11-05",
+    "date": "2026-11-10",
     "snapshot": "2026-11-04",
     "tagged_tables": 46,
     "first_count": 25,
     "first_schema": 25,
     "first_missing": 0,
-    "metric_sql_count": 5,
-    "stock_count": 0,
+    "metric_sql_count": 17,
+    "stock_count": null,
     "stock_overlap_count": 0,
-    "dwd_count": 3,
+    "dwd_count": 7,
     "new_dws_count": 2,
-    "focus": "其他业务 16张、统计报表 10张、维度配置 8张、账号/角色主档 4张、游戏行为 3张",
+    "focus": "169工作流／884任务版本；25首批表／22已定位写入；账号、设备、付费、留存与游戏范围核对",
     "top_tables": [
       {
         "table": "haoshen_ods.app_login_log",
@@ -4161,70 +4161,299 @@
     ],
     "coverage": [
       {
-        "topic": "留存/回访",
-        "state": "有SQL草案",
+        "topic": "活跃用户数",
+        "state": "候选待审",
         "source_tables": [
-          "haoshen_ods.app_login_log"
+          "haoshen_ads.ads_total_haoshen_report_di"
         ],
         "candidate_ids": [
-          "R46_login_return_d1",
-          "R46_login_return_d7"
+          "DW_active_users"
         ],
         "stock_names": [],
-        "stock_count": 0,
-        "detail": "已列SELECT草案，须审口径与相似项"
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 不得将未排BS的登录日志日去重直接当相同人群；汇总渠道行与明细行不混加。"
       },
       {
-        "topic": "付费/付费率",
-        "state": "待补口径/来源",
+        "topic": "专区新增用户数",
+        "state": "候选待审",
         "source_tables": [
-          "haoshen_ods.charge_order_info"
-        ],
-        "candidate_ids": [],
-        "stock_names": [],
-        "stock_count": 0,
-        "detail": "首批充值来源缺明确成功码值；保留订单明细建议，暂不生成成功付费率"
-      },
-      {
-        "topic": "时长/游戏",
-        "state": "有SQL草案",
-        "source_tables": [
-          "haoshen_ods.slot_main_log",
-          "haoshen_dwd.dwd_slot_main_log_di",
-          "haoshen_ods.fish_game_log"
+          "haoshen_ads.ads_total_haoshen_report_di"
         ],
         "candidate_ids": [
-          "R46_game_duration",
-          "R46_duration_per_game_user"
+          "DW_new_users"
         ],
         "stock_names": [],
-        "stock_count": 0,
-        "detail": "已列SELECT草案，须审口径与相似项"
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 不能称为全平台新注册账号；与设备激活人数分别保留。"
       },
       {
-        "topic": "资产产消",
-        "state": "待补口径/来源",
-        "source_tables": [],
-        "candidate_ids": [],
+        "topic": "游戏用户数",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.total_game_report"
+        ],
+        "candidate_ids": [
+          "DW_game_users"
+        ],
         "stock_names": [],
-        "stock_count": 0,
-        "detail": "首批来源缺结构或缺账号/事件时间/明确语义，未编造SQL；房卡须确认道具ID、产消方向与冲正，不能套用地方棋牌的枚举"
+        "stock_count": null,
+        "detail": "直接取已有整体汇总行，跨游戏/房间人数不相加。"
+      },
+      {
+        "topic": "SLOT游戏总时长",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.total_game_report"
+        ],
+        "candidate_ids": [
+          "DW_game_duration"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "原play_time单位待源系统确认；经营总表另有/60换算；空值与未记录不等于真实0。"
+      },
+      {
+        "topic": "SLOT游戏人均时长",
+        "state": "暂缓登记",
+        "source_tables": [
+          "haoshen_dwd.dwd_slot_main_log_di"
+        ],
+        "candidate_ids": [
+          "DW_avg_game_duration"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "先统一房间/控制类型、快照账号范围、空值政策与单位，再复用已有时长和游戏人数，不直接拿混合SLOT/捕鱼总人数作分母。"
+      },
+      {
+        "topic": "充值金额",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_revenue"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。"
+      },
+      {
+        "topic": "付费用户数",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_payers"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。"
+      },
+      {
+        "topic": "充值次数",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_pay_records"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。"
+      },
+      {
+        "topic": "付费率",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_pay_rate"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 需验证付费账号是否属于同日活跃人群；跨日、跨渠道应按账号并集重算。"
+      },
+      {
+        "topic": "ARPU",
+        "state": "暂缓登记",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_arpu"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
+      },
+      {
+        "topic": "ARPPU",
+        "state": "暂缓登记",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_arppu"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
+      },
+      {
+        "topic": "首次付费用户数",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_first_payers"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 首次充值时间来自账号快照；不以当前首充标记重算全部历史。"
+      },
+      {
+        "topic": "新增设备数",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_device_retention_di"
+        ],
+        "candidate_ids": [
+          "DW_new_devices"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "现有经营总表活跃设备还合并游戏最近游玩设备，来源覆盖不一致；作为同主题差异核对，不另起报表版本。"
+      },
+      {
+        "topic": "活跃设备数",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_device_retention_di"
+        ],
+        "candidate_ids": [
+          "DW_active_devices"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "现有经营总表活跃设备还合并游戏最近游玩设备，来源覆盖不一致；作为同主题差异核对，不另起报表版本。"
+      },
+      {
+        "topic": "专区新增账号留存率",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_total_haoshen_report_di"
+        ],
+        "candidate_ids": [
+          "DW_account_retention"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 报表log_date是回访日，需换算队列日。双号30日分母错位项单列待修，不套用为标准。比例跨渠道/日期重算。"
+      },
+      {
+        "topic": "新增设备留存率",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_device_retention_di"
+        ],
+        "candidate_ids": [
+          "DW_device_retention"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "账号留存与设备留存不可替代；源分母不去重，设备日快照唯一性待核。"
+      },
+      {
+        "topic": "SLOT总玩分",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.total_game_report"
+        ],
+        "candidate_ids": [
+          "DW_slot_bet"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
+      },
+      {
+        "topic": "SLOT总赢分",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.total_game_report"
+        ],
+        "candidate_ids": [
+          "DW_slot_win"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
+      },
+      {
+        "topic": "分类金币产消",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ads.ads_plat_coin_di"
+        ],
+        "candidate_ids": [
+          "DW_coin_flow"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "各来源计量和正负方向不同；需补齐log_type_info配置后再定义统一产出/消耗指标。"
+      },
+      {
+        "topic": "抽奖参与用户数",
+        "state": "候选待审",
+        "source_tables": [
+          "haoshen_ods.luck_draw_log"
+        ],
+        "candidate_ids": [
+          "DW_draw_users"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "既有dws_log_total_di已提供同类人数；先核dimension/num_dimension，再复用，不因新SQL另建。"
       }
     ],
     "blockers": [
-      "同库推定的目录归属仍需确认；不把共享库的资产全部视为本项目事实。"
+      "经营总表视图DDL：haoshen_ads.view_total_haoshen_report未定位维护定义；需视图DDL核对与物理日报字段映射。",
+      "金币分类字典维护来源：haoshen_ads.log_type_info有读取，无直接写入任务；需分类含义、唯一键及维护方式。",
+      "账号主档采集映射：haoshen_ods.agent_user_info仅定位读取；其他库/视图近名任务不能直接认定同源。",
+      "DW原指标查重入口：当前指标管理筛选器只列11个项目，没有DW；不认定当前库存为0。",
+      "留存及现金口径：双号30日分母疑点、BS范围、现金币种倍率、SLOT时长单位尚未生产对账。"
     ],
     "collection": [],
     "metric_ids": [
-      "R46_login_users",
-      "R46_login_return_d1",
-      "R46_login_return_d7",
-      "R46_game_duration",
-      "R46_duration_per_game_user"
+      "DW_active_users",
+      "DW_new_users",
+      "DW_game_users",
+      "DW_game_duration",
+      "DW_avg_game_duration",
+      "DW_revenue",
+      "DW_payers",
+      "DW_pay_records",
+      "DW_pay_rate",
+      "DW_arpu",
+      "DW_arppu",
+      "DW_first_payers",
+      "DW_new_devices",
+      "DW_active_devices",
+      "DW_account_retention",
+      "DW_device_retention",
+      "DW_slot_bet",
+      "DW_slot_win",
+      "DW_coin_flow",
+      "DW_draw_users"
     ],
-    "conclusion": "DW（ID 46）：首批25张，其中25张有结构、0张需补采集；本轮只生成草案。",
-    "next_action": "先审阅项目归属、事件粒度、成功状态和同项目相似指标，再决定是否采用",
-    "authority": "按用户最新指令：其他项目只整理，不录入平台。"
+    "conclusion": "46张非冷未删除表补入调度引用，重点核对首批25张；20个业务主题仅供审阅，17个有静态SELECT。物理经营日报旧活性为冷，相关主题不入首批；当前DW原指标库存待全量查重，未录入。",
+    "next_action": "先核视图、字典、主档映射和留存疑点；录入前获取DW原指标完整库存并查重。",
+    "authority": "DW本轮只整理，未新增连接、业务域或过程，未写入平台。"
   },
   {
     "project_id": "12",

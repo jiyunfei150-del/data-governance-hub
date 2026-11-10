@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-09T14:11:18.311151",
+  "updated_at": "2026-11-10",
   "execution_order": [
     {
       "id": "LC",
@@ -445,6 +445,36 @@
           "date": "2026-11-09"
         }
       }
+    },
+    {
+      "id": "DW46",
+      "project_id": 46,
+      "project_name": "DW",
+      "status": "四层调度审阅稿已整理；25首批表、20指标主题，未录入",
+      "completed": {
+        "workflows": 169,
+        "task_versions": 884,
+        "first_tables_referenced": 25,
+        "first_tables_writer_located": 22,
+        "field_notes": 38,
+        "metric_themes": 20,
+        "metric_selects": 17,
+        "model_reuse": 7,
+        "suggested_new_dwd": 2,
+        "suggested_new_dws": 2,
+        "knowledge_drafts": 5,
+        "platform_writes": 0
+      },
+      "pending": [
+        "经营总表视图DDL：haoshen_ads.view_total_haoshen_report未定位维护定义；需视图DDL核对与物理日报字段映射。",
+        "金币分类字典维护来源：haoshen_ads.log_type_info有读取，无直接写入任务；需分类含义、唯一键及维护方式。",
+        "账号主档采集映射：haoshen_ods.agent_user_info仅定位读取；其他库/视图近名任务不能直接认定同源。",
+        "DW原指标查重入口：当前指标管理筛选器只列11个项目，没有DW；不认定当前库存为0。",
+        "留存及现金口径：双号30日分母疑点、BS范围、现金币种倍率、SLOT时长单位尚未生产对账。",
+        "经营主题首批范围：物理ads_total_haoshen_report_di旧调用q7=0、q30=0；高频视图到物理表映射尚未核准。"
+      ],
+      "review_url": "DW调度审阅.html",
+      "authority": "用户指定先整理DW；平台录入未授权。"
     },
     {
       "id": "ALL",

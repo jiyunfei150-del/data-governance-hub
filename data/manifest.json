@@ -1,5 +1,5 @@
 {
-  "revision": "fcf9d47aee02",
+  "revision": "2d7ba7b2d293",
   "stats": {
     "date": "2026-11-06",
     "activity_date": "2026-11-04",
@@ -18,10 +18,10 @@
     "projects_usage_with_schema": 29,
     "connections": 14,
     "available_metrics": 779,
-    "review_metrics": 121,
-    "models": 143,
-    "model_dwd": 101,
-    "model_dws": 42,
+    "review_metrics": 136,
+    "models": 149,
+    "model_dwd": 105,
+    "model_dws": 44,
     "known_registered_review_tables": 378,
     "unassigned_tables": 155,
     "name_missing": [
@@ -33,7 +33,7 @@
     "other_projects_reviewed": 110,
     "other_projects_with_first_schema": 25,
     "other_projects_without_matching_schema": 84,
-    "other_project_metric_sql": 96,
+    "other_project_metric_sql": 573,
     "other_project_tag_drafts": 2601,
     "other_project_platform_writes": 140,
     "metric_export_refresh_blocked": false,
@@ -64,7 +64,14 @@
     "platform_boke_new_available": 7,
     "platform_boke_new_drafts": 2,
     "new_added_overlap_retired": 2,
-    "added_metric_records_reviewed": 156
+    "added_metric_records_reviewed": 156,
+    "dw_scheduler_review": {
+      "workflows": 169,
+      "task_versions": 884,
+      "metric_themes": 20,
+      "field_notes": 38,
+      "platform_writes": 0
+    }
   },
   "projects": [
     {
@@ -989,7 +996,7 @@
       "table_count": 485,
       "usage_count": 148,
       "schema_count": 484,
-      "noncold": 47,
+      "noncold": 46,
       "cold": 101,
       "unknown": 337,
       "dropped": 109,
@@ -1002,17 +1009,17 @@
       "field_comment_gaps": 833,
       "tag_drafts": 46,
       "available_metrics": 0,
-      "review_metrics": 5,
-      "candidate_metrics": 5,
-      "model_dwd": 3,
-      "model_dws": 2,
+      "review_metrics": 20,
+      "candidate_metrics": 17,
+      "model_dwd": 7,
+      "model_dws": 4,
       "model_new": 4,
       "verified_registered_tables": 0,
       "data_file": "data/projects/46.json",
-      "initialization": "结构草案已整理，未录入平台",
+      "initialization": "四层调度已核对，DW审阅稿；未录入",
       "priority": "P1 核对首批",
-      "model_dws_reuse": 0,
-      "review_stage": "结构草案已整理",
+      "model_dws_reuse": 2,
+      "review_stage": "调度语义审阅已整理",
       "review_tags": 46,
       "review_only": true,
       "project_kind": "game",
@@ -1025,7 +1032,10 @@
         "haoshen_dwd.dwd_slot_main_log_di",
         "haoshen_ods.games"
       ],
-      "project_kind_confidence": "本轮审阅分类，待业务负责人复核"
+      "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
+      "scope_note": "仅整理haoshen_ods/dwd/dws/ads。指标库存未核验；旧快照0不代表当前没有。",
+      "inventory_status": "当前入口未列DW，待全量查重",
+      "scheduler_review_url": "DW调度审阅.html"
     },
     {
       "id": "12",
@@ -5581,9 +5591,10 @@
     "2026-11-09六项目：H5新增2项日报指标，完善1张表说明、9字段和知识V2，峰值单日一致；地方棋牌补3字段及1篇已发布知识。3D/手游源缺口、波克入口保留；捕鱼游戏王REP两表按用户决定不扩范围，另7表非首批。生产样本数值仅存本地回执。",
     "2026-11-09续办：3D两表和手游一表原为暂不纳入，已沿用原标签恢复，当前已打标88/48张；AN三表及REP两表均按用户决定保留。地方棋牌21条行为定义收敛为6个候选，求签38天日指标可复用；H5空留存连续七天，知识V3已发布。",
     "2026-11-09权限恢复后续办：波克棋牌9项指标保存，7可用2时长草稿，知识V2发布；地方棋牌同步同事新增2项、停用1项，最新99可用33草稿/停用。手游后续重新登录完成，维护入口可用；查询卡片与文字结果矛盾，数值待验收。",
-    "2026-11-09按用户要求优先原有：六项目审阅我新增156项记录（含此前35项草稿），H5新增日报活跃/注册2项撤出可用，原有40项不变；手游原有55项当前状态保留。地方棋牌新增5项同事维护记录仅同步，最新104可用、33草稿。"
+    "2026-11-09按用户要求优先原有：六项目审阅我新增156项记录（含此前35项草稿），H5新增日报活跃/注册2项撤出可用，原有40项不变；手游原有55项当前状态保留。地方棋牌新增5项同事维护记录仅同步，最新104可用、33草稿。",
+    "DW于2026-11-10结合四层169个调度工作流整理审阅稿；当前DW原指标库存未核验，旧快照0不等于没有，不自动录入。"
   ],
-  "updated_at": "2026-11-09T14:11:18.311151",
+  "updated_at": "2026-11-10",
   "metric_creation_policy": {
     "confirmed_at": "2026-11-09T14:11:18.311151",
     "rule": "新增指标前必须查重，能复用原有的就复用；报表不同、取数来源不同或数仓层不同，不构成再建一套同主题指标的理由。",

@@ -4974,268 +4974,6 @@
     "project_name": "MJ"
   },
   {
-    "id": "R46_DWD_login",
-    "layer": "DWD",
-    "table": "dwd_login_detail_di",
-    "title": "登录来源标准明细",
-    "mode": "建议新建",
-    "priority": "P1",
-    "grain": "暂保留源行粒度；业务事件键待验证，采集键：all_id×login_date。",
-    "sources": [
-      "haoshen_ods.app_login_log"
-    ],
-    "fields": [
-      "all_id",
-      "login_date",
-      "user_id",
-      "user_name",
-      "nick_name",
-      "mac",
-      "net_info",
-      "login_ip",
-      "os_name",
-      "os_version",
-      "screen_info",
-      "version_num",
-      "agent_id",
-      "phone_name",
-      "login_type",
-      "login_money",
-      "login_exp",
-      "latitude",
-      "longitude",
-      "location",
-      "login_vip",
-      "enter_flag",
-      "last_login_date",
-      "leave_day",
-      "mac_leave_day",
-      "login_ip_parse",
-      "login_code"
-    ],
-    "partition": "login_date对应业务日期（时区确认后）",
-    "incremental": "SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。",
-    "metric_ids": [
-      "R46_login_users",
-      "R46_login_return_d1",
-      "R46_login_return_d7"
-    ],
-    "rules": [
-      "保留原状态、币种和原始单位；暂不套用其他项目的成功枚举。",
-      "登录与支付必须分别聚合到日×账号，再构建付费率；回访保留账号日集合。",
-      "支付状态更新、退款和迟到跨日回写需单独设计水位；事件时间窗口不等同完整增量方案。"
-    ],
-    "sql": "SELECT\n  `all_id`,\n  `login_date`,\n  `user_id`,\n  `user_name`,\n  `nick_name`,\n  `mac`,\n  `net_info`,\n  `login_ip`,\n  `os_name`,\n  `os_version`,\n  `screen_info`,\n  `version_num`,\n  `agent_id`,\n  `phone_name`,\n  `login_type`,\n  `login_money`,\n  `login_exp`,\n  `latitude`,\n  `longitude`,\n  `location`,\n  `login_vip`,\n  `enter_flag`,\n  `last_login_date`,\n  `leave_day`,\n  `mac_leave_day`,\n  `login_ip_parse`,\n  `login_code`\nFROM `haoshen_ods`.`app_login_log`\nWHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}';",
-    "sql_validation": "仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。",
-    "prerequisites": [
-      "确认同项目来源归属、业务键和状态生命周期",
-      "验收时间字段含义、时区、重复及迟到窗口",
-      "先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用"
-    ],
-    "origin": "本轮结构审阅草案",
-    "project_id": "46",
-    "project_name": "DW"
-  },
-  {
-    "id": "R46_DWD_payment",
-    "layer": "DWD",
-    "table": "dwd_payment_detail_di",
-    "title": "充值支付来源标准明细",
-    "mode": "建议新建",
-    "priority": "P1",
-    "grain": "暂保留源行粒度；业务事件键待验证，采集键：order_no。",
-    "sources": [
-      "haoshen_ods.charge_order_info"
-    ],
-    "fields": [
-      "order_no",
-      "user_id",
-      "user_name",
-      "infull_rmb",
-      "infull_money",
-      "infull_integral",
-      "infull_type",
-      "center_order_no",
-      "agent_id",
-      "version_num",
-      "log_time",
-      "platform",
-      "param",
-      "begin_money",
-      "end_money",
-      "begin_integral",
-      "end_integral",
-      "begin_box",
-      "end_box",
-      "is_first_infull",
-      "mac",
-      "ip",
-      "os_name",
-      "last_game_name",
-      "refund_flag",
-      "refund_date",
-      "payment_type"
-    ],
-    "partition": "log_time对应业务日期（时区确认后）",
-    "incremental": "SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。",
-    "metric_ids": [],
-    "rules": [
-      "保留原状态、币种和原始单位；暂不套用其他项目的成功枚举。",
-      "登录与支付必须分别聚合到日×账号，再构建付费率；回访保留账号日集合。",
-      "支付状态更新、退款和迟到跨日回写需单独设计水位；事件时间窗口不等同完整增量方案。"
-    ],
-    "sql": "SELECT\n  `order_no`,\n  `user_id`,\n  `user_name`,\n  `infull_rmb`,\n  `infull_money`,\n  `infull_integral`,\n  `infull_type`,\n  `center_order_no`,\n  `agent_id`,\n  `version_num`,\n  `log_time`,\n  `platform`,\n  `param`,\n  `begin_money`,\n  `end_money`,\n  `begin_integral`,\n  `end_integral`,\n  `begin_box`,\n  `end_box`,\n  `is_first_infull`,\n  `mac`,\n  `ip`,\n  `os_name`,\n  `last_game_name`,\n  `refund_flag`,\n  `refund_date`,\n  `payment_type`\nFROM `haoshen_ods`.`charge_order_info`\nWHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}';",
-    "sql_validation": "仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。",
-    "prerequisites": [
-      "确认同项目来源归属、业务键和状态生命周期",
-      "验收时间字段含义、时区、重复及迟到窗口",
-      "先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用"
-    ],
-    "origin": "本轮结构审阅草案",
-    "project_id": "46",
-    "project_name": "DW"
-  },
-  {
-    "id": "R46_DWD_game",
-    "layer": "DWD",
-    "table": "haoshen_dwd.dwd_slot_main_log_di",
-    "title": "游戏行为来源标准明细",
-    "mode": "复用现有",
-    "priority": "P1",
-    "grain": "暂保留源行粒度；业务事件键待验证，采集键：id×log_date。",
-    "sources": [
-      "haoshen_dwd.dwd_slot_main_log_di"
-    ],
-    "fields": [
-      "id",
-      "log_date",
-      "user_id",
-      "agent_id",
-      "game_id",
-      "game_num",
-      "main_bet",
-      "main_win",
-      "begin_money",
-      "end_money",
-      "control_type",
-      "game_type",
-      "buff0",
-      "buff1",
-      "buff4",
-      "buff5",
-      "control_level",
-      "begin_force",
-      "end_force",
-      "play_time",
-      "now_exp",
-      "room_type",
-      "play_money",
-      "begin_silver_money",
-      "end_silver_money",
-      "begin_silver_force",
-      "end_silver_force",
-      "vip_level",
-      "jp_win",
-      "jp_type",
-      "bonus_win",
-      "buff2",
-      "remark1",
-      "remark2",
-      "buff3"
-    ],
-    "partition": "log_date对应业务日期（时区确认后）",
-    "incremental": "SELECT仅展示投影与闭开时间窗口。确定唯一键与更新方式后，选择幂等覆盖或状态更新；不得随意保留最新一行丢失状态历史。",
-    "metric_ids": [
-      "R46_game_duration",
-      "R46_duration_per_game_user"
-    ],
-    "rules": [
-      "保留原状态、币种和原始单位；暂不套用其他项目的成功枚举。",
-      "登录与支付必须分别聚合到日×账号，再构建付费率；回访保留账号日集合。",
-      "支付状态更新、退款和迟到跨日回写需单独设计水位；事件时间窗口不等同完整增量方案。"
-    ],
-    "sql": "SELECT\n  `id`,\n  `log_date`,\n  `user_id`,\n  `agent_id`,\n  `game_id`,\n  `game_num`,\n  `main_bet`,\n  `main_win`,\n  `begin_money`,\n  `end_money`,\n  `control_type`,\n  `game_type`,\n  `buff0`,\n  `buff1`,\n  `buff4`,\n  `buff5`,\n  `control_level`,\n  `begin_force`,\n  `end_force`,\n  `play_time`,\n  `now_exp`,\n  `room_type`,\n  `play_money`,\n  `begin_silver_money`,\n  `end_silver_money`,\n  `begin_silver_force`,\n  `end_silver_force`,\n  `vip_level`,\n  `jp_win`,\n  `jp_type`,\n  `bonus_win`,\n  `buff2`,\n  `remark1`,\n  `remark2`,\n  `buff3`\nFROM `haoshen_dwd`.`dwd_slot_main_log_di`\nWHERE `log_date` >= '${start_date}' AND `log_date` < '${end_date}';",
-    "sql_validation": "仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。",
-    "prerequisites": [
-      "确认同项目来源归属、业务键和状态生命周期",
-      "验收时间字段含义、时区、重复及迟到窗口",
-      "先比对该项目已有DWD的字段与生产SQL，存在等价明细时优先复用"
-    ],
-    "origin": "本轮结构审阅草案",
-    "project_id": "46",
-    "project_name": "DW"
-  },
-  {
-    "id": "R46_DWS_login",
-    "layer": "DWS",
-    "table": "dws_login_user_1d",
-    "title": "登录账号日集合/统计",
-    "mode": "建议新建",
-    "priority": "P1",
-    "grain": "业务日×源账号user_id",
-    "sources": [
-      "haoshen_ods.app_login_log"
-    ],
-    "fields": [
-      "stat_date",
-      "user_id",
-      "source_record_cnt"
-    ],
-    "partition": "stat_date",
-    "incremental": "只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。",
-    "metric_ids": [
-      "R46_login_users",
-      "R46_login_return_d1",
-      "R46_login_return_d7"
-    ],
-    "rules": [
-      "复用项先验收现有粒度、分区、过滤与生产SQL；名称相似不证明口径相同。",
-      "源记录数不是去重订单数/局数；账号与时间域确认后再关联。"
-    ],
-    "sql": "SELECT DATE(`login_date`) AS stat_date, `user_id`,\n       COUNT(*) AS source_record_cnt\nFROM `haoshen_ods`.`app_login_log`\nWHERE `login_date` >= '${start_date}' AND `login_date` < '${end_date}' AND `user_id` IS NOT NULL\nGROUP BY DATE(`login_date`), `user_id`;",
-    "sql_validation": "仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。",
-    "prerequisites": [
-      "复核已有同粒度DWS，避免重复建设",
-      "确认上游标准明细或原来源具备相同口径与完整性"
-    ],
-    "origin": "本轮结构审阅草案",
-    "project_id": "46",
-    "project_name": "DW"
-  },
-  {
-    "id": "R46_DWS_payment",
-    "layer": "DWS",
-    "table": "dws_payment_user_1d",
-    "title": "充值支付账号日集合/统计",
-    "mode": "建议新建",
-    "priority": "P1",
-    "grain": "业务日×源账号user_id",
-    "sources": [
-      "haoshen_ods.charge_order_info"
-    ],
-    "fields": [
-      "stat_date",
-      "user_id",
-      "source_record_cnt"
-    ],
-    "partition": "stat_date",
-    "incremental": "只保留日×账号基础集合/可加值，迟到按验收窗口重算；不能用日UV求和替代区间去重。",
-    "metric_ids": [],
-    "rules": [
-      "复用项先验收现有粒度、分区、过滤与生产SQL；名称相似不证明口径相同。",
-      "源记录数不是去重订单数/局数；账号与时间域确认后再关联。"
-    ],
-    "sql": "SELECT DATE(`log_time`) AS stat_date, `user_id`,\n       COUNT(*) AS source_record_cnt\nFROM `haoshen_ods`.`charge_order_info`\nWHERE `log_time` >= '${start_date}' AND `log_time` < '${end_date}' AND `user_id` IS NOT NULL\nGROUP BY DATE(`log_time`), `user_id`;",
-    "sql_validation": "仅SELECT语法、采集来源和字段静态检查；未执行取数、引擎EXPLAIN或业务对账。",
-    "prerequisites": [
-      "复核已有同粒度DWS，避免重复建设",
-      "确认上游标准明细或原来源具备相同口径与完整性"
-    ],
-    "origin": "本轮结构审阅草案",
-    "project_id": "46",
-    "project_name": "DW"
-  },
-  {
     "id": "R12_DWD_login",
     "layer": "DWD",
     "table": "dwd_login_detail_di",
@@ -7520,5 +7258,381 @@
     "plan_group": "复用候选",
     "construction_value": "优先验收已有充值DWD，避免为订单和RFM再造一张同类明细。当前指标仍使用已确认的ODS。",
     "origin": "2026-11-08本批指标收敛"
+  },
+  {
+    "id": "DW_DWD_login",
+    "layer": "DWD",
+    "table": "haoshen_dwd.dwd_user_login_di",
+    "title": "复用账号日登录去重",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dwd.dwd_user_login_di"
+    ],
+    "grain": "日×user_id",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已在调度找到写入定义，不重复新建同粒度表。",
+      "复用前核对任务flag、工作流发布状态、过滤条件和字段含义；定义上线不等于运行成功。"
+    ],
+    "sql": "SELECT login_date,user_id FROM haoshen_dwd.dwd_user_login_di\nWHERE login_date>='${start_date}' AND login_date<'${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_active_users",
+      "DW_account_retention"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWD_mac",
+    "layer": "DWD",
+    "table": "haoshen_dwd.dwd_user_mac_login_di",
+    "title": "复用账号设备日登录关系",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dwd.dwd_user_mac_login_di"
+    ],
+    "grain": "日×user_id×非空mac",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已在调度找到写入定义，不重复新建同粒度表。",
+      "复用前核对任务flag、工作流发布状态、过滤条件和字段含义；定义上线不等于运行成功。"
+    ],
+    "sql": "SELECT * FROM haoshen_dwd.dwd_user_mac_login_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWD_user",
+    "layer": "DWD",
+    "table": "haoshen_dwd.dwd_user_info_di",
+    "title": "复用专区账号日快照",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dwd.dwd_user_info_di"
+    ],
+    "grain": "快照日×user_id",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已在调度找到写入定义，不重复新建同粒度表。",
+      "复用前核对任务flag、工作流发布状态、过滤条件和字段含义；定义上线不等于运行成功。"
+    ],
+    "sql": "SELECT * FROM haoshen_dwd.dwd_user_info_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_active_users",
+      "DW_new_users",
+      "DW_first_payers",
+      "DW_account_retention"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWD_device",
+    "layer": "DWD",
+    "table": "haoshen_dwd.dwd_app_open_info_di",
+    "title": "复用设备激活日快照",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dwd.dwd_app_open_info_di"
+    ],
+    "grain": "快照日×mac，待唯一性核验",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已在调度找到写入定义，不重复新建同粒度表。",
+      "复用前核对任务flag、工作流发布状态、过滤条件和字段含义；定义上线不等于运行成功。"
+    ],
+    "sql": "SELECT * FROM haoshen_dwd.dwd_app_open_info_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_new_devices",
+      "DW_active_devices",
+      "DW_device_retention"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWD_slot",
+    "layer": "DWD",
+    "table": "haoshen_dwd.dwd_slot_main_log_di",
+    "title": "复用SLOT原始日明细",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dwd.dwd_slot_main_log_di"
+    ],
+    "grain": "id×log_date",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已在调度找到写入定义，不重复新建同粒度表。",
+      "复用前核对任务flag、工作流发布状态、过滤条件和字段含义；定义上线不等于运行成功。"
+    ],
+    "sql": "SELECT * FROM haoshen_dwd.dwd_slot_main_log_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_game_users",
+      "DW_game_duration",
+      "DW_avg_game_duration",
+      "DW_slot_bet",
+      "DW_slot_win"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWS_game",
+    "layer": "DWS",
+    "table": "haoshen_dws.dws_game_detail_di",
+    "title": "复用账号游戏房间日汇总",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dws.dws_game_detail_di"
+    ],
+    "grain": "日×user_id×game_id×room_type",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已在调度找到写入定义，不重复新建同粒度表。",
+      "复用前核对任务flag、工作流发布状态、过滤条件和字段含义；定义上线不等于运行成功。"
+    ],
+    "sql": "SELECT * FROM haoshen_dws.dws_game_detail_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_game_users",
+      "DW_slot_bet",
+      "DW_slot_win"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWS_log",
+    "layer": "DWS",
+    "table": "haoshen_dws.dws_log_total_di",
+    "title": "复用活动分类汇总",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dws.dws_log_total_di"
+    ],
+    "grain": "日×table_name×dimension×分类维度",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已在调度找到写入定义，不重复新建同粒度表。",
+      "复用前核对任务flag、工作流发布状态、过滤条件和字段含义；定义上线不等于运行成功。"
+    ],
+    "sql": "SELECT * FROM haoshen_dws.dws_log_total_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_coin_flow",
+      "DW_draw_users"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWD_payment",
+    "layer": "DWD",
+    "table": "dwd_charge_order_detail_di",
+    "title": "优先补充值及退款订单明细",
+    "mode": "建议新建",
+    "priority": "P1",
+    "sources": [
+      "haoshen_ods.charge_order_info"
+    ],
+    "grain": "订单order_no；退款状态更新独立保留",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "本轮四库目录与调度未找到等价订单DWD，建前再查生产目录。",
+      "按order_no验证唯一性，订单生成和退款时间双窗口捕获更新。",
+      "保留现金/金币/钻石原字段；不杜撰成功枚举、币种或倍率。"
+    ],
+    "sql": "SELECT order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date\nFROM haoshen_ods.charge_order_info\nWHERE (log_time >= '${start_date}' AND log_time < '${end_date}')\n   OR (refund_date >= '${start_date}' AND refund_date < '${end_date}');",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_revenue",
+      "DW_payers",
+      "DW_pay_records",
+      "DW_arpu",
+      "DW_arppu",
+      "DW_first_payers"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWD_fish",
+    "layer": "DWD",
+    "table": "dwd_fish_game_detail_di",
+    "title": "按需补捕鱼标准明细",
+    "mode": "建议新建",
+    "priority": "P1",
+    "sources": [
+      "haoshen_ods.fish_game_log"
+    ],
+    "grain": "fgl_id×log_date（源采集键；业务幂等待验）",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "已有SLOT DWD不覆盖捕鱼。",
+      "num_shot为开炮数，不把源记录数叫局数。",
+      "保留原始room_type_id与金币单位，优先补键与去重再汇总。"
+    ],
+    "sql": "SELECT fgl_id,log_date,user_id,game_id,room_type_id,num_shot,gold_shot_cost,gold_catch_fish\nFROM haoshen_ods.fish_game_log\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWS_user",
+    "layer": "DWS",
+    "table": "dws_user_business_di",
+    "title": "精选DWS①：账号日经营底座",
+    "mode": "建议新建",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dwd.dwd_user_login_di",
+      "haoshen_ods.charge_order_info",
+      "haoshen_ods.bs_user_id"
+    ],
+    "grain": "日×user_id",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "账号并集保留只付费未登录账号，先检查是否为异常或合法人群。",
+      "同一BS标记统一分子分母；保留原始金额，不先填0或推定付款成功。",
+      "BS名单历史有效期、状态和退款规则明确后再物化。"
+    ],
+    "sql": "WITH a AS (SELECT login_date AS log_date,user_id FROM haoshen_dwd.dwd_user_login_di\n WHERE login_date>='${start_date}' AND login_date<'${end_date}'),\np AS (SELECT DATE(log_time) AS log_date,user_id,COUNT(DISTINCT order_no) AS pay_orders,\n SUM(infull_rmb) AS cash_amount,SUM(infull_money) AS charge_coins\n FROM haoshen_ods.charge_order_info WHERE log_time>='${start_date}' AND log_time<'${end_date}'\n GROUP BY DATE(log_time),user_id),\nu AS (SELECT log_date,user_id FROM a UNION SELECT log_date,user_id FROM p)\nSELECT u.log_date,u.user_id,CASE WHEN a.user_id IS NOT NULL THEN 1 ELSE 0 END AS login_flag,\n CASE WHEN b.user_id IS NOT NULL THEN 1 ELSE 0 END AS bs_flag,\n p.pay_orders,p.cash_amount,p.charge_coins\nFROM u LEFT JOIN a ON u.log_date=a.log_date AND u.user_id=a.user_id\n LEFT JOIN p ON u.log_date=p.log_date AND u.user_id=p.user_id\n LEFT JOIN (SELECT DISTINCT user_id FROM haoshen_ods.bs_user_id) b ON u.user_id=b.user_id;",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_avg_game_duration",
+      "DW_pay_rate",
+      "DW_arpu",
+      "DW_arppu"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
+  },
+  {
+    "id": "DW_DWS_retention",
+    "layer": "DWS",
+    "table": "dws_account_retention_di",
+    "title": "精选DWS②：专区账号队列留存",
+    "mode": "建议新建",
+    "priority": "P1",
+    "sources": [
+      "haoshen_dwd.dwd_user_info_di",
+      "haoshen_dwd.dwd_user_login_di"
+    ],
+    "grain": "队列日×第N日观察点；账号口径",
+    "fields": [],
+    "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "设备留存直接复用已有设备日报，不再新建同主题DWS。",
+      "第7日=D+6，第30日=D+29；仅输出完整观察窗口，不把未成熟留存补0。",
+      "账号队列以当日快照冻结；补跑不可用当前主档冒充历史快照。"
+    ],
+    "sql": "WITH cohort AS (\n SELECT DISTINCT user_id FROM haoshen_dwd.dwd_user_info_di\n WHERE log_date='${cohort_date}' AND reg_date>='${cohort_date}'\n AND reg_date<DATE_ADD('${cohort_date}',INTERVAL 1 DAY)\n), offsets AS (SELECT 1 AS day_offset UNION ALL SELECT 2 UNION ALL SELECT 6 UNION ALL SELECT 14 UNION ALL SELECT 29)\nSELECT '${cohort_date}' AS cohort_date,o.day_offset+1 AS retention_day,\n COUNT(c.user_id) AS cohort_users,COUNT(l.user_id) AS returned_users,\n COUNT(l.user_id)*1.0/NULLIF(COUNT(c.user_id),0) AS retention_rate\nFROM offsets o CROSS JOIN cohort c\nLEFT JOIN haoshen_dwd.dwd_user_login_di l ON l.user_id=c.user_id\n AND l.login_date=DATE_ADD('${cohort_date}',INTERVAL o.day_offset DAY)\nWHERE DATE_ADD('${cohort_date}',INTERVAL o.day_offset DAY)<DATE('${data_complete_before}')\nGROUP BY o.day_offset;",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_account_retention"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW"
   }
 ]
