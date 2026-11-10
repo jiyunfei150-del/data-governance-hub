@@ -1,0 +1,19 @@
+﻿table,title,selection,q7,q30,domain,process,definition,grain,selection_reason
+haoshen_ods.app_login_log,登录日志表,优先补充元数据,12,146,玩家域,登录,账号登录事件明细。现有dwd_user_login_di按登录自然日、user_id去重；dwd_user_mac_login_di保留账号与非空设备组合。,源采集键all_id×login_date；账号日去重请复用DWD。,核对登录事件活跃与报表快照活跃的差异，支撑已有登录DWD复用。
+haoshen_ods.user_info,用户属性表,优先补充元数据,36,126,玩家域,玩家基础信息,专区账号当前属性；reg_date表示首次玩专区时间，last_login_date是最后登录专区时间。,当前账号user_id；不是日快照。,解释专区首次进入、当前账号状态与日快照来源。
+haoshen_ods.slot_main_log,SLOT游戏日志表,优先补充元数据,22,125,游戏域,slot游戏,SLOT事件明细，包含下注、赢分、控制类型、房间及play_time；日增量原样投影到既有DWD。,源id×log_date；记录数不自动等于有效下注局数。,SLOT原始行为、玩分/赢分与控制参数来源。
+haoshen_ads.ads_plat_coin_child_di,平台金币统计-其他项分类,优先补充元数据,27,105,经济域,金币流水,平台经济分类中间结果；table_name与两级values_dimension决定value1、value2的含义。,日×来源table_name×分类维度；含多条不同业务分支。,高频经济分类结果，先补清value与分类字段的逐来源含义。
+haoshen_ads.total_game_report,游戏信息汇总,优先补充元数据,27,79,游戏域,游戏结算,按游戏、房间、游戏类型汇总SLOT与捕鱼事件，包含人数、局数、时长、玩分和赢分。,日×game_id×game_type×room_type及GROUPING SETS汇总行。,直接复用游戏人数与SLOT玩分/赢分，明确汇总层级。
+haoshen_ads.ads_device_retention_di,设备留存日报表,优先补充元数据,30,77,玩家域,玩家设备,由设备日快照计算激活、活跃及新设备第2/3/7/30日留存。country_code分TW/非TW，另有渠道和open_state切片。,日×agent_id×country_code×open_state及汇总层级。,直接复用新增设备及设备留存，保留分子分母和原零值政策。
+haoshen_ads.ads_plat_coin_di,平台金币统计-配置分类,优先补充元数据,28,73,经济域,金币流水,按日期、来源表及业务类型计算经济数值。不同分支分别使用赠币金额、活动币差额、道具折值、宝石折值。,日×table_name×type。,经济分类报表的源字段与计量解释，统一产消指标暂缓。
+haoshen_ods.luck_draw_log,OLAP,优先补充元数据,56,60,运营域,活动领奖,活动抽奖记录，包含活动类型、阶段、奖励以及活动币前后余额；可支撑参与人数和奖励发放分析。,源id×log_date；奖励/兑换状态以字段分别判断。,高活性活动日志，可提取活动参与人数。
+haoshen_ods.charge_order_info,充值订单表,优先补充元数据,6,42,付费域,充值支付,充值订单记录；infull_rmb为现金充值字段，infull_money为充值金币，infull_integral为充值钻石。退款使用refund_flag/refund_date。,订单order_no；须验证幂等和历史重复。,现金充值、充值金币、次数、付费人数及退款的共同来源。
+haoshen_ods.bs_user_id,代理帐号表,优先补充元数据,7,23,玩家域,异常,代理/BS账号名单，日报部分活跃和付费统计通过user_id反连接排除。,名单user_id；历史有效期未见。,复现已有活跃/付费统计的BS排除规则。
+haoshen_dwd.dwd_slot_main_log_di,SLOT游戏日志表明细,优先补充元数据,11,20,游戏域,slot游戏,SLOT明细日窗口复制ODS的35个字段，保留play_time、play_money、main_win及控制参数。,"id×log_date；任务按[yesterday,today)覆盖。",现有SLOT DWD复用，避免重复建明细。
+haoshen_ods.app_open_info,激活日志,优先补充元数据,1,20,玩家域,玩家设备,设备激活与最近打开状态，供设备日快照及新增/活跃设备统计。,设备mac当前状态；唯一性待核。,新增设备与设备留存的首次打开、最近打开语义。
+haoshen_dwd.dwd_user_info_di,每日快照,优先补充元数据,6,19,玩家域,玩家状态快照,专区账号日快照。启用任务读取view_user_info并排除sex_type=2，关联user_info_b；旧的多表关联任务flag=NO。,log_date×user_id；需检查关联唯一性。,新增、快照活跃、首充、账号留存的共同底表。
+haoshen_ods.games,游戏属性表,优先补充元数据,6,19,游戏域,游戏配置,游戏ID、类型、名称和上线时间等配置，供游戏事实分类。,game_id。,游戏分类与类型1/5归并范围。
+haoshen_ods.prop_info,道具信息表,优先补充元数据,12,13,公共域,配置管理,道具配置及价值字典，prop_value用于经济统计折值。,prop_id。,道具价值及经济折值解释。
+haoshen_ods.fish_game_log,捕鱼日志表,优先补充元数据,4,11,游戏域,捕鱼游戏,捕鱼事件聚合记录，包含开炮数、开炮消耗和捕鱼获得金币。,按采集键和事件时间保留明细。,捕鱼开炮、消耗和产出来源，作为按需补DWD候选。
+haoshen_ads.view_total_haoshen_report,view_total_haoshen_report,补证后补充,33,84,公共域,数据分析汇总,经营总表展示视图，已采集459个字段；实际物理日报ads_total_haoshen_report_di已定位，但两者视图映射尚缺DDL。,展示粒度与计算列需视图定义确认。,高频但维护/映射证据未齐，先补证据。
+haoshen_ads.log_type_info,OLAP,补证后补充,28,75,公共域,配置管理,金币来源业务分类字典，table_name、type等字段用于筛选经济统计来源。,分类记录id；业务连接键需检查唯一性。,高频但维护/映射证据未齐，先补证据。

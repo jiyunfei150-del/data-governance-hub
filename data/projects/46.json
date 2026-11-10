@@ -28,10 +28,10 @@
     "model_new": 4,
     "verified_registered_tables": 0,
     "data_file": "data/projects/46.json",
-    "initialization": "四层调度已核对，DW审阅稿；未录入",
+    "initialization": "DW首批候选：16张优先元数据、13个指标主题；未录入",
     "priority": "P1 核对首批",
     "model_dws_reuse": 2,
-    "review_stage": "调度语义审阅已整理",
+    "review_stage": "活性＋报表逻辑首批候选已整理",
     "review_tags": 46,
     "review_only": true,
     "project_kind": "game",
@@ -47,7 +47,8 @@
     "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
     "scope_note": "仅整理haoshen_ods/dwd/dws/ads。指标库存未核验；旧快照0不代表当前没有。",
     "inventory_status": "当前入口未列DW，待全量查重",
-    "scheduler_review_url": "DW调度审阅.html"
+    "scheduler_review_url": "DW调度审阅.html",
+    "first_batch_review_url": "DW首批治理候选.html"
   },
   "tables": [
     {
@@ -107,7 +108,9 @@
       ],
       "scheduler_writer_count": 2,
       "scheduler_enabled_writer_count": 2,
-      "scheduler_reader_count": 28
+      "scheduler_reader_count": 28,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "核对登录事件活跃与报表快照活跃的差异，支撑已有登录DWD复用。"
     },
     {
       "project_id": "46",
@@ -165,7 +168,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 13
+      "scheduler_reader_count": 13,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "解释专区首次进入、当前账号状态与日快照来源。"
     },
     {
       "project_id": "46",
@@ -224,7 +229,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 36
+      "scheduler_reader_count": 36,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "SLOT原始行为、玩分/赢分与控制参数来源。"
     },
     {
       "project_id": "46",
@@ -283,7 +290,9 @@
       ],
       "scheduler_writer_count": 9,
       "scheduler_enabled_writer_count": 9,
-      "scheduler_reader_count": 9
+      "scheduler_reader_count": 9,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "高频经济分类结果，先补清value与分类字段的逐来源含义。"
     },
     {
       "project_id": "46",
@@ -339,7 +348,9 @@
       ],
       "scheduler_writer_count": 0,
       "scheduler_enabled_writer_count": 0,
-      "scheduler_reader_count": 1
+      "scheduler_reader_count": 1,
+      "shortlist_20261110": "补证后补充",
+      "shortlist_reason": "高频但维护/映射证据未齐，先补证据。"
     },
     {
       "project_id": "46",
@@ -400,7 +411,9 @@
       ],
       "scheduler_writer_count": 2,
       "scheduler_enabled_writer_count": 2,
-      "scheduler_reader_count": 4
+      "scheduler_reader_count": 4,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "直接复用游戏人数与SLOT玩分/赢分，明确汇总层级。"
     },
     {
       "project_id": "46",
@@ -461,7 +474,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 1
+      "scheduler_reader_count": 1,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "直接复用新增设备及设备留存，保留分子分母和原零值政策。"
     },
     {
       "project_id": "46",
@@ -519,7 +534,9 @@
       ],
       "scheduler_writer_count": 0,
       "scheduler_enabled_writer_count": 0,
-      "scheduler_reader_count": 1
+      "scheduler_reader_count": 1,
+      "shortlist_20261110": "补证后补充",
+      "shortlist_reason": "高频但维护/映射证据未齐，先补证据。"
     },
     {
       "project_id": "46",
@@ -578,7 +595,9 @@
       ],
       "scheduler_writer_count": 4,
       "scheduler_enabled_writer_count": 4,
-      "scheduler_reader_count": 4
+      "scheduler_reader_count": 4,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "经济分类报表的源字段与计量解释，统一产消指标暂缓。"
     },
     {
       "project_id": "46",
@@ -637,7 +656,9 @@
       ],
       "scheduler_writer_count": 2,
       "scheduler_enabled_writer_count": 2,
-      "scheduler_reader_count": 82
+      "scheduler_reader_count": 82,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "高活性活动日志，可提取活动参与人数。"
     },
     {
       "project_id": "46",
@@ -756,7 +777,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 47
+      "scheduler_reader_count": 47,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "现金充值、充值金币、次数、付费人数及退款的共同来源。"
     },
     {
       "project_id": "46",
@@ -870,7 +893,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 42
+      "scheduler_reader_count": 42,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "复现已有活跃/付费统计的BS排除规则。"
     },
     {
       "project_id": "46",
@@ -1046,7 +1071,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 19
+      "scheduler_reader_count": 19,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "现有SLOT DWD复用，避免重复建明细。"
     },
     {
       "project_id": "46",
@@ -1104,7 +1131,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 8
+      "scheduler_reader_count": 8,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "新增设备与设备留存的首次打开、最近打开语义。"
     },
     {
       "project_id": "46",
@@ -1163,7 +1192,9 @@
       ],
       "scheduler_writer_count": 2,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 103
+      "scheduler_reader_count": 103,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "新增、快照活跃、首充、账号留存的共同底表。"
     },
     {
       "project_id": "46",
@@ -1221,7 +1252,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 25
+      "scheduler_reader_count": 25,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "游戏分类与类型1/5归并范围。"
     },
     {
       "project_id": "46",
@@ -1339,7 +1372,9 @@
       ],
       "scheduler_writer_count": 1,
       "scheduler_enabled_writer_count": 1,
-      "scheduler_reader_count": 41
+      "scheduler_reader_count": 41,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "道具价值及经济折值解释。"
     },
     {
       "project_id": "46",
@@ -1398,7 +1433,9 @@
       ],
       "scheduler_writer_count": 3,
       "scheduler_enabled_writer_count": 2,
-      "scheduler_reader_count": 35
+      "scheduler_reader_count": 35,
+      "shortlist_20261110": "优先补充元数据",
+      "shortlist_reason": "捕鱼开炮、消耗和产出来源，作为按需补DWD候选。"
     },
     {
       "project_id": "46",
@@ -23439,85 +23476,163 @@
       "name": "活跃用户数",
       "english": "dw_active_users",
       "type": "原子",
-      "table": "haoshen_ads.ads_total_haoshen_report_di",
+      "table": "haoshen_dwd.dwd_user_info_di",
       "source_tables": [
-        "haoshen_ads.ads_total_haoshen_report_di"
+        "haoshen_dwd.dwd_user_info_di",
+        "haoshen_ods.bs_user_id"
       ],
       "time": "log_date",
       "columns": [
-        "num7",
-        "agent_id",
-        "country_code"
+        "user_id",
+        "last_login_date",
+        "log_date"
       ],
-      "definition": "业务日内登录专区、存在当日账号快照且不在BS名单中的账号数；原始登录日去重作为同主题对照来源，先核范围再复用。",
-      "sql": "SELECT log_date, num7 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
-      "risk": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 不得将未排BS的登录日志日去重直接当相同人群；汇总渠道行与明细行不混加。",
+      "definition": "当日账号快照中，最后登录专区时间落在业务日且不在BS名单中的账号数。",
+      "sql": "SELECT '${stat_date}' AS stat_date,COUNT(CASE WHEN t.last_login_date>='${stat_date}' AND t.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) AND s.user_id IS NULL THEN t.user_id END) AS metric_value\nFROM haoshen_dwd.dwd_user_info_di t\nLEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id\nWHERE t.log_date='${stat_date}';",
+      "risk": "复现num7的快照活跃条件，不能用未排BS的登录日志人数直接替代。移除无关连接的前提：已采集主键显示user_info_b为日×账号、task_coin_info为账号×periods；实际唯一性和历史BS范围仍需对账。",
       "unit": "账号",
       "domain": "玩家域",
       "process": "登录",
       "status": "候选待审",
-      "origin": "2026-11-10调度语义审阅稿",
+      "origin": "2026-11-10：活性准入＋报表逻辑提取",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
       "proposed_registration": false,
       "validation": "来源字段及调度定义静态核对；未执行引擎EXPLAIN、生产取数或业务数值验收。",
       "model_ids": [
-        "DW_DWD_login",
-        "DW_DWD_user"
+        "DW_DWD_user",
+        "DW_DWS_user"
       ],
       "project_id": "46",
       "project_name": "DW",
       "review_kind": "active_users",
-      "first_batch_source_eligible": false,
+      "first_batch_source_eligible": true,
       "source_activity": {
-        "q7": 0,
-        "q30": 0,
-        "level": "冷",
-        "first_batch": false
+        "q7": 6,
+        "q30": 19,
+        "level": "中活跃",
+        "first_batch": true
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "previous_source_review": {
+        "table": "haoshen_ads.ads_total_haoshen_report_di",
+        "sql": "SELECT log_date, num7 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
+        "note": "保留报表层参考；同一指标主题改用活跃底表复现口径，不新增指标资产。"
+      },
+      "source_fields": {
+        "haoshen_dwd.dwd_user_info_di": [
+          "user_id",
+          "log_date",
+          "last_login_date"
+        ],
+        "haoshen_ods.bs_user_id": [
+          "user_id"
+        ]
+      },
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report01",
+          "field": "num7",
+          "task_code": 22578389776353,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "selection": "优先审阅",
+      "selection_reason": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。",
+      "source_activity_detail": [
+        {
+          "table": "haoshen_dwd.dwd_user_info_di",
+          "q7": 6,
+          "q30": 19,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_ods.bs_user_id",
+          "q7": 7,
+          "q30": 23,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_new_users",
       "name": "专区新增用户数",
       "english": "dw_new_users",
       "type": "原子",
-      "table": "haoshen_ads.ads_total_haoshen_report_di",
+      "table": "haoshen_dwd.dwd_user_info_di",
       "source_tables": [
-        "haoshen_ads.ads_total_haoshen_report_di"
+        "haoshen_dwd.dwd_user_info_di"
       ],
       "time": "log_date",
       "columns": [
-        "num2",
-        "agent_id",
-        "country_code"
+        "user_id",
+        "reg_date",
+        "log_date"
       ],
-      "definition": "业务日reg_date落在当天的专区账号快照人数；reg_date是首次进入专区时间。",
-      "sql": "SELECT log_date, num2 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
-      "risk": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 不能称为全平台新注册账号；与设备激活人数分别保留。",
+      "definition": "业务日账号快照中reg_date落在当天的专区新增账号数；reg_date表示首次玩专区，不是平台注册时间。",
+      "sql": "SELECT '${stat_date}' AS stat_date,COUNT(CASE WHEN t.reg_date>='${stat_date}' AND t.reg_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN t.user_id END) AS metric_value\nFROM haoshen_dwd.dwd_user_info_di t\nWHERE t.log_date='${stat_date}';",
+      "risk": "保留报表不排BS的规则。原任务还关联agent_user_info，其唯一性未证实；此处提取核心账号条件，去掉无关连接，必须与报表对账后再作为正式口径。",
       "unit": "账号",
       "domain": "玩家域",
       "process": "注册",
       "status": "候选待审",
-      "origin": "2026-11-10调度语义审阅稿",
+      "origin": "2026-11-10：活性准入＋报表逻辑提取",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
       "proposed_registration": false,
       "validation": "来源字段及调度定义静态核对；未执行引擎EXPLAIN、生产取数或业务数值验收。",
       "model_ids": [
-        "DW_DWD_user"
+        "DW_DWD_user",
+        "DW_DWS_user"
       ],
       "project_id": "46",
       "project_name": "DW",
       "review_kind": "new_users",
-      "first_batch_source_eligible": false,
+      "first_batch_source_eligible": true,
       "source_activity": {
-        "q7": 0,
-        "q30": 0,
-        "level": "冷",
-        "first_batch": false
+        "q7": 6,
+        "q30": 19,
+        "level": "中活跃",
+        "first_batch": true
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "previous_source_review": {
+        "table": "haoshen_ads.ads_total_haoshen_report_di",
+        "sql": "SELECT log_date, num2 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
+        "note": "保留报表层参考；同一指标主题改用活跃底表复现口径，不新增指标资产。"
+      },
+      "source_fields": {
+        "haoshen_dwd.dwd_user_info_di": [
+          "user_id",
+          "reg_date",
+          "log_date"
+        ]
+      },
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report02",
+          "field": "num2",
+          "task_code": 22578389776354,
+          "task_version": 4,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "selection": "优先审阅",
+      "selection_reason": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。",
+      "source_activity_detail": [
+        {
+          "table": "haoshen_dwd.dwd_user_info_di",
+          "q7": 6,
+          "q30": 19,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_game_users",
@@ -23537,7 +23652,7 @@
       ],
       "definition": "业务日参与SLOT或捕鱼、存在同日账号快照的去重账号数，按选定游戏/房间层级统计。",
       "sql": "SELECT log_date, gam_user AS metric_value\nFROM haoshen_ads.total_game_report\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND game_id=-1 AND game_type=-1 AND room_type=-1;",
-      "risk": "直接取已有整体汇总行，跨游戏/房间人数不相加。",
+      "risk": "只取game_id/game_type/room_type全为-1的整体汇总行；不跨游戏加总人数。账号必须存在同日快照。原始SLOT与捕鱼业务范围按total_game_report保留。",
       "unit": "账号",
       "domain": "游戏域",
       "process": "游戏结算",
@@ -23561,7 +23676,36 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "source_fields": {
+        "haoshen_ads.total_game_report": [
+          "gam_user",
+          "game_id",
+          "game_type",
+          "room_type"
+        ]
+      },
+      "selection": "优先审阅",
+      "selection_reason": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。",
+      "report_logic": [
+        {
+          "task": "total_game_report",
+          "field": "gam_user",
+          "task_code": 22578389770337,
+          "task_version": 3,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ads.total_game_report",
+          "q7": 27,
+          "q30": 79,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_game_duration",
@@ -23580,12 +23724,12 @@
         "room_type"
       ],
       "definition": "所选SLOT统计范围内play_time的总和；捕鱼分支时长为0，不将其解释为完整全玩法时长。",
-      "sql": "SELECT log_date, play_time AS metric_value\nFROM haoshen_ads.total_game_report\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND game_id=-1 AND game_type=-1 AND room_type=-1;",
+      "sql": "SELECT log_date, play_time AS metric_value\nFROM haoshen_ads.total_game_report\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND game_id=-1 AND game_type=1 AND room_type=-1;",
       "risk": "原play_time单位待源系统确认；经营总表另有/60换算；空值与未记录不等于真实0。",
       "unit": "源时长单位",
       "domain": "游戏域",
       "process": "slot游戏",
-      "status": "候选待审",
+      "status": "暂缓登记",
       "origin": "2026-11-10调度语义审阅稿",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
@@ -23604,7 +23748,10 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批暂不补录",
+      "selection": "待核口径",
+      "selection_reason": "时长单位待确认；经营总表有/60换算，游戏总表保留源值。先统一游戏/房间范围及单位。",
+      "deferred_reason": "时长单位待确认；经营总表有/60换算，游戏总表保留源值。先统一游戏/房间范围及单位。"
     },
     {
       "id": "DW_avg_game_duration",
@@ -23646,133 +23793,313 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批暂不补录",
+      "selection": "待核口径",
+      "selection_reason": "依赖总时长单位、有效时长记录及相同游戏人群，分子分母尚未统一。",
+      "deferred_reason": "依赖总时长单位、有效时长记录及相同游戏人群，分子分母尚未统一。"
     },
     {
       "id": "DW_revenue",
       "name": "充值金额",
       "english": "dw_revenue",
       "type": "原子",
-      "table": "haoshen_ads.ads_total_haoshen_report_di",
+      "table": "haoshen_ods.charge_order_info",
       "source_tables": [
-        "haoshen_ads.ads_total_haoshen_report_di"
+        "haoshen_ods.charge_order_info",
+        "haoshen_dwd.dwd_user_info_di",
+        "haoshen_ods.bs_user_id"
       ],
-      "time": "log_date",
+      "time": "log_time",
       "columns": [
-        "num11",
-        "agent_id",
-        "country_code"
+        "user_id",
+        "order_no",
+        "log_time",
+        "infull_rmb"
       ],
-      "definition": "业务日内订单生成时间对应的infull_rmb总和，当前生产日报包含BS账号。",
-      "sql": "SELECT log_date, num11 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
-      "risk": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。",
-      "unit": "源现金币值",
+      "definition": "业务日内、能够关联同日账号快照的订单infull_rmb总和；沿用报表包含BS、未冲减退款的规则。",
+      "sql": "SELECT '${stat_date}' AS stat_date,COALESCE(SUM(t.infull_rmb),0) AS metric_value\nFROM haoshen_ods.charge_order_info t\nJOIN haoshen_dwd.dwd_user_info_di u ON t.user_id=u.user_id AND u.log_date='${stat_date}'\nLEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id\nWHERE t.log_time>='${stat_date}' AND t.log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY);",
+      "risk": "源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。",
+      "unit": "源现金币值（币种/倍率待核）",
       "domain": "付费域",
       "process": "充值支付",
       "status": "候选待审",
-      "origin": "2026-11-10调度语义审阅稿",
+      "origin": "2026-11-10：活性准入＋报表逻辑提取",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
       "proposed_registration": false,
       "validation": "来源字段及调度定义静态核对；未执行引擎EXPLAIN、生产取数或业务数值验收。",
       "model_ids": [
-        "DW_DWD_payment"
+        "DW_DWD_payment",
+        "DW_DWS_user"
       ],
       "project_id": "46",
       "project_name": "DW",
       "review_kind": "revenue",
-      "first_batch_source_eligible": false,
+      "first_batch_source_eligible": true,
       "source_activity": {
-        "q7": 0,
-        "q30": 0,
-        "level": "冷",
-        "first_batch": false
+        "q7": 6,
+        "q30": 42,
+        "level": "中活跃",
+        "first_batch": true
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "previous_source_review": {
+        "table": "haoshen_ads.ads_total_haoshen_report_di",
+        "sql": "SELECT log_date, num11 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
+        "note": "保留报表层参考；同一指标主题改用活跃底表复现口径，不新增指标资产。"
+      },
+      "source_fields": {
+        "haoshen_ods.charge_order_info": [
+          "user_id",
+          "order_no",
+          "log_time",
+          "infull_rmb"
+        ],
+        "haoshen_dwd.dwd_user_info_di": [
+          "user_id",
+          "log_date"
+        ],
+        "haoshen_ods.bs_user_id": [
+          "user_id"
+        ]
+      },
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report05",
+          "field": "num11",
+          "task_code": 22578389776357,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "selection": "优先审阅",
+      "selection_reason": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。",
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ods.charge_order_info",
+          "q7": 6,
+          "q30": 42,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_dwd.dwd_user_info_di",
+          "q7": 6,
+          "q30": 19,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_ods.bs_user_id",
+          "q7": 7,
+          "q30": 23,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_payers",
       "name": "付费用户数",
       "english": "dw_payers",
       "type": "原子",
-      "table": "haoshen_ads.ads_total_haoshen_report_di",
+      "table": "haoshen_ods.charge_order_info",
       "source_tables": [
-        "haoshen_ads.ads_total_haoshen_report_di"
+        "haoshen_ods.charge_order_info",
+        "haoshen_dwd.dwd_user_info_di",
+        "haoshen_ods.bs_user_id"
       ],
-      "time": "log_date",
+      "time": "log_time",
       "columns": [
-        "num13",
-        "agent_id",
-        "country_code"
+        "user_id",
+        "order_no",
+        "log_time",
+        "infull_rmb"
       ],
-      "definition": "业务日内存在充值记录且不在BS名单中的去重账号数。",
-      "sql": "SELECT log_date, num13 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
-      "risk": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。",
+      "definition": "业务日内有充值记录、能关联同日账号快照且非BS的去重账号数。",
+      "sql": "SELECT '${stat_date}' AS stat_date,COUNT(DISTINCT CASE WHEN s.user_id IS NULL THEN t.user_id END) AS metric_value\nFROM haoshen_ods.charge_order_info t\nJOIN haoshen_dwd.dwd_user_info_di u ON t.user_id=u.user_id AND u.log_date='${stat_date}'\nLEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id\nWHERE t.log_time>='${stat_date}' AND t.log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY);",
+      "risk": "源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。",
       "unit": "账号",
       "domain": "付费域",
       "process": "充值支付",
       "status": "候选待审",
-      "origin": "2026-11-10调度语义审阅稿",
+      "origin": "2026-11-10：活性准入＋报表逻辑提取",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
       "proposed_registration": false,
       "validation": "来源字段及调度定义静态核对；未执行引擎EXPLAIN、生产取数或业务数值验收。",
       "model_ids": [
-        "DW_DWD_payment"
+        "DW_DWD_payment",
+        "DW_DWS_user"
       ],
       "project_id": "46",
       "project_name": "DW",
       "review_kind": "payers",
-      "first_batch_source_eligible": false,
+      "first_batch_source_eligible": true,
       "source_activity": {
-        "q7": 0,
-        "q30": 0,
-        "level": "冷",
-        "first_batch": false
+        "q7": 6,
+        "q30": 42,
+        "level": "中活跃",
+        "first_batch": true
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "previous_source_review": {
+        "table": "haoshen_ads.ads_total_haoshen_report_di",
+        "sql": "SELECT log_date, num13 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
+        "note": "保留报表层参考；同一指标主题改用活跃底表复现口径，不新增指标资产。"
+      },
+      "source_fields": {
+        "haoshen_ods.charge_order_info": [
+          "user_id",
+          "order_no",
+          "log_time",
+          "infull_rmb"
+        ],
+        "haoshen_dwd.dwd_user_info_di": [
+          "user_id",
+          "log_date"
+        ],
+        "haoshen_ods.bs_user_id": [
+          "user_id"
+        ]
+      },
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report05",
+          "field": "num13",
+          "task_code": 22578389776357,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "selection": "优先审阅",
+      "selection_reason": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。",
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ods.charge_order_info",
+          "q7": 6,
+          "q30": 42,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_dwd.dwd_user_info_di",
+          "q7": 6,
+          "q30": 19,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_ods.bs_user_id",
+          "q7": 7,
+          "q30": 23,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_pay_records",
       "name": "充值次数",
       "english": "dw_pay_records",
       "type": "原子",
-      "table": "haoshen_ads.ads_total_haoshen_report_di",
+      "table": "haoshen_ods.charge_order_info",
       "source_tables": [
-        "haoshen_ads.ads_total_haoshen_report_di"
+        "haoshen_ods.charge_order_info",
+        "haoshen_dwd.dwd_user_info_di",
+        "haoshen_ods.bs_user_id"
       ],
-      "time": "log_date",
+      "time": "log_time",
       "columns": [
-        "num12",
-        "agent_id",
-        "country_code"
+        "user_id",
+        "order_no",
+        "log_time",
+        "infull_rmb"
       ],
-      "definition": "业务日内非BS账号充值记录数；是否等同去重订单数待验证。",
-      "sql": "SELECT log_date, num12 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
-      "risk": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。",
+      "definition": "业务日内能关联同日账号快照且非BS的充值记录行数。",
+      "sql": "SELECT '${stat_date}' AS stat_date,COUNT(CASE WHEN s.user_id IS NULL THEN 1 END) AS metric_value\nFROM haoshen_ods.charge_order_info t\nJOIN haoshen_dwd.dwd_user_info_di u ON t.user_id=u.user_id AND u.log_date='${stat_date}'\nLEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id\nWHERE t.log_time>='${stat_date}' AND t.log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY);",
+      "risk": "源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。",
       "unit": "记录",
       "domain": "付费域",
       "process": "充值支付",
       "status": "候选待审",
-      "origin": "2026-11-10调度语义审阅稿",
+      "origin": "2026-11-10：活性准入＋报表逻辑提取",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
       "proposed_registration": false,
       "validation": "来源字段及调度定义静态核对；未执行引擎EXPLAIN、生产取数或业务数值验收。",
       "model_ids": [
-        "DW_DWD_payment"
+        "DW_DWD_payment",
+        "DW_DWS_user"
       ],
       "project_id": "46",
       "project_name": "DW",
       "review_kind": "pay_records",
-      "first_batch_source_eligible": false,
+      "first_batch_source_eligible": true,
       "source_activity": {
-        "q7": 0,
-        "q30": 0,
-        "level": "冷",
-        "first_batch": false
+        "q7": 6,
+        "q30": 42,
+        "level": "中活跃",
+        "first_batch": true
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "previous_source_review": {
+        "table": "haoshen_ads.ads_total_haoshen_report_di",
+        "sql": "SELECT log_date, num12 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
+        "note": "保留报表层参考；同一指标主题改用活跃底表复现口径，不新增指标资产。"
+      },
+      "source_fields": {
+        "haoshen_ods.charge_order_info": [
+          "user_id",
+          "order_no",
+          "log_time",
+          "infull_rmb"
+        ],
+        "haoshen_dwd.dwd_user_info_di": [
+          "user_id",
+          "log_date"
+        ],
+        "haoshen_ods.bs_user_id": [
+          "user_id"
+        ]
+      },
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report05",
+          "field": "num12",
+          "task_code": 22578389776357,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "selection": "优先审阅",
+      "selection_reason": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。",
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ods.charge_order_info",
+          "q7": 6,
+          "q30": 42,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_dwd.dwd_user_info_di",
+          "q7": 6,
+          "q30": 19,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_ods.bs_user_id",
+          "q7": 7,
+          "q30": 23,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_pay_rate",
@@ -23796,7 +24123,7 @@
       "unit": "比例0–1",
       "domain": "付费域",
       "process": "充值支付",
-      "status": "候选待审",
+      "status": "暂缓登记",
       "origin": "2026-11-10调度语义审阅稿",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
@@ -23815,7 +24142,10 @@
         "level": "冷",
         "first_batch": false
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批暂不补录",
+      "selection": "待核口径",
+      "selection_reason": "需确认非BS付费账号是否属于同日快照活跃账号范围，不能先假定分母包含全部付费用户。",
+      "deferred_reason": "需确认非BS付费账号是否属于同日快照活跃账号范围，不能先假定分母包含全部付费用户。"
     },
     {
       "id": "DW_arpu",
@@ -23857,7 +24187,10 @@
         "level": "冷",
         "first_batch": false
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批暂不补录",
+      "selection": "待核口径",
+      "selection_reason": "原报表充值金额包含BS、活跃分母排BS，且币种/倍率待核。",
+      "deferred_reason": "原报表充值金额包含BS、活跃分母排BS，且币种/倍率待核。"
     },
     {
       "id": "DW_arppu",
@@ -23899,50 +24232,98 @@
         "level": "冷",
         "first_batch": false
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批暂不补录",
+      "selection": "待核口径",
+      "selection_reason": "原报表充值金额包含BS、付费分母排BS，先确认统一业务人群。",
+      "deferred_reason": "原报表充值金额包含BS、付费分母排BS，先确认统一业务人群。"
     },
     {
       "id": "DW_first_payers",
       "name": "首次付费用户数",
       "english": "dw_first_payers",
       "type": "原子",
-      "table": "haoshen_ads.ads_total_haoshen_report_di",
+      "table": "haoshen_dwd.dwd_user_info_di",
       "source_tables": [
-        "haoshen_ads.ads_total_haoshen_report_di"
+        "haoshen_dwd.dwd_user_info_di",
+        "haoshen_ods.bs_user_id"
       ],
       "time": "log_date",
       "columns": [
-        "num14",
-        "agent_id",
-        "country_code"
+        "user_id",
+        "first_infull_time",
+        "log_date"
       ],
-      "definition": "first_infull_time落在业务日且不在BS名单中的去重快照账号数。",
-      "sql": "SELECT log_date, num14 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
-      "risk": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 首次充值时间来自账号快照；不以当前首充标记重算全部历史。",
+      "definition": "同日账号快照中，首次充值时间落在业务日且非BS的去重账号数。",
+      "sql": "SELECT '${stat_date}' AS stat_date,COUNT(DISTINCT CASE WHEN t.first_infull_time>='${stat_date}' AND t.first_infull_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) AND s.user_id IS NULL THEN t.user_id END) AS metric_value\nFROM haoshen_dwd.dwd_user_info_di t\nLEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id\nWHERE t.log_date='${stat_date}';",
+      "risk": "采用报表first_infull_time条件，不改成is_first_infull或历史订单自拟首充算法；历史快照与BS名单有效期需核准。",
       "unit": "账号",
       "domain": "付费域",
       "process": "充值支付",
       "status": "候选待审",
-      "origin": "2026-11-10调度语义审阅稿",
+      "origin": "2026-11-10：活性准入＋报表逻辑提取",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
       "proposed_registration": false,
       "validation": "来源字段及调度定义静态核对；未执行引擎EXPLAIN、生产取数或业务数值验收。",
       "model_ids": [
         "DW_DWD_user",
-        "DW_DWD_payment"
+        "DW_DWD_payment",
+        "DW_DWS_user"
       ],
       "project_id": "46",
       "project_name": "DW",
       "review_kind": "first_payers",
-      "first_batch_source_eligible": false,
+      "first_batch_source_eligible": true,
       "source_activity": {
-        "q7": 0,
-        "q30": 0,
-        "level": "冷",
-        "first_batch": false
+        "q7": 6,
+        "q30": 19,
+        "level": "中活跃",
+        "first_batch": true
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "previous_source_review": {
+        "table": "haoshen_ads.ads_total_haoshen_report_di",
+        "sql": "SELECT log_date, num14 AS metric_value\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1';",
+        "note": "保留报表层参考；同一指标主题改用活跃底表复现口径，不新增指标资产。"
+      },
+      "source_fields": {
+        "haoshen_dwd.dwd_user_info_di": [
+          "user_id",
+          "first_infull_time",
+          "log_date"
+        ],
+        "haoshen_ods.bs_user_id": [
+          "user_id"
+        ]
+      },
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report01",
+          "field": "num14",
+          "task_code": 22578389776353,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "selection": "优先审阅",
+      "selection_reason": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。",
+      "source_activity_detail": [
+        {
+          "table": "haoshen_dwd.dwd_user_info_di",
+          "q7": 6,
+          "q30": 19,
+          "level": "中活跃",
+          "first_batch": true
+        },
+        {
+          "table": "haoshen_ods.bs_user_id",
+          "q7": 7,
+          "q30": 23,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_new_devices",
@@ -23962,7 +24343,7 @@
       ],
       "definition": "业务日设备快照中首次打开日期落在当日的设备数。",
       "sql": "SELECT log_date, new_device AS metric_value\nFROM haoshen_ads.ads_device_retention_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1' AND open_state=-1;",
-      "risk": "现有经营总表活跃设备还合并游戏最近游玩设备，来源覆盖不一致；作为同主题差异核对，不另起报表版本。",
+      "risk": "只取agent_id=-1、country_code=-1、open_state=-1整体行，避免GROUPING SETS重复。新增以设备首次激活为队列，与专区新增账号分开。",
       "unit": "设备",
       "domain": "玩家域",
       "process": "玩家设备",
@@ -23985,7 +24366,36 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "source_fields": {
+        "haoshen_ads.ads_device_retention_di": [
+          "new_device",
+          "agent_id",
+          "country_code",
+          "open_state"
+        ]
+      },
+      "selection": "优先审阅",
+      "selection_reason": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。",
+      "report_logic": [
+        {
+          "task": "ads_device_retention_di",
+          "field": "new_device / reg_N / retained_N / retention_rate_N",
+          "task_code": 22578389866721,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ads.ads_device_retention_di",
+          "q7": 30,
+          "q30": 77,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_active_devices",
@@ -24003,13 +24413,13 @@
         "country_code",
         "open_state"
       ],
-      "definition": "业务日设备快照中最近打开日期落在当日的设备数。",
-      "sql": "SELECT log_date, active_device AS metric_value\nFROM haoshen_ads.ads_device_retention_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1' AND open_state=-1;",
-      "risk": "现有经营总表活跃设备还合并游戏最近游玩设备，来源覆盖不一致；作为同主题差异核对，不另起报表版本。",
+      "definition": "经营总表的活跃设备主题：游戏最近游玩账号的last_login_mac与设备当日打开记录合并，按报表渠道及地域范围去重统计。",
+      "sql": "",
+      "risk": "经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。",
       "unit": "设备",
       "domain": "玩家域",
       "process": "玩家设备",
-      "status": "候选待审",
+      "status": "暂缓登记",
       "origin": "2026-11-10调度语义审阅稿",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
@@ -24028,58 +24438,99 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批暂不补录",
+      "selection": "待核口径",
+      "selection_reason": "经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。",
+      "deferred_reason": "经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。",
+      "reference_sql": "SELECT log_date, active_device AS metric_value\nFROM haoshen_ads.ads_device_retention_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1' AND open_state=-1;",
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report03a",
+          "field": "num5",
+          "task_code": 22578389776484,
+          "task_version": 2,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ]
     },
     {
       "id": "DW_account_retention",
       "name": "专区新增账号留存率",
       "english": "dw_account_retention",
       "type": "派生",
-      "table": "haoshen_ads.ads_total_haoshen_report_di",
+      "table": "haoshen_dwd.dwd_user_info_di",
       "source_tables": [
-        "haoshen_ads.ads_total_haoshen_report_di"
+        "haoshen_dwd.dwd_user_info_di"
       ],
       "time": "log_date",
       "columns": [
-        "num28",
-        "num29",
-        "num30",
-        "num31",
-        "num32",
-        "num204",
-        "num205",
-        "num206",
-        "num207",
-        "num208"
+        "log_date",
+        "user_id",
+        "reg_date",
+        "last_login_date"
       ],
-      "definition": "以专区首次进入日为队列，计算第2/3/7/15/30日再次登录的账号比例，观察点为D+1/2/6/14/29。",
-      "sql": "SELECT log_date, num28 AS returned_users, num204 AS cohort_users,\n num28*1.0/NULLIF(num204,0) AS retention_rate_d2,\n num30 AS returned_users_d7, num206 AS cohort_users_d7,\n num30*1.0/NULLIF(num206,0) AS retention_rate_d7\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n AND agent_id=-1 AND country_code='-1';",
-      "risk": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 报表log_date是回访日，需换算队列日。双号30日分母错位项单列待修，不套用为标准。比例跨渠道/日期重算。",
+      "definition": "以专区首次进入日为队列，计算第2/3/7/15/30日在专区再次登录的账号比例；对应D+1/2/6/14/29，报表按回访日取同日快照。",
+      "sql": "WITH offsets AS (\n SELECT 2 AS retention_day,-1 AS offset_day UNION ALL SELECT 3,-2 UNION ALL SELECT 7,-6\n UNION ALL SELECT 15,-14 UNION ALL SELECT 30,-29\n), counts AS (\n SELECT '${stat_date}' AS log_date,n.retention_day,\n DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY) AS cohort_date,\n COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)\n AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)\n THEN t.user_id END) AS cohort_users,\n COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)\n AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)\n AND t.last_login_date>='${stat_date}' AND t.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN t.user_id END) AS returned_users\n FROM offsets n LEFT JOIN haoshen_dwd.dwd_user_info_di t ON t.log_date='${stat_date}'\n WHERE '${stat_date}'<'${data_complete_before}'\n GROUP BY n.retention_day,n.offset_day\n) SELECT *,returned_users*1.0/NULLIF(cohort_users,0) AS retention_rate FROM counts;",
+      "risk": "复现整体账号队列，不纳入双号30日错位细分。原任务agent_user_info关联唯一性未证明，核心条件去关联后需报表对账。data_complete_before为已完成采集的首个未完日期，不能用当前日期伪造成熟。零分母返回NULL需业务核准。",
       "unit": "比例0–1",
       "domain": "玩家域",
       "process": "注册",
       "status": "候选待审",
-      "origin": "2026-11-10调度语义审阅稿",
+      "origin": "2026-11-10：活性准入＋报表逻辑提取",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
       "proposed_registration": false,
       "validation": "来源字段及调度定义静态核对；未执行引擎EXPLAIN、生产取数或业务数值验收。",
       "model_ids": [
         "DW_DWD_user",
-        "DW_DWD_login",
         "DW_DWS_retention"
       ],
       "project_id": "46",
       "project_name": "DW",
       "review_kind": "account_retention",
-      "first_batch_source_eligible": false,
+      "first_batch_source_eligible": true,
       "source_activity": {
-        "q7": 0,
-        "q30": 0,
-        "level": "冷",
-        "first_batch": false
+        "q7": 6,
+        "q30": 19,
+        "level": "中活跃",
+        "first_batch": true
       },
-      "registration_batch": "非首批：物理来源冷表"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "previous_source_review": {
+        "table": "haoshen_ads.ads_total_haoshen_report_di",
+        "sql": "SELECT log_date, num28 AS returned_users, num204 AS cohort_users,\n num28*1.0/NULLIF(num204,0) AS retention_rate_d2,\n num30 AS returned_users_d7, num206 AS cohort_users_d7,\n num30*1.0/NULLIF(num206,0) AS retention_rate_d7\nFROM haoshen_ads.ads_total_haoshen_report_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n AND agent_id=-1 AND country_code='-1';",
+        "note": "保留报表层参考；同一指标主题改用活跃底表复现口径，不新增指标资产。"
+      },
+      "source_fields": {
+        "haoshen_dwd.dwd_user_info_di": [
+          "log_date",
+          "user_id",
+          "reg_date",
+          "last_login_date"
+        ]
+      },
+      "report_logic": [
+        {
+          "task": "tmp_total_haoshen_report02",
+          "field": "num28/num204、num29/num205、num30/num206、num31/num207、num32/num208",
+          "task_code": 22578389776354,
+          "task_version": 4,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "selection": "优先审阅",
+      "selection_reason": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。",
+      "source_activity_detail": [
+        {
+          "table": "haoshen_dwd.dwd_user_info_di",
+          "q7": 6,
+          "q30": 19,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_device_retention",
@@ -24092,18 +24543,26 @@
       ],
       "time": "log_date",
       "columns": [
+        "log_date",
+        "agent_id",
+        "country_code",
+        "open_state",
         "reg_2",
-        "reg_3",
-        "reg_7",
-        "reg_30",
         "retained_2",
+        "retention_rate_2",
+        "reg_3",
         "retained_3",
+        "retention_rate_3",
+        "reg_7",
         "retained_7",
-        "retained_30"
+        "retention_rate_7",
+        "reg_30",
+        "retained_30",
+        "retention_rate_30"
       ],
       "definition": "以首次打开设备为队列，计算第2/3/7/30日再次打开的设备比例，对应D+1/2/6/29。",
-      "sql": "SELECT log_date, retained_7*1.0/NULLIF(reg_7,0) AS metric_value\nFROM haoshen_ads.ads_device_retention_di\nWHERE log_date >= '${start_date}' AND log_date < '${end_date}'\n  AND agent_id=-1 AND country_code='-1' AND open_state=-1;",
-      "risk": "账号留存与设备留存不可替代；源分母不去重，设备日快照唯一性待核。",
+      "sql": "WITH src AS (SELECT * FROM haoshen_ads.ads_device_retention_di\nWHERE log_date='${stat_date}' AND agent_id=-1 AND country_code='-1' AND open_state=-1)\nSELECT log_date,2 AS retention_day,reg_2 AS cohort_devices,retained_2 AS returned_devices,retention_rate_2 AS metric_value FROM src\nUNION ALL\nSELECT log_date,3 AS retention_day,reg_3 AS cohort_devices,retained_3 AS returned_devices,retention_rate_3 AS metric_value FROM src\nUNION ALL\nSELECT log_date,7 AS retention_day,reg_7 AS cohort_devices,retained_7 AS returned_devices,retention_rate_7 AS metric_value FROM src\nUNION ALL\nSELECT log_date,30 AS retention_day,reg_30 AS cohort_devices,retained_30 AS returned_devices,retention_rate_30 AS metric_value FROM src;",
+      "risk": "保留源报表分母为0时写0、比值保留2位的现行规则，并同时展示分子分母；不以账号留存替代。跨日汇总应重算分子/分母，不能平均百分比；设备日快照唯一性待生产验证。",
       "unit": "比例0–1",
       "domain": "玩家域",
       "process": "玩家设备",
@@ -24126,7 +24585,48 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "source_fields": {
+        "haoshen_ads.ads_device_retention_di": [
+          "log_date",
+          "agent_id",
+          "country_code",
+          "open_state",
+          "reg_2",
+          "retained_2",
+          "retention_rate_2",
+          "reg_3",
+          "retained_3",
+          "retention_rate_3",
+          "reg_7",
+          "retained_7",
+          "retention_rate_7",
+          "reg_30",
+          "retained_30",
+          "retention_rate_30"
+        ]
+      },
+      "selection": "优先审阅",
+      "selection_reason": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。",
+      "report_logic": [
+        {
+          "task": "ads_device_retention_di",
+          "field": "new_device / reg_N / retained_N / retention_rate_N",
+          "task_code": 22578389866721,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ads.ads_device_retention_di",
+          "q7": 30,
+          "q30": 77,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_slot_bet",
@@ -24170,7 +24670,36 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "source_fields": {
+        "haoshen_ads.total_game_report": [
+          "play_money",
+          "game_id",
+          "game_type",
+          "room_type"
+        ]
+      },
+      "selection": "优先审阅",
+      "selection_reason": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。",
+      "report_logic": [
+        {
+          "task": "total_game_report",
+          "field": "play_money/main_win",
+          "task_code": 22578389770337,
+          "task_version": 3,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ads.total_game_report",
+          "q7": 27,
+          "q30": 79,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_slot_win",
@@ -24214,7 +24743,36 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "source_fields": {
+        "haoshen_ads.total_game_report": [
+          "main_win",
+          "game_id",
+          "game_type",
+          "room_type"
+        ]
+      },
+      "selection": "优先审阅",
+      "selection_reason": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。",
+      "report_logic": [
+        {
+          "task": "total_game_report",
+          "field": "play_money/main_win",
+          "task_code": 22578389770337,
+          "task_version": 3,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ads.total_game_report",
+          "q7": 27,
+          "q30": 79,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     },
     {
       "id": "DW_coin_flow",
@@ -24237,7 +24795,7 @@
       "unit": "按来源分类",
       "domain": "经济域",
       "process": "金币流水",
-      "status": "候选待审",
+      "status": "暂缓登记",
       "origin": "2026-11-10调度语义审阅稿",
       "comparison": "当前指标管理项目筛选器没有DW，原有可用/草稿/别名尚无法全量查重。只列业务主题，录入前优先复用原有，不因报表或来源不同重复建项。",
       "similar_metrics": [],
@@ -24256,7 +24814,10 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批暂不补录",
+      "selection": "待核口径",
+      "selection_reason": "分类字典维护及唯一键待确认，不同分支value计量不同，暂不形成统一金币产消公式。",
+      "deferred_reason": "分类字典维护及唯一键待确认，不同分支value计量不同，暂不形成统一金币产消公式。"
     },
     {
       "id": "DW_draw_users",
@@ -24298,7 +24859,35 @@
         "level": "中活跃",
         "first_batch": true
       },
-      "registration_batch": "来源首批活性达标；录入仍待查重及口径核准"
+      "registration_batch": "本批优先审阅；录入前全量查重与业务核准",
+      "source_fields": {
+        "haoshen_ods.luck_draw_log": [
+          "user_id",
+          "act_type",
+          "log_date"
+        ]
+      },
+      "selection": "优先审阅",
+      "selection_reason": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。",
+      "report_logic": [
+        {
+          "task": "luck_draw_log",
+          "field": "dws_log_total_di: num_dimension=1, num1",
+          "task_code": 22578366062817,
+          "task_version": 1,
+          "flag": "YES",
+          "meaning": "提取该任务的业务条件，不将冷结果表作为本批补录来源"
+        }
+      ],
+      "source_activity_detail": [
+        {
+          "table": "haoshen_ods.luck_draw_log",
+          "q7": 56,
+          "q30": 60,
+          "level": "中活跃",
+          "first_batch": true
+        }
+      ]
     }
   ],
   "models": [
@@ -24327,13 +24916,12 @@
         "验证唯一键、迟到水位与幂等",
         "指标入库前全量查重，优先复用原有"
       ],
-      "metric_ids": [
-        "DW_active_users",
-        "DW_account_retention"
-      ],
+      "metric_ids": [],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "直接复用",
+      "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
     },
     {
       "id": "DW_DWD_mac",
@@ -24363,7 +24951,9 @@
       "metric_ids": [],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "直接复用",
+      "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
     },
     {
       "id": "DW_DWD_user",
@@ -24398,7 +24988,9 @@
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "直接复用",
+      "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
     },
     {
       "id": "DW_DWD_device",
@@ -24432,7 +25024,9 @@
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "直接复用",
+      "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
     },
     {
       "id": "DW_DWD_slot",
@@ -24468,7 +25062,9 @@
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "直接复用",
+      "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
     },
     {
       "id": "DW_DWS_game",
@@ -24502,7 +25098,9 @@
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "直接复用",
+      "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
     },
     {
       "id": "DW_DWS_log",
@@ -24535,7 +25133,9 @@
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "直接复用",
+      "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
     },
     {
       "id": "DW_DWD_payment",
@@ -24573,7 +25173,9 @@
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "第一阶段优先",
+      "selection_reason": "充值金额/人数/次数与退款共用一个订单明细，避免报表重复做状态和单位解释。"
     },
     {
       "id": "DW_DWD_fish",
@@ -24581,7 +25183,7 @@
       "table": "dwd_fish_game_detail_di",
       "title": "按需补捕鱼标准明细",
       "mode": "建议新建",
-      "priority": "P1",
+      "priority": "P2",
       "sources": [
         "haoshen_ods.fish_game_log"
       ],
@@ -24604,7 +25206,9 @@
       "metric_ids": [],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "第二阶段按需",
+      "selection_reason": "当需要下钻捕鱼明细或账号级玩法分析时再建；当前游戏汇总可先复用。"
     },
     {
       "id": "DW_DWS_user",
@@ -24614,20 +25218,22 @@
       "mode": "建议新建",
       "priority": "P1",
       "sources": [
-        "haoshen_dwd.dwd_user_login_di",
+        "haoshen_dwd.dwd_user_info_di",
         "haoshen_ods.charge_order_info",
-        "haoshen_ods.bs_user_id"
+        "haoshen_ods.bs_user_id",
+        "haoshen_ods.app_login_log"
       ],
-      "grain": "日×user_id",
+      "grain": "日×专区账号user_id；以同日账号快照为主表",
       "fields": [],
       "partition": "log_date业务日；覆盖方式按现有工程约定核准",
       "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
       "rules": [
-        "账号并集保留只付费未登录账号，先检查是否为异常或合法人群。",
-        "同一BS标记统一分子分母；保留原始金额，不先填0或推定付款成功。",
-        "BS名单历史有效期、状态和退款规则明确后再物化。"
+        "以同日专区账号快照为主表，复现报表账号范围；支付明细先按账号聚合，再关联，避免行数放大。",
+        "同时保留快照活跃、登录事件与BS标志；num7排BS，num11包含BS，按指标原规则解释，不在模型里偷偷统一。",
+        "源现金、充值金币保留原值；同时记录订单行数和去重订单数用于幂等核查。退款按订单状态另行处理，不能默认净收入。",
+        "每日报表对账通过后再物化；历史回补必须使用对应日快照及可追溯名单。"
       ],
-      "sql": "WITH a AS (SELECT login_date AS log_date,user_id FROM haoshen_dwd.dwd_user_login_di\n WHERE login_date>='${start_date}' AND login_date<'${end_date}'),\np AS (SELECT DATE(log_time) AS log_date,user_id,COUNT(DISTINCT order_no) AS pay_orders,\n SUM(infull_rmb) AS cash_amount,SUM(infull_money) AS charge_coins\n FROM haoshen_ods.charge_order_info WHERE log_time>='${start_date}' AND log_time<'${end_date}'\n GROUP BY DATE(log_time),user_id),\nu AS (SELECT log_date,user_id FROM a UNION SELECT log_date,user_id FROM p)\nSELECT u.log_date,u.user_id,CASE WHEN a.user_id IS NOT NULL THEN 1 ELSE 0 END AS login_flag,\n CASE WHEN b.user_id IS NOT NULL THEN 1 ELSE 0 END AS bs_flag,\n p.pay_orders,p.cash_amount,p.charge_coins\nFROM u LEFT JOIN a ON u.log_date=a.log_date AND u.user_id=a.user_id\n LEFT JOIN p ON u.log_date=p.log_date AND u.user_id=p.user_id\n LEFT JOIN (SELECT DISTINCT user_id FROM haoshen_ods.bs_user_id) b ON u.user_id=b.user_id;",
+      "sql": "WITH pay AS (\n SELECT user_id,COUNT(*) AS payment_rows,COUNT(DISTINCT order_no) AS distinct_orders,\n SUM(infull_rmb) AS cash_amount,SUM(infull_money) AS charge_coins\n FROM haoshen_ods.charge_order_info WHERE log_time>='${stat_date}' AND log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) GROUP BY user_id\n), login_event AS (\n SELECT user_id,1 AS login_event_flag FROM haoshen_ods.app_login_log\n WHERE login_date>='${stat_date}' AND login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) GROUP BY user_id\n)\nSELECT '${stat_date}' AS log_date,u.user_id,u.agent_id,u.reg_date,\n CASE WHEN u.reg_date>='${stat_date}' AND u.reg_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS new_user_flag,\n CASE WHEN u.last_login_date>='${stat_date}' AND u.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS active_snapshot_flag,\n COALESCE(l.login_event_flag,0) AS login_event_flag,\n CASE WHEN b.user_id IS NOT NULL THEN 1 ELSE 0 END AS bs_flag,\n CASE WHEN u.first_infull_time>='${stat_date}' AND u.first_infull_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS first_pay_flag,\n p.payment_rows,p.distinct_orders,p.cash_amount,p.charge_coins\nFROM haoshen_dwd.dwd_user_info_di u\nLEFT JOIN pay p ON u.user_id=p.user_id\nLEFT JOIN login_event l ON u.user_id=l.user_id\nLEFT JOIN haoshen_ods.bs_user_id b ON u.user_id=b.user_id\nWHERE u.log_date='${stat_date}';",
       "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
       "prerequisites": [
         "核对来源及目标权限",
@@ -24635,14 +25241,22 @@
         "指标入库前全量查重，优先复用原有"
       ],
       "metric_ids": [
+        "DW_active_users",
+        "DW_new_users",
         "DW_avg_game_duration",
+        "DW_revenue",
+        "DW_payers",
+        "DW_pay_records",
         "DW_pay_rate",
         "DW_arpu",
-        "DW_arppu"
+        "DW_arppu",
+        "DW_first_payers"
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "第一阶段优先",
+      "selection_reason": "活跃、新增、首充、充值三项共用账号日底座；保留BS与两种活跃标志，不擅自统一现有口径。"
     },
     {
       "id": "DW_DWS_retention",
@@ -24650,21 +25264,21 @@
       "table": "dws_account_retention_di",
       "title": "精选DWS②：专区账号队列留存",
       "mode": "建议新建",
-      "priority": "P1",
+      "priority": "P2",
       "sources": [
-        "haoshen_dwd.dwd_user_info_di",
-        "haoshen_dwd.dwd_user_login_di"
+        "haoshen_dwd.dwd_user_info_di"
       ],
-      "grain": "队列日×第N日观察点；账号口径",
+      "grain": "回访日log_date×队列日cohort_date×第N日（整体账号口径）",
       "fields": [],
       "partition": "log_date业务日；覆盖方式按现有工程约定核准",
       "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
       "rules": [
-        "设备留存直接复用已有设备日报，不再新建同主题DWS。",
-        "第7日=D+6，第30日=D+29；仅输出完整观察窗口，不把未成熟留存补0。",
-        "账号队列以当日快照冻结；补跑不可用当前主档冒充历史快照。"
+        "本版按实际报表从回访日的账号快照提取注册队列及回访人数，避免把队列日快照冻结方案冒充现行报表。",
+        "第2/3/7/15/30日对应D+1/2/6/14/29；双号30日错位细分暂不纳入。",
+        "保留分子、分母，零分母和完整采集水位单独判断。若未来改为队列日冻结，要先核差异并明确切换，不能直接替代旧口径。",
+        "账号与设备分开；现有ads_device_retention_di继续复用。"
       ],
-      "sql": "WITH cohort AS (\n SELECT DISTINCT user_id FROM haoshen_dwd.dwd_user_info_di\n WHERE log_date='${cohort_date}' AND reg_date>='${cohort_date}'\n AND reg_date<DATE_ADD('${cohort_date}',INTERVAL 1 DAY)\n), offsets AS (SELECT 1 AS day_offset UNION ALL SELECT 2 UNION ALL SELECT 6 UNION ALL SELECT 14 UNION ALL SELECT 29)\nSELECT '${cohort_date}' AS cohort_date,o.day_offset+1 AS retention_day,\n COUNT(c.user_id) AS cohort_users,COUNT(l.user_id) AS returned_users,\n COUNT(l.user_id)*1.0/NULLIF(COUNT(c.user_id),0) AS retention_rate\nFROM offsets o CROSS JOIN cohort c\nLEFT JOIN haoshen_dwd.dwd_user_login_di l ON l.user_id=c.user_id\n AND l.login_date=DATE_ADD('${cohort_date}',INTERVAL o.day_offset DAY)\nWHERE DATE_ADD('${cohort_date}',INTERVAL o.day_offset DAY)<DATE('${data_complete_before}')\nGROUP BY o.day_offset;",
+      "sql": "WITH offsets AS (\n SELECT 2 AS retention_day,-1 AS offset_day UNION ALL SELECT 3,-2 UNION ALL SELECT 7,-6\n UNION ALL SELECT 15,-14 UNION ALL SELECT 30,-29\n), counts AS (\n SELECT '${stat_date}' AS log_date,n.retention_day,\n DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY) AS cohort_date,\n COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)\n AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)\n THEN t.user_id END) AS cohort_users,\n COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)\n AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)\n AND t.last_login_date>='${stat_date}' AND t.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN t.user_id END) AS returned_users\n FROM offsets n LEFT JOIN haoshen_dwd.dwd_user_info_di t ON t.log_date='${stat_date}'\n WHERE '${stat_date}'<'${data_complete_before}'\n GROUP BY n.retention_day,n.offset_day\n) SELECT *,returned_users*1.0/NULLIF(cohort_users,0) AS retention_rate FROM counts;",
       "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
       "prerequisites": [
         "核对来源及目标权限",
@@ -24676,46 +25290,43 @@
       ],
       "origin": "DW实际调度复用审阅2026-11-10",
       "project_id": "46",
-      "project_name": "DW"
+      "project_name": "DW",
+      "build_stage": "第二阶段按需",
+      "selection_reason": "需要频繁跨日/队列查询时再建；设备留存继续复用现有ADS，不再建一套。"
     }
   ],
   "tasks": [
     {
-      "task": "四层调度目录",
-      "status": "已整理",
-      "detail": "169个工作流、884个去重任务版本；定义发布状态与实际运行成功分开。"
+      "task": "首批元数据筛选",
+      "status": "16张优先＋2张补证",
+      "detail": "从25张活性达标表中聚焦经营、玩法、设备、留存及经济核心；其余7张专题后续审阅。"
     },
     {
-      "task": "非冷表定义与字段说明",
-      "status": "审阅稿",
-      "detail": "46张非冷未删除表补入调度引用，首批25张均有引用、22张定位写入；补充38条字段建议。"
+      "task": "首批指标主题",
+      "status": "13个优先＋7个待核",
+      "detail": "按报表规则改用活跃底表；保持20个原主题ID，不因来源变更新增资产。"
     },
     {
-      "task": "指标业务主题收敛",
-      "status": "待平台查重",
-      "detail": "20个主题，已合并不同来源版本；当前入口没有DW，未据旧快照0判断不存在。"
+      "task": "模型优先级",
+      "status": "先复用7张",
+      "detail": "第一阶段建议订单DWD＋账号日经营DWS；捕鱼DWD＋账号队列DWS按需。共建议2张DWD、2张DWS，无实际建表。"
     },
     {
-      "task": "中间表方案",
-      "status": "已有建议",
-      "detail": "7张现有表复用；只建议新增2张DWD、2张DWS，均列SELECT逻辑，无实际建表。"
+      "task": "新增前查重",
+      "status": "待DW库存入口",
+      "detail": "先核可用、草稿、别名及业务口径；本批13主题不等于13项都需新增。"
     },
     {
-      "task": "项目知识",
-      "status": "5篇草稿",
-      "detail": "整理账号/设备、快照、留存、指标复用与游戏汇总使用规则。"
-    },
-    {
-      "task": "平台录入",
-      "status": "本轮未录入",
-      "detail": "DW按用户当前要求先整理；平台写入0，生产取数0。"
+      "task": "平台录入与生产验证",
+      "status": "本轮未执行",
+      "detail": "只整理审阅稿，平台写入0，生产查询0。"
     }
   ],
   "review": {
     "project_id": "46",
     "project_name": "DW",
     "name": "DW",
-    "stage": "调度语义审阅已整理",
+    "stage": "首批候选已筛选",
     "read_only": true,
     "platform_writes": 0,
     "date": "2026-11-10",
@@ -24724,12 +25335,12 @@
     "first_count": 25,
     "first_schema": 25,
     "first_missing": 0,
-    "metric_sql_count": 17,
+    "metric_sql_count": 16,
     "stock_count": null,
     "stock_overlap_count": 0,
     "dwd_count": 7,
     "new_dws_count": 2,
-    "focus": "169工作流／884任务版本；25首批表／22已定位写入；账号、设备、付费、留存与游戏范围核对",
+    "focus": "16张优先元数据＋2张补证；13个优先指标主题＋7个待核；先做1张DWD与1张DWS",
     "top_tables": [
       {
         "table": "haoshen_ods.app_login_log",
@@ -24831,33 +25442,34 @@
     "coverage": [
       {
         "topic": "活跃用户数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
-          "haoshen_ads.ads_total_haoshen_report_di"
+          "haoshen_dwd.dwd_user_info_di",
+          "haoshen_ods.bs_user_id"
         ],
         "candidate_ids": [
           "DW_active_users"
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 不得将未排BS的登录日志日去重直接当相同人群；汇总渠道行与明细行不混加。"
+        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 复现num7的快照活跃条件，不能用未排BS的登录日志人数直接替代。移除无关连接的前提：已采集主键显示user_info_b为日×账号、task_coin_info为账号×periods；实际唯一性和历史BS范围仍需对账。"
       },
       {
         "topic": "专区新增用户数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
-          "haoshen_ads.ads_total_haoshen_report_di"
+          "haoshen_dwd.dwd_user_info_di"
         ],
         "candidate_ids": [
           "DW_new_users"
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 不能称为全平台新注册账号；与设备激活人数分别保留。"
+        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 保留报表不排BS的规则。原任务还关联agent_user_info，其唯一性未证实；此处提取核心账号条件，去掉无关连接，必须与报表对账后再作为正式口径。"
       },
       {
         "topic": "游戏用户数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
           "haoshen_ads.total_game_report"
         ],
@@ -24866,11 +25478,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "直接取已有整体汇总行，跨游戏/房间人数不相加。"
+        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 只取game_id/game_type/room_type全为-1的整体汇总行；不跨游戏加总人数。账号必须存在同日快照。原始SLOT与捕鱼业务范围按total_game_report保留。"
       },
       {
         "topic": "SLOT游戏总时长",
-        "state": "候选待审",
+        "state": "待核口径",
         "source_tables": [
           "haoshen_ads.total_game_report"
         ],
@@ -24879,11 +25491,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "原play_time单位待源系统确认；经营总表另有/60换算；空值与未记录不等于真实0。"
+        "detail": "时长单位待确认；经营总表有/60换算，游戏总表保留源值。先统一游戏/房间范围及单位。 原play_time单位待源系统确认；经营总表另有/60换算；空值与未记录不等于真实0。"
       },
       {
         "topic": "SLOT游戏人均时长",
-        "state": "暂缓登记",
+        "state": "待核口径",
         "source_tables": [
           "haoshen_dwd.dwd_slot_main_log_di"
         ],
@@ -24892,50 +25504,56 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "先统一房间/控制类型、快照账号范围、空值政策与单位，再复用已有时长和游戏人数，不直接拿混合SLOT/捕鱼总人数作分母。"
+        "detail": "依赖总时长单位、有效时长记录及相同游戏人群，分子分母尚未统一。 先统一房间/控制类型、快照账号范围、空值政策与单位，再复用已有时长和游戏人数，不直接拿混合SLOT/捕鱼总人数作分母。"
       },
       {
         "topic": "充值金额",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
-          "haoshen_ads.ads_total_haoshen_report_di"
+          "haoshen_ods.charge_order_info",
+          "haoshen_dwd.dwd_user_info_di",
+          "haoshen_ods.bs_user_id"
         ],
         "candidate_ids": [
           "DW_revenue"
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。"
+        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
       },
       {
         "topic": "付费用户数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
-          "haoshen_ads.ads_total_haoshen_report_di"
+          "haoshen_ods.charge_order_info",
+          "haoshen_dwd.dwd_user_info_di",
+          "haoshen_ods.bs_user_id"
         ],
         "candidate_ids": [
           "DW_payers"
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。"
+        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
       },
       {
         "topic": "充值次数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
-          "haoshen_ads.ads_total_haoshen_report_di"
+          "haoshen_ods.charge_order_info",
+          "haoshen_dwd.dwd_user_info_di",
+          "haoshen_ods.bs_user_id"
         ],
         "candidate_ids": [
           "DW_pay_records"
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 未额外筛选成功状态；现金币种/倍率、退款冲减与订单幂等尚未验收。"
+        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
       },
       {
         "topic": "付费率",
-        "state": "候选待审",
+        "state": "待核口径",
         "source_tables": [
           "haoshen_ads.ads_total_haoshen_report_di"
         ],
@@ -24944,11 +25562,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 需验证付费账号是否属于同日活跃人群；跨日、跨渠道应按账号并集重算。"
+        "detail": "需确认非BS付费账号是否属于同日快照活跃账号范围，不能先假定分母包含全部付费用户。 物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 需验证付费账号是否属于同日活跃人群；跨日、跨渠道应按账号并集重算。"
       },
       {
         "topic": "ARPU",
-        "state": "暂缓登记",
+        "state": "待核口径",
         "source_tables": [
           "haoshen_ads.ads_total_haoshen_report_di"
         ],
@@ -24957,11 +25575,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
+        "detail": "原报表充值金额包含BS、活跃分母排BS，且币种/倍率待核。 物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
       },
       {
         "topic": "ARPPU",
-        "state": "暂缓登记",
+        "state": "待核口径",
         "source_tables": [
           "haoshen_ads.ads_total_haoshen_report_di"
         ],
@@ -24970,24 +25588,25 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
+        "detail": "原报表充值金额包含BS、付费分母排BS，先确认统一业务人群。 物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
       },
       {
         "topic": "首次付费用户数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
-          "haoshen_ads.ads_total_haoshen_report_di"
+          "haoshen_dwd.dwd_user_info_di",
+          "haoshen_ods.bs_user_id"
         ],
         "candidate_ids": [
           "DW_first_payers"
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 首次充值时间来自账号快照；不以当前首充标记重算全部历史。"
+        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 采用报表first_infull_time条件，不改成is_first_infull或历史订单自拟首充算法；历史快照与BS名单有效期需核准。"
       },
       {
         "topic": "新增设备数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
           "haoshen_ads.ads_device_retention_di"
         ],
@@ -24996,11 +25615,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "现有经营总表活跃设备还合并游戏最近游玩设备，来源覆盖不一致；作为同主题差异核对，不另起报表版本。"
+        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 只取agent_id=-1、country_code=-1、open_state=-1整体行，避免GROUPING SETS重复。新增以设备首次激活为队列，与专区新增账号分开。"
       },
       {
         "topic": "活跃设备数",
-        "state": "候选待审",
+        "state": "待核口径",
         "source_tables": [
           "haoshen_ads.ads_device_retention_di"
         ],
@@ -25009,24 +25628,24 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "现有经营总表活跃设备还合并游戏最近游玩设备，来源覆盖不一致；作为同主题差异核对，不另起报表版本。"
+        "detail": "经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。 经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。"
       },
       {
         "topic": "专区新增账号留存率",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
-          "haoshen_ads.ads_total_haoshen_report_di"
+          "haoshen_dwd.dwd_user_info_di"
         ],
         "candidate_ids": [
           "DW_account_retention"
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 报表log_date是回访日，需换算队列日。双号30日分母错位项单列待修，不套用为标准。比例跨渠道/日期重算。"
+        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 复现整体账号队列，不纳入双号30日错位细分。原任务agent_user_info关联唯一性未证明，核心条件去关联后需报表对账。data_complete_before为已完成采集的首个未完日期，不能用当前日期伪造成熟。零分母返回NULL需业务核准。"
       },
       {
         "topic": "新增设备留存率",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
           "haoshen_ads.ads_device_retention_di"
         ],
@@ -25035,11 +25654,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "账号留存与设备留存不可替代；源分母不去重，设备日快照唯一性待核。"
+        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 保留源报表分母为0时写0、比值保留2位的现行规则，并同时展示分子分母；不以账号留存替代。跨日汇总应重算分子/分母，不能平均百分比；设备日快照唯一性待生产验证。"
       },
       {
         "topic": "SLOT总玩分",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
           "haoshen_ads.total_game_report"
         ],
@@ -25048,11 +25667,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
+        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
       },
       {
         "topic": "SLOT总赢分",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
           "haoshen_ads.total_game_report"
         ],
@@ -25061,11 +25680,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
+        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
       },
       {
         "topic": "分类金币产消",
-        "state": "候选待审",
+        "state": "待核口径",
         "source_tables": [
           "haoshen_ads.ads_plat_coin_di"
         ],
@@ -25074,11 +25693,11 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "各来源计量和正负方向不同；需补齐log_type_info配置后再定义统一产出/消耗指标。"
+        "detail": "分类字典维护及唯一键待确认，不同分支value计量不同，暂不形成统一金币产消公式。 各来源计量和正负方向不同；需补齐log_type_info配置后再定义统一产出/消耗指标。"
       },
       {
         "topic": "抽奖参与用户数",
-        "state": "候选待审",
+        "state": "优先审阅",
         "source_tables": [
           "haoshen_ods.luck_draw_log"
         ],
@@ -25087,15 +25706,14 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "既有dws_log_total_di已提供同类人数；先核dimension/num_dimension，再复用，不因新SQL另建。"
+        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 既有dws_log_total_di已提供同类人数；先核dimension/num_dimension，再复用，不因新SQL另建。"
       }
     ],
     "blockers": [
-      "经营总表视图DDL：haoshen_ads.view_total_haoshen_report未定位维护定义；需视图DDL核对与物理日报字段映射。",
-      "金币分类字典维护来源：haoshen_ads.log_type_info有读取，无直接写入任务；需分类含义、唯一键及维护方式。",
-      "账号主档采集映射：haoshen_ods.agent_user_info仅定位读取；其他库/视图近名任务不能直接认定同源。",
-      "DW原指标查重入口：当前指标管理筛选器只列11个项目，没有DW；不认定当前库存为0。",
-      "留存及现金口径：双号30日分母疑点、BS范围、现金币种倍率、SLOT时长单位尚未生产对账。"
+      "高频视图DDL：view_total_haoshen_report字段到物理日报的映射待确认；整体候选已用活跃底表提取，不等视图DDL才开始整理。",
+      "金币分类字典：log_type_info维护方式及连接键唯一性待核；元数据先列待补证，不将value跨来源加成统一产消。",
+      "原指标查重入口：当前指标管理项目筛选器未见DW，库存不是已核实的0项。",
+      "报表对账与待核7主题：新增/账号留存原任务的agent_user_info关联唯一性待验证；金额单位、时长、活跃设备覆盖与BS范围等按主题逐项核准。"
     ],
     "collection": [],
     "metric_ids": [
@@ -25120,8 +25738,8 @@
       "DW_coin_flow",
       "DW_draw_users"
     ],
-    "conclusion": "46张非冷未删除表补入调度引用，重点核对首批25张；20个业务主题仅供审阅，17个有静态SELECT。物理经营日报旧活性为冷，相关主题不入首批；当前DW原指标库存待全量查重，未录入。",
-    "next_action": "先核视图、字典、主档映射和留存疑点；录入前获取DW原指标完整库存并查重。",
+    "conclusion": "基于活性与实际报表条件筛选首批候选。13个指标主题可由活跃来源提取，不要求补录冷物理日报；原指标查重与业务数值验收仍待完成。",
+    "next_action": "审阅首批候选与SQL；先取得DW原指标库存查重，再核对报表数值，未授权前不录入。",
     "authority": "DW本轮只整理，未新增连接、业务域或过程，未写入平台。"
   },
   "scheduler_review_20261110": {
@@ -25147,5 +25765,19 @@
       "new_dwd": 2,
       "new_dws": 2
     }
+  },
+  "priority_review_20261110": {
+    "eligible_metadata": 25,
+    "priority_metadata": 16,
+    "metadata_wait_evidence": 2,
+    "remaining_eligible_metadata": 7,
+    "priority_metric_themes": 13,
+    "metric_themes_wait_definition": 7,
+    "existing_models_reuse": 7,
+    "recommended_new_dwd": 2,
+    "recommended_new_dws": 2,
+    "build_first_phase": 2,
+    "platform_writes": 0,
+    "production_queries": 0
   }
 }

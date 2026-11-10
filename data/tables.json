@@ -1100046,7 +1100046,9 @@
     ],
     "scheduler_writer_count": 2,
     "scheduler_enabled_writer_count": 2,
-    "scheduler_reader_count": 28
+    "scheduler_reader_count": 28,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "核对登录事件活跃与报表快照活跃的差异，支撑已有登录DWD复用。"
   },
   {
     "project_id": "46",
@@ -1100104,7 +1100106,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 13
+    "scheduler_reader_count": 13,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "解释专区首次进入、当前账号状态与日快照来源。"
   },
   {
     "project_id": "46",
@@ -1100163,7 +1100167,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 36
+    "scheduler_reader_count": 36,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "SLOT原始行为、玩分/赢分与控制参数来源。"
   },
   {
     "project_id": "46",
@@ -1100222,7 +1100228,9 @@
     ],
     "scheduler_writer_count": 9,
     "scheduler_enabled_writer_count": 9,
-    "scheduler_reader_count": 9
+    "scheduler_reader_count": 9,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "高频经济分类结果，先补清value与分类字段的逐来源含义。"
   },
   {
     "project_id": "46",
@@ -1100278,7 +1100286,9 @@
     ],
     "scheduler_writer_count": 0,
     "scheduler_enabled_writer_count": 0,
-    "scheduler_reader_count": 1
+    "scheduler_reader_count": 1,
+    "shortlist_20261110": "补证后补充",
+    "shortlist_reason": "高频但维护/映射证据未齐，先补证据。"
   },
   {
     "project_id": "46",
@@ -1100339,7 +1100349,9 @@
     ],
     "scheduler_writer_count": 2,
     "scheduler_enabled_writer_count": 2,
-    "scheduler_reader_count": 4
+    "scheduler_reader_count": 4,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "直接复用游戏人数与SLOT玩分/赢分，明确汇总层级。"
   },
   {
     "project_id": "46",
@@ -1100400,7 +1100412,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 1
+    "scheduler_reader_count": 1,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "直接复用新增设备及设备留存，保留分子分母和原零值政策。"
   },
   {
     "project_id": "46",
@@ -1100458,7 +1100472,9 @@
     ],
     "scheduler_writer_count": 0,
     "scheduler_enabled_writer_count": 0,
-    "scheduler_reader_count": 1
+    "scheduler_reader_count": 1,
+    "shortlist_20261110": "补证后补充",
+    "shortlist_reason": "高频但维护/映射证据未齐，先补证据。"
   },
   {
     "project_id": "46",
@@ -1100517,7 +1100533,9 @@
     ],
     "scheduler_writer_count": 4,
     "scheduler_enabled_writer_count": 4,
-    "scheduler_reader_count": 4
+    "scheduler_reader_count": 4,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "经济分类报表的源字段与计量解释，统一产消指标暂缓。"
   },
   {
     "project_id": "46",
@@ -1100576,7 +1100594,9 @@
     ],
     "scheduler_writer_count": 2,
     "scheduler_enabled_writer_count": 2,
-    "scheduler_reader_count": 82
+    "scheduler_reader_count": 82,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "高活性活动日志，可提取活动参与人数。"
   },
   {
     "project_id": "46",
@@ -1100695,7 +1100715,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 47
+    "scheduler_reader_count": 47,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "现金充值、充值金币、次数、付费人数及退款的共同来源。"
   },
   {
     "project_id": "46",
@@ -1100809,7 +1100831,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 42
+    "scheduler_reader_count": 42,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "复现已有活跃/付费统计的BS排除规则。"
   },
   {
     "project_id": "46",
@@ -1100985,7 +1101009,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 19
+    "scheduler_reader_count": 19,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "现有SLOT DWD复用，避免重复建明细。"
   },
   {
     "project_id": "46",
@@ -1101043,7 +1101069,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 8
+    "scheduler_reader_count": 8,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "新增设备与设备留存的首次打开、最近打开语义。"
   },
   {
     "project_id": "46",
@@ -1101102,7 +1101130,9 @@
     ],
     "scheduler_writer_count": 2,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 103
+    "scheduler_reader_count": 103,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "新增、快照活跃、首充、账号留存的共同底表。"
   },
   {
     "project_id": "46",
@@ -1101160,7 +1101190,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 25
+    "scheduler_reader_count": 25,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "游戏分类与类型1/5归并范围。"
   },
   {
     "project_id": "46",
@@ -1101278,7 +1101310,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 41
+    "scheduler_reader_count": 41,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "道具价值及经济折值解释。"
   },
   {
     "project_id": "46",
@@ -1101337,7 +1101371,9 @@
     ],
     "scheduler_writer_count": 3,
     "scheduler_enabled_writer_count": 2,
-    "scheduler_reader_count": 35
+    "scheduler_reader_count": 35,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "捕鱼开炮、消耗和产出来源，作为按需补DWD候选。"
   },
   {
     "project_id": "46",

@@ -7457,64 +7457,77 @@ FROM
 FROM `dwops_audit`.`sr_sql_full_log`
 WHERE `query_time` >= '${start_date}' AND `query_time` < '${end_date}'
 GROUP BY DATE(`query_time`);",,,
-46,DW,活跃用户数,dw_active_users,原子,候选待审,haoshen_ads.ads_total_haoshen_report_di,业务日内登录专区、存在当日账号快照且不在BS名单中的账号数；原始登录日去重作为同主题对照来源，先核范围再复用。,"SELECT log_date, num7 AS metric_value
-FROM haoshen_ads.ads_total_haoshen_report_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1';",,,
-46,DW,专区新增用户数,dw_new_users,原子,候选待审,haoshen_ads.ads_total_haoshen_report_di,业务日reg_date落在当天的专区账号快照人数；reg_date是首次进入专区时间。,"SELECT log_date, num2 AS metric_value
-FROM haoshen_ads.ads_total_haoshen_report_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1';",,,
+46,DW,活跃用户数,dw_active_users,原子,候选待审,haoshen_dwd.dwd_user_info_di,当日账号快照中，最后登录专区时间落在业务日且不在BS名单中的账号数。,"SELECT '${stat_date}' AS stat_date,COUNT(CASE WHEN t.last_login_date>='${stat_date}' AND t.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) AND s.user_id IS NULL THEN t.user_id END) AS metric_value
+FROM haoshen_dwd.dwd_user_info_di t
+LEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id
+WHERE t.log_date='${stat_date}';",,,
+46,DW,专区新增用户数,dw_new_users,原子,候选待审,haoshen_dwd.dwd_user_info_di,业务日账号快照中reg_date落在当天的专区新增账号数；reg_date表示首次玩专区，不是平台注册时间。,"SELECT '${stat_date}' AS stat_date,COUNT(CASE WHEN t.reg_date>='${stat_date}' AND t.reg_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN t.user_id END) AS metric_value
+FROM haoshen_dwd.dwd_user_info_di t
+WHERE t.log_date='${stat_date}';",,,
 46,DW,游戏用户数,dw_game_users,原子,候选待审,haoshen_ads.total_game_report,业务日参与SLOT或捕鱼、存在同日账号快照的去重账号数，按选定游戏/房间层级统计。,"SELECT log_date, gam_user AS metric_value
 FROM haoshen_ads.total_game_report
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
   AND game_id=-1 AND game_type=-1 AND room_type=-1;",,,
-46,DW,SLOT游戏总时长,dw_game_duration,原子,候选待审,haoshen_ads.total_game_report,所选SLOT统计范围内play_time的总和；捕鱼分支时长为0，不将其解释为完整全玩法时长。,"SELECT log_date, play_time AS metric_value
+46,DW,SLOT游戏总时长,dw_game_duration,原子,暂缓登记,haoshen_ads.total_game_report,所选SLOT统计范围内play_time的总和；捕鱼分支时长为0，不将其解释为完整全玩法时长。,"SELECT log_date, play_time AS metric_value
 FROM haoshen_ads.total_game_report
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND game_id=-1 AND game_type=-1 AND room_type=-1;",,,
-46,DW,SLOT游戏人均时长,dw_avg_game_duration,派生,暂缓登记,haoshen_dwd.dwd_slot_main_log_di,相同SLOT人群与时间范围内总时长除以去重游戏账号数。需与原有总时长和游戏人数的过滤规则一致。,,,,
-46,DW,充值金额,dw_revenue,原子,候选待审,haoshen_ads.ads_total_haoshen_report_di,业务日内订单生成时间对应的infull_rmb总和，当前生产日报包含BS账号。,"SELECT log_date, num11 AS metric_value
+  AND game_id=-1 AND game_type=1 AND room_type=-1;",,,时长单位待确认；经营总表有/60换算，游戏总表保留源值。先统一游戏/房间范围及单位。
+46,DW,SLOT游戏人均时长,dw_avg_game_duration,派生,暂缓登记,haoshen_dwd.dwd_slot_main_log_di,相同SLOT人群与时间范围内总时长除以去重游戏账号数。需与原有总时长和游戏人数的过滤规则一致。,,,,依赖总时长单位、有效时长记录及相同游戏人群，分子分母尚未统一。
+46,DW,充值金额,dw_revenue,原子,候选待审,haoshen_ods.charge_order_info,业务日内、能够关联同日账号快照的订单infull_rmb总和；沿用报表包含BS、未冲减退款的规则。,"SELECT '${stat_date}' AS stat_date,COALESCE(SUM(t.infull_rmb),0) AS metric_value
+FROM haoshen_ods.charge_order_info t
+JOIN haoshen_dwd.dwd_user_info_di u ON t.user_id=u.user_id AND u.log_date='${stat_date}'
+LEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id
+WHERE t.log_time>='${stat_date}' AND t.log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY);",,,
+46,DW,付费用户数,dw_payers,原子,候选待审,haoshen_ods.charge_order_info,业务日内有充值记录、能关联同日账号快照且非BS的去重账号数。,"SELECT '${stat_date}' AS stat_date,COUNT(DISTINCT CASE WHEN s.user_id IS NULL THEN t.user_id END) AS metric_value
+FROM haoshen_ods.charge_order_info t
+JOIN haoshen_dwd.dwd_user_info_di u ON t.user_id=u.user_id AND u.log_date='${stat_date}'
+LEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id
+WHERE t.log_time>='${stat_date}' AND t.log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY);",,,
+46,DW,充值次数,dw_pay_records,原子,候选待审,haoshen_ods.charge_order_info,业务日内能关联同日账号快照且非BS的充值记录行数。,"SELECT '${stat_date}' AS stat_date,COUNT(CASE WHEN s.user_id IS NULL THEN 1 END) AS metric_value
+FROM haoshen_ods.charge_order_info t
+JOIN haoshen_dwd.dwd_user_info_di u ON t.user_id=u.user_id AND u.log_date='${stat_date}'
+LEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id
+WHERE t.log_time>='${stat_date}' AND t.log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY);",,,
+46,DW,付费率,dw_pay_rate,派生,暂缓登记,haoshen_ads.ads_total_haoshen_report_di,同一业务日、同一渠道层级的非BS付费账号数除以非BS活跃账号数。,"SELECT log_date, num13*1.0/NULLIF(num7,0) AS metric_value
 FROM haoshen_ads.ads_total_haoshen_report_di
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1';",,,
-46,DW,付费用户数,dw_payers,原子,候选待审,haoshen_ads.ads_total_haoshen_report_di,业务日内存在充值记录且不在BS名单中的去重账号数。,"SELECT log_date, num13 AS metric_value
-FROM haoshen_ads.ads_total_haoshen_report_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1';",,,
-46,DW,充值次数,dw_pay_records,原子,候选待审,haoshen_ads.ads_total_haoshen_report_di,业务日内非BS账号充值记录数；是否等同去重订单数待验证。,"SELECT log_date, num12 AS metric_value
-FROM haoshen_ads.ads_total_haoshen_report_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1';",,,
-46,DW,付费率,dw_pay_rate,派生,候选待审,haoshen_ads.ads_total_haoshen_report_di,同一业务日、同一渠道层级的非BS付费账号数除以非BS活跃账号数。,"SELECT log_date, num13*1.0/NULLIF(num7,0) AS metric_value
-FROM haoshen_ads.ads_total_haoshen_report_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1';",,,
-46,DW,ARPU,dw_arpu,派生,暂缓登记,haoshen_ads.ads_total_haoshen_report_di,在同一人群、同一业务日和现金单位下，充值金额除以活跃账号数。,,,,
-46,DW,ARPPU,dw_arppu,派生,暂缓登记,haoshen_ads.ads_total_haoshen_report_di,在同一人群、同一业务日和现金单位下，充值金额除以付费账号数。,,,,
-46,DW,首次付费用户数,dw_first_payers,原子,候选待审,haoshen_ads.ads_total_haoshen_report_di,first_infull_time落在业务日且不在BS名单中的去重快照账号数。,"SELECT log_date, num14 AS metric_value
-FROM haoshen_ads.ads_total_haoshen_report_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1';",,,
+  AND agent_id=-1 AND country_code='-1';",,,需确认非BS付费账号是否属于同日快照活跃账号范围，不能先假定分母包含全部付费用户。
+46,DW,ARPU,dw_arpu,派生,暂缓登记,haoshen_ads.ads_total_haoshen_report_di,在同一人群、同一业务日和现金单位下，充值金额除以活跃账号数。,,,,原报表充值金额包含BS、活跃分母排BS，且币种/倍率待核。
+46,DW,ARPPU,dw_arppu,派生,暂缓登记,haoshen_ads.ads_total_haoshen_report_di,在同一人群、同一业务日和现金单位下，充值金额除以付费账号数。,,,,原报表充值金额包含BS、付费分母排BS，先确认统一业务人群。
+46,DW,首次付费用户数,dw_first_payers,原子,候选待审,haoshen_dwd.dwd_user_info_di,同日账号快照中，首次充值时间落在业务日且非BS的去重账号数。,"SELECT '${stat_date}' AS stat_date,COUNT(DISTINCT CASE WHEN t.first_infull_time>='${stat_date}' AND t.first_infull_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) AND s.user_id IS NULL THEN t.user_id END) AS metric_value
+FROM haoshen_dwd.dwd_user_info_di t
+LEFT JOIN haoshen_ods.bs_user_id s ON t.user_id=s.user_id
+WHERE t.log_date='${stat_date}';",,,
 46,DW,新增设备数,dw_new_devices,原子,候选待审,haoshen_ads.ads_device_retention_di,业务日设备快照中首次打开日期落在当日的设备数。,"SELECT log_date, new_device AS metric_value
 FROM haoshen_ads.ads_device_retention_di
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
   AND agent_id=-1 AND country_code='-1' AND open_state=-1;",,,
-46,DW,活跃设备数,dw_active_devices,原子,候选待审,haoshen_ads.ads_device_retention_di,业务日设备快照中最近打开日期落在当日的设备数。,"SELECT log_date, active_device AS metric_value
-FROM haoshen_ads.ads_device_retention_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1' AND open_state=-1;",,,
-46,DW,专区新增账号留存率,dw_account_retention,派生,候选待审,haoshen_ads.ads_total_haoshen_report_di,以专区首次进入日为队列，计算第2/3/7/15/30日再次登录的账号比例，观察点为D+1/2/6/14/29。,"SELECT log_date, num28 AS returned_users, num204 AS cohort_users,
- num28*1.0/NULLIF(num204,0) AS retention_rate_d2,
- num30 AS returned_users_d7, num206 AS cohort_users_d7,
- num30*1.0/NULLIF(num206,0) AS retention_rate_d7
-FROM haoshen_ads.ads_total_haoshen_report_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
- AND agent_id=-1 AND country_code='-1';",,,
-46,DW,新增设备留存率,dw_device_retention,派生,候选待审,haoshen_ads.ads_device_retention_di,以首次打开设备为队列，计算第2/3/7/30日再次打开的设备比例，对应D+1/2/6/29。,"SELECT log_date, retained_7*1.0/NULLIF(reg_7,0) AS metric_value
-FROM haoshen_ads.ads_device_retention_di
-WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
-  AND agent_id=-1 AND country_code='-1' AND open_state=-1;",,,
+46,DW,活跃设备数,dw_active_devices,原子,暂缓登记,haoshen_ads.ads_device_retention_di,经营总表的活跃设备主题：游戏最近游玩账号的last_login_mac与设备当日打开记录合并，按报表渠道及地域范围去重统计。,,,,经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。
+46,DW,专区新增账号留存率,dw_account_retention,派生,候选待审,haoshen_dwd.dwd_user_info_di,以专区首次进入日为队列，计算第2/3/7/15/30日在专区再次登录的账号比例；对应D+1/2/6/14/29，报表按回访日取同日快照。,"WITH offsets AS (
+ SELECT 2 AS retention_day,-1 AS offset_day UNION ALL SELECT 3,-2 UNION ALL SELECT 7,-6
+ UNION ALL SELECT 15,-14 UNION ALL SELECT 30,-29
+), counts AS (
+ SELECT '${stat_date}' AS log_date,n.retention_day,
+ DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY) AS cohort_date,
+ COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)
+ AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)
+ THEN t.user_id END) AS cohort_users,
+ COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)
+ AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)
+ AND t.last_login_date>='${stat_date}' AND t.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN t.user_id END) AS returned_users
+ FROM offsets n LEFT JOIN haoshen_dwd.dwd_user_info_di t ON t.log_date='${stat_date}'
+ WHERE '${stat_date}'<'${data_complete_before}'
+ GROUP BY n.retention_day,n.offset_day
+) SELECT *,returned_users*1.0/NULLIF(cohort_users,0) AS retention_rate FROM counts;",,,
+46,DW,新增设备留存率,dw_device_retention,派生,候选待审,haoshen_ads.ads_device_retention_di,以首次打开设备为队列，计算第2/3/7/30日再次打开的设备比例，对应D+1/2/6/29。,"WITH src AS (SELECT * FROM haoshen_ads.ads_device_retention_di
+WHERE log_date='${stat_date}' AND agent_id=-1 AND country_code='-1' AND open_state=-1)
+SELECT log_date,2 AS retention_day,reg_2 AS cohort_devices,retained_2 AS returned_devices,retention_rate_2 AS metric_value FROM src
+UNION ALL
+SELECT log_date,3 AS retention_day,reg_3 AS cohort_devices,retained_3 AS returned_devices,retention_rate_3 AS metric_value FROM src
+UNION ALL
+SELECT log_date,7 AS retention_day,reg_7 AS cohort_devices,retained_7 AS returned_devices,retention_rate_7 AS metric_value FROM src
+UNION ALL
+SELECT log_date,30 AS retention_day,reg_30 AS cohort_devices,retained_30 AS returned_devices,retention_rate_30 AS metric_value FROM src;",,,
 46,DW,SLOT总玩分,dw_slot_bet,原子,候选待审,haoshen_ads.total_game_report,指定SLOT游戏类型与房间层级下的play_money汇总。total_game_report中SLOT排除control_level=14。,"SELECT log_date, play_money AS metric_value
 FROM haoshen_ads.total_game_report
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
@@ -7523,10 +7536,10 @@ WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
 FROM haoshen_ads.total_game_report
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
   AND game_id=-1 AND game_type=1 AND room_type=-1;",,,
-46,DW,分类金币产消,dw_coin_flow,原子,候选待审,haoshen_ads.ads_plat_coin_di,按来源表、业务分类分别查看金币或折值变动；保留原币种和分类，不把各分支value直接合成现金收入。,"SELECT log_date,table_name,type,SUM(value) AS metric_value
+46,DW,分类金币产消,dw_coin_flow,原子,暂缓登记,haoshen_ads.ads_plat_coin_di,按来源表、业务分类分别查看金币或折值变动；保留原币种和分类，不把各分支value直接合成现金收入。,"SELECT log_date,table_name,type,SUM(value) AS metric_value
 FROM haoshen_ads.ads_plat_coin_di
 WHERE log_date>='${start_date}' AND log_date<'${end_date}'
-GROUP BY log_date,table_name,type;",,,
+GROUP BY log_date,table_name,type;",,,分类字典维护及唯一键待确认，不同分支value计量不同，暂不形成统一金币产消公式。
 46,DW,抽奖参与用户数,dw_draw_users,原子,候选待审,haoshen_ods.luck_draw_log,业务日内有抽奖记录的去重账号数，按活动类型统计。,"SELECT DATE(log_date) AS stat_date,act_type,COUNT(DISTINCT user_id) AS metric_value
 FROM haoshen_ods.luck_draw_log
 WHERE log_date>='${start_date}' AND log_date<'${end_date}'

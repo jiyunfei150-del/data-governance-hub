@@ -1,5 +1,5 @@
 {
-  "revision": "2d7ba7b2d293",
+  "revision": "59cbe5d2a39f",
   "stats": {
     "date": "2026-11-06",
     "activity_date": "2026-11-04",
@@ -33,7 +33,7 @@
     "other_projects_reviewed": 110,
     "other_projects_with_first_schema": 25,
     "other_projects_without_matching_schema": 84,
-    "other_project_metric_sql": 573,
+    "other_project_metric_sql": 572,
     "other_project_tag_drafts": 2601,
     "other_project_platform_writes": 140,
     "metric_export_refresh_blocked": false,
@@ -71,6 +71,20 @@
       "metric_themes": 20,
       "field_notes": 38,
       "platform_writes": 0
+    },
+    "dw_priority_selection": {
+      "eligible_metadata": 25,
+      "priority_metadata": 16,
+      "metadata_wait_evidence": 2,
+      "remaining_eligible_metadata": 7,
+      "priority_metric_themes": 13,
+      "metric_themes_wait_definition": 7,
+      "existing_models_reuse": 7,
+      "recommended_new_dwd": 2,
+      "recommended_new_dws": 2,
+      "build_first_phase": 2,
+      "platform_writes": 0,
+      "production_queries": 0
     }
   },
   "projects": [
@@ -1016,10 +1030,10 @@
       "model_new": 4,
       "verified_registered_tables": 0,
       "data_file": "data/projects/46.json",
-      "initialization": "四层调度已核对，DW审阅稿；未录入",
+      "initialization": "DW首批候选：16张优先元数据、13个指标主题；未录入",
       "priority": "P1 核对首批",
       "model_dws_reuse": 2,
-      "review_stage": "调度语义审阅已整理",
+      "review_stage": "活性＋报表逻辑首批候选已整理",
       "review_tags": 46,
       "review_only": true,
       "project_kind": "game",
@@ -1035,7 +1049,8 @@
       "project_kind_confidence": "本轮审阅分类，待业务负责人复核",
       "scope_note": "仅整理haoshen_ods/dwd/dws/ads。指标库存未核验；旧快照0不代表当前没有。",
       "inventory_status": "当前入口未列DW，待全量查重",
-      "scheduler_review_url": "DW调度审阅.html"
+      "scheduler_review_url": "DW调度审阅.html",
+      "first_batch_review_url": "DW首批治理候选.html"
     },
     {
       "id": "12",

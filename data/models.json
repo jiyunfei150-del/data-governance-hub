@@ -7284,13 +7284,12 @@
       "验证唯一键、迟到水位与幂等",
       "指标入库前全量查重，优先复用原有"
     ],
-    "metric_ids": [
-      "DW_active_users",
-      "DW_account_retention"
-    ],
+    "metric_ids": [],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
   },
   {
     "id": "DW_DWD_mac",
@@ -7320,7 +7319,9 @@
     "metric_ids": [],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
   },
   {
     "id": "DW_DWD_user",
@@ -7355,7 +7356,9 @@
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
   },
   {
     "id": "DW_DWD_device",
@@ -7389,7 +7392,9 @@
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
   },
   {
     "id": "DW_DWD_slot",
@@ -7425,7 +7430,9 @@
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
   },
   {
     "id": "DW_DWS_game",
@@ -7459,7 +7466,9 @@
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
   },
   {
     "id": "DW_DWS_log",
@@ -7492,7 +7501,9 @@
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已有对应调度写入定义，先核质量与范围，不再新建同粒度表。"
   },
   {
     "id": "DW_DWD_payment",
@@ -7530,7 +7541,9 @@
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "第一阶段优先",
+    "selection_reason": "充值金额/人数/次数与退款共用一个订单明细，避免报表重复做状态和单位解释。"
   },
   {
     "id": "DW_DWD_fish",
@@ -7538,7 +7551,7 @@
     "table": "dwd_fish_game_detail_di",
     "title": "按需补捕鱼标准明细",
     "mode": "建议新建",
-    "priority": "P1",
+    "priority": "P2",
     "sources": [
       "haoshen_ods.fish_game_log"
     ],
@@ -7561,7 +7574,9 @@
     "metric_ids": [],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "第二阶段按需",
+    "selection_reason": "当需要下钻捕鱼明细或账号级玩法分析时再建；当前游戏汇总可先复用。"
   },
   {
     "id": "DW_DWS_user",
@@ -7571,20 +7586,22 @@
     "mode": "建议新建",
     "priority": "P1",
     "sources": [
-      "haoshen_dwd.dwd_user_login_di",
+      "haoshen_dwd.dwd_user_info_di",
       "haoshen_ods.charge_order_info",
-      "haoshen_ods.bs_user_id"
+      "haoshen_ods.bs_user_id",
+      "haoshen_ods.app_login_log"
     ],
-    "grain": "日×user_id",
+    "grain": "日×专区账号user_id；以同日账号快照为主表",
     "fields": [],
     "partition": "log_date业务日；覆盖方式按现有工程约定核准",
     "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
     "rules": [
-      "账号并集保留只付费未登录账号，先检查是否为异常或合法人群。",
-      "同一BS标记统一分子分母；保留原始金额，不先填0或推定付款成功。",
-      "BS名单历史有效期、状态和退款规则明确后再物化。"
+      "以同日专区账号快照为主表，复现报表账号范围；支付明细先按账号聚合，再关联，避免行数放大。",
+      "同时保留快照活跃、登录事件与BS标志；num7排BS，num11包含BS，按指标原规则解释，不在模型里偷偷统一。",
+      "源现金、充值金币保留原值；同时记录订单行数和去重订单数用于幂等核查。退款按订单状态另行处理，不能默认净收入。",
+      "每日报表对账通过后再物化；历史回补必须使用对应日快照及可追溯名单。"
     ],
-    "sql": "WITH a AS (SELECT login_date AS log_date,user_id FROM haoshen_dwd.dwd_user_login_di\n WHERE login_date>='${start_date}' AND login_date<'${end_date}'),\np AS (SELECT DATE(log_time) AS log_date,user_id,COUNT(DISTINCT order_no) AS pay_orders,\n SUM(infull_rmb) AS cash_amount,SUM(infull_money) AS charge_coins\n FROM haoshen_ods.charge_order_info WHERE log_time>='${start_date}' AND log_time<'${end_date}'\n GROUP BY DATE(log_time),user_id),\nu AS (SELECT log_date,user_id FROM a UNION SELECT log_date,user_id FROM p)\nSELECT u.log_date,u.user_id,CASE WHEN a.user_id IS NOT NULL THEN 1 ELSE 0 END AS login_flag,\n CASE WHEN b.user_id IS NOT NULL THEN 1 ELSE 0 END AS bs_flag,\n p.pay_orders,p.cash_amount,p.charge_coins\nFROM u LEFT JOIN a ON u.log_date=a.log_date AND u.user_id=a.user_id\n LEFT JOIN p ON u.log_date=p.log_date AND u.user_id=p.user_id\n LEFT JOIN (SELECT DISTINCT user_id FROM haoshen_ods.bs_user_id) b ON u.user_id=b.user_id;",
+    "sql": "WITH pay AS (\n SELECT user_id,COUNT(*) AS payment_rows,COUNT(DISTINCT order_no) AS distinct_orders,\n SUM(infull_rmb) AS cash_amount,SUM(infull_money) AS charge_coins\n FROM haoshen_ods.charge_order_info WHERE log_time>='${stat_date}' AND log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) GROUP BY user_id\n), login_event AS (\n SELECT user_id,1 AS login_event_flag FROM haoshen_ods.app_login_log\n WHERE login_date>='${stat_date}' AND login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) GROUP BY user_id\n)\nSELECT '${stat_date}' AS log_date,u.user_id,u.agent_id,u.reg_date,\n CASE WHEN u.reg_date>='${stat_date}' AND u.reg_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS new_user_flag,\n CASE WHEN u.last_login_date>='${stat_date}' AND u.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS active_snapshot_flag,\n COALESCE(l.login_event_flag,0) AS login_event_flag,\n CASE WHEN b.user_id IS NOT NULL THEN 1 ELSE 0 END AS bs_flag,\n CASE WHEN u.first_infull_time>='${stat_date}' AND u.first_infull_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS first_pay_flag,\n p.payment_rows,p.distinct_orders,p.cash_amount,p.charge_coins\nFROM haoshen_dwd.dwd_user_info_di u\nLEFT JOIN pay p ON u.user_id=p.user_id\nLEFT JOIN login_event l ON u.user_id=l.user_id\nLEFT JOIN haoshen_ods.bs_user_id b ON u.user_id=b.user_id\nWHERE u.log_date='${stat_date}';",
     "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
     "prerequisites": [
       "核对来源及目标权限",
@@ -7592,14 +7609,22 @@
       "指标入库前全量查重，优先复用原有"
     ],
     "metric_ids": [
+      "DW_active_users",
+      "DW_new_users",
       "DW_avg_game_duration",
+      "DW_revenue",
+      "DW_payers",
+      "DW_pay_records",
       "DW_pay_rate",
       "DW_arpu",
-      "DW_arppu"
+      "DW_arppu",
+      "DW_first_payers"
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "第一阶段优先",
+    "selection_reason": "活跃、新增、首充、充值三项共用账号日底座；保留BS与两种活跃标志，不擅自统一现有口径。"
   },
   {
     "id": "DW_DWS_retention",
@@ -7607,21 +7632,21 @@
     "table": "dws_account_retention_di",
     "title": "精选DWS②：专区账号队列留存",
     "mode": "建议新建",
-    "priority": "P1",
+    "priority": "P2",
     "sources": [
-      "haoshen_dwd.dwd_user_info_di",
-      "haoshen_dwd.dwd_user_login_di"
+      "haoshen_dwd.dwd_user_info_di"
     ],
-    "grain": "队列日×第N日观察点；账号口径",
+    "grain": "回访日log_date×队列日cohort_date×第N日（整体账号口径）",
     "fields": [],
     "partition": "log_date业务日；覆盖方式按现有工程约定核准",
     "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
     "rules": [
-      "设备留存直接复用已有设备日报，不再新建同主题DWS。",
-      "第7日=D+6，第30日=D+29；仅输出完整观察窗口，不把未成熟留存补0。",
-      "账号队列以当日快照冻结；补跑不可用当前主档冒充历史快照。"
+      "本版按实际报表从回访日的账号快照提取注册队列及回访人数，避免把队列日快照冻结方案冒充现行报表。",
+      "第2/3/7/15/30日对应D+1/2/6/14/29；双号30日错位细分暂不纳入。",
+      "保留分子、分母，零分母和完整采集水位单独判断。若未来改为队列日冻结，要先核差异并明确切换，不能直接替代旧口径。",
+      "账号与设备分开；现有ads_device_retention_di继续复用。"
     ],
-    "sql": "WITH cohort AS (\n SELECT DISTINCT user_id FROM haoshen_dwd.dwd_user_info_di\n WHERE log_date='${cohort_date}' AND reg_date>='${cohort_date}'\n AND reg_date<DATE_ADD('${cohort_date}',INTERVAL 1 DAY)\n), offsets AS (SELECT 1 AS day_offset UNION ALL SELECT 2 UNION ALL SELECT 6 UNION ALL SELECT 14 UNION ALL SELECT 29)\nSELECT '${cohort_date}' AS cohort_date,o.day_offset+1 AS retention_day,\n COUNT(c.user_id) AS cohort_users,COUNT(l.user_id) AS returned_users,\n COUNT(l.user_id)*1.0/NULLIF(COUNT(c.user_id),0) AS retention_rate\nFROM offsets o CROSS JOIN cohort c\nLEFT JOIN haoshen_dwd.dwd_user_login_di l ON l.user_id=c.user_id\n AND l.login_date=DATE_ADD('${cohort_date}',INTERVAL o.day_offset DAY)\nWHERE DATE_ADD('${cohort_date}',INTERVAL o.day_offset DAY)<DATE('${data_complete_before}')\nGROUP BY o.day_offset;",
+    "sql": "WITH offsets AS (\n SELECT 2 AS retention_day,-1 AS offset_day UNION ALL SELECT 3,-2 UNION ALL SELECT 7,-6\n UNION ALL SELECT 15,-14 UNION ALL SELECT 30,-29\n), counts AS (\n SELECT '${stat_date}' AS log_date,n.retention_day,\n DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY) AS cohort_date,\n COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)\n AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)\n THEN t.user_id END) AS cohort_users,\n COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)\n AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)\n AND t.last_login_date>='${stat_date}' AND t.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN t.user_id END) AS returned_users\n FROM offsets n LEFT JOIN haoshen_dwd.dwd_user_info_di t ON t.log_date='${stat_date}'\n WHERE '${stat_date}'<'${data_complete_before}'\n GROUP BY n.retention_day,n.offset_day\n) SELECT *,returned_users*1.0/NULLIF(cohort_users,0) AS retention_rate FROM counts;",
     "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
     "prerequisites": [
       "核对来源及目标权限",
@@ -7633,6 +7658,8 @@
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
-    "project_name": "DW"
+    "project_name": "DW",
+    "build_stage": "第二阶段按需",
+    "selection_reason": "需要频繁跨日/队列查询时再建；设备留存继续复用现有ADS，不再建一套。"
   }
 ]

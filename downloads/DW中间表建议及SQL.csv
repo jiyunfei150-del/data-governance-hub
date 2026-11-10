@@ -1,0 +1,58 @@
+﻿layer,table,mode,build_stage,priority,grain,sources,selection_reason,sql
+DWD,haoshen_dwd.dwd_user_login_di,复用现有,直接复用,P1,日×user_id,"[""haoshen_dwd.dwd_user_login_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT login_date,user_id FROM haoshen_dwd.dwd_user_login_di
+WHERE login_date>='${start_date}' AND login_date<'${end_date}';"
+DWD,haoshen_dwd.dwd_user_mac_login_di,复用现有,直接复用,P1,日×user_id×非空mac,"[""haoshen_dwd.dwd_user_mac_login_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT * FROM haoshen_dwd.dwd_user_mac_login_di
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+DWD,haoshen_dwd.dwd_user_info_di,复用现有,直接复用,P1,快照日×user_id,"[""haoshen_dwd.dwd_user_info_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT * FROM haoshen_dwd.dwd_user_info_di
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+DWD,haoshen_dwd.dwd_app_open_info_di,复用现有,直接复用,P1,快照日×mac，待唯一性核验,"[""haoshen_dwd.dwd_app_open_info_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT * FROM haoshen_dwd.dwd_app_open_info_di
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+DWD,haoshen_dwd.dwd_slot_main_log_di,复用现有,直接复用,P1,id×log_date,"[""haoshen_dwd.dwd_slot_main_log_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT * FROM haoshen_dwd.dwd_slot_main_log_di
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+DWS,haoshen_dws.dws_game_detail_di,复用现有,直接复用,P1,日×user_id×game_id×room_type,"[""haoshen_dws.dws_game_detail_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT * FROM haoshen_dws.dws_game_detail_di
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+DWS,haoshen_dws.dws_log_total_di,复用现有,直接复用,P1,日×table_name×dimension×分类维度,"[""haoshen_dws.dws_log_total_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT * FROM haoshen_dws.dws_log_total_di
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+DWD,dwd_charge_order_detail_di,建议新建,第一阶段优先,P1,订单order_no；退款状态更新独立保留,"[""haoshen_ods.charge_order_info""]",充值金额/人数/次数与退款共用一个订单明细，避免报表重复做状态和单位解释。,"SELECT order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date
+FROM haoshen_ods.charge_order_info
+WHERE (log_time >= '${start_date}' AND log_time < '${end_date}')
+   OR (refund_date >= '${start_date}' AND refund_date < '${end_date}');"
+DWD,dwd_fish_game_detail_di,建议新建,第二阶段按需,P2,fgl_id×log_date（源采集键；业务幂等待验）,"[""haoshen_ods.fish_game_log""]",当需要下钻捕鱼明细或账号级玩法分析时再建；当前游戏汇总可先复用。,"SELECT fgl_id,log_date,user_id,game_id,room_type_id,num_shot,gold_shot_cost,gold_catch_fish
+FROM haoshen_ods.fish_game_log
+WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
+DWS,dws_user_business_di,建议新建,第一阶段优先,P1,日×专区账号user_id；以同日账号快照为主表,"[""haoshen_dwd.dwd_user_info_di"", ""haoshen_ods.charge_order_info"", ""haoshen_ods.bs_user_id"", ""haoshen_ods.app_login_log""]",活跃、新增、首充、充值三项共用账号日底座；保留BS与两种活跃标志，不擅自统一现有口径。,"WITH pay AS (
+ SELECT user_id,COUNT(*) AS payment_rows,COUNT(DISTINCT order_no) AS distinct_orders,
+ SUM(infull_rmb) AS cash_amount,SUM(infull_money) AS charge_coins
+ FROM haoshen_ods.charge_order_info WHERE log_time>='${stat_date}' AND log_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) GROUP BY user_id
+), login_event AS (
+ SELECT user_id,1 AS login_event_flag FROM haoshen_ods.app_login_log
+ WHERE login_date>='${stat_date}' AND login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) GROUP BY user_id
+)
+SELECT '${stat_date}' AS log_date,u.user_id,u.agent_id,u.reg_date,
+ CASE WHEN u.reg_date>='${stat_date}' AND u.reg_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS new_user_flag,
+ CASE WHEN u.last_login_date>='${stat_date}' AND u.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS active_snapshot_flag,
+ COALESCE(l.login_event_flag,0) AS login_event_flag,
+ CASE WHEN b.user_id IS NOT NULL THEN 1 ELSE 0 END AS bs_flag,
+ CASE WHEN u.first_infull_time>='${stat_date}' AND u.first_infull_time<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN 1 ELSE 0 END AS first_pay_flag,
+ p.payment_rows,p.distinct_orders,p.cash_amount,p.charge_coins
+FROM haoshen_dwd.dwd_user_info_di u
+LEFT JOIN pay p ON u.user_id=p.user_id
+LEFT JOIN login_event l ON u.user_id=l.user_id
+LEFT JOIN haoshen_ods.bs_user_id b ON u.user_id=b.user_id
+WHERE u.log_date='${stat_date}';"
+DWS,dws_account_retention_di,建议新建,第二阶段按需,P2,回访日log_date×队列日cohort_date×第N日（整体账号口径）,"[""haoshen_dwd.dwd_user_info_di""]",需要频繁跨日/队列查询时再建；设备留存继续复用现有ADS，不再建一套。,"WITH offsets AS (
+ SELECT 2 AS retention_day,-1 AS offset_day UNION ALL SELECT 3,-2 UNION ALL SELECT 7,-6
+ UNION ALL SELECT 15,-14 UNION ALL SELECT 30,-29
+), counts AS (
+ SELECT '${stat_date}' AS log_date,n.retention_day,
+ DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY) AS cohort_date,
+ COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)
+ AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)
+ THEN t.user_id END) AS cohort_users,
+ COUNT(CASE WHEN t.reg_date>=DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY)
+ AND t.reg_date<DATE_ADD(DATE_ADD('${stat_date}',INTERVAL n.offset_day DAY),INTERVAL 1 DAY)
+ AND t.last_login_date>='${stat_date}' AND t.last_login_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY) THEN t.user_id END) AS returned_users
+ FROM offsets n LEFT JOIN haoshen_dwd.dwd_user_info_di t ON t.log_date='${stat_date}'
+ WHERE '${stat_date}'<'${data_complete_before}'
+ GROUP BY n.retention_day,n.offset_day
+) SELECT *,returned_users*1.0/NULLIF(cohort_users,0) AS retention_rate FROM counts;"
