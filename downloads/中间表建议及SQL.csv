@@ -2904,3 +2904,11 @@ WHERE u.log_date='${stat_date}';"
  WHERE '${stat_date}'<'${data_complete_before}'
  GROUP BY n.retention_day,n.offset_day
 ) SELECT *,returned_users*1.0/NULLIF(cohort_users,0) AS retention_rate FROM counts;"
+46,DW,DW_DWD_gift,DWD,dwd_gift_transaction_detail_di,优先补赠礼交易状态明细,建议新建,P1,order_id；保留订单创建与最后操作双时间,"[""haoshen_ods.transaction_log""]",log_date=DATE(order_date)，按订单创建日；状态变更回写原分区,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT DATE(order_date) AS log_date,order_id,send_id,recv_id,agent_id,
+ trans_type,trans_state,order_date,operate_date,trans_money,service_charge,trans_prop,trans_prop_num,
+ CASE WHEN trans_type=0 AND trans_state IN (33,44,55) THEN 1 ELSE 0 END AS gift_success_flag
+FROM haoshen_ods.transaction_log
+WHERE (order_date>='${stat_date}' AND order_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)) OR (operate_date>='${stat_date}' AND operate_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY));"
+46,DW,DW_DWS_message,DWS,haoshen_dws.dws_msg_type_total_di,复用消息类型日汇总,复用现有,P1,日×type×attachment_type及类型汇总层,"[""haoshen_ods.msg_box""]",按现有表定义,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]",SELECT * FROM haoshen_dws.dws_msg_type_total_di WHERE log_date='${stat_date}';
+46,DW,DW_DWD_af_install,DWD,haoshen_dwd.dim_ad_af_push_install,复用AF安装归因维度,复用现有,P1,以现有表键为准，保留原始事件与日志时间,"[""haoshen_ods.ad_af_push_di""]",按现有表定义,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT * FROM haoshen_dwd.dim_ad_af_push_install
+WHERE event_time>='${start_date}' AND event_time<'${end_date}';"

@@ -7352,7 +7352,8 @@
       "DW_active_users",
       "DW_new_users",
       "DW_first_payers",
-      "DW_account_retention"
+      "DW_account_retention",
+      "DW_coin_balance"
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
@@ -7426,7 +7427,9 @@
       "DW_game_duration",
       "DW_avg_game_duration",
       "DW_slot_bet",
-      "DW_slot_win"
+      "DW_slot_win",
+      "DW_slot_paid_rounds",
+      "DW_game_outcome_users"
     ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
@@ -7571,7 +7574,9 @@
       "验证唯一键、迟到水位与幂等",
       "指标入库前全量查重，优先复用原有"
     ],
-    "metric_ids": [],
+    "metric_ids": [
+      "DW_game_outcome_users"
+    ],
     "origin": "DW实际调度复用审阅2026-11-10",
     "project_id": "46",
     "project_name": "DW",
@@ -7661,5 +7666,127 @@
     "project_name": "DW",
     "build_stage": "第二阶段按需",
     "selection_reason": "需要频繁跨日/队列查询时再建；设备留存继续复用现有ADS，不再建一套。"
+  },
+  {
+    "id": "DW_DWD_gift",
+    "layer": "DWD",
+    "table": "dwd_gift_transaction_detail_di",
+    "title": "优先补赠礼交易状态明细",
+    "mode": "建议新建",
+    "priority": "P1",
+    "sources": [
+      "haoshen_ods.transaction_log"
+    ],
+    "grain": "order_id；保留订单创建与最后操作双时间",
+    "fields": [
+      "log_date",
+      "order_id",
+      "send_id",
+      "recv_id",
+      "agent_id",
+      "trans_type",
+      "trans_state",
+      "order_date",
+      "operate_date",
+      "trans_money",
+      "service_charge",
+      "trans_prop",
+      "trans_prop_num",
+      "gift_success_flag"
+    ],
+    "partition": "log_date=DATE(order_date)，按订单创建日；状态变更回写原分区",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "保留原始状态、类型、发送者与接收者；成功标志沿用现有报表33/44/55与trans_type=0。",
+      "按order_id幂等，最后操作时间捕获更新，回写订单原分区；相关统计日需重算。",
+      "这是订单当前状态明细，不自动获得不可变状态历史；需历史状态流水时另核源采集，不杜撰成功时间。",
+      "BS分类在使用时按指标原规则处理，不在DWD丢弃BS或互换买分/回分角色。"
+    ],
+    "sql": "SELECT DATE(order_date) AS log_date,order_id,send_id,recv_id,agent_id,\n trans_type,trans_state,order_date,operate_date,trans_money,service_charge,trans_prop,trans_prop_num,\n CASE WHEN trans_type=0 AND trans_state IN (33,44,55) THEN 1 ELSE 0 END AS gift_success_flag\nFROM haoshen_ods.transaction_log\nWHERE (order_date>='${stat_date}' AND order_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)) OR (operate_date>='${stat_date}' AND operate_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY));",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_gift_success_count",
+      "DW_gift_coins",
+      "DW_gift_fee"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW",
+    "build_stage": "第一阶段优先",
+    "selection_reason": "赠礼次数、金币、手续费与后续BS交易分析共用一份明细，保留发送/接收双角色及状态，避免复制分类逻辑。"
+  },
+  {
+    "id": "DW_DWS_message",
+    "layer": "DWS",
+    "table": "haoshen_dws.dws_msg_type_total_di",
+    "title": "复用消息类型日汇总",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_ods.msg_box"
+    ],
+    "grain": "日×type×attachment_type及类型汇总层",
+    "fields": [],
+    "partition": "按现有表定义",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "复用现有表不等于把它加入首批补录；候选指标先用活性达标的ODS提取。",
+      "核对分组汇总层、去重标识、时间和原始单位，避免与明细或其他汇总层混加。"
+    ],
+    "sql": "SELECT * FROM haoshen_dws.dws_msg_type_total_di WHERE log_date='${stat_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_message_receivers",
+      "DW_message_attachment_quantity"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已在原生调度定位对应写入任务，先复用并核对维度与时间范围，不新建同粒度表。"
+  },
+  {
+    "id": "DW_DWD_af_install",
+    "layer": "DWD",
+    "table": "haoshen_dwd.dim_ad_af_push_install",
+    "title": "复用AF安装归因维度",
+    "mode": "复用现有",
+    "priority": "P1",
+    "sources": [
+      "haoshen_ods.ad_af_push_di"
+    ],
+    "grain": "以现有表键为准，保留原始事件与日志时间",
+    "fields": [],
+    "partition": "按现有表定义",
+    "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
+    "rules": [
+      "复用现有表不等于把它加入首批补录；候选指标先用活性达标的ODS提取。",
+      "核对分组汇总层、去重标识、时间和原始单位，避免与明细或其他汇总层混加。"
+    ],
+    "sql": "SELECT * FROM haoshen_dwd.dim_ad_af_push_install\nWHERE event_time>='${start_date}' AND event_time<'${end_date}';",
+    "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
+    "prerequisites": [
+      "核对来源及目标权限",
+      "验证唯一键、迟到水位与幂等",
+      "指标入库前全量查重，优先复用原有"
+    ],
+    "metric_ids": [
+      "DW_af_attribution_devices"
+    ],
+    "origin": "DW实际调度复用审阅2026-11-10",
+    "project_id": "46",
+    "project_name": "DW",
+    "build_stage": "直接复用",
+    "selection_reason": "已在原生调度定位对应写入任务，先复用并核对维度与时间范围，不新建同粒度表。"
   }
 ]

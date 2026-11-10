@@ -1100657,7 +1100657,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 5
+    "scheduler_reader_count": 5,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "补清归因标识、安装/再归因/再互动及原始时间/日志时间，候选指标先待核时区。"
   },
   {
     "project_id": "46",
@@ -1100773,7 +1100775,9 @@
     ],
     "scheduler_writer_count": 0,
     "scheduler_enabled_writer_count": 0,
-    "scheduler_reader_count": 8
+    "scheduler_reader_count": 8,
+    "shortlist_20261110": "补证后补充",
+    "shortlist_reason": "补核账号主档采集及连接唯一性，支撑报表对账。"
   },
   {
     "project_id": "46",
@@ -1100891,7 +1100895,9 @@
     ],
     "scheduler_writer_count": 4,
     "scheduler_enabled_writer_count": 4,
-    "scheduler_reader_count": 22
+    "scheduler_reader_count": 22,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "扩入赠礼次数、金币和手续费，明确成功状态、双角色和操作日。"
   },
   {
     "project_id": "46",
@@ -1100950,7 +1100956,9 @@
     ],
     "scheduler_writer_count": 2,
     "scheduler_enabled_writer_count": 2,
-    "scheduler_reader_count": 4
+    "scheduler_reader_count": 4,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "扩入消息接收人数；附件数量先核类型和单位。"
   },
   {
     "project_id": "46",
@@ -1101252,7 +1101260,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 2
+    "scheduler_reader_count": 2,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "解释活动165状态参与与抽奖日志参与的区别，先核是否复用已有参与主题。"
   },
   {
     "project_id": "46",
@@ -1101409,10 +1101419,10 @@
     "schema_file": "data/schemas/haoshen_ods.json",
     "domain": "玩家域",
     "process": "玩家状态快照",
-    "definition": "玩家分游戏状态/累计行为小时采集数据。",
-    "grain": "按小时采集时点×user_id×game_id核对。",
+    "definition": "玩家分游戏当前状态镜像，保存累计玩法与首次/最近游玩信息；采集周期与历史留档能力分开判断。",
+    "grain": "以采集主键为准的玩家×游戏当前状态；独立小时历史未证实。",
     "time": "快照时点与first/last_play_date",
-    "risk": "online_time、play_num等可能是累计值；不能跨小时简单求和，须确认更新方式。",
+    "risk": "online_time、play_num、win_money等累计字段不可跨小时直接相加；使用事件明细或已冻结日快照核算历史。",
     "confidence": "已结合2026-11-10原生调度导出与2026-11-05结构快照核对；未执行生产查询",
     "platform_status": "未逐表核验",
     "platform_verified": "",
@@ -1101432,7 +1101442,9 @@
     ],
     "scheduler_writer_count": 4,
     "scheduler_enabled_writer_count": 4,
-    "scheduler_reader_count": 2
+    "scheduler_reader_count": 2,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "当前玩家×游戏状态镜像，解释累计字段与最近游玩时间，不能按小时累计。"
   },
   {
     "project_id": "46",
@@ -1101467,10 +1101479,10 @@
     "schema_file": "data/schemas/haoshen_ods.json",
     "domain": "玩家域",
     "process": "玩家状态快照",
-    "definition": "账号属性小时采集数据，保存专区注册、登录及资产等状态。",
-    "grain": "采集时点×user_id核对。",
+    "definition": "按小时采集/刷新账号当前属性的镜像，现有采集主键仅user_id，没有独立小时快照键。",
+    "grain": "user_id当前状态；不是按小时留档历史。",
     "time": "reg_date / last_login_date / 采集时点",
-    "risk": "不能把小时采集当注册明细；累计时长/余额不跨快照加总。",
+    "risk": "money、bank_money是当前余额，total_online_time等为累计状态；不可跨采集批次求和，也不能直接还原历史某小时。",
     "confidence": "已结合2026-11-10原生调度导出与2026-11-05结构快照核对；未执行生产查询",
     "platform_status": "未逐表核验",
     "platform_verified": "",
@@ -1101490,7 +1101502,9 @@
     ],
     "scheduler_writer_count": 1,
     "scheduler_enabled_writer_count": 1,
-    "scheduler_reader_count": 17
+    "scheduler_reader_count": 17,
+    "shortlist_20261110": "优先补充元数据",
+    "shortlist_reason": "当前账号属性镜像，解释余额、累计时长与日快照的区别。"
   },
   {
     "project_id": "46",

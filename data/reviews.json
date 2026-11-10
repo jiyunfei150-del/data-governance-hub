@@ -4055,12 +4055,12 @@
     "first_count": 25,
     "first_schema": 25,
     "first_missing": 0,
-    "metric_sql_count": 16,
+    "metric_sql_count": 25,
     "stock_count": null,
     "stock_overlap_count": 0,
-    "dwd_count": 7,
+    "dwd_count": 9,
     "new_dws_count": 2,
-    "focus": "16张优先元数据＋2张补证；13个优先指标主题＋7个待核；先做1张DWD与1张DWS",
+    "focus": "全部25张达标元数据候选；20个优先指标主题＋9个待核；先2 DWD＋1 DWS",
     "top_tables": [
       {
         "table": "haoshen_ods.app_login_log",
@@ -4172,7 +4172,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 复现num7的快照活跃条件，不能用未排BS的登录日志人数直接替代。移除无关连接的前提：已采集主键显示user_info_b为日×账号、task_coin_info为账号×periods；实际唯一性和历史BS范围仍需对账。"
+        "detail": "复现num7的快照活跃条件，不能用未排BS的登录日志人数直接替代。移除无关连接的前提：已采集主键显示user_info_b为日×账号、task_coin_info为账号×periods；实际唯一性和历史BS范围仍需对账。"
       },
       {
         "topic": "专区新增用户数",
@@ -4185,7 +4185,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 保留报表不排BS的规则。原任务还关联agent_user_info，其唯一性未证实；此处提取核心账号条件，去掉无关连接，必须与报表对账后再作为正式口径。"
+        "detail": "保留报表不排BS的规则。原任务还关联agent_user_info，其唯一性未证实；此处提取核心账号条件，去掉无关连接，必须与报表对账后再作为正式口径。"
       },
       {
         "topic": "游戏用户数",
@@ -4198,7 +4198,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 只取game_id/game_type/room_type全为-1的整体汇总行；不跨游戏加总人数。账号必须存在同日快照。原始SLOT与捕鱼业务范围按total_game_report保留。"
+        "detail": "只取game_id/game_type/room_type全为-1的整体汇总行；不跨游戏加总人数。账号必须存在同日快照。原始SLOT与捕鱼业务范围按total_game_report保留。"
       },
       {
         "topic": "SLOT游戏总时长",
@@ -4211,7 +4211,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "时长单位待确认；经营总表有/60换算，游戏总表保留源值。先统一游戏/房间范围及单位。 原play_time单位待源系统确认；经营总表另有/60换算；空值与未记录不等于真实0。"
+        "detail": "原play_time单位待源系统确认；经营总表另有/60换算；空值与未记录不等于真实0。"
       },
       {
         "topic": "SLOT游戏人均时长",
@@ -4224,7 +4224,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "依赖总时长单位、有效时长记录及相同游戏人群，分子分母尚未统一。 先统一房间/控制类型、快照账号范围、空值政策与单位，再复用已有时长和游戏人数，不直接拿混合SLOT/捕鱼总人数作分母。"
+        "detail": "先统一房间/控制类型、快照账号范围、空值政策与单位，再复用已有时长和游戏人数，不直接拿混合SLOT/捕鱼总人数作分母。"
       },
       {
         "topic": "充值金额",
@@ -4239,7 +4239,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
+        "detail": "源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
       },
       {
         "topic": "付费用户数",
@@ -4254,7 +4254,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
+        "detail": "源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
       },
       {
         "topic": "充值次数",
@@ -4269,7 +4269,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
+        "detail": "源任务没有另加成功状态过滤；不杜撰成功枚举。现金金额与充值金币分开；币种/倍率、退款及BS人群差异需核准。次数目前是源行数，不自动解释为去重订单数。"
       },
       {
         "topic": "付费率",
@@ -4282,7 +4282,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "需确认非BS付费账号是否属于同日快照活跃账号范围，不能先假定分母包含全部付费用户。 物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 需验证付费账号是否属于同日活跃人群；跨日、跨渠道应按账号并集重算。"
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 需验证付费账号是否属于同日活跃人群；跨日、跨渠道应按账号并集重算。"
       },
       {
         "topic": "ARPU",
@@ -4295,7 +4295,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "原报表充值金额包含BS、活跃分母排BS，且币种/倍率待核。 物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
       },
       {
         "topic": "ARPPU",
@@ -4308,7 +4308,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "原报表充值金额包含BS、付费分母排BS，先确认统一业务人群。 物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
+        "detail": "物理日报在2026-11-04调用快照q7=0、q30=0，不作为首批补录；高频视图映射仍需DDL核对。 当前num11包含BS、分母排BS，口径未对齐；不直接给出可录入公式，先确认BS范围和币种倍率。"
       },
       {
         "topic": "首次付费用户数",
@@ -4322,7 +4322,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 采用报表first_infull_time条件，不改成is_first_infull或历史订单自拟首充算法；历史快照与BS名单有效期需核准。"
+        "detail": "采用报表first_infull_time条件，不改成is_first_infull或历史订单自拟首充算法；历史快照与BS名单有效期需核准。"
       },
       {
         "topic": "新增设备数",
@@ -4335,7 +4335,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 只取agent_id=-1、country_code=-1、open_state=-1整体行，避免GROUPING SETS重复。新增以设备首次激活为队列，与专区新增账号分开。"
+        "detail": "只取agent_id=-1、country_code=-1、open_state=-1整体行，避免GROUPING SETS重复。新增以设备首次激活为队列，与专区新增账号分开。"
       },
       {
         "topic": "活跃设备数",
@@ -4348,7 +4348,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。 经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。"
+        "detail": "经营总表num5合并游戏最近游玩设备与打开设备，设备留存日报仅按last_open_date；两者覆盖不同，不能直接替代。"
       },
       {
         "topic": "专区新增账号留存率",
@@ -4361,7 +4361,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "底表达到7天>0且30天>4，并能定位业务计算规则；原指标查重和生产对账仍未完成。 复现整体账号队列，不纳入双号30日错位细分。原任务agent_user_info关联唯一性未证明，核心条件去关联后需报表对账。data_complete_before为已完成采集的首个未完日期，不能用当前日期伪造成熟。零分母返回NULL需业务核准。"
+        "detail": "复现整体账号队列，不纳入双号30日错位细分。原任务agent_user_info关联唯一性未证明，核心条件去关联后需报表对账。data_complete_before为已完成采集的首个未完日期，不能用当前日期伪造成熟。零分母返回NULL需业务核准。"
       },
       {
         "topic": "新增设备留存率",
@@ -4374,7 +4374,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 保留源报表分母为0时写0、比值保留2位的现行规则，并同时展示分子分母；不以账号留存替代。跨日汇总应重算分子/分母，不能平均百分比；设备日快照唯一性待生产验证。"
+        "detail": "保留源报表分母为0时写0、比值保留2位的现行规则，并同时展示分子分母；不以账号留存替代。跨日汇总应重算分子/分母，不能平均百分比；设备日快照唯一性待生产验证。"
       },
       {
         "topic": "SLOT总玩分",
@@ -4387,7 +4387,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
+        "detail": "DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
       },
       {
         "topic": "SLOT总赢分",
@@ -4400,7 +4400,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
+        "detail": "DWS玩分排15、赢分排5/14/15，与此处不同。不能因同名直接替换；是否包含类型5归并范围需确认。"
       },
       {
         "topic": "分类金币产消",
@@ -4413,7 +4413,7 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "分类字典维护及唯一键待确认，不同分支value计量不同，暂不形成统一金币产消公式。 各来源计量和正负方向不同；需补齐log_type_info配置后再定义统一产出/消耗指标。"
+        "detail": "各来源计量和正负方向不同；需补齐log_type_info配置后再定义统一产出/消耗指标。"
       },
       {
         "topic": "抽奖参与用户数",
@@ -4426,7 +4426,125 @@
         ],
         "stock_names": [],
         "stock_count": null,
-        "detail": "活性达标且已有调度计算逻辑，先复用已有结果或底表，不新建报表版本。 既有dws_log_total_di已提供同类人数；先核dimension/num_dimension，再复用，不因新SQL另建。"
+        "detail": "既有dws_log_total_di已提供同类人数；先核dimension/num_dimension，再复用，不因新SQL另建。"
+      },
+      {
+        "topic": "赠礼成功次数",
+        "state": "优先审阅",
+        "source_tables": [
+          "haoshen_ods.transaction_log"
+        ],
+        "candidate_ids": [
+          "DW_gift_success_count"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "沿用经营总表状态集，不额外排BS。operate_date是最后操作时间；订单后续状态变化可能移动历史归属，不等于不可变成功事件流水。不要与按order_date、状态不同的买分/回分报表混用。"
+      },
+      {
+        "topic": "赠礼金币",
+        "state": "优先审阅",
+        "source_tables": [
+          "haoshen_ods.transaction_log"
+        ],
+        "candidate_ids": [
+          "DW_gift_coins"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "沿用经营总表状态集，不额外排BS。operate_date是最后操作时间；订单后续状态变化可能移动历史归属，不等于不可变成功事件流水。不要与按order_date、状态不同的买分/回分报表混用。"
+      },
+      {
+        "topic": "赠礼手续费金币",
+        "state": "优先审阅",
+        "source_tables": [
+          "haoshen_ods.transaction_log"
+        ],
+        "candidate_ids": [
+          "DW_gift_fee"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "沿用经营总表状态集，不额外排BS。operate_date是最后操作时间；订单后续状态变化可能移动历史归属，不等于不可变成功事件流水。不要与按order_date、状态不同的买分/回分报表混用。"
+      },
+      {
+        "topic": "消息接收用户数",
+        "state": "优先审阅",
+        "source_tables": [
+          "haoshen_ods.msg_box"
+        ],
+        "candidate_ids": [
+          "DW_message_receivers"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "统计消息记录中的收件账号，不等于送达、已读或已领取人数。同账号可出现在多个类型，跨类型需要重算去重，不把分组人数相加。"
+      },
+      {
+        "topic": "玩家金币余额",
+        "state": "优先审阅",
+        "source_tables": [
+          "haoshen_dwd.dwd_user_info_di",
+          "haoshen_ods.bs_user_id"
+        ],
+        "candidate_ids": [
+          "DW_coin_balance"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "对应num74，继承非BS账号范围；不替换包含BS的num88，不跨天累加余额，不把余额当产出或现金。历史回算需对应日快照与名单口径。"
+      },
+      {
+        "topic": "SLOT有效下注局数",
+        "state": "优先审阅",
+        "source_tables": [
+          "haoshen_ads.total_game_report"
+        ],
+        "candidate_ids": [
+          "DW_slot_paid_rounds"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "原字段按记录计数，非已验证的独立局号去重。这个计数未按总玩分字段的control_level=14规则排除，衍生单局值前要核分子分母。捕鱼开炮数不替代SLOT局数。"
+      },
+      {
+        "topic": "输赢玩家人数",
+        "state": "优先审阅",
+        "source_tables": [
+          "haoshen_ads.total_game_report"
+        ],
+        "candidate_ids": [
+          "DW_game_outcome_users"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "原报表先按账号×游戏×房间计算净分，再按汇总层去重；跨玩法同一账号可同时出现在赢、输两组，不代表全游戏合并净盈亏。直接复用已有日报；明细模型仅用于后续下钻。"
+      },
+      {
+        "topic": "AF归因设备数",
+        "state": "待核口径",
+        "source_tables": [
+          "haoshen_ods.ad_af_push_di"
+        ],
+        "candidate_ids": [
+          "DW_af_attribution_devices"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "现有安装维度任务按原始event_time取跨两日窗口，ODS另有时区处理后的log_date；业务日边界和标识去重尚未统一。此SQL是建议口径参考，不能称复现现行日报；不把AF标识直接等同mac新增设备。"
+      },
+      {
+        "topic": "消息附件记录数量",
+        "state": "待核口径",
+        "source_tables": [
+          "haoshen_ods.msg_box"
+        ],
+        "candidate_ids": [
+          "DW_message_attachment_quantity"
+        ],
+        "stock_names": [],
+        "stock_count": null,
+        "detail": "附件类型字典及单位未核准，记录数量不等于实际领取量；不同附件类型不能合成统一金币值。"
       }
     ],
     "blockers": [
@@ -4456,9 +4574,18 @@
       "DW_slot_bet",
       "DW_slot_win",
       "DW_coin_flow",
-      "DW_draw_users"
+      "DW_draw_users",
+      "DW_gift_success_count",
+      "DW_gift_coins",
+      "DW_gift_fee",
+      "DW_message_receivers",
+      "DW_coin_balance",
+      "DW_slot_paid_rounds",
+      "DW_game_outcome_users",
+      "DW_af_attribution_devices",
+      "DW_message_attachment_quantity"
     ],
-    "conclusion": "基于活性与实际报表条件筛选首批候选。13个指标主题可由活跃来源提取，不要求补录冷物理日报；原指标查重与业务数值验收仍待完成。",
+    "conclusion": "扩大首批覆盖：22张元数据优先、3张补证；20个优先业务主题、9个待核。新增主题为独立业务计量，保存前仍优先复用原指标。",
     "next_action": "审阅首批候选与SQL；先取得DW原指标库存查重，再核对报表数值，未授权前不录入。",
     "authority": "DW本轮只整理，未新增连接、业务域或过程，未写入平台。"
   },

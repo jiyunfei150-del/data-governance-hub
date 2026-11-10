@@ -70,6 +70,33 @@ WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
 FROM haoshen_ods.luck_draw_log
 WHERE log_date>='${start_date}' AND log_date<'${end_date}'
 GROUP BY DATE(log_date),act_type;","[""DW_DWS_log""]"
+赠礼成功次数,优先审阅,"[""haoshen_ods.transaction_log""]",按最后操作日统计，trans_type=0且当前trans_state属于33、44、55的赠礼订单记录数。,笔,活性达标，已有报表规则支持，按独立业务含义扩入；原指标库存仍待查重。,沿用经营总表状态集，不额外排BS。operate_date是最后操作时间；订单后续状态变化可能移动历史归属，不等于不可变成功事件流水。不要与按order_date、状态不同的买分/回分报表混用。,"SELECT '${stat_date}' AS stat_date,COUNT(*) AS metric_value
+FROM haoshen_ods.transaction_log
+WHERE operate_date>='${stat_date}' AND operate_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)
+ AND trans_type=0 AND trans_state IN (33,44,55);","[""DW_DWD_gift""]"
+赠礼金币,优先审阅,"[""haoshen_ods.transaction_log""]",按最后操作日统计，trans_type=0且当前trans_state属于33、44、55的trans_money合计。,源金币,活性达标，已有报表规则支持，按独立业务含义扩入；原指标库存仍待查重。,沿用经营总表状态集，不额外排BS。operate_date是最后操作时间；订单后续状态变化可能移动历史归属，不等于不可变成功事件流水。不要与按order_date、状态不同的买分/回分报表混用。,"SELECT '${stat_date}' AS stat_date,COALESCE(SUM(trans_money),0) AS metric_value
+FROM haoshen_ods.transaction_log
+WHERE operate_date>='${stat_date}' AND operate_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)
+ AND trans_type=0 AND trans_state IN (33,44,55);","[""DW_DWD_gift""]"
+赠礼手续费金币,优先审阅,"[""haoshen_ods.transaction_log""]",按最后操作日统计，trans_type=0且当前trans_state属于33、44、55的service_charge合计。,源金币,活性达标，已有报表规则支持，按独立业务含义扩入；原指标库存仍待查重。,沿用经营总表状态集，不额外排BS。operate_date是最后操作时间；订单后续状态变化可能移动历史归属，不等于不可变成功事件流水。不要与按order_date、状态不同的买分/回分报表混用。,"SELECT '${stat_date}' AS stat_date,COALESCE(SUM(service_charge),0) AS metric_value
+FROM haoshen_ods.transaction_log
+WHERE operate_date>='${stat_date}' AND operate_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)
+ AND trans_type=0 AND trans_state IN (33,44,55);","[""DW_DWD_gift""]"
+消息接收用户数,优先审阅,"[""haoshen_ods.msg_box""]",业务日消息记录中，按消息类型与附件类型统计去重接收账号；包含未读消息。,账号,活性达标，已有报表规则支持，按独立业务含义扩入；原指标库存仍待查重。,统计消息记录中的收件账号，不等于送达、已读或已领取人数。同账号可出现在多个类型，跨类型需要重算去重，不把分组人数相加。,"SELECT DATE(log_date) AS stat_date,type,attachment1_type,
+ COUNT(DISTINCT recv_user_id) AS metric_value
+FROM haoshen_ods.msg_box
+WHERE log_date>='${stat_date}' AND log_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)
+GROUP BY DATE(log_date),type,attachment1_type;","[""DW_DWS_message""]"
+玩家金币余额,优先审阅,"[""haoshen_dwd.dwd_user_info_di"", ""haoshen_ods.bs_user_id""]",业务日账号快照中，排除BS账号后的money与bank_money合计；是时点余额。,源金币,活性达标，已有报表规则支持，按独立业务含义扩入；原指标库存仍待查重。,对应num74，继承非BS账号范围；不替换包含BS的num88，不跨天累加余额，不把余额当产出或现金。历史回算需对应日快照与名单口径。,"SELECT '${stat_date}' AS stat_date,COALESCE(SUM(t.money+t.bank_money),0) AS metric_value
+FROM haoshen_dwd.dwd_user_info_di t LEFT JOIN haoshen_ods.bs_user_id b ON t.user_id=b.user_id
+WHERE t.log_date='${stat_date}' AND b.user_id IS NULL;","[""DW_DWD_user""]"
+SLOT有效下注局数,优先审阅,"[""haoshen_ads.total_game_report""]",复用游戏日报中，源SLOT记录play_money>0的数量；取游戏类型1（含源类型5归并）的整体房间汇总层。,记录/报表局数,活性达标，已有报表规则支持，按独立业务含义扩入；原指标库存仍待查重。,原字段按记录计数，非已验证的独立局号去重。这个计数未按总玩分字段的control_level=14规则排除，衍生单局值前要核分子分母。捕鱼开炮数不替代SLOT局数。,"SELECT log_date,play_num AS metric_value FROM haoshen_ads.total_game_report
+WHERE log_date='${stat_date}' AND game_id=-1 AND game_type=1 AND room_type=-1;","[""DW_DWD_slot""]"
+输赢玩家人数,优先审阅,"[""haoshen_ads.total_game_report""]",按赢分、输分状态查看所选游戏汇总层的去重账号人数，复用win_user与lost_user。,账号,活性达标，已有报表规则支持，按独立业务含义扩入；原指标库存仍待查重。,原报表先按账号×游戏×房间计算净分，再按汇总层去重；跨玩法同一账号可同时出现在赢、输两组，不代表全游戏合并净盈亏。直接复用已有日报；明细模型仅用于后续下钻。,"SELECT log_date,'赢分' AS outcome,win_user AS metric_value FROM haoshen_ads.total_game_report
+WHERE log_date='${stat_date}' AND game_id=-1 AND game_type=-1 AND room_type=-1
+UNION ALL
+SELECT log_date,'输分' AS outcome,lost_user AS metric_value FROM haoshen_ads.total_game_report
+WHERE log_date='${stat_date}' AND game_id=-1 AND game_type=-1 AND room_type=-1;","[""DW_DWD_slot"", ""DW_DWD_fish""]"
 SLOT游戏总时长,待核口径,"[""haoshen_ads.total_game_report""]",所选SLOT统计范围内play_time的总和；捕鱼分支时长为0，不将其解释为完整全玩法时长。,源时长单位,时长单位待确认；经营总表有/60换算，游戏总表保留源值。先统一游戏/房间范围及单位。,原play_time单位待源系统确认；经营总表另有/60换算；空值与未记录不等于真实0。,"SELECT log_date, play_time AS metric_value
 FROM haoshen_ads.total_game_report
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}'
@@ -86,3 +113,12 @@ ARPPU,待核口径,"[""haoshen_ads.ads_total_haoshen_report_di""]",在同一人�
 FROM haoshen_ads.ads_plat_coin_di
 WHERE log_date>='${start_date}' AND log_date<'${end_date}'
 GROUP BY log_date,table_name,type;","[""DW_DWS_log""]"
+AF归因设备数,待核口径,"[""haoshen_ods.ad_af_push_di""]",按应用及install、re-attribution、re-engagement事件分类，查看去重Appsflyer标识覆盖。,AF标识,现有安装维度任务按原始event_time取跨两日窗口，ODS另有时区处理后的log_date；业务日边界和标识去重尚未统一。此SQL是建议口径参考，不能称复现现行日报；不把AF标识直接等同mac新增设备。,现有安装维度任务按原始event_time取跨两日窗口，ODS另有时区处理后的log_date；业务日边界和标识去重尚未统一。此SQL是建议口径参考，不能称复现现行日报；不把AF标识直接等同mac新增设备。,"SELECT DATE(log_date) AS stat_date,app_id,event_name,
+ COUNT(DISTINCT appsflyer_id) AS metric_value FROM haoshen_ods.ad_af_push_di
+WHERE log_date>='${stat_date}' AND log_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)
+ AND event_name IN ('install','re-attribution','re-engagement')
+GROUP BY DATE(log_date),app_id,event_name;","[""DW_DWD_af_install""]"
+消息附件记录数量,待核口径,"[""haoshen_ods.msg_box""]",按消息类型与附件类型汇总attachment1_num，保留原始附件计量。,按附件类型,附件类型字典及单位未核准，记录数量不等于实际领取量；不同附件类型不能合成统一金币值。,附件类型字典及单位未核准，记录数量不等于实际领取量；不同附件类型不能合成统一金币值。,"SELECT DATE(log_date) AS stat_date,type,attachment1_type,
+ SUM(attachment1_num) AS metric_value FROM haoshen_ods.msg_box
+WHERE log_date>='${stat_date}' AND log_date<DATE_ADD('${stat_date}',INTERVAL 1 DAY)
+GROUP BY DATE(log_date),type,attachment1_type;","[""DW_DWS_message""]"
