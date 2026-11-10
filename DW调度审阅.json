@@ -8630,7 +8630,7 @@
       ],
       "grain": "日×user_id",
       "fields": [],
-      "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+      "partition": "login_date业务日，复用现有表分区",
       "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
       "rules": [
         "已在调度找到写入定义，不重复新建同粒度表。",
@@ -8876,14 +8876,14 @@
       ],
       "grain": "订单order_no；退款状态更新独立保留",
       "fields": [],
-      "partition": "log_date业务日；覆盖方式按现有工程约定核准",
+      "partition": "log_date=DATE(log_time)，按订单生成日；退款变更按order_no回写原分区",
       "incremental": "先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。",
       "rules": [
         "本轮四库目录与调度未找到等价订单DWD，建前再查生产目录。",
         "按order_no验证唯一性，订单生成和退款时间双窗口捕获更新。",
         "保留现金/金币/钻石原字段；不杜撰成功枚举、币种或倍率。"
       ],
-      "sql": "SELECT order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date\nFROM haoshen_ods.charge_order_info\nWHERE (log_time >= '${start_date}' AND log_time < '${end_date}')\n   OR (refund_date >= '${start_date}' AND refund_date < '${end_date}');",
+      "sql": "SELECT DATE(log_time) AS log_date,order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date\nFROM haoshen_ods.charge_order_info\nWHERE (log_time >= '${start_date}' AND log_time < '${end_date}')\n   OR (refund_date >= '${start_date}' AND refund_date < '${end_date}');",
       "sql_validation": "静态方案，未执行EXPLAIN或生产查询。",
       "prerequisites": [
         "核对来源及目标权限",

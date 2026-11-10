@@ -2847,7 +2847,7 @@ SELECT user_id, order_no, order_amt AS source_order_amount,
 FROM gold_dwd.dwd_infull_order_d
 WHERE success_date >= '${start_date}' AND success_date < '${end_date}'
   AND order_status=1;"
-46,DW,DW_DWD_login,DWD,haoshen_dwd.dwd_user_login_di,复用账号日登录去重,复用现有,P1,日×user_id,"[""haoshen_dwd.dwd_user_login_di""]",log_date业务日；覆盖方式按现有工程约定核准,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT login_date,user_id FROM haoshen_dwd.dwd_user_login_di
+46,DW,DW_DWD_login,DWD,haoshen_dwd.dwd_user_login_di,复用账号日登录去重,复用现有,P1,日×user_id,"[""haoshen_dwd.dwd_user_login_di""]",login_date业务日，复用现有表分区,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT login_date,user_id FROM haoshen_dwd.dwd_user_login_di
 WHERE login_date>='${start_date}' AND login_date<'${end_date}';"
 46,DW,DW_DWD_mac,DWD,haoshen_dwd.dwd_user_mac_login_di,复用账号设备日登录关系,复用现有,P1,日×user_id×非空mac,"[""haoshen_dwd.dwd_user_mac_login_di""]",log_date业务日；覆盖方式按现有工程约定核准,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT * FROM haoshen_dwd.dwd_user_mac_login_di
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
@@ -2861,7 +2861,7 @@ WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
 46,DW,DW_DWS_log,DWS,haoshen_dws.dws_log_total_di,复用活动分类汇总,复用现有,P1,日×table_name×dimension×分类维度,"[""haoshen_dws.dws_log_total_di""]",log_date业务日；覆盖方式按现有工程约定核准,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT * FROM haoshen_dws.dws_log_total_di
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
-46,DW,DW_DWD_payment,DWD,dwd_charge_order_detail_di,优先补充值及退款订单明细,建议新建,P1,订单order_no；退款状态更新独立保留,"[""haoshen_ods.charge_order_info""]",log_date业务日；覆盖方式按现有工程约定核准,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date
+46,DW,DW_DWD_payment,DWD,dwd_charge_order_detail_di,优先补充值及退款订单明细,建议新建,P1,订单order_no；退款状态更新独立保留,"[""haoshen_ods.charge_order_info""]",log_date=DATE(log_time)，按订单生成日；退款变更按order_no回写原分区,先用SELECT核对业务键、去重和时间窗口；未创建物理表或改调度。,静态方案，未执行EXPLAIN或生产查询。,"[""核对来源及目标权限"", ""验证唯一键、迟到水位与幂等"", ""指标入库前全量查重，优先复用原有""]","SELECT DATE(log_time) AS log_date,order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date
 FROM haoshen_ods.charge_order_info
 WHERE (log_time >= '${start_date}' AND log_time < '${end_date}')
    OR (refund_date >= '${start_date}' AND refund_date < '${end_date}');"

@@ -13,7 +13,7 @@ DWS,haoshen_dws.dws_game_detail_di,复用现有,直接复用,P1,日×user_id×ga
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
 DWS,haoshen_dws.dws_log_total_di,复用现有,直接复用,P1,日×table_name×dimension×分类维度,"[""haoshen_dws.dws_log_total_di""]",已有对应调度写入定义，先核质量与范围，不再新建同粒度表。,"SELECT * FROM haoshen_dws.dws_log_total_di
 WHERE log_date >= '${start_date}' AND log_date < '${end_date}';"
-DWD,dwd_charge_order_detail_di,建议新建,第一阶段优先,P1,订单order_no；退款状态更新独立保留,"[""haoshen_ods.charge_order_info""]",充值金额/人数/次数与退款共用一个订单明细，避免报表重复做状态和单位解释。,"SELECT order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date
+DWD,dwd_charge_order_detail_di,建议新建,第一阶段优先,P1,订单order_no；退款状态更新独立保留,"[""haoshen_ods.charge_order_info""]",充值金额/人数/次数与退款共用一个订单明细，避免报表重复做状态和单位解释。,"SELECT DATE(log_time) AS log_date,order_no,user_id,agent_id,log_time,infull_rmb,infull_money,infull_integral,infull_type,payment_type,is_first_infull,refund_flag,refund_date
 FROM haoshen_ods.charge_order_info
 WHERE (log_time >= '${start_date}' AND log_time < '${end_date}')
    OR (refund_date >= '${start_date}' AND refund_date < '${end_date}');"
